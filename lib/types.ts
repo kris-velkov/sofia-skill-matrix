@@ -19,7 +19,6 @@ export interface Employee {
   department: string;
   skills: SkillCategory[];
   badge?: string;
-  // New fields for user profile
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -29,16 +28,16 @@ export interface Employee {
   cityState?: string;
   postalCode?: string;
   taxId?: string;
-  slackProfileImage?: string; // URL for Slack profile image
+  slackProfileImage?: string;
   slackUrl?: string;
-  linkedinUrl?: string; // Add this line
+  linkedinUrl?: string;
 }
 
 export interface CompetencyLevel {
   grade: SkillLevel;
   name: string;
   description: string;
-  color: string; // Tailwind class
+  color: string;
 }
 
 export interface FilterState {

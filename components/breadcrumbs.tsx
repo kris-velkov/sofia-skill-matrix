@@ -1,32 +1,57 @@
-import Link from "next/link"
-import { ChevronRight } from "lucide-react"
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+} from "@/components/ui/breadcrumb";
+import type { ReactNode } from "react";
 
-interface BreadcrumbItem {
-  label: string
-  href?: string
+export interface BreadcrumbItemType {
+  label: string;
+  href?: string;
 }
 
-interface BreadcrumbsProps {
-  items: BreadcrumbItem[]
+export interface BreadcrumbsProps {
+  items: BreadcrumbItemType[];
+  separator?: ReactNode;
+  maxItems?: number; // for ellipsis/overflow
 }
 
-export function Breadcrumbs({ items }: BreadcrumbsProps) {
+export function Breadcrumbs({ items, separator, maxItems }: BreadcrumbsProps) {
+  // Optionally collapse breadcrumbs if maxItems is set
+  let displayItems = items;
+  let showEllipsis = false;
+  if (maxItems && items.length > maxItems) {
+    displayItems = [
+      ...items.slice(0, 1),
+      { label: "...", href: undefined },
+      ...items.slice(items.length - (maxItems - 1)),
+    ];
+    showEllipsis = true;
+  }
   return (
-    <nav aria-label="Breadcrumb" className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-      <ol className="flex items-center space-x-1">
-        {items.map((item, index) => (
-          <li key={index} className="flex items-center">
-            {item.href ? (
-              <Link href={item.href} className="hover:text-gray-900 dark:hover:text-gray-50 transition-colors">
-                {item.label}
-              </Link>
-            ) : (
-              <span className="font-medium text-gray-800 dark:text-gray-100">{item.label}</span>
+    <Breadcrumb>
+      <BreadcrumbList>
+        {displayItems.map((item, idx) => (
+          <>
+            <BreadcrumbItem key={idx}>
+              {item.href ? (
+                <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+              ) : item.label === "..." ? (
+                <BreadcrumbEllipsis />
+              ) : (
+                <BreadcrumbPage>{item.label}</BreadcrumbPage>
+              )}
+            </BreadcrumbItem>
+            {idx < displayItems.length - 1 && (
+              <BreadcrumbSeparator>{separator}</BreadcrumbSeparator>
             )}
-            {index < items.length - 1 && <ChevronRight className="h-4 w-4 mx-1 text-gray-400 dark:text-gray-600" />}
-          </li>
+          </>
         ))}
-      </ol>
-    </nav>
-  )
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
 }

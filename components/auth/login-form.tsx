@@ -20,12 +20,9 @@ export function LoginForm() {
     setError("");
     const success = login(password);
     if (success) {
-      console.log(
-        "LoginForm handleSubmit: Login successful! (useAuth hook updated)"
-      );
+      window.location.href = "/dashboard";
     } else {
       setError("Invalid password. Please try again.");
-      console.log("LoginForm handleSubmit: Login failed: Invalid password.");
     }
   };
 

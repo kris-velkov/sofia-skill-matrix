@@ -57,7 +57,7 @@ function DashboardNav() {
   );
 }
 
-export default function DashboardHeader() {
+export function Header() {
   const { logout } = useAuth();
 
   return (
@@ -78,3 +78,5 @@ export default function DashboardHeader() {
     </header>
   );
 }
+
+export default Header;

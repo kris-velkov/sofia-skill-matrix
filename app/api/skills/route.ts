@@ -1,5 +1,5 @@
+import { COMPETENCY_LEVELS } from "@/lib/statistics";
 import { NextResponse } from "next/server";
-import { EMPLOYEES_DATA, COMPETENCY_LEVELS } from "@/lib/data"; // Import your hardcoded data
 
 export async function GET() {
   try {

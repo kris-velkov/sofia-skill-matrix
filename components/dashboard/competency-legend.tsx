@@ -2,13 +2,13 @@
 
 import { Info } from "lucide-react"; // Added Info icon
 import { Button } from "@/components/ui/button";
-import { COMPETENCY_LEVELS } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"; // Import Popover components
+import { COMPETENCY_LEVELS } from "@/constants/competency-level";
 
 // This component will now only render the legend content
 export function CompetencyLegendContent() {

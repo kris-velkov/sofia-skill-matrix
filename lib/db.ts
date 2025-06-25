@@ -1,79 +1,74 @@
-import { EMPLOYEES_DATA, COMPETENCY_LEVELS, calculateAverageLevel } from "./employees-data"
-import type { Employee, Skill, SkillLevel } from "./types"
+// IMPORTANT: This file must only be used in server-side code (server actions, API routes, or server components)
+// Do NOT import this file in any client component or client-side code!
 
-// In-memory "database" for demonstration purposes
-let employees: Employee[] = JSON.parse(JSON.stringify(EMPLOYEES_DATA))
+import { promises as fs } from "fs";
+import path from "path";
+import type { Employee, SkillLevel } from "./types";
 
-export async function getEmployees(): Promise<Employee[]> {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 100))
-  return JSON.parse(JSON.stringify(employees)) // Return a deep copy to prevent direct mutation
+const EMPLOYEES_JSON_PATH = path.join(process.cwd(), "data", "employees.json");
+
+type Data = { employees: Employee[] };
+
+async function readData(): Promise<Data> {
+  const data = await fs.readFile(EMPLOYEES_JSON_PATH, "utf-8");
+  return JSON.parse(data);
 }
 
-export async function getEmployeeById(id: string): Promise<Employee | undefined> {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 100))
-  const employee = employees.find((emp) => emp.id === id)
-  return employee ? JSON.parse(JSON.stringify(employee)) : undefined // Return a deep copy
+async function writeData(data: Data) {
+  await fs.writeFile(EMPLOYEES_JSON_PATH, JSON.stringify(data, null, 2));
+}
+
+export async function getEmployees(): Promise<Employee[]> {
+  const data = await readData();
+  return data.employees;
+}
+
+export async function getEmployeeById(
+  id: string
+): Promise<Employee | undefined> {
+  const data = await readData();
+  return data.employees.find((emp) => emp.id === id);
 }
 
 export async function addEmployee(newEmployee: Employee): Promise<Employee> {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 100))
-  const employeeWithCalculatedSkills = {
-    ...newEmployee,
-    skills: newEmployee.skills.map((category) => ({
-      ...category,
-      averageLevel: calculateAverageLevel(category.skills),
-    })),
-  }
-  employees.push(employeeWithCalculatedSkills)
-  return JSON.parse(JSON.stringify(employeeWithCalculatedSkills))
+  const data = await readData();
+  data.employees.push(newEmployee);
+  await writeData(data);
+  return newEmployee;
 }
 
-export async function updateEmployee(updatedEmployee: Employee): Promise<Employee | undefined> {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 100))
-  const index = employees.findIndex((emp) => emp.id === updatedEmployee.id)
+export async function updateEmployee(
+  updatedEmployee: Employee
+): Promise<Employee | undefined> {
+  const data = await readData();
+  const index = data.employees.findIndex(
+    (emp) => emp.id === updatedEmployee.id
+  );
   if (index > -1) {
-    const employeeWithCalculatedSkills = {
-      ...updatedEmployee,
-      skills: updatedEmployee.skills.map((category) => ({
-        ...category,
-        averageLevel: calculateAverageLevel(category.skills),
-      })),
-    }
-    employees[index] = employeeWithCalculatedSkills
-    return JSON.parse(JSON.stringify(employeeWithCalculatedSkills))
+    data.employees[index] = updatedEmployee;
+    await writeData(data);
+    return updatedEmployee;
   }
-  return undefined
+  return undefined;
 }
 
 export async function deleteEmployee(id: string): Promise<boolean> {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 100))
-  const initialLength = employees.length
-  employees = employees.filter((emp) => emp.id !== id)
-  return employees.length < initialLength
-}
-
-export function getCompetencyLevels() {
-  return COMPETENCY_LEVELS
+  const data = await readData();
+  const initialLength = data.employees.length;
+  data.employees = data.employees.filter((emp) => emp.id !== id);
+  const deleted = data.employees.length < initialLength;
+  if (deleted) await writeData(data);
+  return deleted;
 }
 
 export function getSkillLevels() {
-  return [0, 1, 2, 3, 4] as SkillLevel[]
+  return [0, 1, 2, 3, 4] as SkillLevel[];
 }
 
-export function calculateSkillCategoryAverage(skills: Skill[]): number {
-  return calculateAverageLevel(skills)
-}
-
-// Consolidated helper so callers can do  `import { db } from "@/lib/db"`
-export const db = {
+export const dbApi = {
   getEmployees,
   getEmployeeById,
   addEmployee,
   updateEmployee,
   deleteEmployee,
-}
+};
