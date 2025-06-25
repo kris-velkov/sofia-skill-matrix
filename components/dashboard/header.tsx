@@ -1,75 +1,80 @@
 "use client";
 
-import { LogOut, User, BarChart2 } from "lucide-react"; // Import BarChart2 icon
+import { LogOut, BarChart2, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import Link from "next/link";
-import { useSkillsStore } from "@/store/use-skills-store";
-import { useEffect, useState } from "react";
-import { CompetencyLegendTrigger } from "./competency-legend"; // Import the new trigger
-import { ThemeToggle } from "@/components/theme-toggle"; // Import ThemeToggle
+import { CompetencyLegendTrigger } from "./competency-legend";
+import Image from "next/image";
 
-export function DashboardHeader() {
-  const { logout } = useAuth();
-  // The store can return undefined while data is loading -
-  // default to an empty array so .length is always safe.
-  const employees = useSkillsStore((state) => state.employees) ?? [];
-  const [profileImage, setProfileImage] = useState<string | undefined>(
-    undefined
+const NAV_LINKS = [
+  {
+    href: "/employees",
+    label: "Manage Employees",
+    icon: <Users2 className="mr-2 h-4 w-4" />,
+  },
+  {
+    href: "/statistics",
+    label: "Statistics",
+    icon: <BarChart2 className="mr-2 h-4 w-4" />,
+  },
+];
+
+function DashboardBranding() {
+  return (
+    <div className="flex items-center justify-center gap-2">
+      <Image
+        src="/jakala-logo.webp"
+        alt="JAKALA Logo"
+        width={130}
+        height={50}
+        priority
+      />
+      <h1 className="text-xl font-bold text-gray-900 dark:text-gray-50">
+        Skills Matrix Dashboard
+      </h1>
+    </div>
   );
+}
 
-  useEffect(() => {
-    // Assuming the first employee is the "current user" for profile image
-    if (employees.length > 0 && employees[0].slackProfileImage) {
-      setProfileImage(employees[0].slackProfileImage);
-    } else {
-      setProfileImage("/placeholder.svg?height=32&width=32");
-    }
-  }, [employees]);
+function DashboardNav() {
+  return (
+    <nav className="flex items-center gap-2">
+      {NAV_LINKS.map(({ href, label, icon }) => (
+        <Button
+          key={href}
+          variant="ghost"
+          asChild
+          className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
+          <Link href={href} className="flex items-center">
+            {icon}
+            {label}
+          </Link>
+        </Button>
+      ))}
+    </nav>
+  );
+}
+
+export default function DashboardHeader() {
+  const { logout } = useAuth();
 
   return (
     <header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm">
-      <div className="flex items-center gap-2">
-        <img
-          src="/placeholder.svg?height=32&width=32"
-          alt="JAKALA Logo"
-          className="h-8 w-8"
-        />
-        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-50">
-          Skills Matrix Dashboard
-        </h1>
-      </div>
-      <div className="flex items-center gap-2">
-        <CompetencyLegendTrigger />{" "}
-        {/* Add the competency legend trigger here */}
+      <DashboardBranding />
+      <nav className="flex items-center gap-2">
+        <DashboardNav />
+        <CompetencyLegendTrigger />
         <Button
           variant="ghost"
-          asChild
           className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          <Link href="/employees">Manage Employees</Link>
-        </Button>
-        <Button
-          variant="ghost"
-          asChild
-          className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          <Link href="/statistics">
-            <BarChart2 className="mr-2 h-4 w-4" />
-            Statistics
-          </Link>
-        </Button>
-        <ThemeToggle />
-        <Button
-          variant="ghost"
-          size="icon"
           onClick={logout}
-          aria-label="Logout"
-          className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
         >
-          <LogOut className="h-5 w-5" />
+          <LogOut className="mr-2 h-4 w-4" />
+          Logout
         </Button>
-      </div>
+      </nav>
     </header>
   );
 }

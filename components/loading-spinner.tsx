@@ -1,11 +1,10 @@
-// components/loading-spinner.tsx
-import { Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react";
 
 export function LoadingSpinner() {
   return (
-    <div className="flex items-center justify-center min-h-[200px] text-primary">
-      <Loader2 className="h-8 w-8 animate-spin" />
-      <span className="sr-only">Loading...</span>
+    <div className="flex flex-col items-center justify-center min-h-[200px] gap-4 text-primary">
+      <Loader2 className="h-10 w-10 animate-spin" />
+      <span className="text-lg font-medium animate-pulse">Loading, please wait...</span>
     </div>
-  )
+  );
 }

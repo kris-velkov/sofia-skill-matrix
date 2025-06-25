@@ -10,7 +10,6 @@ export async function updateProfile(userId: string, formData: FormData) {
       throw new Error("User not found for profile update.");
     }
 
-    // Only allow updating profile-related fields
     const updatedFields: Partial<Employee> = {
       name: (formData.get("name") as string) || existingEmployee.name,
       firstName: (formData.get("firstName") as string) || undefined,

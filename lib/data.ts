@@ -1,8 +1,5 @@
-import type { CompetencyLevel, SkillLevel } from "./types"
+import type { CompetencyLevel, SkillLevel } from "./types";
 
-/* -------------------------------------------------
- * Competency legend (grade → label / description / color-class)
- * ------------------------------------------------- */
 export const COMPETENCY_LEVELS: CompetencyLevel[] = [
   {
     grade: 0,
@@ -13,39 +10,44 @@ export const COMPETENCY_LEVELS: CompetencyLevel[] = [
   {
     grade: 1,
     name: "Some knowledge",
-    description: "I know something, and after further reading I am able to perform simple tasks.",
+    description:
+      "I know something, and after further reading I am able to perform simple tasks.",
     color: "bg-skill-1",
   },
   {
     grade: 2,
     name: "Working knowledge",
-    description: "I can perform simple tasks. After further reading I can challenge average tasks.",
+    description:
+      "I can perform simple tasks. After further reading I can challenge average tasks.",
     color: "bg-skill-2",
   },
   {
     grade: 3,
     name: "Good competency",
-    description: "I can perform average tasks and with further research I can challenge complex tasks.",
+    description:
+      "I can perform average tasks and with further research I can challenge complex tasks.",
     color: "bg-skill-3",
   },
   {
     grade: 4,
     name: "Expert",
-    description: "I can perform complex tasks and with further research I can challenge very complex tasks.",
+    description:
+      "I can perform complex tasks and with further research I can challenge very complex tasks.",
     color: "bg-skill-4",
   },
-]
+];
 
 /* -------------------------------------------------
  * Helper
  * ------------------------------------------------- */
-export const calculateAverageLevel = (skills: { level: SkillLevel }[]): number => {
-  if (skills.length === 0) return 0
-  const sum = skills.reduce((s, k) => s + k.level, 0)
-  return Number((sum / skills.length).toFixed(1))
-}
+export const calculateAverageLevel = (
+  skills: { level: SkillLevel }[]
+): number => {
+  if (skills.length === 0) return 0;
+  const sum = skills.reduce((s, k) => s + k.level, 0);
+  return Number((sum / skills.length).toFixed(1));
+};
 
-// Transformed data from the provided text
 export const EMPLOYEES_DATA = [
   {
     id: "alexandar-baruh",
@@ -83,7 +85,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 3, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 3,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 2, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 2 },
           { name: "parallel", level: 2 },
@@ -286,7 +292,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 3, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 3,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 3, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 3 },
           { name: "parallel", level: 0 },
@@ -489,7 +499,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 2, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 2,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 2, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 2 },
           { name: "parallel", level: 0 },
@@ -692,7 +706,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 3, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 3,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 3, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 2 },
           { name: "parallel", level: 0 },
@@ -895,7 +913,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 3, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 3,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 3, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 3 },
           { name: "parallel", level: 0 },
@@ -1098,7 +1120,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 2, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 2,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 0, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 2 },
           { name: "parallel", level: 1 },
@@ -1301,7 +1327,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 3, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 3,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 2, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 2 },
           { name: "parallel", level: 2 },
@@ -1504,7 +1534,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 3, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 3,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 2, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 1 },
           { name: "parallel", level: 0 },
@@ -1707,7 +1741,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 3, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 3,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 3, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 3 },
           { name: "parallel", level: 3 },
@@ -1910,7 +1948,11 @@ export const EMPLOYEES_DATA = [
       {
         name: "Javascript",
         skills: [
-          { name: "Javascript", level: 3, url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          {
+            name: "Javascript",
+            level: 3,
+            url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          },
           { name: "Nodejs", level: 2, url: "https://nodejs.org/" },
           { name: "async/Promises", level: 2 },
           { name: "parallel", level: 2 },
@@ -2077,4 +2119,4 @@ export const EMPLOYEES_DATA = [
       },
     ],
   },
-]
+];
