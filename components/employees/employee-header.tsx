@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Pencil } from "lucide-react";
 import { EmployeeAvatar } from "./employee-avatar";
 import React from "react";
+import { Button } from "../ui/button";
 
 interface EmployeeHeaderProps {
   name: string;
@@ -42,14 +43,16 @@ export function EmployeeHeader({
           </div>
         </div>
       </div>
-      <button
+      <Button
         type="button"
         onClick={onEdit}
         aria-label={`Edit ${name}`}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:text-blue-600 dark:hover:text-blue-400"
+        variant="ghost"
+        size="icon"
+        className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400"
       >
         <Pencil className="h-4 w-4" />
-      </button>
+      </Button>
     </div>
   );
 }

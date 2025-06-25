@@ -21,38 +21,44 @@ export function EmployeeSkillCard({ employee }: EmployeeSkillCardProps) {
   const router = useRouter();
 
   return (
-    <Link
-      href={`/employees/${employee.id}`}
-      className="w-full max-w-xs bg-white dark:bg-gray-800 shadow-md rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer block"
-      aria-label={`View details for ${employee.name}`}
-      prefetch={false}
-    >
-      <CardContent className="p-4">
-        <EmployeeHeader
-          name={employee.name}
-          department={employee.department}
-          badge={employee.badge}
-          profileImage={employee.slackProfileImage}
-          onEdit={(e) => {
-            e.stopPropagation();
-            router.push(`/employees/${employee.id}/edit`);
-          }}
-        />
+    <section className="w-full max-w-lg bg-white shadow-2xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-3xl hover:-translate-y-1 border border-gray-200 dark:border-gray-800 cursor-pointer block group">
+      <Link
+        href={`/employees/${employee.id}`}
+        aria-label={`View details for ${employee.name}`}
+        prefetch={false}
+        tabIndex={0}
+        className="block focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      >
+        <CardContent className="p-4 flex flex-col gap-5">
+          <EmployeeHeader
+            name={employee.name}
+            department={employee.department}
+            badge={employee.badge}
+            profileImage={employee.slackProfileImage}
+            onEdit={(e) => {
+              e.stopPropagation();
+              router.push(`/employees/${employee.id}/edit`);
+            }}
+          />
 
-        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-          <LucideClock className="h-4 w-4 mr-1" />
-          <span>{employee.careerExperience}</span>
-        </div>
+          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-1">
+            <LucideClock className="h-4 w-4 mr-2 text-indigo-500 dark:text-indigo-400" />
+            <span className="font-medium">{employee.careerExperience}</span>
+          </div>
 
-        <EmployeeTopSkills skills={topSkills} />
-
-        {employee.slackUrl && (
+          <div className="mb-1">
+            <EmployeeTopSkills skills={topSkills} />
+          </div>
+        </CardContent>
+      </Link>
+      {employee.slackUrl && (
+        <div className="mt-2">
           <EmployeeSlackLink
             slackUrl={employee.slackUrl}
             name={employee.name}
           />
-        )}
-      </CardContent>
-    </Link>
+        </div>
+      )}
+    </section>
   );
 }

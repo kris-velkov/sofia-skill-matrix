@@ -18,7 +18,6 @@ import {
   updateEmployeeSkillsAction,
 } from "@/app/actions";
 import { SkillLevel, Employee, Skill, SkillCategory } from "@/lib/types";
-import { getSkillLevels } from "@/lib/skillLevels";
 
 export function EmployeeEditPageShell() {
   const params = useParams();
@@ -83,7 +82,6 @@ export function EmployeeEditPageShell() {
       if (personalState.success) {
         toast.success(personalState.message);
         setEditMode((prev) => ({ ...prev, personal: false }));
-        // Optionally re-fetch employee
       } else {
         toast.error(personalState.message);
       }

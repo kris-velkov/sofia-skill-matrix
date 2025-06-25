@@ -99,7 +99,7 @@ export function DashboardClient({ employees }: DashboardClientProps) {
       <div className="text-lg font-semibold mt-4 text-gray-800 dark:text-gray-100">
         Employees ({filteredEmployees.length})
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
         {filteredEmployees.map((employee) => (
           <EmployeeSkillCard key={employee.id} employee={employee} />
         ))}

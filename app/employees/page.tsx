@@ -1,13 +1,10 @@
 "use server";
 
-import { getEmployees } from "@/lib/db";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 
 export default async function EmployeesPage() {
-  const employees = await getEmployees();
-
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="flex-1 p-4 md:p-6">

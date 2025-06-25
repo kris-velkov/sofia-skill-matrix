@@ -1,5 +1,5 @@
 import React from "react";
-import { Slack } from "lucide-react";
+import Image from "next/image";
 
 interface EmployeeSlackLinkProps {
   slackUrl: string;
@@ -7,7 +7,7 @@ interface EmployeeSlackLinkProps {
 }
 export function EmployeeSlackLink({ slackUrl, name }: EmployeeSlackLinkProps) {
   return (
-    <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700 flex items-center justify-center">
+    <div className="mt-5 pt-5 border-t border-gray-200 dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
       <button
         type="button"
         onClick={(e) => {
@@ -17,7 +17,16 @@ export function EmployeeSlackLink({ slackUrl, name }: EmployeeSlackLinkProps) {
         className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium focus:outline-none"
         aria-label={`Connect with ${name} on Slack`}
       >
-        <Slack className="h-4 w-4" />
+        <div className="relative h-5 w-5">
+          <Image
+            src="/slack-logo.webp"
+            alt="Slack logo"
+            fill
+            sizes="20px"
+            className="object-contain"
+            priority
+          />
+        </div>
         Connect on Slack
       </button>
     </div>
