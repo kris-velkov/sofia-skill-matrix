@@ -7,7 +7,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
 } from "@/components/ui/breadcrumb";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 
 export interface BreadcrumbItemType {
   label: string;
@@ -17,26 +17,23 @@ export interface BreadcrumbItemType {
 export interface BreadcrumbsProps {
   items: BreadcrumbItemType[];
   separator?: ReactNode;
-  maxItems?: number; // for ellipsis/overflow
+  maxItems?: number;
 }
 
 export function Breadcrumbs({ items, separator, maxItems }: BreadcrumbsProps) {
-  // Optionally collapse breadcrumbs if maxItems is set
   let displayItems = items;
-  let showEllipsis = false;
   if (maxItems && items.length > maxItems) {
     displayItems = [
       ...items.slice(0, 1),
       { label: "...", href: undefined },
       ...items.slice(items.length - (maxItems - 1)),
     ];
-    showEllipsis = true;
   }
   return (
     <Breadcrumb>
       <BreadcrumbList>
         {displayItems.map((item, idx) => (
-          <>
+          <Fragment key={idx}>
             <BreadcrumbItem key={idx}>
               {item.href ? (
                 <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
@@ -49,7 +46,7 @@ export function Breadcrumbs({ items, separator, maxItems }: BreadcrumbsProps) {
             {idx < displayItems.length - 1 && (
               <BreadcrumbSeparator>{separator}</BreadcrumbSeparator>
             )}
-          </>
+          </Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>

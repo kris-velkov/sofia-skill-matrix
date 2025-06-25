@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { SkillLevel } from "@/lib/types";
+import { getSkillLevels } from "@/lib/skillLevels";
 import React from "react";
 
 interface EmployeeAddSkillDialogProps {
@@ -27,9 +28,7 @@ interface EmployeeAddSkillDialogProps {
   newSkillLevel: SkillLevel;
   setNewSkillLevel: (level: SkillLevel) => void;
   newSkillUrl: string;
-  setNewSkillUrl: (url: string) => void;
   onAddSkill: () => void;
-  db: { getSkillLevels: () => SkillLevel[] };
 }
 
 export function EmployeeAddSkillDialog({
@@ -40,10 +39,7 @@ export function EmployeeAddSkillDialog({
   setNewSkillName,
   newSkillLevel,
   setNewSkillLevel,
-  newSkillUrl,
-  setNewSkillUrl,
   onAddSkill,
-  db,
 }: EmployeeAddSkillDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -78,25 +74,13 @@ export function EmployeeAddSkillDialog({
                 <SelectValue placeholder="Select Level" />
               </SelectTrigger>
               <SelectContent>
-                {db.getSkillLevels().map((level) => (
+                {getSkillLevels().map((level) => (
                   <SelectItem key={level} value={String(level)}>
                     {level}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="newSkillUrl" className="text-right">
-              URL (Optional)
-            </Label>
-            <Input
-              id="newSkillUrl"
-              value={newSkillUrl}
-              onChange={(e) => setNewSkillUrl(e.target.value)}
-              className="col-span-3"
-              placeholder="e.g., https://docs.example.com"
-            />
           </div>
         </div>
         <DialogFooter>

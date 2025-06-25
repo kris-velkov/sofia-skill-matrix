@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { getEmployeeById } from "@/lib/db"; // Import server-side data fetching
-import { DashboardHeader } from "@/components/dashboard/header";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +15,6 @@ import {
   Linkedin,
   Pencil,
   Award,
-  BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {} from "@/components/dashboard/employee-skill-card";
@@ -27,10 +25,10 @@ export default async function EmployeeProfilePage({
 }: {
   params: { id: string };
 }) {
-  const employee = await getEmployeeById(params.id); // Fetch employee on the server
+  const employee = await getEmployeeById(params.id);
 
   if (!employee) {
-    notFound(); // Use Next.js notFound function for 404
+    notFound();
   }
 
   const breadcrumbItems = [
@@ -38,17 +36,13 @@ export default async function EmployeeProfilePage({
     { label: "Employees", href: "/employees" },
     { label: employee.name },
   ];
-
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-950 p-4 md:p-6 lg:p-8">
-      <DashboardHeader /> {/* Include header for consistent layout */}
-      <div className="w-full max-w-4xl space-y-6 mt-6">
-        {" "}
-        {/* Added mt-6 for spacing below header */}
+    <main className="flex flex-col items-center justify-center min-h-screen p-4 md:p-8">
+      <div className="w-full max-w-4xl space-y-8 mt-8">
         <Breadcrumbs items={breadcrumbItems} />
         {/* Header Card */}
-        <Card className="p-6 flex flex-col md:flex-row items-center md:items-start gap-6">
-          <Avatar className="h-24 w-24 md:h-32 md:w-32 border-4 border-blue-500 dark:border-blue-400">
+        <Card className="p-8 flex flex-col md:flex-row items-center md:items-start gap-8 shadow-xl border-0 bg-gradient-to-tr from-blue-100/60 to-white dark:from-blue-950/60 dark:to-gray-950">
+          <Avatar className="h-28 w-28 md:h-36 md:w-36 border-4 border-blue-400 dark:border-blue-500 shadow-lg">
             <AvatarImage
               src={
                 employee.slackProfileImage ||
@@ -56,35 +50,35 @@ export default async function EmployeeProfilePage({
               }
               alt={`${employee.name} profile`}
             />
-            <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 text-4xl">
+            <AvatarFallback className="bg-blue-200 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-5xl">
               {employee.name.charAt(0)}
             </AvatarFallback>
           </Avatar>
-          <div className="flex-1 text-center md:text-left">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50">
+          <div className="flex-1 text-center md:text-left space-y-2">
+            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-gray-50 tracking-tight">
               {employee.name}
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-lg text-gray-600 dark:text-gray-400">
               {employee.department}
               {employee.cityState && ` • ${employee.cityState}`}
               {employee.country && `, ${employee.country}`}
             </p>
             {employee.badge && (
-              <Badge className="mt-2 px-3 py-1 text-sm bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200">
+              <Badge className="mt-2 px-4 py-1 text-base bg-blue-200 text-blue-800 dark:bg-blue-900 dark:text-blue-200 font-semibold shadow">
                 {employee.badge}
               </Badge>
             )}
           </div>
-          <div className="flex gap-3 mt-4 md:mt-0">
+          <div className="flex gap-4 mt-6 md:mt-0">
             {employee.linkedinUrl && (
               <a
                 href={employee.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-gray-200 hover:text-blue-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-blue-400"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800 dark:hover:text-blue-200 shadow"
                 aria-label="LinkedIn Profile"
               >
-                <Linkedin className="h-5 w-5" />
+                <Linkedin className="h-6 w-6" />
               </a>
             )}
             {employee.slackUrl && (
@@ -92,28 +86,31 @@ export default async function EmployeeProfilePage({
                 href={employee.slackUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-gray-200 hover:text-blue-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-blue-400"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800 dark:hover:text-blue-200 shadow"
                 aria-label="Slack Profile"
               >
-                <Slack className="h-5 w-5" />
+                <Slack className="h-6 w-6" />
               </a>
             )}
           </div>
         </Card>
         {/* Personal Information Card */}
-        <Card className="p-6">
-          <CardHeader className="flex flex-row items-center justify-between p-0 mb-4">
-            <CardTitle className="text-xl font-semibold text-gray-900 dark:text-gray-50">
+        <Card className="p-8 shadow-lg border-0 bg-white/90 dark:bg-gray-950/90">
+          <CardHeader className="flex flex-row items-center justify-between p-0 mb-6">
+            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">
               Personal Information
             </CardTitle>
             <Link href={`/employees/${employee.id}/edit`}>
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                className="flex items-center gap-2 border-blue-200 dark:border-blue-800"
+              >
                 <Pencil className="h-4 w-4" />
                 Edit
               </Button>
             </Link>
           </CardHeader>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-gray-700 dark:text-gray-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 text-gray-700 dark:text-gray-300">
             <div>
               <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 First Name
@@ -135,7 +132,7 @@ export default async function EmployeeProfilePage({
                 Email address
               </p>
               <p className="text-lg font-semibold flex items-center gap-2">
-                <Mail className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                <Mail className="h-4 w-4 text-blue-400 dark:text-blue-300" />
                 {employee.email || "N/A"}
               </p>
             </div>
@@ -144,7 +141,7 @@ export default async function EmployeeProfilePage({
                 Phone
               </p>
               <p className="text-lg font-semibold flex items-center gap-2">
-                <Phone className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                <Phone className="h-4 w-4 text-blue-400 dark:text-blue-300" />
                 {employee.phone || "N/A"}
               </p>
             </div>
@@ -153,7 +150,7 @@ export default async function EmployeeProfilePage({
                 Department
               </p>
               <p className="text-lg font-semibold flex items-center gap-2">
-                <Briefcase className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                <Briefcase className="h-4 w-4 text-blue-400 dark:text-blue-300" />
                 {employee.department || "N/A"}
               </p>
             </div>
@@ -162,7 +159,7 @@ export default async function EmployeeProfilePage({
                 Career Experience
               </p>
               <p className="text-lg font-semibold flex items-center gap-2">
-                <Award className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                <Award className="h-4 w-4 text-blue-400 dark:text-blue-300" />
                 {employee.careerExperience || "N/A"}
               </p>
             </div>
@@ -182,56 +179,55 @@ export default async function EmployeeProfilePage({
                   Location
                 </p>
                 <p className="text-lg font-semibold flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                  <MapPin className="h-4 w-4 text-blue-400 dark:text-blue-300" />
                   {[employee.cityState, employee.country, employee.postalCode]
                     .filter(Boolean)
                     .join(", ") || "N/A"}
                 </p>
               </div>
             )}
-            {employee.taxId && (
-              <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Tax ID
-                </p>
-                <p className="text-lg font-semibold flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                  {employee.taxId}
-                </p>
-              </div>
-            )}
           </div>
         </Card>
-        {/* Skills Card */}
-        <Card className="p-6">
-          <CardHeader className="p-0 mb-4">
-            <CardTitle className="text-xl font-semibold text-gray-900 dark:text-gray-50">
+        <Card className="p-6 shadow-lg border border-blue-100 dark:border-blue-900 bg-white dark:bg-gray-950">
+          <CardHeader className="p-0 mb-4 flex flex-row items-center justify-between">
+            <CardTitle className="text-xl font-semibold text-gray-900 dark:text-gray-50 flex items-center gap-2">
+              <Award className="h-5 w-5 text-blue-500 dark:text-blue-400" />
               Skills
             </CardTitle>
           </CardHeader>
           {employee.skills.length > 0 ? (
-            <div className="space-y-6">
-              {employee.skills.map((category) => (
+            <div className="space-y-8">
+              {employee.skills.map((category, idx) => (
                 <div key={category.name}>
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2"></h3>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="inline-block h-2 w-2 rounded-full bg-blue-400 dark:bg-blue-600" />
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                      {category.name}
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2 md:gap-3">
                     {category.skills.map((skill) => (
                       <Badge
                         key={skill.name}
                         className={cn(
-                          "px-3 py-1.5 text-sm font-medium flex items-center gap-2 rounded-full"
+                          "px-3 py-1.5 text-sm font-medium flex items-center gap-2 rounded-full bg-blue-50 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border border-blue-200 dark:border-blue-800 shadow-sm"
                         )}
                       >
-                        {skill.name} ({skill.level})
+                        <span className="font-semibold">{skill.name}</span>
+                        <span className="text-xs text-blue-500 dark:text-blue-300 bg-blue-100 dark:bg-blue-800 rounded px-2 py-0.5 ml-1">
+                          {skill.level}
+                        </span>
                       </Badge>
                     ))}
                   </div>
-                  <Separator className="my-4 last:hidden" />
+                  {idx !== employee.skills.length - 1 && (
+                    <Separator className="my-6" />
+                  )}
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400 italic">
               No skills listed for this employee.
             </p>
           )}

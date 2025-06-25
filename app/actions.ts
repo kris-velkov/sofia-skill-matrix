@@ -96,11 +96,6 @@ export async function updateEmployeeSkillsAction(
       ...existingEmployee,
       skills: skills.map((category) => ({
         ...category,
-        averageLevel:
-          category.skills.length > 0
-            ? category.skills.reduce((sum, s) => sum + s.level, 0) /
-              category.skills.length
-            : 0,
       })),
     };
     await updateEmployee(updatedEmployee);
