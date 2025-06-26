@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import {
   Table,
@@ -87,24 +87,34 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 ">
         <Input
           type="text"
           placeholder="Search employees by name, department, or badge..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-md w-full md:w-auto border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm w-full md:w-auto min-w-[450px] mb-4 md:mb-0 bg-white text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-offset-2 focus:ring-offset-white"
+          className="max-w-md w-full md:w-auto border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm min-w-[250px] md:min-w-[450px] mb-4 md:mb-0 bg-white text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-offset-2 focus:ring-offset-white"
         />
       </div>
-      <div className="overflow-x-auto rounded-2xl shadow border border-gray-200 bg-white">
-        <Table className="min-w-[700px]">
-          <TableHeader>
+      <div className="w-full overflow-x-auto rounded-xl shadow border border-gray-200 bg-white">
+        <Table className="min-w-[600px] md:min-w-[900px] w-full text-sm md:text-base">
+          <TableHeader className="sticky top-0 z-10 bg-white">
             <TableRow>
-              <TableHead className="w-[200px]">Employee</TableHead>
-              <TableHead>Department</TableHead>
-              <TableHead>Experience</TableHead>
-              <TableHead>Badge</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-[160px] md:w-[200px] py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 border-r border-gray-100">
+                Employee
+              </TableHead>
+              <TableHead className="py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 border-r border-gray-100">
+                Department
+              </TableHead>
+              <TableHead className="py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 border-r border-gray-100">
+                Experience
+              </TableHead>
+              <TableHead className="py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 border-r border-gray-100">
+                Badge
+              </TableHead>
+              <TableHead className="py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 text-right">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -112,7 +122,7 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={5}
-                  className="h-24 text-center text-gray-500"
+                  className="h-24 text-center text-gray-500 border-b border-gray-100"
                 >
                   No employees found.
                 </TableCell>
@@ -121,16 +131,16 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
               filteredEmployees.map((employee) => (
                 <TableRow
                   key={employee.id}
-                  className="hover:bg-blue-50 transition-colors"
+                  className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                 >
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-3">
+                  <TableCell className="font-medium py-3 md:py-4 px-3 md:px-6 border-r border-gray-100">
+                    <div className="flex items-center gap-2 md:gap-3">
                       <EmployeeAvatar
                         src={employee.slackProfileImage}
                         alt={employee.name + " profile picture"}
                       />
                       <div>
-                        <div className="font-semibold text-gray-900">
+                        <div className="font-semibold text-gray-900 text-base leading-tight">
                           {employee.name}
                         </div>
                         <div className="text-sm text-gray-600">
@@ -139,22 +149,28 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>{employee.department}</TableCell>
-                  <TableCell>{employee.careerExperience}</TableCell>
-                  <TableCell>{employee.badge ?? "N/A"}</TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="py-3 md:py-4 px-3 md:px-6 border-r border-gray-100 text-gray-800">
+                    {employee.department}
+                  </TableCell>
+                  <TableCell className="py-3 md:py-4 px-3 md:px-6 border-r border-gray-100 text-gray-800">
+                    {employee.careerExperience}
+                  </TableCell>
+                  <TableCell className="py-3 md:py-4 px-3 md:px-6 border-r border-gray-100 text-gray-800">
+                    {employee.badge ?? "N/A"}
+                  </TableCell>
+                  <TableCell className="text-right py-3 md:py-4 px-3 md:px-6">
                     <div className="flex justify-end gap-2">
                       <Button
                         variant="ghost"
                         size="icon"
                         asChild
-                        className="h-8 w-8 rounded-full text-gray-500 hover:text-blue-600"
+                        className="h-9 w-9 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:ring-2 focus:ring-gray-300 focus:outline-none"
                       >
                         <Link
                           href={`/employees/${employee.id}/edit`}
                           aria-label={`Edit ${employee.name}`}
                         >
-                          <Pencil className="h-4 w-4" />
+                          <Pencil className="h-5 w-5" />
                         </Link>
                       </Button>
                       <Button
@@ -162,9 +178,9 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                         size="icon"
                         onClick={() => confirmDelete(employee)}
                         aria-label={`Delete ${employee.name}`}
-                        className="h-8 w-8 rounded-full text-red-500 hover:bg-red-50"
+                        className="h-9 w-9 rounded-full text-red-500 hover:bg-red-100 hover:text-red-700 focus:ring-2 focus:ring-red-200 focus:outline-none"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-5 w-5" />
                       </Button>
                     </div>
                   </TableCell>

@@ -25,7 +25,8 @@ export default async function EmployeeProfilePage({
 }: {
   params: { id: string };
 }) {
-  const employee = await getEmployeeById(params.id);
+  const { id } = await params;
+  const employee = await getEmployeeById(id);
 
   if (!employee) {
     notFound();
@@ -179,35 +180,52 @@ export default async function EmployeeProfilePage({
             </CardTitle>
           </CardHeader>
           {employee.skills.length > 0 ? (
-            <div className="space-y-8">
-              {employee.skills.map((category, idx) => (
-                <div key={category.name}>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="inline-block h-2 w-2 rounded-full bg-blue-400" />
-                    <h3 className="text-lg font-semibold text-gray-800">
-                      {category.name}
-                    </h3>
+            <div className="space-y-10">
+              {employee.skills
+                .filter(
+                  (category) => category.skills && category.skills.length > 0
+                )
+                .map((category, idx, arr) => (
+                  <div key={category.name}>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="inline-block h-2.5 w-2.5 rounded-full bg-blue-400" />
+                      <h3 className="text-xl font-bold text-gray-800">
+                        {category.name}
+                      </h3>
+                    </div>
+                    <div className="space-y-4">
+                      {category.skills.map((skill) => (
+                        <div
+                          key={skill.name}
+                          className="flex items-center gap-4"
+                        >
+                          {skill.name}
+                          <div className="flex-1">
+                            <div className="w-full bg-blue-100 rounded-full h-3 relative overflow-hidden">
+                              <div
+                                className="bg-blue-500 h-3 rounded-full transition-all"
+                                style={{
+                                  width: `${(skill.level / 4) * 100}%`,
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <span className="text-sm text-blue-700 font-bold min-w-[32px] text-right">
+                            {skill.level}/4
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    {idx !== arr.length - 1 && <Separator className="my-8" />}
                   </div>
-                  <div className="flex flex-wrap gap-2 md:gap-3">
-                    {category.skills.map((skill) => (
-                      <Badge
-                        key={skill.name}
-                        className={cn(
-                          "px-3 py-1.5 text-sm font-medium flex items-center gap-2 rounded-full bg-blue-50 text-blue-800 border border-blue-200 shadow-sm"
-                        )}
-                      >
-                        <span className="font-semibold">{skill.name}</span>
-                        <span className="text-xs text-blue-500 bg-blue-100 rounded px-2 py-0.5 ml-1">
-                          {skill.level}
-                        </span>
-                      </Badge>
-                    ))}
-                  </div>
-                  {idx !== employee.skills.length - 1 && (
-                    <Separator className="my-6" />
-                  )}
-                </div>
-              ))}
+                ))}
+              {employee.skills.filter(
+                (category) => category.skills && category.skills.length > 0
+              ).length === 0 && (
+                <p className="text-gray-600 italic">
+                  No skills listed for this employee.
+                </p>
+              )}
             </div>
           ) : (
             <p className="text-gray-600 italic">

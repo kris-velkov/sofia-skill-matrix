@@ -8,7 +8,6 @@ import { MultiSelectPopover } from "./MultiSelectPopover";
 import { MinimumSkillLevelSelector } from "./MinimumSkillLevelSelector";
 import { BadgeList } from "./BadgeList";
 import type { FilterState, Employee } from "@/lib/types";
-import { useState } from "react";
 
 interface FiltersProps {
   filterState: FilterState;
@@ -26,7 +25,6 @@ export function Filters({
   filterState,
   employees,
   allDepartments,
-  allSkillCategories,
   allSkills,
   onFilterChange,
   handleEmployeeSelect,
@@ -37,12 +35,10 @@ export function Filters({
     <Card className="shadow-lg rounded-2xl border border-gray-200 bg-white/95">
       <CardHeader className="flex items-center justify-between space-y-0 pb-2 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-white rounded-t-2xl">
         <CardTitle className="text-xl font-bold text-blue-900 tracking-tight flex items-center gap-2">
-          <span className="inline-block w-2 h-6 bg-blue-600 rounded-full mr-2" />
           Filters
         </CardTitle>
-        <div className="flex gap-2"></div>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-6 pb-2">
+      <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 pb-2">
         <MultiSelectPopover
           label="Employees"
           id="employee-filter"
@@ -62,15 +58,6 @@ export function Filters({
           placeholder="Select Department"
           allLabel="All Departments"
         />
-        <SelectFilter
-          label="Skill Category"
-          id="skill-category-filter"
-          value={filterState.selectedSkillCategory}
-          options={allSkillCategories}
-          onChange={(val) => onFilterChange({ selectedSkillCategory: val })}
-          placeholder="Select Skill Category"
-          allLabel="All Categories"
-        />
         <MultiSelectPopover
           label="Skills"
           id="skills-filter"
@@ -84,22 +71,33 @@ export function Filters({
           value={filterState.minimumSkillLevel}
           onChange={(level) => onFilterChange({ minimumSkillLevel: level })}
         />
-        <Button
-          variant="default"
-          onClick={onClearFilters}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold flex items-center gap-2 px-6 py-3 rounded-lg shadow transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          <X className="mr-2 h-5 w-5" />
-          Clear Filters
-        </Button>
       </CardContent>
-      <BadgeList
-        filterState={filterState}
-        employees={employees}
-        onFilterChange={onFilterChange}
-        handleEmployeeSelect={handleEmployeeSelect}
-        handleSkillSelect={handleSkillSelect}
-      />
+      <div className="border-t border-gray-200 mt-2 pt-4 px-6 bg-white/95 rounded-b-2xl">
+        <BadgeList
+          filterState={filterState}
+          employees={employees}
+          onFilterChange={onFilterChange}
+          handleEmployeeSelect={handleEmployeeSelect}
+          handleSkillSelect={handleSkillSelect}
+        />
+        <div className="flex justify-end mt-2 mb-2">
+          <Button
+            variant="default"
+            onClick={onClearFilters}
+            disabled={
+              !filterState.selectedEmployees.length &&
+              !filterState.selectedDepartment &&
+              !filterState.selectedSkills.length &&
+              filterState.minimumSkillLevel === null
+            }
+            aria-label="Clear Filters"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold flex items-center  px-4 py-2 rounded-lg shadow transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <X className="h-3 w-3" />
+            Clear Filters
+          </Button>
+        </div>
+      </div>
     </Card>
   );
 }

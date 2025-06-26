@@ -15,7 +15,6 @@ import { useState, useMemo } from "react";
 interface SkillsTableClientProps {
   frontendStats: any[];
   competencyLevels: any[];
-  // Add props for selectedSkill and selectedLevel if you want to control filtering from parent
   selectedSkill?: string | null;
   selectedLevel?: number | null;
 }
@@ -25,8 +24,7 @@ export function SkillsTableClient({
   competencyLevels,
   selectedSkill: propSelectedSkill,
   selectedLevel: propSelectedLevel,
-}: SkillsTableClientProps) {
-  // Use internal state if not controlled by props, or sync with props
+}: Readonly<SkillsTableClientProps>) {
   const [internalSelectedSkill, setInternalSelectedSkill] = useState<
     string | null
   >(propSelectedSkill || null);
@@ -34,7 +32,6 @@ export function SkillsTableClient({
     number | null
   >(propSelectedLevel || null);
 
-  // Sync internal state with props if they change
   useMemo(() => {
     setInternalSelectedSkill(propSelectedSkill || null);
     setInternalSelectedLevel(propSelectedLevel || null);

@@ -5,17 +5,17 @@ import { Filters } from "@/components/dashboard/filters/filters";
 import { EmployeeSkillCard } from "@/components/dashboard/employee-skill-card";
 import { useSkillsStore } from "@/store/use-skills-store";
 import type { Employee } from "@/lib/types";
+import { Ghost } from "lucide-react";
 
 interface DashboardClientProps {
   employees: Employee[];
 }
 
-export function DashboardClient({ employees }: DashboardClientProps) {
+export function DashboardClient({ employees }: Readonly<DashboardClientProps>) {
   const filterState = useSkillsStore((state) => state.filterState);
   const setFilterState = useSkillsStore((state) => state.setFilterState);
   const clearFilters = useSkillsStore((state) => state.clearFilters);
 
-  // Helper: get all unique departments, skill categories, and skills
   const allDepartments = useMemo(
     () => Array.from(new Set(employees.map((e) => e.department))).sort(),
     [employees]
@@ -39,7 +39,6 @@ export function DashboardClient({ employees }: DashboardClientProps) {
     [employees]
   );
 
-  // Handlers for MultiSelectPopover
   const handleEmployeeSelect = (id: string) => {
     setFilterState({
       selectedEmployees: filterState.selectedEmployees.includes(id)
@@ -55,7 +54,6 @@ export function DashboardClient({ employees }: DashboardClientProps) {
     });
   };
 
-  // Filtering logic
   const filteredEmployees = useMemo(() => {
     let result = employees;
     if (filterState.selectedEmployees.length > 0) {
@@ -126,9 +124,15 @@ export function DashboardClient({ employees }: DashboardClientProps) {
           <EmployeeSkillCard key={employee.id} employee={employee} />
         ))}
         {filteredEmployees.length === 0 && (
-          <p className="text-gray-500 col-span-full text-center py-8">
-            No employees match the current filters.
-          </p>
+          <div className="col-span-full flex flex-col items-center justify-center py-12">
+            <Ghost className="w-15 h-15 text-gray-500" />
+            <p className="text-gray-500 text-center text-lg font-medium mt-5">
+              No employees match the current filters.
+            </p>
+            <span className="text-gray-400 text-sm mt-2">
+              Try adjusting your filters to see more results.
+            </span>
+          </div>
         )}
       </div>
     </>

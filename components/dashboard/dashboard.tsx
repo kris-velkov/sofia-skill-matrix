@@ -15,7 +15,6 @@ export function Dashboard() {
   const filteredEmployees = useMemo(() => {
     let filtered = employees;
 
-    // Filter by selected employees
     if (filterState.selectedEmployees.length > 0) {
       filtered = filtered.filter((employee) =>
         filterState.selectedEmployees.includes(employee.id)

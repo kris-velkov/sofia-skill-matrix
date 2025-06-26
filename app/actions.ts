@@ -125,7 +125,7 @@ export async function deleteEmployeeAction(id: string) {
 // Server Action to update the current user's profile (assuming first employee is user)
 export async function updateProfile(prevState: unknown, formData: FormData) {
   const employees = await getEmployees();
-  const currentUser = employees[0]; // Assuming the first employee is the current user
+  const currentUser = employees[0];
 
   if (!currentUser) {
     return { message: "User profile not found." };
@@ -133,7 +133,6 @@ export async function updateProfile(prevState: unknown, formData: FormData) {
 
   try {
     const updatedProfileData = formDataToEmployee(formData, currentUser);
-    // Ensure the ID remains the same for the current user
     const finalProfile = { ...updatedProfileData, id: currentUser.id };
     await updateEmployee(finalProfile);
   } catch (error) {
@@ -142,6 +141,6 @@ export async function updateProfile(prevState: unknown, formData: FormData) {
   }
 
   revalidatePath("/profile");
-  revalidatePath("/"); // Revalidate dashboard if profile image changes
+  revalidatePath("/");
   return { message: "Profile updated successfully!" };
 }

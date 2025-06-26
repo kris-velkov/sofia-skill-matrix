@@ -11,19 +11,20 @@ import { useActionState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuthStore } from "@/store/use-auth-store";
 
 export default function AddEmployeePage() {
   const router = useRouter();
-  const { isAuthenticated, isAdmin, isLoading } = useAuth();
+  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
+  const role = useAuthStore((s) => s.role);
   const [state, formAction, isPending] = useActionState(createEmployee, null);
 
   useEffect(() => {
-    if (!isLoading && (!isAuthenticated || !isAdmin)) {
+    if (!isLoggedIn) {
       toast.error("You do not have permission to add employees.");
       router.push("/employees");
     }
-  }, [isLoading, isAuthenticated, isAdmin, router]);
+  }, [isLoggedIn, router]);
 
   useEffect(() => {
     if (state?.success) {
@@ -34,7 +35,9 @@ export default function AddEmployeePage() {
     }
   }, [state, router]);
 
-  if (isLoading || !isAuthenticated || !isAdmin) {
+  const isLoading = false; // Replace with actual loading state if available
+
+  if (isLoading || !isLoggedIn || role !== "admin") {
     return (
       <div className="flex flex-col min-h-screen bg-gray-50">
         <main className="flex-1 p-4 md:p-6 flex items-center justify-center">
