@@ -1,4 +1,11 @@
-import { CompetencyLevel } from "@/lib/types";
+import { SkillLevel } from "@/lib/types";
+
+export interface CompetencyLevel {
+  grade: SkillLevel;
+  name: string;
+  description: string;
+  color: string;
+}
 
 export const COMPETENCY_LEVELS: CompetencyLevel[] = [
   {

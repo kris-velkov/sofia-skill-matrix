@@ -2,16 +2,16 @@
   "employees": [
     {
       "id": "kristian-raychev",
-      "name": "Kristian Raychev",
+      "name": null,
       "firstName": "Kristian",
-      "lastName": "Raychev",
+      "lastName": "Raychev22",
       "email": "kristian.r@example.com",
       "phone": "+1 234 567 8905",
       "bio": "Senior Team Lead with extensive experience in project management and technical leadership.",
-      "country": "Bulgaria",
-      "cityState": "Sofia",
-      "postalCode": "1000",
-      "taxId": "BG123456793",
+      "country": null,
+      "cityState": null,
+      "postalCode": null,
+      "taxId": null,
       "slackProfileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MAE843FG-eccfc0bac7b8-192",
       "slackUrl": "https://slack.com/kristian.r",
       "linkedinUrl": "https://linkedin.com/in/kristian-raychev",
@@ -1583,6 +1583,26 @@
           ]
         }
       ]
+    },
+    {
+      "id": "3c2513ae-729b-4138-aa63-daabc3c23c7c",
+      "name": "Ivan",
+      "firstName": null,
+      "lastName": null,
+      "email": null,
+      "phone": null,
+      "bio": "Some",
+      "country": null,
+      "cityState": null,
+      "postalCode": null,
+      "taxId": null,
+      "slackProfileImage": "",
+      "slackUrl": null,
+      "linkedinUrl": null,
+      "careerExperience": "5",
+      "department": "Front-end",
+      "badge": "Front-end",
+      "skills": []
     }
   ]
 }

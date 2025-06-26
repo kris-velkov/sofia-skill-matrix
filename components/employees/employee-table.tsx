@@ -26,7 +26,6 @@ import { Input } from "@/components/ui/input";
 import type { Employee } from "@/lib/types";
 import { deleteEmployeeAction } from "@/app/actions";
 import { EmployeeAvatar } from "./employee-avatar";
-import { useRouter } from "next/navigation";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];
@@ -39,8 +38,6 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
     null
   );
   const [searchTerm, setSearchTerm] = useState("");
-  const [adding, setAdding] = useState(false);
-  const router = useRouter();
 
   useMemo(() => {
     setEmployees(initialEmployees);
@@ -79,11 +76,6 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
         employee.badge?.toLowerCase().includes(lowerCaseSearchTerm)
     );
   }, [employees, searchTerm]);
-
-  const handleAddEmployee = () => {
-    setAdding(true);
-    router.push("/employees/add");
-  };
 
   return (
     <>
@@ -133,18 +125,15 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                   key={employee.id}
                   className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                 >
-                  <TableCell className="font-medium py-3 md:py-4 px-3 md:px-6 border-r border-gray-100">
+                  <TableCell className="w-[300] font-medium py-5 md:py-5 px-5 md:px-5 border-r border-gray-100">
                     <div className="flex items-center gap-2 md:gap-3">
                       <EmployeeAvatar
                         src={employee.slackProfileImage}
                         alt={employee.name + " profile picture"}
                       />
                       <div>
-                        <div className="font-semibold text-gray-900 text-base leading-tight">
+                        <div className="text-gray-900 text-base leading-tight">
                           {employee.name}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {employee.department}
                         </div>
                       </div>
                     </div>

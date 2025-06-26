@@ -33,12 +33,7 @@ export interface Employee {
   linkedinUrl?: string;
 }
 
-export interface CompetencyLevel {
-  grade: SkillLevel;
-  name: string;
-  description: string;
-  color: string;
-}
+
 
 export interface FilterState {
   selectedEmployees: string[];

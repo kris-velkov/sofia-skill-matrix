@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getEmployeeById } from "@/lib/db"; // Import server-side data fetching
+import { getEmployeeById } from "@/lib/db";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -16,9 +16,11 @@ import {
   Pencil,
   Award,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import {} from "@/components/dashboard/employee-skill-card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { Progress } from "@/components/ui/progress";
+import { COMPETENCY_LEVELS } from "@/constants/competency-level";
+import { cn } from "@/lib/utils";
 
 export default async function EmployeeProfilePage({
   params,
@@ -188,7 +190,6 @@ export default async function EmployeeProfilePage({
                 .map((category, idx, arr) => (
                   <div key={category.name}>
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="inline-block h-2.5 w-2.5 rounded-full bg-blue-400" />
                       <h3 className="text-xl font-bold text-gray-800">
                         {category.name}
                       </h3>
@@ -201,12 +202,21 @@ export default async function EmployeeProfilePage({
                         >
                           {skill.name}
                           <div className="flex-1">
-                            <div className="w-full bg-blue-100 rounded-full h-3 relative overflow-hidden">
-                              <div
-                                className="bg-blue-500 h-3 rounded-full transition-all"
-                                style={{
-                                  width: `${(skill.level / 4) * 100}%`,
-                                }}
+                            <div className="w-full flex items-center gap-2">
+                              <Progress
+                                value={(skill.level / 4) * 100}
+                                className={cn(
+                                  "h-3 w-full rounded-full transition-all",
+                                  skill.level === 0
+                                    ? "bg-gray-100 [&>div]:bg-gray-300"
+                                    : skill.level === 1
+                                    ? "bg-red-100 [&>div]:bg-red-400"
+                                    : skill.level === 2
+                                    ? "bg-yellow-100 [&>div]:bg-yellow-400"
+                                    : skill.level === 3
+                                    ? "bg-blue-100 [&>div]:bg-blue-400"
+                                    : "bg-green-100 [&>div]:bg-green-500"
+                                )}
                               />
                             </div>
                           </div>

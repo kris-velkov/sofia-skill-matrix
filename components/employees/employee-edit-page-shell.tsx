@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Breadcrumbs } from "@/components/breadcrumbs";
 import toast from "react-hot-toast";
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
 import { useActionState } from "react";
-import { EmployeeEditHeader } from "@/components/employees/employee-edit-header";
 import { EmployeeEditPersonalForm } from "@/components/employees/employee-edit-personal-form";
 import { EmployeeEditAddressForm } from "@/components/employees/employee-edit-address-form";
 import { EmployeeEditSkillsSection } from "@/components/employees/employee-edit-skills-section";
@@ -17,78 +12,30 @@ import {
   updateEmployeeSkillsAction,
 } from "@/app/actions";
 import { SkillLevel, Employee, Skill, SkillCategory } from "@/lib/types";
+import {
+  LoadingBlock,
+  ErrorBlock,
+  NotFoundBlock,
+} from "@/components/ui/blocks";
+import { useAuthStore } from "@/store/use-auth-store";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { Toaster } from "@/components/ui/toaster";
+import { Card } from "@/components/ui/card";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Linkedin, Slack, Trash2 } from "lucide-react";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
-// --- Reusable UI blocks ---
-function LoadingBlock({ message }: { message: string }) {
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <main className="flex-1 p-4 md:p-6 flex items-center justify-center">
-        <p className="text-gray-500">{message}</p>
-      </main>
-    </div>
-  );
-}
-
-function ErrorBlock({ error }: { error: string }) {
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <main className="flex-1 p-4 md:p-6 flex items-center justify-center">
-        <p className="text-red-500">{error}</p>
-      </main>
-    </div>
-  );
-}
-
-function NotFoundBlock({ message }: { message: string }) {
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <main className="flex-1 p-4 md:p-6 flex items-center justify-center">
-        <p className="text-gray-500">{message}</p>
-      </main>
-    </div>
-  );
-}
-
-function EmployeeEditBreadcrumbs({ employee }: { employee: Employee }) {
-  const items = [
-    { label: "Home", href: "/" },
-    { label: "Employees", href: "/employees" },
-    { label: employee.name, href: `/employees/${employee.id}` },
-    { label: "Edit" },
-  ];
-  return <Breadcrumbs items={items} />;
-}
-
-function EmployeeEditPageHeader({ employee }: { employee: Employee }) {
-  return (
-    <div className="flex items-center gap-4">
-      <Button
-        variant="ghost"
-        size="icon"
-        asChild
-        className="text-gray-700 hover:bg-gray-100"
-      >
-        <Link
-          href={`/employees/${employee.id}`}
-          aria-label="Back to employee profile"
-        >
-          <ChevronLeft className="h-6 w-6" />
-        </Link>
-      </Button>
-      <h2 className="text-2xl font-bold text-gray-800">
-        Edit Employee: {employee.name}
-      </h2>
-    </div>
-  );
-}
-
-// --- Main Shell ---
 export function EmployeeEditPageShell() {
   const params = useParams();
   const router = useRouter();
   const employeeId = params.id as string;
 
-  const { isAuthenticated, isAdmin, isLoading: authLoading } = useAuth();
+  const { isLoggedIn, role, hydrated } = useAuthStore();
+  const isAuthenticated = isLoggedIn;
+  const isAdmin = role === "admin";
+  const authLoading = !hydrated;
 
   const [employee, setEmployee] = useState<Employee | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -112,6 +59,13 @@ export function EmployeeEditPageShell() {
     string | null
   >(null);
 
+  const [confirmDialog, setConfirmDialog] = useState<{
+    open: boolean;
+    title: string;
+    description?: string;
+    onConfirm: (() => void) | undefined;
+  }>({ open: false, title: "", description: undefined, onConfirm: undefined });
+
   useEffect(() => {
     if (!authLoading && (!isAuthenticated || !isAdmin)) {
       toast.error("You do not have permission to edit employees.");
@@ -130,9 +84,11 @@ export function EmployeeEditPageShell() {
           router.push("/employees");
           toast.error("Employee not found.");
         }
-      } catch (err: any) {
-        setError(err.message || "Failed to load employee data.");
-        toast.error(err.message || "Failed to load employee data.");
+      } catch (err) {
+        const errorMsg =
+          err instanceof Error ? err.message : "Failed to load employee data.";
+        setError(errorMsg);
+        toast.error(errorMsg);
         router.push("/employees");
       } finally {
         setIsLoading(false);
@@ -142,8 +98,12 @@ export function EmployeeEditPageShell() {
   }, [employeeId, router, isAuthenticated, isAdmin, authLoading]);
 
   useEffect(() => {
-    if (personalState?.message) {
-      if (personalState.success) {
+    if (
+      personalState &&
+      typeof personalState === "object" &&
+      "message" in personalState
+    ) {
+      if ((personalState as any).success) {
         toast.success(personalState.message);
         setEditMode((prev) => ({ ...prev, personal: false }));
       } else {
@@ -153,8 +113,12 @@ export function EmployeeEditPageShell() {
   }, [personalState, employeeId]);
 
   useEffect(() => {
-    if (addressState?.message) {
-      if (addressState.success) {
+    if (
+      addressState &&
+      typeof addressState === "object" &&
+      "message" in addressState
+    ) {
+      if ((addressState as any).success) {
         toast.success(addressState.message);
         setEditMode((prev) => ({ ...prev, address: false }));
       } else {
@@ -253,130 +217,191 @@ export function EmployeeEditPageShell() {
     setCurrentCategoryForNewSkill(null);
   };
 
-  const handleDeleteSkill = async (categoryName: string, skillName: string) => {
-    if (!employee) return;
-    if (
-      window.confirm(
-        `Are you sure you want to delete the skill "${skillName}"?`
-      )
-    ) {
-      const updatedSkills = employee.skills.map((category) => {
-        if (category.name === categoryName) {
-          return {
-            ...category,
-            skills: category.skills.filter((skill) => skill.name !== skillName),
-          };
+  const handleDeleteSkill = (categoryName: string, skillName: string) => {
+    setConfirmDialog({
+      open: true,
+      title: `Delete skill "${skillName}"?`,
+      description: `Are you sure you want to delete the skill "${skillName}"?`,
+      onConfirm: async () => {
+        if (!employee) return;
+        const updatedSkills = employee.skills.map((category) => {
+          if (category.name === categoryName) {
+            return {
+              ...category,
+              skills: category.skills.filter(
+                (skill) => skill.name !== skillName
+              ),
+            };
+          }
+          return category;
+        });
+        setEmployee((prev) =>
+          prev ? { ...prev, skills: updatedSkills } : null
+        );
+        const result = await updateEmployeeSkillsAction(
+          employee.id,
+          updatedSkills
+        );
+        if (!result.success) {
+          toast.error(result.message);
+        } else {
+          toast.success(result.message);
         }
-        return category;
-      });
-      setEmployee((prev) => (prev ? { ...prev, skills: updatedSkills } : null));
-      const result = await updateEmployeeSkillsAction(
-        employee.id,
-        updatedSkills
-      );
-      if (!result.success) {
-        toast.error(result.message);
-      } else {
-        toast.success(result.message);
-      }
-    }
+        setConfirmDialog((d) => ({ ...d, open: false, onConfirm: undefined }));
+      },
+    });
   };
 
-  const handleDeleteEmployee = async () => {
-    if (!employee) return;
-    if (
-      window.confirm(
-        `Are you sure you want to delete ${employee.name}? This action cannot be undone.`
-      )
-    ) {
-      const result = await deleteEmployeeAction(employee.id);
-      if (result?.message) {
-        toast.error(result.message);
-      } else {
-        toast.success(`${employee.name} deleted successfully!`);
-        router.push("/employees");
-      }
-    }
+  const handleDeleteEmployee = () => {
+    setConfirmDialog({
+      open: true,
+      title: `Delete ${employee?.name}?`,
+      description: `Are you sure you want to delete ${employee?.name}? This action cannot be undone.`,
+      onConfirm: async () => {
+        if (!employee) return;
+        const result = await deleteEmployeeAction(employee.id);
+        if (result?.message) {
+          toast.error(result.message);
+        } else {
+          toast.success(`${employee.name} deleted successfully!`);
+          router.push("/employees");
+        }
+        setConfirmDialog((d) => ({ ...d, open: false, onConfirm: undefined }));
+      },
+    });
   };
 
-  // --- Render ---
-  if (authLoading || isLoading || !isAuthenticated || !isAdmin) {
-    return (
-      <LoadingBlock
-        message={
-          authLoading || isLoading
-            ? "Loading employee data..."
-            : "Redirecting, insufficient permissions to edit..."
-        }
-      />
-    );
-  }
+  if (isLoading) return <LoadingBlock message="Loading..." />;
   if (error) return <ErrorBlock error={error} />;
-  if (!employee)
-    return <NotFoundBlock message="Employee data not available." />;
+  if (!employee) return <NotFoundBlock message="Employee not found." />;
+
+  // Breadcrumbs for navigation
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "Employees", href: "/employees" },
+    { label: employee.name },
+  ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <main className="flex-1 p-4 md:p-6">
-        <div className="max-w-4xl mx-auto grid gap-6">
-          <div className="flex items-center justify-between">
-            <EmployeeEditPageHeader employee={employee} />
+    <main className="flex flex-col items-center justify-center min-h-screen p-4 md:p-8 bg-gradient-to-tr from-blue-100/60 to-white">
+      <div className="w-full max-w-4xl space-y-8 mt-8">
+        <Breadcrumbs items={breadcrumbItems} />
+        {/* Header Card */}
+        <Card className="p-8 flex flex-col md:flex-row items-center md:items-start gap-8 shadow-xl border-0 bg-gradient-to-tr from-blue-100/60 to-white">
+          <Avatar className="h-28 w-28 md:h-36 md:w-36 border-4 border-blue-400 shadow-lg">
+            <AvatarImage
+              src={
+                employee.slackProfileImage ||
+                "/placeholder.svg?height=128&width=128&query=user+avatar"
+              }
+              alt={`${employee.name} profile`}
+            />
+          </Avatar>
+          <div className="flex-1 text-center md:text-left space-y-2">
+            <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+              {employee.name}
+            </h1>
+            <p className="text-lg text-gray-600">
+              {employee.department}
+              {employee.cityState && ` • ${employee.cityState}`}
+              {employee.country && `, ${employee.country}`}
+            </p>
+            {employee.badge && (
+              <Badge className="mt-2 px-4 py-1 text-base bg-blue-200 text-blue-800 font-semibold shadow">
+                {employee.badge}
+              </Badge>
+            )}
           </div>
-          <EmployeeEditBreadcrumbs employee={employee} />
-          <p className="text-gray-600">
-            Update the details and skill levels for {employee.name}.
-          </p>
-          <EmployeeEditHeader
-            employee={employee}
-            isAdmin={isAdmin}
-            onDelete={handleDeleteEmployee}
-          />
-          <EmployeeEditPersonalForm
-            employee={employee}
-            isAdmin={isAdmin}
-            editMode={editMode.personal}
-            personalState={personalState}
-            onEdit={() => setEditMode({ ...editMode, personal: true })}
-            onCancel={() => setEditMode({ ...editMode, personal: false })}
-            onSave={(formData) => handleSaveSection("personal", formData)}
-            onInputChange={handleInputChange}
-          />
-          <EmployeeEditAddressForm
-            employee={employee}
-            isAdmin={isAdmin}
-            editMode={editMode.address}
-            addressState={addressState}
-            onEdit={() => setEditMode({ ...editMode, address: true })}
-            onCancel={() => setEditMode({ ...editMode, address: false })}
-            onSave={(formData) => handleSaveSection("address", formData)}
-            onInputChange={handleInputChange}
-          />
+          <div className="flex flex-col gap-4 mt-6 md:mt-0 items-center">
+            <div className="flex gap-2">
+              {employee.linkedinUrl && (
+                <a
+                  href={employee.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 shadow"
+                  aria-label="LinkedIn Profile"
+                >
+                  <Linkedin className="h-6 w-6" />
+                </a>
+              )}
+              {employee.slackUrl && (
+                <a
+                  href={employee.slackUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 shadow"
+                  aria-label="Slack Profile"
+                >
+                  <Slack className="h-6 w-6" />
+                </a>
+              )}
+            </div>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteEmployee}
+              className="bg-red-600 hover:bg-red-700 text-white mt-2"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete Employee
+            </Button>
+          </div>
+        </Card>
+        {/* Personal Information Card */}
+        <EmployeeEditPersonalForm
+          employee={employee}
+          isAdmin={isAdmin}
+          editMode={editMode.personal}
+          personalState={personalState}
+          onEdit={() => setEditMode((prev) => ({ ...prev, personal: true }))}
+          onCancel={() => setEditMode((prev) => ({ ...prev, personal: false }))}
+          onSave={(data) => handleSaveSection("personal", data)}
+          onInputChange={handleInputChange}
+        />
+        {/* Address Card */}
+        <EmployeeEditAddressForm
+          employee={employee}
+          isAdmin={isAdmin}
+          editMode={editMode.address}
+          addressState={addressState}
+          onEdit={() => setEditMode((prev) => ({ ...prev, address: true }))}
+          onCancel={() => setEditMode((prev) => ({ ...prev, address: false }))}
+          onSave={(data) => handleSaveSection("address", data)}
+          onInputChange={handleInputChange}
+        />
+        {/* Skills Card */}
+        <Card className="p-6 shadow-lg border border-blue-100 bg-white">
           <EmployeeEditSkillsSection
             skills={employee.skills}
             isAdmin={isAdmin}
             onSkillChange={handleSkillChange}
             onDeleteSkill={handleDeleteSkill}
-            onAddSkill={(categoryName) => {
-              setCurrentCategoryForNewSkill(categoryName);
-              setIsAddSkillDialogOpen(true);
-            }}
+            onAddSkill={() => setIsAddSkillDialogOpen(true)}
           />
-        </div>
-      </main>
-      {isAdmin && (
-        <EmployeeAddSkillDialog
-          open={isAddSkillDialogOpen}
-          onOpenChange={setIsAddSkillDialogOpen}
-          currentCategory={currentCategoryForNewSkill}
-          newSkillName={newSkillName}
-          setNewSkillName={setNewSkillName}
-          newSkillLevel={newSkillLevel}
-          setNewSkillLevel={setNewSkillLevel}
-          newSkillUrl={newSkillUrl}
-          setNewSkillUrl={setNewSkillUrl}
-          onAddSkill={handleAddSkill}
-        />
-      )}
-    </div>
+        </Card>
+      </div>
+      <Toaster />
+      <ConfirmDialog
+        open={confirmDialog.open}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        onCancel={() =>
+          setConfirmDialog((d) => ({ ...d, open: false, onConfirm: undefined }))
+        }
+        onConfirm={confirmDialog.onConfirm || (() => {})}
+      />
+      <EmployeeAddSkillDialog
+        open={isAddSkillDialogOpen}
+        onOpenChange={setIsAddSkillDialogOpen}
+        currentCategory={currentCategoryForNewSkill}
+        newSkillName={newSkillName}
+        setNewSkillName={setNewSkillName}
+        newSkillLevel={newSkillLevel}
+        setNewSkillLevel={setNewSkillLevel}
+        newSkillUrl={newSkillUrl}
+        setNewSkillUrl={setNewSkillUrl}
+        onAddSkill={handleAddSkill}
+      />
+    </main>
   );
 }

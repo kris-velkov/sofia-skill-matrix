@@ -26,7 +26,6 @@ async function ensureDbLoaded() {
 
 export async function getEmployees(): Promise<Employee[]> {
   await ensureDbLoaded();
-  console.log("Loaded employees:", db.data.employees);
   return db.data.employees;
 }
 
