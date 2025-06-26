@@ -12,31 +12,37 @@ interface DashboardClientProps {
 }
 
 export function DashboardClient({ employees }: Readonly<DashboardClientProps>) {
+  const safeEmployees = Array.isArray(employees) ? employees : [];
+
   const filterState = useSkillsStore((state) => state.filterState);
   const setFilterState = useSkillsStore((state) => state.setFilterState);
   const clearFilters = useSkillsStore((state) => state.clearFilters);
 
   const allDepartments = useMemo(
-    () => Array.from(new Set(employees.map((e) => e.department))).sort(),
-    [employees]
+    () => Array.from(new Set(safeEmployees.map((e) => e.department))).sort(),
+    [safeEmployees]
   );
   const allSkillCategories = useMemo(
     () =>
       Array.from(
-        new Set(employees.flatMap((e) => e.skills.map((cat) => cat.name)))
+        new Set(
+          safeEmployees.flatMap((e) => (e.skills || []).map((cat) => cat.name))
+        )
       ).sort(),
-    [employees]
+    [safeEmployees]
   );
   const allSkills = useMemo(
     () =>
       Array.from(
         new Set(
-          employees.flatMap((e) =>
-            e.skills.flatMap((cat) => cat.skills.map((s) => s.name))
+          safeEmployees.flatMap((e) =>
+            (e.skills || []).flatMap((cat) =>
+              (cat.skills || []).map((s) => s.name)
+            )
           )
         )
       ).sort(),
-    [employees]
+    [safeEmployees]
   );
 
   const handleEmployeeSelect = (id: string) => {
@@ -55,7 +61,7 @@ export function DashboardClient({ employees }: Readonly<DashboardClientProps>) {
   };
 
   const filteredEmployees = useMemo(() => {
-    let result = employees;
+    let result = safeEmployees;
     if (filterState.selectedEmployees.length > 0) {
       result = result.filter((e) =>
         filterState.selectedEmployees.includes(e.id)
@@ -101,7 +107,7 @@ export function DashboardClient({ employees }: Readonly<DashboardClientProps>) {
       );
     }
     return result;
-  }, [employees, filterState]);
+  }, [safeEmployees, filterState]);
 
   return (
     <>

@@ -6,11 +6,12 @@ import { EmployeeEditPersonalForm } from "@/components/employees/employee-edit-p
 import { EmployeeEditAddressForm } from "@/components/employees/employee-edit-address-form";
 import { EmployeeEditSkillsSection } from "@/components/employees/employee-edit-skills-section";
 import { EmployeeAddSkillDialog } from "@/components/employees/employee-add-skill-dialog";
+import { EmployeeCertificates } from "@/components/employees/employee-certificates";
 import {
   deleteEmployeeAction,
   updateEmployeeAction,
   updateEmployeeSkillsAction,
-} from "@/app/actions";
+} from "@/app/actions/actions";
 import { SkillLevel, Employee, Skill, SkillCategory } from "@/lib/types";
 import {
   LoadingBlock,
@@ -21,10 +22,8 @@ import { useAuthStore } from "@/store/use-auth-store";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Toaster } from "@/components/ui/toaster";
 import { Card } from "@/components/ui/card";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Linkedin, Slack, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export function EmployeeEditPageShell() {
@@ -103,7 +102,7 @@ export function EmployeeEditPageShell() {
       typeof personalState === "object" &&
       "message" in personalState
     ) {
-      if ((personalState as any).success) {
+      if (personalState.success) {
         toast.success(personalState.message);
         setEditMode((prev) => ({ ...prev, personal: false }));
       } else {
@@ -118,7 +117,7 @@ export function EmployeeEditPageShell() {
       typeof addressState === "object" &&
       "message" in addressState
     ) {
-      if ((addressState as any).success) {
+      if (addressState.success) {
         toast.success(addressState.message);
         setEditMode((prev) => ({ ...prev, address: false }));
       } else {
@@ -260,10 +259,10 @@ export function EmployeeEditPageShell() {
       onConfirm: async () => {
         if (!employee) return;
         const result = await deleteEmployeeAction(employee.id);
-        if (result?.message) {
+        if (!result.success) {
           toast.error(result.message);
         } else {
-          toast.success(`${employee.name} deleted successfully!`);
+          toast.success(result.message);
           router.push("/employees");
         }
         setConfirmDialog((d) => ({ ...d, open: false, onConfirm: undefined }));
@@ -288,15 +287,16 @@ export function EmployeeEditPageShell() {
         <Breadcrumbs items={breadcrumbItems} />
         {/* Header Card */}
         <Card className="p-8 flex flex-col md:flex-row items-center md:items-start gap-8 shadow-xl border-0 bg-gradient-to-tr from-blue-100/60 to-white">
-          <Avatar className="h-28 w-28 md:h-36 md:w-36 border-4 border-blue-400 shadow-lg">
-            <AvatarImage
+          <div className="h-28 w-28 md:h-36 md:w-36 rounded-full border-4 border-blue-400 shadow-lg overflow-hidden flex items-center justify-center bg-white">
+            <img
               src={
                 employee.slackProfileImage ||
                 "/placeholder.svg?height=128&width=128&query=user+avatar"
               }
               alt={`${employee.name} profile`}
+              className="object-cover w-full h-full"
             />
-          </Avatar>
+          </div>
           <div className="flex-1 text-center md:text-left space-y-2">
             <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
               {employee.name}
@@ -307,36 +307,12 @@ export function EmployeeEditPageShell() {
               {employee.country && `, ${employee.country}`}
             </p>
             {employee.badge && (
-              <Badge className="mt-2 px-4 py-1 text-base bg-blue-200 text-blue-800 font-semibold shadow">
+              <span className="mt-2 px-4 py-1 text-base bg-blue-200 text-blue-800 font-semibold shadow rounded">
                 {employee.badge}
-              </Badge>
+              </span>
             )}
           </div>
           <div className="flex flex-col gap-4 mt-6 md:mt-0 items-center">
-            <div className="flex gap-2">
-              {employee.linkedinUrl && (
-                <a
-                  href={employee.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 shadow"
-                  aria-label="LinkedIn Profile"
-                >
-                  <Linkedin className="h-6 w-6" />
-                </a>
-              )}
-              {employee.slackUrl && (
-                <a
-                  href={employee.slackUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 shadow"
-                  aria-label="Slack Profile"
-                >
-                  <Slack className="h-6 w-6" />
-                </a>
-              )}
-            </div>
             <Button
               variant="destructive"
               onClick={handleDeleteEmployee}
@@ -377,6 +353,13 @@ export function EmployeeEditPageShell() {
             onSkillChange={handleSkillChange}
             onDeleteSkill={handleDeleteSkill}
             onAddSkill={() => setIsAddSkillDialogOpen(true)}
+          />
+        </Card>
+        {/* Certificates Card */}
+        <Card className="p-6 shadow-lg border border-blue-100 bg-white">
+          <EmployeeCertificates
+            employeeId={employee.id}
+            certificates={employee.certificates || []}
           />
         </Card>
       </div>

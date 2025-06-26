@@ -13,18 +13,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Input } from "@/components/ui/input";
 import type { Employee } from "@/lib/types";
-import { deleteEmployeeAction } from "@/app/actions";
+import { deleteEmployeeAction } from "@/app/actions/actions";
 import { EmployeeAvatar } from "./employee-avatar";
 
 interface EmployeeTableProps {
@@ -51,13 +43,13 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
   const handleDeleteConfirmed = async () => {
     if (employeeToDelete) {
       const result = await deleteEmployeeAction(employeeToDelete.id);
-      if (result?.message) {
+      if (result?.success === false) {
         toast.error(result.message);
       } else {
         setEmployees((prev) =>
           prev.filter((emp) => emp.id !== employeeToDelete.id)
         );
-        toast.success(`${employeeToDelete.name} deleted successfully!`);
+        toast.success(`${employeeToDelete.name} ${result.message}`);
       }
       setEmployeeToDelete(null);
       setIsDeleteDialogOpen(false);
@@ -179,25 +171,18 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
           </TableBody>
         </Table>
       </div>
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirm Deletion</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete {employeeToDelete?.name}? This
-              action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button variant="destructive" onClick={handleDeleteConfirmed}>
-              Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDialog
+        open={isDeleteDialogOpen}
+        title="Confirm Deletion"
+        description={`Are you sure you want to delete ${employeeToDelete?.name}? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleDeleteConfirmed}
+        onCancel={() => {
+          setIsDeleteDialogOpen(false);
+          setEmployeeToDelete(null);
+        }}
+      />
     </>
   );
 }

@@ -2,9 +2,9 @@
   "employees": [
     {
       "id": "kristian-raychev",
-      "name": null,
+      "name": "Kristiyan Raychev",
       "firstName": "Kristian",
-      "lastName": "Raychev22",
+      "lastName": "Raychev",
       "email": "kristian.r@example.com",
       "phone": "+1 234 567 8905",
       "bio": "Senior Team Lead with extensive experience in project management and technical leadership.",
@@ -394,401 +394,11 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "id": "mariya-valcheva-tosheva",
-      "name": "Mariya Valcheva-Tosheva",
-      "firstName": "Mariya",
-      "lastName": "Valcheva-Tosheva",
-      "email": "mariya.v@example.com",
-      "phone": "+1 234 567 8906",
-      "bio": "Highly experienced Advanced PHP developer with a broad range of technical skills.",
-      "country": "Bulgaria",
-      "cityState": "Sofia",
-      "postalCode": "1000",
-      "taxId": "BG123456794",
-      "slackProfileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MAE6QS3G-01aaaf43c911-48",
-      "slackUrl": "https://slack.com/mariya.v",
-      "linkedinUrl": "https://linkedin.com/in/mariya-valcheva-tosheva",
-      "careerExperience": "14y 3m",
-      "department": "Backend",
-      "badge": "Mid-Level",
-      "skills": [
+      ],
+      "certificates": [
         {
-          "name": "Generic",
-          "skills": [
-            {
-              "name": "Motivation",
-              "level": 4
-            },
-            {
-              "name": "Potential",
-              "level": 3
-            },
-            {
-              "name": "Communication",
-              "level": 3
-            },
-            {
-              "name": "Confidence",
-              "level": 3
-            },
-            {
-              "name": "English",
-              "level": 3
-            },
-            {
-              "name": "Lecturing",
-              "level": 2
-            },
-            {
-              "name": "Presentations",
-              "level": 3
-            },
-            {
-              "name": "Leadership",
-              "level": 3
-            }
-          ]
-        },
-        {
-          "name": "Javascript",
-          "skills": [
-            {
-              "name": "Javascript",
-              "level": 3
-            },
-            {
-              "name": "Nodejs",
-              "level": 2
-            },
-            {
-              "name": "async/Promises",
-              "level": 2
-            },
-            {
-              "name": "parallel",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "Data stores",
-          "skills": [
-            {
-              "name": "mysql",
-              "level": 3
-            },
-            {
-              "name": "mongodb",
-              "level": 3
-            },
-            {
-              "name": "dynamo",
-              "level": 2
-            },
-            {
-              "name": "MSSQL",
-              "level": 2
-            },
-            {
-              "name": "NeDB",
-              "level": 2
-            },
-            {
-              "name": "S3",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "Build tools",
-          "skills": [
-            {
-              "name": "BLT",
-              "level": 2
-            },
-            {
-              "name": "docksal",
-              "level": 1
-            },
-            {
-              "name": "Lando",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "Drupal",
-          "skills": [
-            {
-              "name": "Drupal",
-              "level": 3
-            },
-            {
-              "name": "Migrate",
-              "level": 3
-            },
-            {
-              "name": "Multisite",
-              "level": 3
-            },
-            {
-              "name": "Domain",
-              "level": 3
-            },
-            {
-              "name": "Headless",
-              "level": 3
-            },
-            {
-              "name": "Static",
-              "level": 3
-            },
-            {
-              "name": "Commerce",
-              "level": 3
-            },
-            {
-              "name": "Twig",
-              "level": 3
-            },
-            {
-              "name": "Tests",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "CI/CD",
-          "skills": [
-            {
-              "name": "Gitlab pipelines",
-              "level": 2
-            },
-            {
-              "name": "Jenkins",
-              "level": 2
-            },
-            {
-              "name": "Ansible",
-              "level": 1
-            },
-            {
-              "name": "Others",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "CMD",
-          "skills": [
-            {
-              "name": "Vim, nano",
-              "level": 3
-            },
-            {
-              "name": "find, grep",
-              "level": 3
-            },
-            {
-              "name": "awk, sed",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "VCS",
-          "skills": [
-            {
-              "name": "GIT",
-              "level": 3
-            }
-          ]
-        },
-        {
-          "name": "Scripting",
-          "skills": [
-            {
-              "name": "Bash",
-              "level": 1
-            },
-            {
-              "name": "Python",
-              "level": 1
-            },
-            {
-              "name": "Expect",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "Devops",
-          "skills": [
-            {
-              "name": "Devops",
-              "level": 1
-            },
-            {
-              "name": "AWS",
-              "level": 1
-            },
-            {
-              "name": "GCP",
-              "level": 1
-            },
-            {
-              "name": "Azure",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "FE frameworks",
-          "skills": [
-            {
-              "name": "React",
-              "level": 2
-            },
-            {
-              "name": "Vue",
-              "level": 1
-            },
-            {
-              "name": "Angular",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "Mobile",
-          "skills": [
-            {
-              "name": "Mobile",
-              "level": 2
-            },
-            {
-              "name": "Hybrid",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "SEO",
-          "skills": [
-            {
-              "name": "SEO",
-              "level": 1
-            },
-            {
-              "name": "GTM",
-              "level": 1
-            },
-            {
-              "name": "Matomo",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "Search",
-          "skills": [
-            {
-              "name": "Solr",
-              "level": 2
-            },
-            {
-              "name": "Elasticsearch",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "Cache",
-          "skills": [
-            {
-              "name": "Varnish",
-              "level": 2
-            },
-            {
-              "name": "Redis",
-              "level": 2
-            },
-            {
-              "name": "Memcache",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "Hosting",
-          "skills": [
-            {
-              "name": "Platform.sh",
-              "level": 2
-            },
-            {
-              "name": "Acquia",
-              "level": 2
-            },
-            {
-              "name": "Pantheon",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "Virtualization",
-          "skills": [
-            {
-              "name": "Docker",
-              "level": 2
-            },
-            {
-              "name": "docker-compose",
-              "level": 1
-            },
-            {
-              "name": "Kubernetes",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "Sysadmin",
-          "skills": [
-            {
-              "name": "Linux admin",
-              "level": 2
-            },
-            {
-              "name": "Networking",
-              "level": 1
-            },
-            {
-              "name": "Security",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "Misc languages",
-          "skills": [
-            {
-              "name": "Regex",
-              "level": 2
-            },
-            {
-              "name": "Xpath/XSL",
-              "level": 2
-            },
-            {
-              "name": "CSS/SASS",
-              "level": 2
-            }
-          ]
+          "name": "AWS Certified Solutions2 Architect",
+          "url": "https://aws.amazon.com/certification/certified-solutions-architect-associate/"
         }
       ]
     },
@@ -1186,7 +796,8 @@
             }
           ]
         }
-      ]
+      ],
+      "certificates": []
     },
     {
       "id": "radostina-mangarudova",
@@ -1582,16 +1193,17 @@
             }
           ]
         }
-      ]
+      ],
+      "certificates": []
     },
     {
-      "id": "3c2513ae-729b-4138-aa63-daabc3c23c7c",
-      "name": "Ivan",
+      "id": "05e67f45-0cf2-46ba-82db-245271ac737b",
+      "name": "test",
       "firstName": null,
       "lastName": null,
       "email": null,
       "phone": null,
-      "bio": "Some",
+      "bio": "",
       "country": null,
       "cityState": null,
       "postalCode": null,
@@ -1599,9 +1211,9 @@
       "slackProfileImage": "",
       "slackUrl": null,
       "linkedinUrl": null,
-      "careerExperience": "5",
-      "department": "Front-end",
-      "badge": "Front-end",
+      "careerExperience": "",
+      "department": "test",
+      "badge": "",
       "skills": []
     }
   ]

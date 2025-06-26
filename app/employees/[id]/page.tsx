@@ -19,8 +19,8 @@ import {
 import {} from "@/components/dashboard/employee-skill-card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Progress } from "@/components/ui/progress";
-import { COMPETENCY_LEVELS } from "@/constants/competency-level";
 import { cn } from "@/lib/utils";
+import { EmployeeCertificates } from "@/components/employees/employee-certificates";
 
 export default async function EmployeeProfilePage({
   params,
@@ -174,6 +174,14 @@ export default async function EmployeeProfilePage({
             )}
           </div>
         </Card>
+        {/* Certificates Card */}
+        {employee.certificates && employee.certificates.length > 0 && (
+          <EmployeeCertificates
+            employeeId={employee.id}
+            certificates={employee.certificates}
+          />
+        )}
+        {/* Skills Card */}
         <Card className="p-6 shadow-lg border border-blue-100 bg-white">
           <CardHeader className="p-0 mb-4 flex flex-row items-center justify-between">
             <CardTitle className="text-xl font-semibold text-gray-900 flex items-center gap-2">
@@ -195,36 +203,40 @@ export default async function EmployeeProfilePage({
                       </h3>
                     </div>
                     <div className="space-y-4">
-                      {category.skills.map((skill) => (
-                        <div
-                          key={skill.name}
-                          className="flex items-center gap-4"
-                        >
-                          {skill.name}
-                          <div className="flex-1">
-                            <div className="w-full flex items-center gap-2">
-                              <Progress
-                                value={(skill.level / 4) * 100}
-                                className={cn(
-                                  "h-3 w-full rounded-full transition-all",
-                                  skill.level === 0
-                                    ? "bg-gray-100 [&>div]:bg-gray-300"
-                                    : skill.level === 1
-                                    ? "bg-red-100 [&>div]:bg-red-400"
-                                    : skill.level === 2
-                                    ? "bg-yellow-100 [&>div]:bg-yellow-400"
-                                    : skill.level === 3
-                                    ? "bg-blue-100 [&>div]:bg-blue-400"
-                                    : "bg-green-100 [&>div]:bg-green-500"
-                                )}
-                              />
+                      {category.skills.map((skill) => {
+                        let progressClass =
+                          "h-3 w-full rounded-full transition-all";
+                        if (skill.level === 0)
+                          progressClass += " bg-gray-100 [&>div]:bg-gray-300";
+                        else if (skill.level === 1)
+                          progressClass += " bg-red-100 [&>div]:bg-red-400";
+                        else if (skill.level === 2)
+                          progressClass +=
+                            " bg-yellow-100 [&>div]:bg-yellow-400";
+                        else if (skill.level === 3)
+                          progressClass += " bg-blue-100 [&>div]:bg-blue-400";
+                        else
+                          progressClass += " bg-green-100 [&>div]:bg-green-500";
+                        return (
+                          <div
+                            key={skill.name}
+                            className="flex items-center gap-4"
+                          >
+                            {skill.name}
+                            <div className="flex-1">
+                              <div className="w-full flex items-center gap-2">
+                                <Progress
+                                  value={(skill.level / 4) * 100}
+                                  className={cn(progressClass)}
+                                />
+                              </div>
                             </div>
+                            <span className="text-sm text-blue-700 font-bold min-w-[32px] text-right">
+                              {skill.level}/4
+                            </span>
                           </div>
-                          <span className="text-sm text-blue-700 font-bold min-w-[32px] text-right">
-                            {skill.level}/4
-                          </span>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                     {idx !== arr.length - 1 && <Separator className="my-8" />}
                   </div>

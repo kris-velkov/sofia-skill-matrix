@@ -12,11 +12,14 @@ import { useRouter } from "next/navigation";
 export interface EmployeeSkillCardProps {
   employee: Employee;
 }
-export function EmployeeSkillCard({ employee }: EmployeeSkillCardProps) {
+export function EmployeeSkillCard({
+  employee,
+}: Readonly<EmployeeSkillCardProps>) {
   const topSkills = employee.skills
+    .filter((cat, idx) => idx !== 0)
     .flatMap((cat) => cat.skills)
     .sort((a, b) => b.level - a.level)
-    .slice(0, 3);
+    .slice(0, 9);
 
   const router = useRouter();
 
@@ -31,7 +34,7 @@ export function EmployeeSkillCard({ employee }: EmployeeSkillCardProps) {
       >
         <CardContent className="p-4 flex flex-col gap-5">
           <EmployeeHeader
-            name={employee.name}
+            name={employee.firstName + " " + employee.lastName}
             department={employee.department}
             badge={employee.badge}
             profileImage={employee.slackProfileImage}
@@ -46,7 +49,7 @@ export function EmployeeSkillCard({ employee }: EmployeeSkillCardProps) {
             <span className="font-medium">{employee.careerExperience}</span>
           </div>
 
-          <div className="mb-1  h-20 max-h-20 overflow-hidden">
+          <div className="mb-1 h-45 max-h-45 overflow-hidden">
             <EmployeeTopSkills skills={topSkills} />
           </div>
         </CardContent>
@@ -55,7 +58,7 @@ export function EmployeeSkillCard({ employee }: EmployeeSkillCardProps) {
         <div className="mt-2 h-15 max-h-15">
           <EmployeeSlackLink
             slackUrl={employee.slackUrl}
-            name={employee.name}
+            name={employee.firstName + " " + employee.lastName}
           />
         </div>
       )}

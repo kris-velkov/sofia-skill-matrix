@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { createEmployee } from "@/app/actions";
+import { createEmployee } from "@/app/actions/actions";
 import { useActionState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { ChevronLeft } from "lucide-react";

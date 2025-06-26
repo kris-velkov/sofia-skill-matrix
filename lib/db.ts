@@ -58,6 +58,50 @@ export async function updateEmployee(
   return undefined;
 }
 
+export async function updateEmployeeCertificates(
+  id: string,
+  certificates: Employee["certificates"]
+): Promise<Employee | undefined> {
+  await ensureDbLoaded();
+  const index = db.data.employees.findIndex((emp) => emp.id === id);
+  if (index > -1) {
+    db.data.employees[index].certificates = certificates;
+    await db.write();
+    return db.data.employees[index];
+  }
+  return undefined;
+}
+
+export async function deleteCertificate(
+  id: string,
+  certificateId: string
+): Promise<Employee | undefined> {
+  await ensureDbLoaded();
+  const index = db.data.employees.findIndex((emp) => emp.id === id);
+  if (index > -1) {
+    db.data.employees[index].certificates = db.data.employees[
+      index
+    ].certificates.filter((cert) => cert.id !== certificateId);
+    await db.write();
+    return db.data.employees[index];
+  }
+  return undefined;
+}
+
+export async function addCertificate(
+  id: string,
+  certificate: Employee["certificates"][number]
+): Promise<Employee | undefined> {
+  await ensureDbLoaded();
+  const index = db.data.employees.findIndex((emp) => emp.id === id);
+  if (index > -1) {
+    db.data.employees[index].certificates.push(certificate);
+    await db.write();
+    return db.data.employees[index];
+  }
+  return undefined;
+}
+
 export async function deleteEmployee(id: string): Promise<boolean> {
   await ensureDbLoaded();
   const initialLength = db.data.employees.length;

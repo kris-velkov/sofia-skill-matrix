@@ -12,6 +12,13 @@ export interface SkillCategory {
   averageLevel: number;
 }
 
+export interface Certificate {
+  name: string;
+  issuer?: string;
+  date?: string;
+  url?: string;
+}
+
 export interface Employee {
   id: string;
   name: string;
@@ -31,9 +38,8 @@ export interface Employee {
   slackProfileImage?: string;
   slackUrl?: string;
   linkedinUrl?: string;
+  certificates?: Certificate[];
 }
-
-
 
 export interface FilterState {
   selectedEmployees: string[];

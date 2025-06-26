@@ -15,9 +15,18 @@ function formDataToEmployee(
   formData: FormData,
   existingEmployee?: Employee
 ): Employee {
-  const skills: SkillCategory[] = [];
-  if (existingEmployee) {
-    skills.push(...existingEmployee.skills);
+  let skills: SkillCategory[] = [];
+  // Try to parse skills from formData if present (for future extensibility)
+  const skillsJson = formData.get("skills");
+  if (skillsJson && typeof skillsJson === "string") {
+    try {
+      skills = JSON.parse(skillsJson);
+    } catch {
+      // fallback to existingEmployee
+      if (existingEmployee) skills = existingEmployee.skills;
+    }
+  } else if (existingEmployee) {
+    skills = existingEmployee.skills;
   }
 
   return {
@@ -38,7 +47,7 @@ function formDataToEmployee(
     careerExperience: formData.get("careerExperience") as string,
     department: formData.get("department") as string,
     badge: formData.get("badge") as string,
-    skills: skills,
+    skills,
   };
 }
 
@@ -63,7 +72,7 @@ export async function updateEmployeeAction(
   const existingEmployee = await getEmployeeById(id);
 
   if (!existingEmployee) {
-    return { message: "Employee not found." };
+    return { success: false, message: "Employee not found." };
   }
 
   try {
@@ -71,13 +80,13 @@ export async function updateEmployeeAction(
     await updateEmployee(updatedEmployeeData);
   } catch (error) {
     console.error("Failed to update employee:", error);
-    return { message: "Failed to update employee." };
+    return { success: false, message: "Failed to update employee." };
   }
 
   revalidatePath(`/employees/${id}/edit`);
   revalidatePath(`/employees/${id}`);
   revalidatePath("/employees");
-  return { message: "Employee updated successfully!" };
+  return { success: true, message: "Employee updated successfully!" };
 }
 
 // Server Action to update employee skills
@@ -112,14 +121,19 @@ export async function updateEmployeeSkillsAction(
 // Server Action to delete an employee
 export async function deleteEmployeeAction(id: string) {
   try {
-    await deleteEmployee(id);
+    const result = await deleteEmployee(id);
+    if (!result) {
+      return {
+        success: false,
+        message: "Employee not found or could not be deleted.",
+      };
+    }
+    revalidatePath("/employees");
+    return { success: true, message: "Employee deleted successfully!" };
   } catch (error) {
     console.error("Failed to delete employee:", error);
-    return { message: "Failed to delete employee." };
+    return { success: false, message: "Failed to delete employee." };
   }
-
-  revalidatePath("/employees");
-  redirect("/employees");
 }
 
 // Server Action to update the current user's profile (assuming first employee is user)
@@ -143,4 +157,62 @@ export async function updateProfile(prevState: unknown, formData: FormData) {
   revalidatePath("/profile");
   revalidatePath("/");
   return { message: "Profile updated successfully!" };
+}
+
+export async function updateEmployeeCertificates(
+  employeeId: string,
+  certificates: { name: string; url: string }[]
+) {
+  const existingEmployee = await getEmployeeById(employeeId);
+
+  if (!existingEmployee) {
+    return { success: false, message: "Employee not found." };
+  }
+
+  try {
+    const updatedEmployee = {
+      ...existingEmployee,
+      certificates: certificates.map((cert) => ({
+        name: cert.name,
+        url: cert.url,
+      })),
+    };
+    await updateEmployee(updatedEmployee);
+    revalidatePath(`/employees/${employeeId}/edit`);
+    revalidatePath(`/employees/${employeeId}`);
+    revalidatePath("/employees");
+    return { success: true, message: "Certificates updated successfully!" };
+  } catch (error) {
+    console.error("Failed to update employee certificates:", error);
+    return { success: false, message: "Failed to update certificates." };
+  }
+}
+
+export async function deleteEmployeeCertificate(
+  employeeId: string,
+  certificateName: string
+) {
+  const existingEmployee = await getEmployeeById(employeeId);
+
+  if (!existingEmployee) {
+    return { success: false, message: "Employee not found." };
+  }
+
+  try {
+    const updatedCertificates = existingEmployee?.certificates.filter(
+      (cert) => cert.name !== certificateName
+    );
+    const updatedEmployee = {
+      ...existingEmployee,
+      certificates: updatedCertificates,
+    };
+    await updateEmployee(updatedEmployee);
+    revalidatePath(`/employees/${employeeId}/edit`);
+    revalidatePath(`/employees/${employeeId}`);
+    revalidatePath("/employees");
+    return { success: true, message: "Certificate deleted successfully!" };
+  } catch (error) {
+    console.error("Failed to delete employee certificate:", error);
+    return { success: false, message: "Failed to delete certificate." };
+  }
 }
