@@ -46,13 +46,13 @@ export function EmployeeSkillCard({ employee }: EmployeeSkillCardProps) {
             <span className="font-medium">{employee.careerExperience}</span>
           </div>
 
-          <div className="mb-1">
+          <div className="mb-1  h-20 max-h-20 overflow-hidden">
             <EmployeeTopSkills skills={topSkills} />
           </div>
         </CardContent>
       </Link>
       {employee.slackUrl && (
-        <div className="mt-2">
+        <div className="mt-2 h-15 max-h-15">
           <EmployeeSlackLink
             slackUrl={employee.slackUrl}
             name={employee.name}

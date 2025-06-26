@@ -7,14 +7,14 @@ interface EmployeeSlackLinkProps {
 }
 export function EmployeeSlackLink({ slackUrl, name }: EmployeeSlackLinkProps) {
   return (
-    <div className="mt-5 pt-5 border-t border-gray-200 dark:border-gray-700 flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+    <div className="mt-5 pt-5 border-t border-gray-200 flex items-center justify-center cursor-pointer  transition-colors">
       <button
         type="button"
         onClick={(e) => {
           e.stopPropagation();
           window.open(slackUrl, "_blank", "noopener,noreferrer");
         }}
-        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium focus:outline-none"
+        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700  text-sm font-medium focus:outline-none cursor-pointer"
         aria-label={`Connect with ${name} on Slack`}
       >
         <div className="relative h-5 w-5">
