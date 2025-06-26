@@ -96,7 +96,7 @@ export function DashboardClient({ employees }: DashboardClientProps) {
         onClearFilters={clearFilters}
       />
 
-      <div className="text-lg font-semibold mt-4 text-gray-800 dark:text-gray-100">
+      <div className="text-lg font-semibold mt-4 text-gray-800">
         Employees ({filteredEmployees.length})
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
@@ -104,7 +104,7 @@ export function DashboardClient({ employees }: DashboardClientProps) {
           <EmployeeSkillCard key={employee.id} employee={employee} />
         ))}
         {filteredEmployees.length === 0 && (
-          <p className="text-gray-500 dark:text-gray-400 col-span-full text-center py-8">
+          <p className="text-gray-500 col-span-full text-center py-8">
             No employees match the current filters.
           </p>
         )}

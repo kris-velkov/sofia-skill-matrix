@@ -20,12 +20,9 @@ export default function StatisticsPage({
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
 
   const handleDonutSegmentClick = (skillName: string, level: number) => {
-    setSelectedSkill(
-      skillName === selectedSkill && level === selectedLevel ? null : skillName
-    );
-    setSelectedLevel(
-      skillName === selectedSkill && level === selectedLevel ? null : level
-    );
+    const isSelected = skillName === selectedSkill && level === selectedLevel;
+    setSelectedSkill(isSelected ? null : skillName);
+    setSelectedLevel(isSelected ? null : level);
   };
 
   const clearDonutChartFilter = () => {
@@ -40,16 +37,14 @@ export default function StatisticsPage({
 
   return (
     <PageLayout breadcrumbs={breadcrumbItems}>
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-        Skills Statistics
-      </h2>
-      <p className="text-gray-600 dark:text-gray-400">
+      <h2 className="text-2xl font-bold text-gray-800">Skills Statistics</h2>
+      <p className="text-gray-600">
         Overview of frontend skill distribution across the team.
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Donut Chart Card */}
-        <div className="lg:col-span-2 shadow-md rounded-xl flex flex-col">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+        <section className="lg:col-span-2 shadow-md rounded-xl flex flex-col bg-white">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
             Frontend Skill Distribution
           </h3>
           <DonutChartClient
@@ -60,14 +55,14 @@ export default function StatisticsPage({
             selectedLevel={selectedLevel}
             onClearFilter={clearDonutChartFilter}
           />
-        </div>
+        </section>
         {/* Competency Legend Card */}
-        <div className="shadow-md rounded-xl">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+        <section className="shadow-md rounded-xl bg-white">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
             Competency Levels
           </h3>
           <CompetencyLegend />
-        </div>
+        </section>
       </div>
       {/* Skills Table */}
       <SkillsTableClient
@@ -80,6 +75,8 @@ export default function StatisticsPage({
   );
 }
 
+// Remove getServerSideProps if using app directory (Next.js 13+)
+// Otherwise, keep as is for pages directory
 export async function getServerSideProps() {
   const employees = await getEmployees();
   const competencyLevels = getCompetencyLevels();

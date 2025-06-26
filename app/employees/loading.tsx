@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function EmployeesLoading() {
   // Simulate a skeleton table with 5 rows
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <div className="flex-1 p-4 md:p-6">
         <div className="max-w-7xl mx-auto grid gap-6">
           <div className="flex items-center justify-between">

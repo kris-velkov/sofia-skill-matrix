@@ -9,7 +9,7 @@ export function EmployeeTopSkills({ skills }: EmployeeTopSkillsProps) {
   if (skills.length === 0) return null;
   return (
     <div className="mb-4">
-      <h4 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
+      <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
         Top Skills
       </h4>
       <div className="flex flex-wrap gap-2">

@@ -95,7 +95,7 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
         />
       </div>
 
-      <div className="rounded-md border bg-white dark:bg-gray-800">
+      <div className="rounded-md border bg-white">
         <Table>
           <TableHeader>
             <TableRow>
@@ -111,7 +111,7 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={5}
-                  className="h-24 text-center text-gray-500 dark:text-gray-400"
+                  className="h-24 text-center text-gray-500"
                 >
                   No employees found.
                 </TableCell>
@@ -126,10 +126,10 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                         alt={employee.name + " profile picture"}
                       />
                       <div>
-                        <div className="font-semibold text-gray-900 dark:text-gray-50">
+                        <div className="font-semibold text-gray-900">
                           {employee.name}
                         </div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                        <div className="text-sm text-gray-600">
                           {employee.department}
                         </div>
                       </div>
@@ -144,7 +144,7 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                         variant="ghost"
                         size="icon"
                         asChild
-                        className="h-8 w-8 rounded-full text-gray-500 hover:text-blue-600 dark:hover:text-blue-400"
+                        className="h-8 w-8 rounded-full text-gray-500 hover:text-blue-600"
                       >
                         <Link
                           href={`/employees/${employee.id}/edit`}
@@ -158,7 +158,7 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                         size="icon"
                         onClick={() => confirmDelete(employee)}
                         aria-label={`Delete ${employee.name}`}
-                        className="h-8 w-8 rounded-full text-red-500 hover:bg-red-50 dark:hover:bg-red-900"
+                        className="h-8 w-8 rounded-full text-red-500 hover:bg-red-50"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

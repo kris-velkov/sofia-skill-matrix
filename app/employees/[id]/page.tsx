@@ -41,8 +41,8 @@ export default async function EmployeeProfilePage({
       <div className="w-full max-w-4xl space-y-8 mt-8">
         <Breadcrumbs items={breadcrumbItems} />
         {/* Header Card */}
-        <Card className="p-8 flex flex-col md:flex-row items-center md:items-start gap-8 shadow-xl border-0 bg-gradient-to-tr from-blue-100/60 to-white dark:from-blue-950/60 dark:to-gray-950">
-          <Avatar className="h-28 w-28 md:h-36 md:w-36 border-4 border-blue-400 dark:border-blue-500 shadow-lg">
+        <Card className="p-8 flex flex-col md:flex-row items-center md:items-start gap-8 shadow-xl border-0 bg-gradient-to-tr from-blue-100/60 to-white">
+          <Avatar className="h-28 w-28 md:h-36 md:w-36 border-4 border-blue-400 shadow-lg">
             <AvatarImage
               src={
                 employee.slackProfileImage ||
@@ -50,21 +50,21 @@ export default async function EmployeeProfilePage({
               }
               alt={`${employee.name} profile`}
             />
-            <AvatarFallback className="bg-blue-200 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-5xl">
+            <AvatarFallback className="bg-blue-200 text-blue-700 text-5xl">
               {employee.name.charAt(0)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 text-center md:text-left space-y-2">
-            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-gray-50 tracking-tight">
+            <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
               {employee.name}
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+            <p className="text-lg text-gray-600">
               {employee.department}
               {employee.cityState && ` • ${employee.cityState}`}
               {employee.country && `, ${employee.country}`}
             </p>
             {employee.badge && (
-              <Badge className="mt-2 px-4 py-1 text-base bg-blue-200 text-blue-800 dark:bg-blue-900 dark:text-blue-200 font-semibold shadow">
+              <Badge className="mt-2 px-4 py-1 text-base bg-blue-200 text-blue-800 font-semibold shadow">
                 {employee.badge}
               </Badge>
             )}
@@ -75,7 +75,7 @@ export default async function EmployeeProfilePage({
                 href={employee.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800 dark:hover:text-blue-200 shadow"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 shadow"
                 aria-label="LinkedIn Profile"
               >
                 <Linkedin className="h-6 w-6" />
@@ -86,7 +86,7 @@ export default async function EmployeeProfilePage({
                 href={employee.slackUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800 dark:hover:text-blue-200 shadow"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700 transition-colors hover:bg-blue-200 hover:text-blue-900 shadow"
                 aria-label="Slack Profile"
               >
                 <Slack className="h-6 w-6" />
@@ -95,24 +95,24 @@ export default async function EmployeeProfilePage({
           </div>
         </Card>
         {/* Personal Information Card */}
-        <Card className="p-8 shadow-lg border-0 bg-white/90 dark:bg-gray-950/90">
+        <Card className="p-8 shadow-lg border-0 bg-white/90">
           <CardHeader className="flex flex-row items-center justify-between p-0 mb-6">
-            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-50">
+            <CardTitle className="text-2xl font-bold text-gray-900">
               Personal Information
             </CardTitle>
             <Link href={`/employees/${employee.id}/edit`}>
               <Button
                 variant="outline"
-                className="flex items-center gap-2 border-blue-200 dark:border-blue-800"
+                className="flex items-center gap-2 border-blue-200"
               >
                 <Pencil className="h-4 w-4" />
                 Edit
               </Button>
             </Link>
           </CardHeader>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 text-gray-700 dark:text-gray-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 text-gray-700">
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-medium text-gray-500">
                 First Name
               </p>
               <p className="text-lg font-semibold">
@@ -120,7 +120,7 @@ export default async function EmployeeProfilePage({
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-medium text-gray-500">
                 Last Name
               </p>
               <p className="text-lg font-semibold">
@@ -128,44 +128,44 @@ export default async function EmployeeProfilePage({
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-medium text-gray-500">
                 Email address
               </p>
               <p className="text-lg font-semibold flex items-center gap-2">
-                <Mail className="h-4 w-4 text-blue-400 dark:text-blue-300" />
+                <Mail className="h-4 w-4 text-blue-400" />
                 {employee.email || "N/A"}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-medium text-gray-500">
                 Phone
               </p>
               <p className="text-lg font-semibold flex items-center gap-2">
-                <Phone className="h-4 w-4 text-blue-400 dark:text-blue-300" />
+                <Phone className="h-4 w-4 text-blue-400" />
                 {employee.phone || "N/A"}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-medium text-gray-500">
                 Department
               </p>
               <p className="text-lg font-semibold flex items-center gap-2">
-                <Briefcase className="h-4 w-4 text-blue-400 dark:text-blue-300" />
+                <Briefcase className="h-4 w-4 text-blue-400" />
                 {employee.department || "N/A"}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-medium text-gray-500">
                 Career Experience
               </p>
               <p className="text-lg font-semibold flex items-center gap-2">
-                <Award className="h-4 w-4 text-blue-400 dark:text-blue-300" />
+                <Award className="h-4 w-4 text-blue-400" />
                 {employee.careerExperience || "N/A"}
               </p>
             </div>
             {employee.bio && (
               <div className="col-span-1 md:col-span-2">
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <p className="text-sm font-medium text-gray-500">
                   Bio
                 </p>
                 <p className="text-lg font-semibold">{employee.bio}</p>
@@ -175,11 +175,11 @@ export default async function EmployeeProfilePage({
               employee.cityState ||
               employee.postalCode) && (
               <div className="col-span-1 md:col-span-2">
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <p className="text-sm font-medium text-gray-500">
                   Location
                 </p>
                 <p className="text-lg font-semibold flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-blue-400 dark:text-blue-300" />
+                  <MapPin className="h-4 w-4 text-blue-400" />
                   {[employee.cityState, employee.country, employee.postalCode]
                     .filter(Boolean)
                     .join(", ") || "N/A"}
@@ -188,10 +188,10 @@ export default async function EmployeeProfilePage({
             )}
           </div>
         </Card>
-        <Card className="p-6 shadow-lg border border-blue-100 dark:border-blue-900 bg-white dark:bg-gray-950">
+        <Card className="p-6 shadow-lg border border-blue-100 bg-white">
           <CardHeader className="p-0 mb-4 flex flex-row items-center justify-between">
-            <CardTitle className="text-xl font-semibold text-gray-900 dark:text-gray-50 flex items-center gap-2">
-              <Award className="h-5 w-5 text-blue-500 dark:text-blue-400" />
+            <CardTitle className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+              <Award className="h-5 w-5 text-blue-500" />
               Skills
             </CardTitle>
           </CardHeader>
@@ -200,8 +200,8 @@ export default async function EmployeeProfilePage({
               {employee.skills.map((category, idx) => (
                 <div key={category.name}>
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="inline-block h-2 w-2 rounded-full bg-blue-400 dark:bg-blue-600" />
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                    <span className="inline-block h-2 w-2 rounded-full bg-blue-400" />
+                    <h3 className="text-lg font-semibold text-gray-800">
                       {category.name}
                     </h3>
                   </div>
@@ -210,11 +210,11 @@ export default async function EmployeeProfilePage({
                       <Badge
                         key={skill.name}
                         className={cn(
-                          "px-3 py-1.5 text-sm font-medium flex items-center gap-2 rounded-full bg-blue-50 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border border-blue-200 dark:border-blue-800 shadow-sm"
+                          "px-3 py-1.5 text-sm font-medium flex items-center gap-2 rounded-full bg-blue-50 text-blue-800 border border-blue-200 shadow-sm"
                         )}
                       >
                         <span className="font-semibold">{skill.name}</span>
-                        <span className="text-xs text-blue-500 dark:text-blue-300 bg-blue-100 dark:bg-blue-800 rounded px-2 py-0.5 ml-1">
+                        <span className="text-xs text-blue-500 bg-blue-100 rounded px-2 py-0.5 ml-1">
                           {skill.level}
                         </span>
                       </Badge>
@@ -227,7 +227,7 @@ export default async function EmployeeProfilePage({
               ))}
             </div>
           ) : (
-            <p className="text-gray-600 dark:text-gray-400 italic">
+            <p className="text-gray-600 italic">
               No skills listed for this employee.
             </p>
           )}

@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <Header />
-        <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="flex flex-col min-h-screen bg-gray-50">
           <main className="flex-1 p-4 md:p-6 mt-10"> {children}</main>
         </div>
         <Toaster />

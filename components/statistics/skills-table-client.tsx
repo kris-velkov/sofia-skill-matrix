@@ -40,46 +40,48 @@ export function SkillsTableClient({
   return (
     <Card className="shadow-md rounded-xl">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+        <CardTitle className="text-lg font-semibold text-gray-800">
           Detailed Skill Breakdown
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Skill</TableHead>
-              <TableHead>Level</TableHead>
-              <TableHead>Count</TableHead>
-              <TableHead>Percentage</TableHead>
-              <TableHead>Description</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredTableData.length === 0 ? (
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
               <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center text-gray-500 dark:text-gray-400">
-                  No data available for the selected filter.
-                </TableCell>
+                <TableHead>Skill</TableHead>
+                <TableHead>Level</TableHead>
+                <TableHead>Count</TableHead>
+                <TableHead>Percentage</TableHead>
+                <TableHead>Description</TableHead>
               </TableRow>
-            ) : (
-              filteredTableData.map((stat, index) => {
-                const competency = competencyLevels.find((c) => c.grade === stat.level)
-                return (
-                  <TableRow key={`${stat.skillName}-${stat.level}-${index}`}>
-                    <TableCell className="font-medium">{stat.skillName}</TableCell>
-                    <TableCell>
-                      <Badge className={stat.color}>{stat.level}</Badge>
-                    </TableCell>
-                    <TableCell>{stat.count}</TableCell>
-                    <TableCell>{stat.percentage.toFixed(1)}%</TableCell>
-                    <TableCell>{competency?.description || "N/A"}</TableCell>
-                  </TableRow>
-                )
-              })
-            )}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredTableData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="h-24 text-center text-gray-500">
+                    No data available for the selected filter.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredTableData.map((stat, index) => {
+                  const competency = competencyLevels.find((c) => c.grade === stat.level)
+                  return (
+                    <TableRow key={`${stat.skillName}-${stat.level}-${index}`}>
+                      <TableCell className="font-medium">{stat.skillName}</TableCell>
+                      <TableCell>
+                        <Badge className={stat.color}>{stat.level}</Badge>
+                      </TableCell>
+                      <TableCell>{stat.count}</TableCell>
+                      <TableCell>{stat.percentage.toFixed(1)}%</TableCell>
+                      <TableCell>{competency?.description || "N/A"}</TableCell>
+                    </TableRow>
+                  )
+                })
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
     </Card>
   )

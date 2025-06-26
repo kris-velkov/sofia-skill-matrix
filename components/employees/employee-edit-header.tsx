@@ -29,10 +29,10 @@ export function EmployeeEditHeader({
             className="h-20 w-20 rounded-full object-cover border-2 border-blue-500 shadow-sm"
           />
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="text-2xl font-semibold text-gray-900">
               {employee.name}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">
+            <p className="text-gray-600 text-sm">
               {employee.department} &bull; {employee.cityState || "N/A"},{" "}
               {employee.country || "N/A"}
             </p>
@@ -62,7 +62,7 @@ export function EmployeeEditHeader({
             <Button
               variant="destructive"
               onClick={onDelete}
-              className="bg-red-600 hover:bg-red-700 text-white dark:bg-red-500 dark:hover:bg-red-600"
+              className="bg-red-600 hover:bg-red-700 text-white"
             >
               <Trash2 className="mr-2 h-4 w-4" />
               Delete Employee

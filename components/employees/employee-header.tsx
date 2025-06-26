@@ -23,10 +23,10 @@ export function EmployeeHeader({
       <div className="flex items-center gap-3">
         <EmployeeAvatar src={profileImage} alt={`${name} profile`} />
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
+          <h3 className="text-lg font-semibold text-gray-900">
             {name}
           </h3>
-          <div className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="text-sm text-gray-600">
             {department}
             {badge && (
               <>
@@ -34,7 +34,7 @@ export function EmployeeHeader({
                 &bull;{" "}
                 <Badge
                   variant="secondary"
-                  className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200"
+                  className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700"
                 >
                   {badge}
                 </Badge>
@@ -49,7 +49,7 @@ export function EmployeeHeader({
         aria-label={`Edit ${name}`}
         variant="ghost"
         size="icon"
-        className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400"
+        className="text-gray-500 hover:text-blue-600"
       >
         <Pencil className="h-4 w-4" />
       </Button>

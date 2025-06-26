@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LoadingEmployeeProfile() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-950 p-4 md:p-6 lg:p-8">
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4 md:p-6 lg:p-8">
       <div className="w-full max-w-4xl space-y-6 mt-6">
         <Skeleton className="h-10 w-1/3 mb-4" />
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">

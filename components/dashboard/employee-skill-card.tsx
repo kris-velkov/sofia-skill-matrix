@@ -21,7 +21,7 @@ export function EmployeeSkillCard({ employee }: EmployeeSkillCardProps) {
   const router = useRouter();
 
   return (
-    <section className="w-full max-w-lg bg-white shadow-2xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-3xl hover:-translate-y-1 border border-gray-200 dark:border-gray-800 cursor-pointer block group">
+    <section className="w-full max-w-lg bg-white shadow-2xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-3xl hover:-translate-y-1 border border-gray-200 cursor-pointer block group">
       <Link
         href={`/employees/${employee.id}`}
         aria-label={`View details for ${employee.name}`}
@@ -41,8 +41,8 @@ export function EmployeeSkillCard({ employee }: EmployeeSkillCardProps) {
             }}
           />
 
-          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-1">
-            <LucideClock className="h-4 w-4 mr-2 text-indigo-500 dark:text-indigo-400" />
+          <div className="flex items-center text-sm text-gray-500 mb-1">
+            <LucideClock className="h-4 w-4 mr-2 text-indigo-500" />
             <span className="font-medium">{employee.careerExperience}</span>
           </div>
 

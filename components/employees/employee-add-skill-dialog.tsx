@@ -43,7 +43,7 @@ export function EmployeeAddSkillDialog({
 }: EmployeeAddSkillDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-white dark:bg-gray-900">
+      <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
           <DialogTitle>Add New Skill to {currentCategory}</DialogTitle>
         </DialogHeader>
