@@ -1,16 +1,23 @@
-"use client"
+"use client";
 
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useState, useMemo } from "react"
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useState, useMemo } from "react";
 
 interface SkillsTableClientProps {
-  frontendStats: any[]
-  competencyLevels: any[]
+  frontendStats: any[];
+  competencyLevels: any[];
   // Add props for selectedSkill and selectedLevel if you want to control filtering from parent
-  selectedSkill?: string | null
-  selectedLevel?: number | null
+  selectedSkill?: string | null;
+  selectedLevel?: number | null;
 }
 
 export function SkillsTableClient({
@@ -20,22 +27,31 @@ export function SkillsTableClient({
   selectedLevel: propSelectedLevel,
 }: SkillsTableClientProps) {
   // Use internal state if not controlled by props, or sync with props
-  const [internalSelectedSkill, setInternalSelectedSkill] = useState<string | null>(propSelectedSkill || null)
-  const [internalSelectedLevel, setInternalSelectedLevel] = useState<number | null>(propSelectedLevel || null)
+  const [internalSelectedSkill, setInternalSelectedSkill] = useState<
+    string | null
+  >(propSelectedSkill || null);
+  const [internalSelectedLevel, setInternalSelectedLevel] = useState<
+    number | null
+  >(propSelectedLevel || null);
 
   // Sync internal state with props if they change
   useMemo(() => {
-    setInternalSelectedSkill(propSelectedSkill || null)
-    setInternalSelectedLevel(propSelectedLevel || null)
-  }, [propSelectedSkill, propSelectedLevel])
+    setInternalSelectedSkill(propSelectedSkill || null);
+    setInternalSelectedLevel(propSelectedLevel || null);
+  }, [propSelectedSkill, propSelectedLevel]);
 
   const filteredTableData = useMemo(() => {
     return frontendStats.filter((stat) => {
-      const skillMatch = internalSelectedSkill ? stat.skillName === internalSelectedSkill : true
-      const levelMatch = internalSelectedLevel !== null ? stat.level === internalSelectedLevel : true
-      return skillMatch && levelMatch
-    })
-  }, [frontendStats, internalSelectedSkill, internalSelectedLevel])
+      const skillMatch = internalSelectedSkill
+        ? stat.skillName === internalSelectedSkill
+        : true;
+      const levelMatch =
+        internalSelectedLevel !== null
+          ? stat.level === internalSelectedLevel
+          : true;
+      return skillMatch && levelMatch;
+    });
+  }, [frontendStats, internalSelectedSkill, internalSelectedLevel]);
 
   return (
     <Card className="shadow-md rounded-xl">
@@ -59,16 +75,23 @@ export function SkillsTableClient({
             <TableBody>
               {filteredTableData.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="h-24 text-center text-gray-500">
+                  <TableCell
+                    colSpan={5}
+                    className="h-24 text-center text-gray-500"
+                  >
                     No data available for the selected filter.
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredTableData.map((stat, index) => {
-                  const competency = competencyLevels.find((c) => c.grade === stat.level)
+                  const competency = competencyLevels.find(
+                    (c) => c.grade === stat.level
+                  );
                   return (
                     <TableRow key={`${stat.skillName}-${stat.level}-${index}`}>
-                      <TableCell className="font-medium">{stat.skillName}</TableCell>
+                      <TableCell className="font-medium">
+                        {stat.skillName}
+                      </TableCell>
                       <TableCell>
                         <Badge className={stat.color}>{stat.level}</Badge>
                       </TableCell>
@@ -76,7 +99,7 @@ export function SkillsTableClient({
                       <TableCell>{stat.percentage.toFixed(1)}%</TableCell>
                       <TableCell>{competency?.description || "N/A"}</TableCell>
                     </TableRow>
-                  )
+                  );
                 })
               )}
             </TableBody>
@@ -84,5 +107,5 @@ export function SkillsTableClient({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

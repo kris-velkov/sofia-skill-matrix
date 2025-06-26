@@ -3,69 +3,78 @@
 import { useState, useEffect, useCallback } from "react";
 
 const AUTH_KEY = "skills_matrix_authenticated";
-const ADMIN_KEY = "skills_matrix_is_admin"; // New key for admin status
+const ADMIN_KEY = "skills_matrix_is_admin";
 const DUMMY_PASSWORD = "password123";
 const ADMIN_PASSWORD = "admin123";
 
-export function useAuth() {
+interface UseAuthResult {
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+  isLoading: boolean;
+  login: (password: string, rememberMe?: boolean) => boolean;
+  logout: () => void;
+}
+
+function safeGetItem(key: string): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(key);
+}
+
+function safeSetItem(key: string, value: string) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(key, value);
+}
+
+function safeRemoveItem(key: string) {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(key);
+}
+
+export function useAuth(): UseAuthResult {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedAuth = localStorage.getItem(AUTH_KEY);
-    const storedAdmin = localStorage.getItem(ADMIN_KEY); // Read admin status
+    const storedAuth = safeGetItem(AUTH_KEY);
+    const storedAdmin = safeGetItem(ADMIN_KEY);
 
-    if (storedAuth === "true") {
-      setIsAuthenticated(true);
-    } else {
-    }
-
-    if (storedAdmin === "true") {
-      setIsAdmin(true);
-    } else {
-    }
-
+    setIsAuthenticated(storedAuth === "true");
+    setIsAdmin(storedAdmin === "true");
     setIsLoading(false);
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
-  const login = useCallback((password: string, rememberMe = true) => {
-    // Add rememberMe parameter
-    let success = false;
-    let newIsAdmin = false;
+  const login = useCallback((password: string, rememberMe = true): boolean => {
+    let isAdminUser = false;
 
     if (password === DUMMY_PASSWORD) {
-      success = true;
-      newIsAdmin = false;
-      console.log("useAuth login: Regular password matched.");
+      isAdminUser = false;
     } else if (password === ADMIN_PASSWORD) {
-      success = true;
-      newIsAdmin = true;
+      isAdminUser = true;
     } else {
       return false;
     }
 
-    if (success) {
-      setIsAuthenticated(true);
-      setIsAdmin(newIsAdmin);
+    setIsAuthenticated(true);
+    setIsAdmin(isAdminUser);
 
-      if (rememberMe) {
-        localStorage.setItem(AUTH_KEY, "true");
-        localStorage.setItem(ADMIN_KEY, newIsAdmin ? "true" : "false");
-      } else {
-        localStorage.removeItem(AUTH_KEY);
-        localStorage.removeItem(ADMIN_KEY);
-      }
+    if (rememberMe) {
+      safeSetItem(AUTH_KEY, "true");
+      safeSetItem(ADMIN_KEY, isAdminUser ? "true" : "false");
+    } else {
+      safeRemoveItem(AUTH_KEY);
+      safeRemoveItem(ADMIN_KEY);
     }
-    return success;
+
+    return true;
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem(AUTH_KEY);
-    localStorage.removeItem(ADMIN_KEY); // Clear admin status on logout
+    safeRemoveItem(AUTH_KEY);
+    safeRemoveItem(ADMIN_KEY);
     setIsAuthenticated(false);
     setIsAdmin(false);
-  }, []); // No dependencies
+  }, []);
 
   return { isAuthenticated, isAdmin, isLoading, login, logout };
 }

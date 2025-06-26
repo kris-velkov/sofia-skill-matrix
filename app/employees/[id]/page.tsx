@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getEmployeeById } from "@/lib/db"; // Import server-side data fetching
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -50,9 +50,6 @@ export default async function EmployeeProfilePage({
               }
               alt={`${employee.name} profile`}
             />
-            <AvatarFallback className="bg-blue-200 text-blue-700 text-5xl">
-              {employee.name.charAt(0)}
-            </AvatarFallback>
           </Avatar>
           <div className="flex-1 text-center md:text-left space-y-2">
             <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
@@ -112,43 +109,33 @@ export default async function EmployeeProfilePage({
           </CardHeader>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 text-gray-700">
             <div>
-              <p className="text-sm font-medium text-gray-500">
-                First Name
-              </p>
+              <p className="text-sm font-medium text-gray-500">First Name</p>
               <p className="text-lg font-semibold">
                 {employee.firstName || "N/A"}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">
-                Last Name
-              </p>
+              <p className="text-sm font-medium text-gray-500">Last Name</p>
               <p className="text-lg font-semibold">
                 {employee.lastName || "N/A"}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">
-                Email address
-              </p>
+              <p className="text-sm font-medium text-gray-500">Email address</p>
               <p className="text-lg font-semibold flex items-center gap-2">
                 <Mail className="h-4 w-4 text-blue-400" />
                 {employee.email || "N/A"}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">
-                Phone
-              </p>
+              <p className="text-sm font-medium text-gray-500">Phone</p>
               <p className="text-lg font-semibold flex items-center gap-2">
                 <Phone className="h-4 w-4 text-blue-400" />
                 {employee.phone || "N/A"}
               </p>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">
-                Department
-              </p>
+              <p className="text-sm font-medium text-gray-500">Department</p>
               <p className="text-lg font-semibold flex items-center gap-2">
                 <Briefcase className="h-4 w-4 text-blue-400" />
                 {employee.department || "N/A"}
@@ -165,9 +152,7 @@ export default async function EmployeeProfilePage({
             </div>
             {employee.bio && (
               <div className="col-span-1 md:col-span-2">
-                <p className="text-sm font-medium text-gray-500">
-                  Bio
-                </p>
+                <p className="text-sm font-medium text-gray-500">Bio</p>
                 <p className="text-lg font-semibold">{employee.bio}</p>
               </div>
             )}
@@ -175,9 +160,7 @@ export default async function EmployeeProfilePage({
               employee.cityState ||
               employee.postalCode) && (
               <div className="col-span-1 md:col-span-2">
-                <p className="text-sm font-medium text-gray-500">
-                  Location
-                </p>
+                <p className="text-sm font-medium text-gray-500">Location</p>
                 <p className="text-lg font-semibold flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-blue-400" />
                   {[employee.cityState, employee.country, employee.postalCode]

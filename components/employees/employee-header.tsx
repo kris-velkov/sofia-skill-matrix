@@ -23,9 +23,7 @@ export function EmployeeHeader({
       <div className="flex items-center gap-3">
         <EmployeeAvatar src={profileImage} alt={`${name} profile`} />
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">
-            {name}
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
           <div className="text-sm text-gray-600">
             {department}
             {badge && (

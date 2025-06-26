@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import {
   Table,
@@ -22,25 +22,26 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import type { Employee } from "@/lib/types";
-import { deleteEmployeeAction } from "@/app/actions"; // Import Server Action
+import { deleteEmployeeAction } from "@/app/actions";
 import { EmployeeAvatar } from "./employee-avatar";
+import { useRouter } from "next/navigation";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];
 }
 
 export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
-  const [employees, setEmployees] = useState<Employee[]>(initialEmployees); // Manage local state for immediate UI updates
+  const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState<Employee | null>(
     null
   );
   const [searchTerm, setSearchTerm] = useState("");
+  const [adding, setAdding] = useState(false);
+  const router = useRouter();
 
-  // Update local state if initialEmployees prop changes (e.g., after a server action revalidates)
   useMemo(() => {
     setEmployees(initialEmployees);
   }, [initialEmployees]);
@@ -52,13 +53,10 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
 
   const handleDeleteConfirmed = async () => {
     if (employeeToDelete) {
-      const result = await deleteEmployeeAction(employeeToDelete.id); // Call Server Action
+      const result = await deleteEmployeeAction(employeeToDelete.id);
       if (result?.message) {
         toast.error(result.message);
       } else {
-        // Optimistically update UI or re-fetch if needed (Server Action revalidates path)
-        // For this demo, the revalidatePath in the action will cause a full page refresh,
-        // so local state update here is less critical but good practice for responsiveness.
         setEmployees((prev) =>
           prev.filter((emp) => emp.id !== employeeToDelete.id)
         );
@@ -82,21 +80,24 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
     );
   }, [employees, searchTerm]);
 
+  const handleAddEmployee = () => {
+    setAdding(true);
+    router.push("/employees/add");
+  };
+
   return (
     <>
-      {/* Search Input */}
-      <div className="mb-4">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
         <Input
           type="text"
           placeholder="Search employees by name, department, or badge..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-md"
+          className="max-w-md w-full md:w-auto border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm w-full md:w-auto min-w-[450px] mb-4 md:mb-0 bg-white text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-offset-2 focus:ring-offset-white"
         />
       </div>
-
-      <div className="rounded-md border bg-white">
-        <Table>
+      <div className="overflow-x-auto rounded-2xl shadow border border-gray-200 bg-white">
+        <Table className="min-w-[700px]">
           <TableHeader>
             <TableRow>
               <TableHead className="w-[200px]">Employee</TableHead>
@@ -118,7 +119,10 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
               </TableRow>
             ) : (
               filteredEmployees.map((employee) => (
-                <TableRow key={employee.id}>
+                <TableRow
+                  key={employee.id}
+                  className="hover:bg-blue-50 transition-colors"
+                >
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-3">
                       <EmployeeAvatar
@@ -137,7 +141,7 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                   </TableCell>
                   <TableCell>{employee.department}</TableCell>
                   <TableCell>{employee.careerExperience}</TableCell>
-                  <TableCell>{employee.badge || "N/A"}</TableCell>
+                  <TableCell>{employee.badge ?? "N/A"}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button
@@ -170,7 +174,6 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
           </TableBody>
         </Table>
       </div>
-
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>

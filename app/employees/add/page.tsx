@@ -1,63 +1,61 @@
-"use client"
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { DashboardHeader } from "@/components/dashboard/header"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Breadcrumbs } from "@/components/breadcrumbs"
-import { addEmployee } from "@/app/actions"
-import { useActionState } from "react"
-import toast from "react-hot-toast"
-import { ChevronLeft } from "lucide-react"
-import Link from "next/link"
-import { useAuth } from "@/hooks/use-auth"
+"use client";
+import { useRouter } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { createEmployee } from "@/app/actions";
+import { useActionState, useEffect } from "react";
+import toast from "react-hot-toast";
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function AddEmployeePage() {
-  const router = useRouter()
-  const { isAuthenticated, isAdmin, isLoading } = useAuth()
-  const [state, formAction, isPending] = useActionState(addEmployee, null)
+  const router = useRouter();
+  const { isAuthenticated, isAdmin, isLoading } = useAuth();
+  const [state, formAction, isPending] = useActionState(createEmployee, null);
 
   useEffect(() => {
     if (!isLoading && (!isAuthenticated || !isAdmin)) {
-      toast.error("You do not have permission to add employees.")
-      router.push("/employees")
+      toast.error("You do not have permission to add employees.");
+      router.push("/employees");
     }
-  }, [isLoading, isAuthenticated, isAdmin, router])
+  }, [isLoading, isAuthenticated, isAdmin, router]);
 
   useEffect(() => {
     if (state?.success) {
-      toast.success(state.message)
-      router.push("/employees")
+      toast.success(state.message);
+      router.push("/employees");
     } else if (state?.message) {
-      toast.error(state.message)
+      toast.error(state.message);
     }
-  }, [state, router])
+  }, [state, router]);
 
   if (isLoading || !isAuthenticated || !isAdmin) {
     return (
       <div className="flex flex-col min-h-screen bg-gray-50">
-        <DashboardHeader />
         <main className="flex-1 p-4 md:p-6 flex items-center justify-center">
           <p className="text-gray-500">
-            {isLoading ? "Loading..." : "Redirecting, insufficient permissions..."}
+            {isLoading
+              ? "Loading..."
+              : "Redirecting, insufficient permissions..."}
           </p>
         </main>
       </div>
-    )
+    );
   }
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Employees", href: "/employees" },
     { label: "Add New Employee" },
-  ]
+  ];
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <DashboardHeader />
       <main className="flex-1 p-4 md:p-6">
         <div className="max-w-4xl mx-auto grid gap-6">
           <div className="flex items-center gap-4">
@@ -71,11 +69,14 @@ export default function AddEmployeePage() {
                 <ChevronLeft className="h-6 w-6" />
               </Link>
             </Button>
-            <h2 className="text-2xl font-bold text-gray-800">Add New Employee</h2>
+            <h2 className="text-2xl font-bold text-gray-800">
+              Add New Employee
+            </h2>
           </div>
           <Breadcrumbs items={breadcrumbItems} />
           <p className="text-gray-600">
-            Fill in the details below to add a new employee to the skills matrix.
+            Fill in the details below to add a new employee to the skills
+            matrix.
           </p>
 
           <form action={formAction}>
@@ -99,7 +100,10 @@ export default function AddEmployeePage() {
                   <Input id="department" name="department" required />
                 </div>
                 <div className="grid gap-1">
-                  <Label htmlFor="careerExperience" className="text-gray-500 text-sm">
+                  <Label
+                    htmlFor="careerExperience"
+                    className="text-gray-500 text-sm"
+                  >
                     Career Experience
                   </Label>
                   <Input id="careerExperience" name="careerExperience" />
@@ -117,7 +121,10 @@ export default function AddEmployeePage() {
                   <Textarea id="bio" name="bio" rows={3} />
                 </div>
                 <div className="grid gap-1 col-span-full">
-                  <Label htmlFor="slackProfileImage" className="text-gray-500 text-sm">
+                  <Label
+                    htmlFor="slackProfileImage"
+                    className="text-gray-500 text-sm"
+                  >
                     Slack Profile Image URL
                   </Label>
                   <Input
@@ -138,5 +145,5 @@ export default function AddEmployeePage() {
         </div>
       </main>
     </div>
-  )
+  );
 }

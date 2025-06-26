@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Header } from "@/components/dashboard/header";
-import { Filters } from "@/components/dashboard/filters";
+import { Filters } from "@/components/dashboard/filters/filters";
 import { EmployeeSkillCard } from "@/components/dashboard/employee-skill-card";
 import { useSkillsStore } from "@/store/use-skills-store";
 

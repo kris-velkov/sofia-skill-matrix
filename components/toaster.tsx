@@ -1,8 +1,7 @@
-// components/toaster.tsx
-"use client"
+"use client";
 
-import { Toaster as ReactHotToaster } from "react-hot-toast"
+import { Toaster as ReactHotToaster } from "react-hot-toast";
 
 export function Toaster() {
-  return <ReactHotToaster position="top-right" />
+  return <ReactHotToaster position="top-right" />;
 }
