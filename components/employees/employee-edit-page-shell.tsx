@@ -274,11 +274,17 @@ export function EmployeeEditPageShell() {
   if (error) return <ErrorBlock error={error} />;
   if (!employee) return <NotFoundBlock message="Employee not found." />;
 
-  // Breadcrumbs for navigation
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Employees", href: "/employees" },
-    { label: employee.name },
+    {
+      label: employee.firstName + " " + employee.lastName,
+      href: `/employees/${employee.id}`,
+    },
+    {
+      label: "Edit",
+      href: `/employees/${employee.id}/edit`,
+    },
   ];
 
   return (

@@ -1,6 +1,11 @@
 const nextConfig = {
   images: {
-    domains: ["ca.slack-edge.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ca.slack-edge.com",
+      },
+    ],
   },
 };
 

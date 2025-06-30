@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { getEmployeeById } from "@/lib/db";
 import {} from "@/components/employees/card/employee-skill-card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { EmployeeCertificates } from "@/components/employees/employee-certificates";
 import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-info";
 import EmployeePersonalInfo from "@/components/employees/profile/employee-personal-info";
 import EmployeeSkillsInfo from "@/components/employees/profile/employee-skills-info";
@@ -34,6 +33,7 @@ export default async function EmployeeProfilePage({
             firstName: employee.firstName,
             lastName: employee.lastName,
             department: employee.department,
+            email: employee.email,
             cityState: employee.cityState,
             country: employee.country,
             badge: employee.badge,
