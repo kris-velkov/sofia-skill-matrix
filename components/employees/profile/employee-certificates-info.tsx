@@ -64,9 +64,12 @@ export const EmployeeCertificatesInfo: React.FC<
         ))}
       </div>
     ) : (
-      <p className="text-green-700 italic text-center py-12 text-lg">
-        No certificates listed for this employee.
-      </p>
+      <div className="py-3 flex justify-center">
+        <p className="text-green-700 text-center flex flex-row items-center">
+          <GraduationCap className="h-8 w-8 mr-2" />
+          <span>No certificates listed for this employee.</span>
+        </p>
+      </div>
     )}
   </Card>
 );
