@@ -45,6 +45,7 @@ export default async function EmployeeProfilePage({
         />
         <EmployeePersonalInfo
           employee={{
+            id: employee.id,
             firstName: employee.firstName,
             lastName: employee.lastName,
             email: employee.email,

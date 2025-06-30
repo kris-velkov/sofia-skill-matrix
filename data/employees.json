@@ -394,16 +394,25 @@
       ],
       "certificates": [
         {
+          "id": "cert-001",
           "name": "Certified Scrum Master",
           "issuer": "Scrum Alliance",
           "date": "2022-01-15",
           "url": "https://www.scrumalliance.org/certifications/certified-scrum-master"
         },
         {
-          "name": "Project Management Professional (PMP)",
-          "issuer": "Project Management Institute",
-          "date": "2021-06-20",
-          "url": "https://www.pmi.org/certifications/project-management-pmp"
+          "id": "daac870f-e382-4d1c-8748-54ba354c27b7",
+          "issuer": "AWS",
+          "name": "Amazon WEB",
+          "url": "www.google.com",
+          "date": "2025-06-30"
+        },
+        {
+          "id": "995de5a3-1809-478f-aea6-3bed21b2695c",
+          "name": "test",
+          "url": "",
+          "date": "",
+          "issuer": ""
         }
       ]
     },
@@ -799,7 +808,15 @@
           ]
         }
       ],
-      "certificates": []
+      "certificates": [
+        {
+          "id": "d23ebd55-5137-4401-a2e5-b48ed1f3a928",
+          "issuer": "AES",
+          "name": "AES 22",
+          "url": "",
+          "date": "2025-06-13"
+        }
+      ]
     },
     {
       "id": "radostina-mangarudova",

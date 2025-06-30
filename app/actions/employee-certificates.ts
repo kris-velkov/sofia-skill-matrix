@@ -17,14 +17,14 @@ export async function addEmployeeCertificate(
 
 export async function deleteEmployeeCertificate(
   employeeId: string,
-  certificateName: string
+  certificateId: string
 ) {
-  return await deleteEmployeeCertificateInDb(employeeId, certificateName);
+  return await deleteEmployeeCertificateInDb(employeeId, certificateId);
 }
 
-export async function updateEmployeeEmployeeCertificates(
+export async function updateEmployeeCertificate(
   employeeId: string,
-  certificates: Certificate[]
+  certificate: Certificate[]
 ) {
-  return await updateEmployeeCertificatesInDb(employeeId, certificates);
+  return await updateEmployeeCertificatesInDb(employeeId, certificate);
 }

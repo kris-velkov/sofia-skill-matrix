@@ -27,13 +27,17 @@ export default async function EditEmployeeProfilePage({
     },
     { label: "Edit" },
   ];
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-4 md:p-8">
       <div className="w-full max-w-4xl space-y-8 mt-8">
         <Breadcrumbs items={breadcrumbItems} />
         <EmployeeEditHeaderInfo employee={employee} />
         <EmployeeEditPersonalInfo employee={employee} />
-        <EmployeeEditCertificates certificates={employee.certificates} />
+        <EmployeeEditCertificates
+          employeeId={employee.id}
+          certificates={employee?.certificates ?? []}
+        />
         {/* <EmployeeSkillsInfo skills={employee.skills} /> */}
       </div>
     </main>

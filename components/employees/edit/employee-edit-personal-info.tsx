@@ -6,7 +6,7 @@ import { useActionState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { updateEmployeePersonalInfo } from "@/app/actions/update-employee-personal-info";
+import { updateEmployeePersonalInfo } from "@/app/actions/employee-personal-info";
 import { toast } from "react-hot-toast";
 import { Employee } from "@/lib/types";
 
