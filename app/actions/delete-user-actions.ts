@@ -1,3 +1,5 @@
+"use server";
+
 import { deleteEmployee } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 

@@ -24,7 +24,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { Breadcrumbs } from "@/components/breadcrumbs";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 
 export function EmployeeEditPageShell() {
   const params = useParams();
@@ -57,13 +57,6 @@ export function EmployeeEditPageShell() {
   const [currentCategoryForNewSkill, setCurrentCategoryForNewSkill] = useState<
     string | null
   >(null);
-
-  const [confirmDialog, setConfirmDialog] = useState<{
-    open: boolean;
-    title: string;
-    description?: string;
-    onConfirm: (() => void) | undefined;
-  }>({ open: false, title: "", description: undefined, onConfirm: undefined });
 
   useEffect(() => {
     if (!authLoading && (!isAuthenticated || !isAdmin)) {

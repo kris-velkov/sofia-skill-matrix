@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { getEmployeeById } from "@/lib/db";
 import {} from "@/components/employees/card/employee-skill-card";
-import { Breadcrumbs } from "@/components/breadcrumbs";
-import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-info";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import EmployeePersonalInfo from "@/components/employees/profile/employee-personal-info";
 import EmployeeSkillsInfo from "@/components/employees/profile/employee-skills-info";
 import EmployeeCertificatesInfo from "@/components/employees/profile/employee-certificates-info";
+import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-info";
 
 export default async function EmployeeProfilePage({
   params,
@@ -34,7 +34,8 @@ export default async function EmployeeProfilePage({
             lastName: employee.lastName,
             department: employee.department,
             email: employee.email,
-            cityState: employee.cityState,
+            city: employee.city,
+            bio: employee.bio,
             country: employee.country,
             badge: employee.badge,
             slackProfileImage: employee.slackProfileImage,
@@ -49,7 +50,8 @@ export default async function EmployeeProfilePage({
             email: employee.email,
             phone: employee.phone,
             department: employee.department,
-            cityState: employee.cityState,
+            city: employee.city,
+            bio: employee.bio,
             country: employee.country,
             careerExperience: employee.careerExperience,
           }}

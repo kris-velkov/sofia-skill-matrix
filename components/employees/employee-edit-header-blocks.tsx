@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Breadcrumbs } from "@/components/breadcrumbs";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import type { Employee } from "@/lib/types";

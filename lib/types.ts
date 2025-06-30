@@ -13,6 +13,7 @@ export interface SkillCategory {
 }
 
 export interface Certificate {
+  id: string;
   name: string;
   issuer?: string;
   date?: string;
@@ -31,9 +32,7 @@ export interface Employee {
   phone?: string;
   bio?: string;
   country?: string;
-  cityState?: string;
-  postalCode?: string;
-  taxId?: string;
+  city?: string;
   slackProfileImage?: string;
   slackUrl?: string;
   linkedinUrl?: string;

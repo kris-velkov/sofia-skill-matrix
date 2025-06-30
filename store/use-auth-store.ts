@@ -11,16 +11,16 @@ interface AuthState {
   logout: () => void;
   setHydrated: (hydrated: boolean) => void;
 }
-
-export const useAuthStore = create<AuthState>()(
+export const useAuthStore = create<AuthState & { isAdmin: () => boolean }>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       isLoggedIn: false,
       role: null,
       hydrated: false,
       login: (role) => set({ isLoggedIn: true, role }),
       logout: () => set({ isLoggedIn: false, role: null }),
       setHydrated: (hydrated) => set({ hydrated }),
+      isAdmin: () => get().isLoggedIn && get().role === "admin",
     }),
     {
       name: "auth-store",
