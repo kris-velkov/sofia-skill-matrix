@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Filters } from "@/components/dashboard/filters/filters";
-import { EmployeeSkillCard } from "@/components/dashboard/employee-skill-card";
+import { EmployeeSkillCard } from "@/components/employees/card/employee-skill-card";
 import { useSkillsStore } from "@/store/use-skills-store";
 import type { Employee } from "@/lib/types";
 import { Ghost } from "lucide-react";

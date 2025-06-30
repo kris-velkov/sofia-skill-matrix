@@ -1,11 +1,13 @@
 import React from "react";
 import type { Skill } from "@/lib/types";
-import { SkillLevelBadge } from "./employee-skill-level-badge";
+import { SkillLevelBadge } from "../employee-skill-level-badge";
 
-interface EmployeeTopSkillsProps {
+interface EmployeeCardTopSkillsProps {
   skills: Skill[];
 }
-export function EmployeeTopSkills({ skills }: EmployeeTopSkillsProps) {
+export function EmployeeCardTopSkills({
+  skills,
+}: Readonly<EmployeeCardTopSkillsProps>) {
   if (skills.length === 0) return null;
   return (
     <div className="mb-4">

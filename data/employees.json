@@ -2,7 +2,7 @@
   "employees": [
     {
       "id": "kristian-raychev",
-      "name": "Kristiyan Raychev",
+      "name": null,
       "firstName": "Kristian",
       "lastName": "Raychev",
       "email": "kristian.r@example.com",
@@ -397,8 +397,16 @@
       ],
       "certificates": [
         {
-          "name": "AWS Certified Solutions2 Architect",
-          "url": "https://aws.amazon.com/certification/certified-solutions-architect-associate/"
+          "name": "Certified Scrum Master",
+          "issuer": "Scrum Alliance",
+          "date": "2022-01-15",
+          "url": "https://www.scrumalliance.org/certifications/certified-scrum-master"
+        },
+        {
+          "name": "Project Management Professional (PMP)",
+          "issuer": "Project Management Institute",
+          "date": "2021-06-20",
+          "url": "https://www.pmi.org/certifications/project-management-pmp"
         }
       ]
     },
@@ -1195,26 +1203,6 @@
         }
       ],
       "certificates": []
-    },
-    {
-      "id": "05e67f45-0cf2-46ba-82db-245271ac737b",
-      "name": "test",
-      "firstName": null,
-      "lastName": null,
-      "email": null,
-      "phone": null,
-      "bio": "",
-      "country": null,
-      "cityState": null,
-      "postalCode": null,
-      "taxId": null,
-      "slackProfileImage": "",
-      "slackUrl": null,
-      "linkedinUrl": null,
-      "careerExperience": "",
-      "department": "test",
-      "badge": "",
-      "skills": []
     }
   ]
 }

@@ -21,13 +21,12 @@ export interface Certificate {
 
 export interface Employee {
   id: string;
-  name: string;
   careerExperience: string;
   department: string;
   skills: SkillCategory[];
   badge?: string;
-  firstName?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
   email?: string;
   phone?: string;
   bio?: string;

@@ -1,11 +1,14 @@
 import React from "react";
 import Image from "next/image";
 
-interface EmployeeSlackLinkProps {
+interface EmployeeCardSlackLinkProps {
   slackUrl: string;
   name: string;
 }
-export function EmployeeSlackLink({ slackUrl, name }: EmployeeSlackLinkProps) {
+export function EmployeeCardSlackLink({
+  slackUrl,
+  name,
+}: Readonly<EmployeeCardSlackLinkProps>) {
   return (
     <div className="mt-5 pt-5 border-t border-gray-200 flex items-center justify-center cursor-pointer  transition-colors">
       <button

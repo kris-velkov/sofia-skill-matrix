@@ -293,13 +293,13 @@ export function EmployeeEditPageShell() {
                 employee.slackProfileImage ||
                 "/placeholder.svg?height=128&width=128&query=user+avatar"
               }
-              alt={`${employee.name} profile`}
+              alt={`${employee.firstName} profile`}
               className="object-cover w-full h-full"
             />
           </div>
           <div className="flex-1 text-center md:text-left space-y-2">
             <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-              {employee.name}
+              {employee.firstName} {employee.lastName}
             </h1>
             <p className="text-lg text-gray-600">
               {employee.department}

@@ -49,7 +49,9 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
         setEmployees((prev) =>
           prev.filter((emp) => emp.id !== employeeToDelete.id)
         );
-        toast.success(`${employeeToDelete.name} ${result.message}`);
+        toast.success(
+          `${employeeToDelete.firstName} ${employeeToDelete.lastName} ${result.message}`
+        );
       }
       setEmployeeToDelete(null);
       setIsDeleteDialogOpen(false);
@@ -60,10 +62,11 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
     if (!searchTerm) {
       return employees;
     }
+
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return employees.filter(
       (employee) =>
-        employee.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+        employee?.firstName.toLowerCase().includes(lowerCaseSearchTerm) ||
         employee.department.toLowerCase().includes(lowerCaseSearchTerm) ||
         employee.badge?.toLowerCase().includes(lowerCaseSearchTerm)
     );
@@ -121,11 +124,11 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                     <div className="flex items-center gap-2 md:gap-3">
                       <EmployeeAvatar
                         src={employee.slackProfileImage}
-                        alt={employee.name + " profile picture"}
+                        alt={employee.firstName + " profile picture"}
                       />
                       <div>
                         <div className="text-gray-900 text-base leading-tight">
-                          {employee.name}
+                          {employee.firstName + " " + employee.lastName}
                         </div>
                       </div>
                     </div>
