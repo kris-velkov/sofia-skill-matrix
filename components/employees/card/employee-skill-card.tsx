@@ -23,7 +23,7 @@ export function EmployeeSkillCard({
   return (
     <section className="w-full max-w-lg bg-white shadow-2xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-3xl hover:-translate-y-1 border border-gray-200 cursor-pointer block group">
       <Link
-        href={`/employees/${employee.id}`}
+        href={`/employee/${employee.id}`}
         aria-label={`View details for ${employee.firstName} ${employee.lastName}`}
         prefetch={false}
         tabIndex={0}

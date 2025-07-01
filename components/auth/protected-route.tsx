@@ -27,6 +27,7 @@ export default function ProtectedRoute({
   if (!hydrated) {
     return <LoadingSpinner />;
   }
+
   if (!isLoggedIn && pathname !== "/login") {
     return null;
   }

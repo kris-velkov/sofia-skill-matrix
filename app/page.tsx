@@ -1,6 +1,6 @@
-import { DashboardClient } from "@/components/dashboard/dashboard-client";
 import type { Employee } from "@/lib/types";
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import ProtectedRoute from "@/components/auth/protected-route";
+import { Dashboard } from "@/components/dashboard/dashboard";
 
 async function fetchEmployees(): Promise<Employee[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employees`);
@@ -17,7 +17,7 @@ export default async function HomePage() {
         <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-5">
           Skills Matrix Dashboard
         </h1>
-        <DashboardClient employees={employees} />
+        <Dashboard employees={employees} />
       </div>
     </ProtectedRoute>
   );
