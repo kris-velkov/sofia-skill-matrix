@@ -47,7 +47,10 @@ export function Filters({
           onSelect={handleEmployeeSelect}
           placeholder="Select Employees"
           searchPlaceholder="Search employees..."
-          getLabel={(id) => employees.find((e) => e.id === id)?.name ?? id}
+          getLabel={(id) => {
+            const emp = employees.find((e) => e.id === id);
+            return emp ? `${emp.firstName} ${emp.lastName}` : id;
+          }}
         />
         <SelectFilter
           label="Department"

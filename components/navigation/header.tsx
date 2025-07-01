@@ -9,13 +9,14 @@ import { useAuthStore } from "@/store/use-auth-store";
 
 export function Header() {
   const logout = useAuthStore((s) => s.logout);
+  const isAdmin = useAuthStore((s) => s.role === "admin");
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between p-4 border-b border-gray-200 bg-white shadow-sm">
       <Logo />
       {useAuthStore((s) => s.isLoggedIn) && (
         <nav className="flex items-center gap-2">
-          <Navigation />
+          <Navigation isAdmin={isAdmin} />
           <CompetencyLegendTrigger />
           <Button
             variant="ghost"

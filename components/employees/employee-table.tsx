@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import {
   Table,
@@ -23,7 +23,9 @@ interface EmployeeTableProps {
   initialEmployees: Employee[];
 }
 
-export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
+export function EmployeeTable({
+  initialEmployees,
+}: Readonly<EmployeeTableProps>) {
   const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState<Employee | null>(
@@ -84,22 +86,22 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
         />
       </div>
       <div className="w-full overflow-x-auto rounded-xl shadow border border-gray-200 bg-white">
-        <Table className="min-w-[600px] md:min-w-[900px] w-full text-sm md:text-base">
+        <Table className="min-w-[400px] md:min-w-[900px] w-full text-sm md:text-base">
           <TableHeader className="sticky top-0 z-10 bg-white">
             <TableRow>
-              <TableHead className="w-[160px] md:w-[200px] py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 border-r border-gray-100">
+              <TableHead className="w-[120px] md:w-[200px] py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
                 Employee
               </TableHead>
-              <TableHead className="py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 border-r border-gray-100">
+              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
                 Department
               </TableHead>
-              <TableHead className="py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 border-r border-gray-100">
+              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
                 Experience
               </TableHead>
-              <TableHead className="py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 border-r border-gray-100">
+              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
                 Badge
               </TableHead>
-              <TableHead className="py-3 md:py-4 px-3 md:px-6 text-base font-semibold text-gray-900 text-right">
+              <TableHead className="py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 text-right">
                 Actions
               </TableHead>
             </TableRow>
@@ -120,39 +122,52 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                   key={employee.id}
                   className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                 >
-                  <TableCell className="w-[300] font-medium py-5 md:py-5 px-5 md:px-5 border-r border-gray-100">
+                  <TableCell className="w-[120px] md:w-[300px] font-medium py-4 md:py-5 px-2 md:px-5 border-r border-gray-100 align-top">
                     <div className="flex items-center gap-2 md:gap-3">
                       <EmployeeAvatar
                         src={employee.slackProfileImage}
                         alt={employee.firstName + " profile picture"}
                       />
                       <div>
-                        <div className="text-gray-900 text-base leading-tight">
+                        <div className="text-gray-900 text-sm md:text-base leading-tight break-words max-w-[100px] md:max-w-none">
                           {employee.firstName + " " + employee.lastName}
                         </div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="py-3 md:py-4 px-3 md:px-6 border-r border-gray-100 text-gray-800">
+                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
                     {employee.department}
                   </TableCell>
-                  <TableCell className="py-3 md:py-4 px-3 md:px-6 border-r border-gray-100 text-gray-800">
+                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
                     {employee.careerExperience}
                   </TableCell>
-                  <TableCell className="py-3 md:py-4 px-3 md:px-6 border-r border-gray-100 text-gray-800">
+                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
                     {employee.badge ?? "N/A"}
                   </TableCell>
-                  <TableCell className="text-right py-3 md:py-4 px-3 md:px-6">
-                    <div className="flex justify-end gap-2">
+                  <TableCell className="text-right py-3 md:py-4 px-2 md:px-6 align-top">
+                    <div className="flex justify-end gap-1 md:gap-2 flex-wrap">
                       <Button
                         variant="ghost"
                         size="icon"
                         asChild
-                        className="h-9 w-9 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:ring-2 focus:ring-gray-300 focus:outline-none"
+                        className="h-8 w-8 md:h-9 md:w-9 rounded-full text-green-500 hover:bg-green-100 hover:text-green-700 focus:ring-2 focus:ring-green-300 focus:outline-none"
+                      >
+                        <Link
+                          href={`/employees/${employee.id}`}
+                          aria-label={`View ${employee.firstName} ${employee.lastName}`}
+                        >
+                          <Eye className="h-5 w-5" />
+                        </Link>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        asChild
+                        className="h-8 w-8 md:h-9 md:w-9 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:ring-2 focus:ring-gray-300 focus:outline-none"
                       >
                         <Link
                           href={`/employees/${employee.id}/edit`}
-                          aria-label={`Edit ${employee.name}`}
+                          aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
                         >
                           <Pencil className="h-5 w-5" />
                         </Link>
@@ -161,8 +176,8 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
                         variant="ghost"
                         size="icon"
                         onClick={() => confirmDelete(employee)}
-                        aria-label={`Delete ${employee.name}`}
-                        className="h-9 w-9 rounded-full text-red-500 hover:bg-red-100 hover:text-red-700 focus:ring-2 focus:ring-red-200 focus:outline-none"
+                        aria-label={`Delete ${employee.firstName} ${employee.lastName}`}
+                        className="h-8 w-8 md:h-9 md:w-9 rounded-full text-red-500 hover:bg-red-100 hover:text-red-700 focus:ring-2 focus:ring-red-200 focus:outline-none"
                       >
                         <Trash2 className="h-5 w-5" />
                       </Button>
@@ -177,7 +192,7 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
       <ConfirmDialog
         open={isDeleteDialogOpen}
         title="Confirm Deletion"
-        description={`Are you sure you want to delete ${employeeToDelete?.name}? This action cannot be undone.`}
+        description={`Are you sure you want to delete ${employeeToDelete?.firstName} ${employeeToDelete?.lastName}? This action cannot be undone.`}
         confirmText="Delete"
         cancelText="Cancel"
         onConfirm={handleDeleteConfirmed}

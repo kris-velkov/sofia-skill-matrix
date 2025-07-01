@@ -15,22 +15,27 @@ const NAV_LINKS = [
   },
 ];
 
-export function Navigation() {
+type NavigationProps = {
+  isAdmin: boolean;
+};
+
+export function Navigation({ isAdmin }: NavigationProps) {
   return (
     <nav className="flex items-center gap-2">
-      {NAV_LINKS.map(({ href, label, icon }) => (
-        <Button
-          key={href}
-          variant="ghost"
-          asChild
-          className="text-gray-700 hover:bg-gray-100"
-        >
-          <Link href={href} className="flex items-center">
-            {icon}
-            {label}
-          </Link>
-        </Button>
-      ))}
+      {isAdmin &&
+        NAV_LINKS.map(({ href, label, icon }) => (
+          <Button
+            key={href}
+            variant="ghost"
+            asChild
+            className="text-gray-700 hover:bg-gray-100"
+          >
+            <Link href={href} className="flex items-center">
+              {icon}
+              {label}
+            </Link>
+          </Button>
+        ))}
     </nav>
   );
 }
