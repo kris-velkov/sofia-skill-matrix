@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import EmployeeEditHeaderInfo from "@/components/employees/edit/employee-edit-header-info";
 import EmployeeEditPersonalInfo from "@/components/employees/edit/employee-edit-personal-info";
 import EmployeeEditCertificates from "@/components/employees/edit/employee-edit-certificates";
+import EmployeeEditSkills from "@/components/employees/edit/employee-edit-skills-section";
 
 export default async function EditEmployeeProfilePage({
   params,
@@ -38,7 +39,7 @@ export default async function EditEmployeeProfilePage({
           employeeId={employee.id}
           certificates={employee?.certificates ?? []}
         />
-        {/* <EmployeeSkillsInfo skills={employee.skills} /> */}
+        <EmployeeEditSkills skills={employee.skills} />
       </div>
     </main>
   );

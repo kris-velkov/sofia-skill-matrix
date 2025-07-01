@@ -1,3 +1,4 @@
+import { Employee } from "@/lib/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -7,19 +8,34 @@ interface AuthState {
   isLoggedIn: boolean;
   role: UserRole;
   hydrated: boolean;
-  login: (role: UserRole) => void;
+  user: Employee | null;
+}
+
+interface AuthActions {
+  login: (role: UserRole, user?: Employee) => void;
   logout: () => void;
   setHydrated: (hydrated: boolean) => void;
+  updateRole: (role: UserRole) => void;
 }
-export const useAuthStore = create<AuthState & { isAdmin: () => boolean }>()(
+
+interface AuthSelectors {
+  isAdmin: () => boolean;
+}
+
+type AuthStore = AuthState & AuthActions & AuthSelectors;
+
+export const useAuthStore = create<AuthStore>()(
   persist(
     (set, get) => ({
       isLoggedIn: false,
       role: null,
+      user: null,
       hydrated: false,
-      login: (role) => set({ isLoggedIn: true, role }),
-      logout: () => set({ isLoggedIn: false, role: null }),
+      login: (role, user?: Employee) =>
+        set({ isLoggedIn: true, role, user: user ?? null }),
+      logout: () => set({ isLoggedIn: false, role: null, user: null }),
       setHydrated: (hydrated) => set({ hydrated }),
+      updateRole: (role) => set({ role }),
       isAdmin: () => get().isLoggedIn && get().role === "admin",
     }),
     {

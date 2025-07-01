@@ -1,11 +1,13 @@
+"use client";
+
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Award } from "lucide-react";
+import { Award, Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SkillCategory, SkillLevel } from "@/lib/types";
 
-interface EmployeeEditSkillsSectionProps {
+interface EmployeeEditSkillsProps {
   skills: SkillCategory[];
   maxLevel?: number;
   onSave: (skills: SkillCategory[]) => void;
@@ -40,9 +42,11 @@ const levelColors = [
   },
 ];
 
-export const EmployeeEditSkillsSection: React.FC<
-  EmployeeEditSkillsSectionProps
-> = ({ skills: initialSkills, maxLevel = 4, onSave, isSaving }) => {
+export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
+  skills: initialSkills,
+  maxLevel = 4,
+  isSaving,
+}) => {
   const [skills, setSkills] = useState<SkillCategory[]>(initialSkills);
   const [saving, setSaving] = useState(false);
 
@@ -65,8 +69,37 @@ export const EmployeeEditSkillsSection: React.FC<
 
   const handleSave = async () => {
     setSaving(true);
-    await onSave(skills);
     setSaving(false);
+  };
+
+  const handleAddCategory = () => {
+    setSkills((prev) => [...prev, { name: "New Category", skills: [] }]);
+  };
+
+  const handleDeleteCategory = (catIdx: number) => {
+    setSkills((prev) => prev.filter((_, idx) => idx !== catIdx));
+  };
+
+  const handleAddSkill = (catIdx: number) => {
+    setSkills((prev) => {
+      const updated = [...prev];
+      updated[catIdx] = {
+        ...updated[catIdx],
+        skills: [...updated[catIdx].skills, { name: "New Skill", level: 0 }],
+      };
+      return updated;
+    });
+  };
+
+  const handleDeleteSkill = (catIdx: number, skillIdx: number) => {
+    setSkills((prev) => {
+      const updated = [...prev];
+      updated[catIdx] = {
+        ...updated[catIdx],
+        skills: updated[catIdx].skills.filter((_, i) => i !== skillIdx),
+      };
+      return updated;
+    });
   };
 
   const categoriesWithSkills = skills.filter(
@@ -100,6 +133,22 @@ export const EmployeeEditSkillsSection: React.FC<
                   {category.skills.length} skill
                   {category.skills.length > 1 ? "s" : ""}
                 </span>
+                <button
+                  type="button"
+                  className="ml-2 p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  onClick={() => handleDeleteCategory(catIdx)}
+                  title="Delete Category"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+                <button
+                  type="button"
+                  className="ml-2 p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  onClick={() => handleAddSkill(catIdx)}
+                  title="Add Skill"
+                >
+                  <Plus className="w-5 h-5" />
+                </button>
               </div>
               <div className="space-y-6">
                 {category.skills.map((skill, skillIdx) => {
@@ -159,6 +208,14 @@ export const EmployeeEditSkillsSection: React.FC<
                           {skill.level}/{maxLevel}
                         </span>
                       </div>
+                      <button
+                        type="button"
+                        className="ml-2 p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                        onClick={() => handleDeleteSkill(catIdx, skillIdx)}
+                        title="Delete Skill"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
                     </div>
                   );
                 })}
@@ -168,6 +225,15 @@ export const EmployeeEditSkillsSection: React.FC<
               )}
             </div>
           ))}
+          <div className="flex justify-end mt-8">
+            <button
+              type="button"
+              className="px-4 py-2 rounded-lg bg-blue-100 text-blue-700 font-bold shadow hover:bg-blue-200 transition"
+              onClick={handleAddCategory}
+            >
+              <Plus className="w-5 h-5 inline-block mr-2" /> Add Category
+            </button>
+          </div>
         </div>
       ) : (
         <p className="text-blue-600 italic text-center py-12 text-lg">
@@ -178,4 +244,4 @@ export const EmployeeEditSkillsSection: React.FC<
   );
 };
 
-export default EmployeeEditSkillsSection;
+export default EmployeeEditSkills;

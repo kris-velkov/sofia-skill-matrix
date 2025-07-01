@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { updateEmployeePersonalInfo } from "@/app/actions/employee-personal-info";
 import { toast } from "react-hot-toast";
 import { Employee } from "@/lib/types";
+import { useAuthStore } from "@/store/use-auth-store";
 
 interface EmployeePersonalInfoProps {
   employee: Employee;
@@ -58,7 +59,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
       try {
         await updateEmployeePersonalInfo(employee.id, data);
         toast.success("Personal info saved!");
-        setLocalEmployee({ ...employee, ...data }); // update local state
+        setLocalEmployee({ ...employee, ...data });
         setTimeout(() => {
           formRef.current?.reset();
         }, 0);

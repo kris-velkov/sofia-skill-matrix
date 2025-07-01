@@ -102,13 +102,6 @@ export const EmployeeEditCertificates: React.FC<
             <Award className="h-8 w-8 text-blue-500 drop-shadow" />
             <span>Edit Certificates</span>
           </CardTitle>
-          <button
-            type="submit"
-            className="ml-auto px-6 py-2 rounded-lg bg-blue-600 text-white font-bold shadow hover:bg-blue-700 transition disabled:opacity-60"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Saving..." : "Save"}
-          </button>
         </CardHeader>
         <div className="space-y-10">
           <div>
@@ -206,7 +199,7 @@ export const EmployeeEditCertificates: React.FC<
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-blue-800 mb-2">
+            <h3 className="text-lg font-semibold text-green-800 mb-2">
               Add New Certificate
             </h3>
             <div className="px-4 bg-white py-3 rounded-xl border-2 border-gray-200">

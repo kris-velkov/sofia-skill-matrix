@@ -6,7 +6,7 @@
       "lastName": "Raychev",
       "email": "kristian.raychev@jakala.com",
       "phone": "0893540829",
-      "bio": "Senior Team Lead with extensive experience in project management and technical leadership. Great.",
+      "bio": "Senior Team Lead with extensive experience in project management and technical leadership. ",
       "country": "Bulgaria",
       "city": "Sofia",
       "slackProfileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MAE843FG-eccfc0bac7b8-192",
@@ -406,13 +406,6 @@
           "name": "Amazon WEB",
           "url": "www.google.com",
           "date": "2025-06-30"
-        },
-        {
-          "id": "995de5a3-1809-478f-aea6-3bed21b2695c",
-          "name": "test",
-          "url": "",
-          "date": "",
-          "issuer": ""
         }
       ]
     },
@@ -808,15 +801,7 @@
           ]
         }
       ],
-      "certificates": [
-        {
-          "id": "d23ebd55-5137-4401-a2e5-b48ed1f3a928",
-          "issuer": "AES",
-          "name": "AES 22",
-          "url": "",
-          "date": "2025-06-13"
-        }
-      ]
+      "certificates": []
     },
     {
       "id": "radostina-mangarudova",
