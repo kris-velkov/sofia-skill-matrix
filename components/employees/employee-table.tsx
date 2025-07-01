@@ -17,7 +17,7 @@ import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Input } from "@/components/ui/input";
 import type { Employee } from "@/lib/types";
 import { EmployeeAvatar } from "./employee-avatar";
-import { deleteEmployeeAction } from "@/app/actions/delete-user-actions";
+import { deleteEmployeeAction } from "@/app/actions/employee-actions";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];

@@ -43,3 +43,39 @@ export const COMPETENCY_LEVELS: CompetencyLevel[] = [
     color: "bg-blue-500",
   },
 ];
+
+export const LEVEL_COLORS = [
+  {
+    bar: "bg-gray-300",
+    text: "text-gray-500",
+    label: "No Competency",
+  },
+  {
+    bar: "bg-orange-400",
+    text: "text-orange-600",
+    label: "Some knowledge",
+  },
+  {
+    bar: "bg-yellow-400",
+    text: "text-yellow-700",
+    label: "Working knowledge",
+  },
+  {
+    bar: "bg-green-400",
+    text: "text-green-700",
+    label: "Good proficiency",
+  },
+  {
+    bar: "bg-blue-500",
+    text: "text-blue-700",
+    label: "Expert",
+  },
+];
+
+export const CAREER_EXPERIENCE_LEVELS = [
+  "0-1y",
+  "1-3y",
+  "3-5y",
+  "5-10y",
+  "10y+",
+] as const;

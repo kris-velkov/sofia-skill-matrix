@@ -39,7 +39,7 @@ export default async function EditEmployeeProfilePage({
           employeeId={employee.id}
           certificates={employee?.certificates ?? []}
         />
-        <EmployeeEditSkills skills={employee.skills} />
+        <EmployeeEditSkills employeeId={employee.id} skills={employee.skills} />
       </div>
     </main>
   );

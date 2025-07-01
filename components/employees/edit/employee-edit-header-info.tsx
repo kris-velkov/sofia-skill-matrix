@@ -11,7 +11,7 @@ import { useState, useCallback } from "react";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Employee } from "@/lib/types";
-import { deleteEmployeeAction } from "@/app/actions/delete-user-actions";
+import { deleteEmployeeAction } from "@/app/actions/employee-actions";
 
 interface EmployeeEditHeaderInfoProps {
   employee: Employee;

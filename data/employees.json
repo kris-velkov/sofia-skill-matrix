@@ -51,7 +51,8 @@
               "name": "Leadership",
               "level": 3
             }
-          ]
+          ],
+          "averageLevel": 3.4
         },
         {
           "name": "Javascript",
@@ -72,7 +73,8 @@
               "name": "parallel",
               "level": 1
             }
-          ]
+          ],
+          "averageLevel": 1.3
         },
         {
           "name": "Data stores",
@@ -159,7 +161,8 @@
               "name": "Tests",
               "level": 2
             }
-          ]
+          ],
+          "averageLevel": 1.8
         },
         {
           "name": "CI/CD",
@@ -180,7 +183,8 @@
               "name": "Others",
               "level": 2
             }
-          ]
+          ],
+          "averageLevel": 1.3
         },
         {
           "name": "CMD",
@@ -197,7 +201,8 @@
               "name": "awk, sed",
               "level": 2
             }
-          ]
+          ],
+          "averageLevel": 2
         },
         {
           "name": "VCS",
@@ -206,7 +211,8 @@
               "name": "GIT",
               "level": 3
             }
-          ]
+          ],
+          "averageLevel": 3
         },
         {
           "name": "Scripting",
@@ -223,7 +229,8 @@
               "name": "Expect",
               "level": 0
             }
-          ]
+          ],
+          "averageLevel": 0.7
         },
         {
           "name": "Devops",
@@ -244,7 +251,8 @@
               "name": "Azure",
               "level": 0
             }
-          ]
+          ],
+          "averageLevel": 0.5
         },
         {
           "name": "FE frameworks",
@@ -261,7 +269,8 @@
               "name": "Angular",
               "level": 0
             }
-          ]
+          ],
+          "averageLevel": 0
         },
         {
           "name": "Mobile",
@@ -274,7 +283,8 @@
               "name": "Hybrid",
               "level": 0
             }
-          ]
+          ],
+          "averageLevel": 0
         },
         {
           "name": "SEO",
@@ -291,7 +301,8 @@
               "name": "Matomo",
               "level": 1
             }
-          ]
+          ],
+          "averageLevel": 0.3
         },
         {
           "name": "Search",
@@ -304,7 +315,8 @@
               "name": "Elasticsearch",
               "level": 1
             }
-          ]
+          ],
+          "averageLevel": 1
         },
         {
           "name": "Cache",
@@ -321,7 +333,8 @@
               "name": "Memcache",
               "level": 3
             }
-          ]
+          ],
+          "averageLevel": 2
         },
         {
           "name": "Hosting",
@@ -338,7 +351,8 @@
               "name": "Pantheon",
               "level": 1
             }
-          ]
+          ],
+          "averageLevel": 1
         },
         {
           "name": "Virtualization",
@@ -355,7 +369,8 @@
               "name": "Kubernetes",
               "level": 1
             }
-          ]
+          ],
+          "averageLevel": 1
         },
         {
           "name": "Sysadmin",
@@ -372,7 +387,8 @@
               "name": "Security",
               "level": 3
             }
-          ]
+          ],
+          "averageLevel": 1.7
         },
         {
           "name": "Misc languages",
@@ -384,12 +400,27 @@
             {
               "name": "Xpath/XSL",
               "level": 1
+            }
+          ],
+          "averageLevel": 1
+        },
+        {
+          "name": "Next.js Frameworks",
+          "skills": [
+            {
+              "name": "Next.js ",
+              "level": 3
             },
             {
-              "name": "CSS/SASS",
+              "name": "Astro",
+              "level": 2
+            },
+            {
+              "name": "Test",
               "level": 1
             }
-          ]
+          ],
+          "averageLevel": 2
         }
       ],
       "certificates": [

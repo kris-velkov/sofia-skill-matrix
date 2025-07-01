@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SkillCategory } from "@/lib/types";
+import { Badge } from "@/components/ui/badge";
 
 interface EmployeeSkillsInfoProps {
   skills: SkillCategory[];
@@ -62,10 +63,17 @@ export const EmployeeSkillsInfo: React.FC<EmployeeSkillsInfoProps> = ({
                 <h3 className="text-xl font-bold  text-blue-900 tracking-wide">
                   {category.name}
                 </h3>
-                <span className="px-3 py-1 rounded-full bg-blue-100 text-sm font-semibold text-blue-700 shadow-sm">
+                <Badge className="px-3 py-1 rounded-full bg-blue-100 text-sm font-semibold text-blue-700 shadow-sm flex items-center gap-1">
+                  <Award className="w-4 h-4 text-blue-400" />
                   {category.skills.length} skill
                   {category.skills.length > 1 ? "s" : ""}
-                </span>
+                </Badge>
+                {!!category.averageLevel && (
+                  <Badge className="px-3 py-1 rounded-full bg-blue-100 text-sm font-semibold text-green-700 shadow-sm flex items-center gap-1">
+                    <Award className="w-4 h-4 text-green-800" />
+                    Avg: {category.averageLevel}
+                  </Badge>
+                )}
               </div>
               <div className="space-y-6">
                 {category.skills.map((skill) => {

@@ -3,54 +3,36 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Award, Plus, Trash2 } from "lucide-react";
+import { Award, Plus, Trash2, SaveAll, LucideClockFading } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SkillCategory, SkillLevel } from "@/lib/types";
+import {
+  deleteEmployeeSkill,
+  updateEmployeeSkills,
+  updateEmployeeCategoryName,
+} from "@/app/actions/employee-skills-actions";
+import { LEVEL_COLORS } from "@/constants/competency-level";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "react-hot-toast";
 
 interface EmployeeEditSkillsProps {
   skills: SkillCategory[];
+  employeeId: string;
   maxLevel?: number;
-  onSave: (skills: SkillCategory[]) => void;
-  isSaving?: boolean;
 }
-
-const levelColors = [
-  {
-    bar: "bg-gray-300",
-    text: "text-gray-500",
-    label: "No Competency",
-  },
-  {
-    bar: "bg-red-400",
-    text: "text-red-600",
-    label: "Some knowledge",
-  },
-  {
-    bar: "bg-yellow-400",
-    text: "text-yellow-700",
-    label: "Working knowledge",
-  },
-  {
-    bar: "bg-blue-400",
-    text: "text-blue-700",
-    label: "Good proficiency",
-  },
-  {
-    bar: "bg-green-500",
-    text: "text-green-700",
-    label: "Expert",
-  },
-];
 
 export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
   skills: initialSkills,
+  employeeId,
   maxLevel = 4,
-  isSaving,
 }) => {
   const [skills, setSkills] = useState<SkillCategory[]>(initialSkills);
-  const [saving, setSaving] = useState(false);
+  const [savingCategory, setSavingCategory] = useState<{
+    [catIdx: number]: boolean;
+  }>({});
 
-  const handleLevelChange = (
+  const handleLevelChange = async (
     catIdx: number,
     skillIdx: number,
     newLevel: number
@@ -67,31 +49,40 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
     });
   };
 
-  const handleSave = async () => {
-    setSaving(true);
-    setSaving(false);
+  const handleAddCategory = async () => {
+    const newCategory = { name: "New Category", skills: [], averageLevel: 0 };
+    setSkills((prev) => [...prev, newCategory]);
   };
 
-  const handleAddCategory = () => {
-    setSkills((prev) => [...prev, { name: "New Category", skills: [] }]);
-  };
-
-  const handleDeleteCategory = (catIdx: number) => {
+  const handleDeleteCategory = async (catIdx: number) => {
+    const category = skills[catIdx];
     setSkills((prev) => prev.filter((_, idx) => idx !== catIdx));
+    try {
+      await deleteEmployeeSkill(employeeId, {
+        name: category.name,
+        skills: category.skills.map((s) => ({ name: s.name, level: s.level })),
+      });
+      toast.success("Category deleted!");
+    } catch (e) {
+      toast.error("Failed to delete category");
+      console.error(e);
+    }
   };
 
-  const handleAddSkill = (catIdx: number) => {
+  const handleAddSkill = async (catIdx: number) => {
+    const newSkill = { name: "", level: 0 as SkillLevel };
     setSkills((prev) => {
       const updated = [...prev];
       updated[catIdx] = {
         ...updated[catIdx],
-        skills: [...updated[catIdx].skills, { name: "New Skill", level: 0 }],
+        skills: [...updated[catIdx].skills, newSkill],
       };
       return updated;
     });
   };
 
-  const handleDeleteSkill = (catIdx: number, skillIdx: number) => {
+  const handleDeleteSkill = async (catIdx: number, skillIdx: number) => {
+    const category = skills[catIdx];
     setSkills((prev) => {
       const updated = [...prev];
       updated[catIdx] = {
@@ -100,11 +91,69 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
       };
       return updated;
     });
+    try {
+      // Remove the skill from the category and update the backend
+      const updatedSkills = category.skills.filter((_, i) => i !== skillIdx);
+      await updateEmployeeSkills(employeeId, {
+        name: category.name,
+        skills: updatedSkills.map((s) => ({ name: s.name, level: s.level })),
+      });
+      toast.success("Skill deleted!");
+    } catch (e) {
+      toast.error("Failed to delete skill");
+      console.error(e);
+    }
   };
 
-  const categoriesWithSkills = skills.filter(
-    (category) => category.skills && category.skills.length > 0
-  );
+  const handleSkillNameChange = (
+    catIdx: number,
+    skillIdx: number,
+    newName: string
+  ) => {
+    setSkills((prev) => {
+      const updated = [...prev];
+      updated[catIdx] = {
+        ...updated[catIdx],
+        skills: updated[catIdx].skills.map((s, i) =>
+          i === skillIdx ? { ...s, name: newName } : s
+        ),
+      };
+      return updated;
+    });
+  };
+
+  const handleCategoryNameInput = (catIdx: number, newName: string) => {
+    setSkills((prev) => {
+      const updated = [...prev];
+      updated[catIdx] = { ...updated[catIdx], name: newName };
+      return updated;
+    });
+  };
+
+  const handleSaveCategory = async (catIdx: number) => {
+    setSavingCategory((prev) => ({ ...prev, [catIdx]: true }));
+    try {
+      const category = skills[catIdx];
+      const originalName = initialSkills[catIdx]?.name;
+      if (originalName && originalName !== category.name) {
+        await updateEmployeeCategoryName(
+          employeeId,
+          originalName,
+          category.name
+        );
+      }
+      await updateEmployeeSkills(employeeId, {
+        name: category.name,
+        skills: category.skills.map((s) => ({ name: s.name, level: s.level })),
+      });
+      toast.success("Category saved!");
+    } catch (e) {
+      toast.error("Failed to save category");
+      console.error(e);
+    } finally {
+      setSavingCategory((prev) => ({ ...prev, [catIdx]: false }));
+    }
+  };
 
   return (
     <Card className="p-10 shadow-2xl border-0 bg-gradient-to-br from-blue-50/50 via-white to-blue-100/60 rounded-3xl">
@@ -113,55 +162,80 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
           <Award className="h-8 w-8 text-blue-500 drop-shadow" />
           <span>Edit Skills</span>
         </CardTitle>
-        <button
-          className="ml-auto px-6 py-2 rounded-lg bg-blue-600 text-white font-bold shadow hover:bg-blue-700 transition disabled:opacity-60"
-          onClick={handleSave}
-          disabled={saving || isSaving}
-        >
-          {saving || isSaving ? "Saving..." : "Save"}
-        </button>
       </CardHeader>
-      {categoriesWithSkills.length > 0 ? (
+      {skills.length > 0 ? (
         <div className="space-y-14">
-          {categoriesWithSkills.map((category, catIdx) => (
-            <div key={category.name}>
-              <div className="flex items-center gap-4 mb-5">
-                <h3 className="text-xl font-bold  text-blue-900 tracking-wide">
-                  {category.name}
-                </h3>
-                <span className="px-3 py-1 rounded-full bg-blue-100 text-sm font-semibold text-blue-700 shadow-sm">
+          {skills.map((category, catIdx) => (
+            <div key={catIdx}>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-5">
+                <Input
+                  className="w-full sm:w-36 min-w-0 font-bold text-lg bg-transparent border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1"
+                  value={category.name}
+                  onChange={(e) =>
+                    handleCategoryNameInput(catIdx, e.target.value)
+                  }
+                  placeholder="Category Name"
+                />
+                <span className="px-3 py-1 rounded-full bg-blue-100 text-xs sm:text-sm font-semibold text-blue-700 shadow-sm">
                   {category.skills.length} skill
                   {category.skills.length > 1 ? "s" : ""}
                 </span>
-                <button
-                  type="button"
-                  className="ml-2 p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
-                  onClick={() => handleDeleteCategory(catIdx)}
-                  title="Delete Category"
-                >
-                  <Trash2 className="w-5 h-5" />
-                </button>
-                <button
-                  type="button"
-                  className="ml-2 p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
-                  onClick={() => handleAddSkill(catIdx)}
-                  title="Add Skill"
-                >
-                  <Plus className="w-5 h-5" />
-                </button>
+                <div className="flex gap-2 mt-2 sm:mt-0">
+                  <Button
+                    type="button"
+                    className="ml-2 p-3 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                    onClick={() => handleDeleteCategory(catIdx)}
+                    title="Delete Category"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    type="button"
+                    className="ml-2 p-3 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                    onClick={() => handleAddSkill(catIdx)}
+                    title="Add Skill"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    className="ml-2 p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition shadow-none"
+                    onClick={() => handleSaveCategory(catIdx)}
+                    type="button"
+                    title="Save changes"
+                    variant="ghost"
+                    size="icon"
+                    disabled={!!savingCategory[catIdx]}
+                  >
+                    {savingCategory[catIdx] ? (
+                      <LucideClockFading className="w-5 h-5 animate-spin text-blue-600" />
+                    ) : (
+                      <SaveAll className="w-5 h-5 text-blue-500" />
+                    )}
+                  </Button>
+                </div>
               </div>
               <div className="space-y-6">
                 {category.skills.map((skill, skillIdx) => {
-                  const color = levelColors[skill.level] || levelColors[0];
+                  const color = LEVEL_COLORS[skill.level] || LEVEL_COLORS[0];
                   return (
                     <div
-                      key={skill.name}
-                      className="flex items-center gap-6 px-4 py-2 rounded-2xl bg-white/90 hover:shadow-lg transition border border-blue-50"
+                      key={catIdx + "-" + skillIdx}
+                      className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 px-2 sm:px-4 py-2 rounded-2xl bg-white/90 hover:shadow-lg transition border border-blue-50"
                     >
-                      <span className="min-w-[150px] font-semibold text-normal">
-                        {skill.name}
-                      </span>
-                      <div className="flex-1 flex flex-col gap-1">
+                      <Input
+                        className="w-full sm:w-36 min-w-0 font-semibold text-normal bg-transparent border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1"
+                        value={skill.name}
+                        onChange={(e) =>
+                          handleSkillNameChange(
+                            catIdx,
+                            skillIdx,
+                            e.target.value
+                          )
+                        }
+                        placeholder="Skill Name"
+                        autoFocus={skill.name === "New Skill"}
+                      />
+                      <div className="flex-1 flex flex-col gap-1 w-full">
                         <div className="relative w-full h-2 rounded-full bg-gray-200 overflow-hidden shadow-inner">
                           <div
                             className={cn(
@@ -187,7 +261,7 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
                           {color.label}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2 min-w-[80px]">
+                      <div className="flex items-center gap-2 min-w-[80px] w-full sm:w-auto">
                         <input
                           type="range"
                           min={0}
@@ -200,17 +274,17 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
                               Number(e.target.value)
                             )
                           }
-                          className="w-24 accent-blue-500"
+                          className="w-full sm:w-24 accent-gray-400 border border-gray-100"
                         />
                         <span
-                          className={cn("font-bold text-right", color.text)}
+                          className={cn("font-bold text-right text-gray-800")}
                         >
                           {skill.level}/{maxLevel}
                         </span>
                       </div>
                       <button
                         type="button"
-                        className="ml-2 p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                        className="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
                         onClick={() => handleDeleteSkill(catIdx, skillIdx)}
                         title="Delete Skill"
                       >
@@ -220,7 +294,7 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
                   );
                 })}
               </div>
-              {catIdx !== categoriesWithSkills.length - 1 && (
+              {catIdx !== skills.length - 1 && (
                 <Separator className="my-12 bg-gradient-to-r from-blue-200 via-blue-50 to-transparent" />
               )}
             </div>
