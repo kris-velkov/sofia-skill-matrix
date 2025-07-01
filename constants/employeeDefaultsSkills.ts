@@ -1,0 +1,202 @@
+export const DEFAULT_CATEGORIES = [
+  {
+    id: "generic",
+    name: "Generic",
+    skills: [
+      { name: "Motivation", level: 0 },
+      { name: "Potential", level: 0 },
+      { name: "Communication", level: 0 },
+      { name: "Confidence", level: 0 },
+      { name: "English", level: 0 },
+      { name: "Lecturing", level: 0 },
+      { name: "Presentations", level: 0 },
+      { name: "Leadership", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "javascript",
+    name: "Javascript",
+    skills: [
+      { name: "Javascript", level: 0 },
+      { name: "Nodejs", level: 0 },
+      { name: "async/Promises", level: 0 },
+      { name: "parallel", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "data-stores",
+    name: "Data stores",
+    skills: [
+      { name: "mysql", level: 0 },
+      { name: "mongodb", level: 0 },
+      { name: "dynamo", level: 0 },
+      { name: "MSSQL", level: 0 },
+      { name: "NeDB", level: 0 },
+      { name: "S3", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "build-tools",
+    name: "Build tools",
+    skills: [
+      { name: "BLT", level: 0 },
+      { name: "docksal", level: 0 },
+      { name: "Lando", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "drupal",
+    name: "Drupal",
+    skills: [
+      { name: "Drupal", level: 0 },
+      { name: "Migrate", level: 0 },
+      { name: "Multisite", level: 0 },
+      { name: "Domain", level: 0 },
+      { name: "Headless", level: 0 },
+      { name: "Static", level: 0 },
+      { name: "Commerce", level: 0 },
+      { name: "Twig", level: 0 },
+      { name: "Tests", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "ci-cd",
+    name: "CI/CD",
+    skills: [
+      { name: "Gitlab pipelines", level: 0 },
+      { name: "Jenkins", level: 0 },
+      { name: "Ansible", level: 0 },
+      { name: "Others", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "cmd",
+    name: "CMD",
+    skills: [
+      { name: "Vim, nano", level: 0 },
+      { name: "find, grep", level: 0 },
+      { name: "awk, sed", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "vcs",
+    name: "VCS",
+    skills: [{ name: "GIT", level: 0 }],
+    averageLevel: 0,
+  },
+  {
+    id: "scripting",
+    name: "Scripting",
+    skills: [
+      { name: "Bash", level: 0 },
+      { name: "Python", level: 0 },
+      { name: "Expect", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "devops",
+    name: "Devops",
+    skills: [
+      { name: "Devops", level: 0 },
+      { name: "AWS", level: 0 },
+      { name: "GCP", level: 0 },
+      { name: "Azure", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "fe-frameworks",
+    name: "FE frameworks",
+    skills: [
+      { name: "React", level: 0 },
+      { name: "Vue", level: 0 },
+      { name: "Angular", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "mobile",
+    name: "Mobile",
+    skills: [
+      { name: "Mobile", level: 0 },
+      { name: "Hybrid", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "seo",
+    name: "SEO",
+    skills: [
+      { name: "SEO", level: 0 },
+      { name: "GTM", level: 0 },
+      { name: "Matomo", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "search",
+    name: "Search",
+    skills: [
+      { name: "Solr", level: 0 },
+      { name: "Elasticsearch", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "cache",
+    name: "Cache",
+    skills: [
+      { name: "Varnish", level: 0 },
+      { name: "Redis", level: 0 },
+      { name: "Memcache", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "hosting",
+    name: "Hosting",
+    skills: [
+      { name: "Platform.sh", level: 0 },
+      { name: "Acquia", level: 0 },
+      { name: "Pantheon", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "virtualization",
+    name: "Virtualization",
+    skills: [
+      { name: "Docker", level: 0 },
+      { name: "docker-compose", level: 0 },
+      { name: "Kubernetes", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "sysadmin",
+    name: "Sysadmin",
+    skills: [
+      { name: "Linux admin", level: 0 },
+      { name: "Networking", level: 0 },
+      { name: "Security", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+  {
+    id: "misc-languages",
+    name: "Misc languages",
+    skills: [
+      { name: "Regex", level: 0 },
+      { name: "Xpath/XSL", level: 0 },
+    ],
+    averageLevel: 0,
+  },
+];

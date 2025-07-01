@@ -5,13 +5,16 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { addNewEmployee } from "@/app/actions/employee-actions";
+import { useRouter } from "next/navigation";
 
 export const AddEmployeeButton: React.FC = () => {
+  const router = useRouter();
   const handleAddNewEmployee = async () => {
     try {
       const res = await addNewEmployee();
-      if (!res.ok) throw new Error("Failed to add employee");
+      if (!res || !res.id) throw new Error("Failed to add employee");
       toast.success("Employee added successfully!");
+      router.push(`/employees/${res.id}/edit`);
     } catch (error) {
       toast.error("Error adding employee.");
     }

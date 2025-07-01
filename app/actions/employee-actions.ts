@@ -3,15 +3,25 @@
 import { addEmployee, deleteEmployee } from "@/lib/employeeInfoDB";
 import { Employee } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { DEFAULT_CATEGORIES } from "@/constants/employeeDefaults";
+import { DEFAULT_CATEGORIES } from "@/constants/employeeDefaultsSkills";
 
 export async function addNewEmployee(): Promise<Employee> {
   const newEmployee: Employee = {
     id: crypto.randomUUID(),
     firstName: "New",
     lastName: "Employee",
-    department: "",
+    department: "Backend",
     careerExperience: "",
+    email: "",
+    phone: "",
+    bio: "",
+    country: "Bulgaria",
+    city: "",
+    slackProfileImage: "",
+    slackUrl: "",
+    linkedinUrl: "",
+    badge: "",
+    certificates: [],
     skills: DEFAULT_CATEGORIES.map((cat) => ({
       name: cat.name,
       skills: cat.skills.map((skill) => ({
@@ -20,21 +30,10 @@ export async function addNewEmployee(): Promise<Employee> {
       })),
       averageLevel: 0,
     })),
-    certificates: [],
-    email: "",
-    phone: "",
-    bio: "",
-    country: "",
-    city: "",
-    slackProfileImage: "",
-    slackUrl: "",
-    linkedinUrl: "",
-    badge: "",
   };
 
   const result = await addEmployee(newEmployee);
-  // Optionally revalidate the path if needed
-  // revalidatePath("/employees");
+  revalidatePath("/employees");
   return result;
 }
 

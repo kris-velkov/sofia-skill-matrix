@@ -9,6 +9,7 @@ export function EmployeeCardTopSkills({
   skills,
 }: Readonly<EmployeeCardTopSkillsProps>) {
   if (skills.length === 0) return null;
+
   return (
     <div className="mb-4">
       <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">

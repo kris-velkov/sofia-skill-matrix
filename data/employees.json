@@ -1227,6 +1227,419 @@
         }
       ],
       "certificates": []
+    },
+    {
+      "id": "b84100ac-5a70-4e7a-9d58-bf9d0a1afcb2",
+      "firstName": "Kris",
+      "lastName": "Velkov",
+      "department": "Front-end",
+      "careerExperience": "5",
+      "email": "kristiyan.velkov@jakala.com",
+      "phone": "",
+      "bio": "Motivated Front-end developer",
+      "country": "Bulgaria",
+      "city": "Sofia",
+      "slackProfileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MKHW4KUL-74d090936839-72",
+      "slackUrl": "",
+      "linkedinUrl": "https://www.linkedin.com/in/kristiyan-velkov-763130b3/",
+      "badge": "Front-end developer",
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 3
+            },
+            {
+              "name": "Potential",
+              "level": 4
+            },
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Confidence",
+              "level": 1
+            },
+            {
+              "name": "English",
+              "level": 1
+            },
+            {
+              "name": "Presentations",
+              "level": 2
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            }
+          ],
+          "averageLevel": 1.6
+        },
+        {
+          "name": "Javascript",
+          "skills": [
+            {
+              "name": "Javascript",
+              "level": 4
+            },
+            {
+              "name": "Nodejs",
+              "level": 4
+            },
+            {
+              "name": "async/Promises",
+              "level": 4
+            },
+            {
+              "name": "parallel",
+              "level": 4
+            }
+          ],
+          "averageLevel": 4
+        },
+        {
+          "name": "Data stores",
+          "skills": [
+            {
+              "name": "mysql",
+              "level": 3
+            },
+            {
+              "name": "mongodb",
+              "level": 1
+            },
+            {
+              "name": "dynamo",
+              "level": 0
+            },
+            {
+              "name": "MSSQL",
+              "level": 4
+            },
+            {
+              "name": "NeDB",
+              "level": 0
+            },
+            {
+              "name": "S3",
+              "level": 2
+            }
+          ],
+          "averageLevel": 1.7
+        },
+        {
+          "name": "Build tools",
+          "skills": [
+            {
+              "name": "BLT",
+              "level": 0
+            },
+            {
+              "name": "docksal",
+              "level": 0
+            },
+            {
+              "name": "Lando",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Drupal",
+          "skills": [
+            {
+              "name": "Drupal",
+              "level": 0
+            },
+            {
+              "name": "Migrate",
+              "level": 0
+            },
+            {
+              "name": "Multisite",
+              "level": 0
+            },
+            {
+              "name": "Domain",
+              "level": 0
+            },
+            {
+              "name": "Headless",
+              "level": 0
+            },
+            {
+              "name": "Static",
+              "level": 0
+            },
+            {
+              "name": "Commerce",
+              "level": 0
+            },
+            {
+              "name": "Twig",
+              "level": 0
+            },
+            {
+              "name": "Tests",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "CI/CD",
+          "skills": [
+            {
+              "name": "Gitlab pipelines",
+              "level": 0
+            },
+            {
+              "name": "Jenkins",
+              "level": 0
+            },
+            {
+              "name": "Ansible",
+              "level": 0
+            },
+            {
+              "name": "Others",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "CMD",
+          "skills": [
+            {
+              "name": "Vim, nano",
+              "level": 0
+            },
+            {
+              "name": "find, grep",
+              "level": 0
+            },
+            {
+              "name": "awk, sed",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "VCS",
+          "skills": [
+            {
+              "name": "GIT",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Scripting",
+          "skills": [
+            {
+              "name": "Bash",
+              "level": 0
+            },
+            {
+              "name": "Python",
+              "level": 0
+            },
+            {
+              "name": "Expect",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Devops",
+          "skills": [
+            {
+              "name": "Devops",
+              "level": 0
+            },
+            {
+              "name": "AWS",
+              "level": 0
+            },
+            {
+              "name": "GCP",
+              "level": 0
+            },
+            {
+              "name": "Azure",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "FE frameworks",
+          "skills": [
+            {
+              "name": "React",
+              "level": 0
+            },
+            {
+              "name": "Vue",
+              "level": 0
+            },
+            {
+              "name": "Angular",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Mobile",
+          "skills": [
+            {
+              "name": "Mobile",
+              "level": 0
+            },
+            {
+              "name": "Hybrid",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "SEO",
+          "skills": [
+            {
+              "name": "SEO",
+              "level": 0
+            },
+            {
+              "name": "GTM",
+              "level": 0
+            },
+            {
+              "name": "Matomo",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Search",
+          "skills": [
+            {
+              "name": "Solr",
+              "level": 0
+            },
+            {
+              "name": "Elasticsearch",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Cache",
+          "skills": [
+            {
+              "name": "Varnish",
+              "level": 0
+            },
+            {
+              "name": "Redis",
+              "level": 0
+            },
+            {
+              "name": "Memcache",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Hosting",
+          "skills": [
+            {
+              "name": "Platform.sh",
+              "level": 0
+            },
+            {
+              "name": "Acquia",
+              "level": 0
+            },
+            {
+              "name": "Pantheon",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Virtualization",
+          "skills": [
+            {
+              "name": "Docker",
+              "level": 0
+            },
+            {
+              "name": "docker-compose",
+              "level": 0
+            },
+            {
+              "name": "Kubernetes",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Sysadmin",
+          "skills": [
+            {
+              "name": "Linux admin",
+              "level": 0
+            },
+            {
+              "name": "Networking",
+              "level": 0
+            },
+            {
+              "name": "Security",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "Regex",
+              "level": 0
+            },
+            {
+              "name": "Xpath/XSL",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        }
+      ],
+      "certificates": [
+        {
+          "id": "ea166d51-ab33-470e-aa46-79aa00841cc9",
+          "issuer": "Meta",
+          "name": "Front-end Meta",
+          "url": "https://www.credly.com/badges/9d8843ec-790f-4feb-ac48-ac0e4fb62e61",
+          "date": "2025-06-10"
+        }
+      ]
     }
   ]
 }

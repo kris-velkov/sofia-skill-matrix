@@ -21,7 +21,9 @@ export function EmployeeCardHeader({
         <div>
           <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
           <div className="text-sm text-gray-600">
-            {department}
+            {department && (
+              <span className="font-medium text-blue-600">{department}</span>
+            )}
             {badge && (
               <Badge
                 variant="secondary"

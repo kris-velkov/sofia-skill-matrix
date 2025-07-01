@@ -1,8 +1,9 @@
 import React from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { GraduationCap, Link as LinkIcon } from "lucide-react";
+import { Award, GraduationCap, Link as LinkIcon } from "lucide-react";
 import type { Certificate } from "@/lib/types";
+import EmptyState from "@/components/ui/empty-state";
 
 interface EmployeeCertificatesInfoProps {
   certificates: Certificate[];
@@ -64,12 +65,11 @@ export const EmployeeCertificatesInfo: React.FC<
         ))}
       </div>
     ) : (
-      <div className="py-3 flex justify-center">
-        <p className="text-green-700 text-center flex flex-row items-center">
-          <GraduationCap className="h-8 w-8 mr-2" />
-          <span>No certificates listed for this employee.</span>
-        </p>
-      </div>
+      <EmptyState
+        className="text-gray-600"
+        icon={<Award className="w-7 h-7 mb-2" />}
+        message="No certificates listed for this employee."
+      />
     )}
   </Card>
 );

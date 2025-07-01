@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { useActionState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { updateEmployeePersonalInfo } from "@/app/actions/employee-personal-info";
 import { toast } from "react-hot-toast";
 import { Employee } from "@/lib/types";
-import { useAuthStore } from "@/store/use-auth-store";
 
 interface EmployeePersonalInfoProps {
   employee: Employee;
@@ -49,6 +47,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
         phone: formData.get("phone") as string,
         department: formData.get("department") as string,
         careerExperience: formData.get("careerExperience") as string,
+        badge: formData.get("careerBadge") as string,
         bio: formData.get("bio") as string,
         country: formData.get("country") as string,
         city: formData.get("city") as string,
@@ -138,15 +137,16 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
               placeholder="Career Experience"
             />
           </div>
-          <div className="md:col-span-2">
-            <Label>Bio</Label>
-            <textarea
-              name="bio"
-              defaultValue={localEmployee.bio || ""}
-              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base min-h-[60px]"
-              placeholder="Bio"
+          <div>
+            <Label>Role</Label>
+            <input
+              name="careerBadge"
+              defaultValue={localEmployee.badge || ""}
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
+              placeholder="Career role"
             />
           </div>
+
           <div>
             <Label>Country</Label>
             <input
@@ -174,7 +174,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
               placeholder="Slack Profile Image URL"
             />
           </div>
-          <div>
+          <div className="md:col-span-2">
             <Label>Slack URL</Label>
             <input
               name="slackUrl"
@@ -183,13 +183,22 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
               placeholder="Slack URL"
             />
           </div>
-          <div>
+          <div className="md:col-span-2">
             <Label>LinkedIn URL</Label>
             <input
               name="linkedinUrl"
               defaultValue={localEmployee.linkedinUrl || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="LinkedIn URL"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <Label>Bio</Label>
+            <textarea
+              name="bio"
+              defaultValue={localEmployee.bio || ""}
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base min-h-[60px]"
+              placeholder="Bio"
             />
           </div>
         </div>

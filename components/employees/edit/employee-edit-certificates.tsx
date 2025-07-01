@@ -12,6 +12,7 @@ import {
 import { Certificate } from "@/lib/types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import EmptyState from "@/components/ui/empty-state";
 
 interface EmployeeEditCertificatesProps {
   employeeId: string;
@@ -81,10 +82,8 @@ export const EmployeeEditCertificates: React.FC<
   const handleUpdateSingleCertificate = async (certId: string) => {
     setUpdatingCertId(certId);
     try {
-      // Find the updated certificate and update the certificates array
       const certToUpdate = certificates.find((c) => c.id === certId);
       if (!certToUpdate) return;
-      // updateEmployeeCertificate expects the full certificates array
       await updateEmployeeCertificate(employeeId, certificates);
       toast.success("Certificate updated!");
     } catch {
@@ -105,9 +104,6 @@ export const EmployeeEditCertificates: React.FC<
         </CardHeader>
         <div className="space-y-10">
           <div>
-            <h3 className="text-lg font-semibold text-blue-800 mb-4">
-              Your Certificates
-            </h3>
             <div className="space-y-6">
               {certificates.length > 0 ? (
                 certificates.map((cert, index) => (
@@ -191,10 +187,11 @@ export const EmployeeEditCertificates: React.FC<
                   </div>
                 ))
               ) : (
-                <div className="flex flex-col items-center justify-center py-4">
-                  <Award className="w-8 h-8 text-gray-700 mb-2" />
-                  <p className="text-gray-700 text-center">No certificates</p>
-                </div>
+                <EmptyState
+                  className="text-gray-600"
+                  icon={<Award className="w-7 h-7 mb-2" />}
+                  message="No certificates listed for this employee. Add one below."
+                />
               )}
             </div>
           </div>

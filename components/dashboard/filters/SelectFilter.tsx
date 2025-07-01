@@ -37,7 +37,7 @@ export function SelectFilter<T extends string>({
         {label}
       </Label>
       <Select
-        value={value ?? (showAll ? "all" : "")}
+        value={value ?? (showAll ? "all" : options[0] ?? "all")}
         onValueChange={(val) => onChange(val === "all" ? null : (val as T))}
       >
         <SelectTrigger
