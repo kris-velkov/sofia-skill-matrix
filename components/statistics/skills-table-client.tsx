@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -10,63 +9,64 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 
 interface SkillsTableClientProps {
-  frontendStats: any[];
+  stats: any[];
   competencyLevels: any[];
   selectedSkill?: string | null;
   selectedLevel?: number | null;
 }
 
 export function SkillsTableClient({
-  frontendStats,
-  competencyLevels,
-  selectedSkill: propSelectedSkill,
-  selectedLevel: propSelectedLevel,
+  stats,
+  selectedSkill,
+  selectedLevel,
 }: Readonly<SkillsTableClientProps>) {
-  const [internalSelectedSkill, setInternalSelectedSkill] = useState<
-    string | null
-  >(propSelectedSkill || null);
-  const [internalSelectedLevel, setInternalSelectedLevel] = useState<
-    number | null
-  >(propSelectedLevel || null);
-
-  useMemo(() => {
-    setInternalSelectedSkill(propSelectedSkill || null);
-    setInternalSelectedLevel(propSelectedLevel || null);
-  }, [propSelectedSkill, propSelectedLevel]);
+  const total = useMemo(
+    () => stats.reduce((sum, stat) => sum + (stat.count ?? 0), 0),
+    [stats]
+  );
 
   const filteredTableData = useMemo(() => {
-    return frontendStats.filter((stat) => {
-      const skillMatch = internalSelectedSkill
-        ? stat.skillName === internalSelectedSkill
-        : true;
-      const levelMatch =
-        internalSelectedLevel !== null
-          ? stat.level === internalSelectedLevel
+    return stats
+      .map((stat) => {
+        const skillMatch = selectedSkill
+          ? stat.skillName === selectedSkill
           : true;
-      return skillMatch && levelMatch;
-    });
-  }, [frontendStats, internalSelectedSkill, internalSelectedLevel]);
+        const levelMatch =
+          selectedLevel !== null && selectedLevel !== undefined
+            ? stat.level === selectedLevel
+            : true;
+        return {
+          ...stat,
+          percentage:
+            total > 0 ? ((stat.count / total) * 100).toFixed(1) : "0.0",
+          show: skillMatch && levelMatch,
+        };
+      })
+      .filter((stat) => stat.show)
+      .sort((a, b) => {
+        return b.level - a.level;
+      });
+  }, [stats, selectedSkill, selectedLevel, total]);
 
   return (
-    <Card className="shadow-md rounded-xl">
+    <Card className="shadow-md rounded-xl bg-white border-none ">
       <CardHeader>
         <CardTitle className="text-lg font-semibold text-gray-800">
-          Detailed Skill Breakdown
+          Detailed Skill Breakdown {total > 0 ? `(${total} total skills)` : ""}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
-          <Table>
+          <Table className="min-w-[600px]">
             <TableHeader>
-              <TableRow>
+              <TableRow className="border-b bg-gray-50 border-gray-200">
                 <TableHead>Skill</TableHead>
                 <TableHead>Level</TableHead>
-                <TableHead>Count</TableHead>
+                <TableHead>People</TableHead>
                 <TableHead>Percentage</TableHead>
-                <TableHead>Description</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -81,20 +81,17 @@ export function SkillsTableClient({
                 </TableRow>
               ) : (
                 filteredTableData.map((stat, index) => {
-                  const competency = competencyLevels.find(
-                    (c) => c.grade === stat.level
-                  );
                   return (
-                    <TableRow key={`${stat.skillName}-${stat.level}-${index}`}>
-                      <TableCell className="font-medium">
+                    <TableRow
+                      key={`${stat.skillName}-${stat.level}-${index}`}
+                      className="hover:bg-blue-50 border-gray-200 transition-colors"
+                    >
+                      <TableCell className="font-medium whitespace-nowrap">
                         {stat.skillName}
                       </TableCell>
-                      <TableCell>
-                        <Badge className={stat.color}>{stat.level}</Badge>
-                      </TableCell>
+                      <TableCell>{stat.level}</TableCell>
                       <TableCell>{stat.count}</TableCell>
-                      <TableCell>{stat.percentage.toFixed(1)}%</TableCell>
-                      <TableCell>{competency?.description || "N/A"}</TableCell>
+                      <TableCell>{stat.percentage}%</TableCell>
                     </TableRow>
                   );
                 })

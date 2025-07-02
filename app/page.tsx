@@ -1,6 +1,6 @@
 import type { Employee } from "@/lib/types";
-import ProtectedRoute from "@/components/auth/protected-route";
 import { Dashboard } from "@/components/dashboard/dashboard";
+import ProtectedRoute from "@/components/auth/protected-route";
 
 async function fetchEmployees(): Promise<Employee[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employees`);

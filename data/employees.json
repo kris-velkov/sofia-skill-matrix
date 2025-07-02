@@ -1228,7 +1228,7 @@
       "id": "b84100ac-5a70-4e7a-9d58-bf9d0a1afcb2",
       "firstName": "Kris",
       "lastName": "Velkov",
-      "department": "Front-end",
+      "department": "Frontend",
       "careerExperience": "5",
       "email": "kristiyan.velkov@jakala.com",
       "phone": "",
@@ -1238,7 +1238,7 @@
       "slackProfileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MKHW4KUL-74d090936839-72",
       "slackUrl": "",
       "linkedinUrl": "https://www.linkedin.com/in/kristiyan-velkov-763130b3/",
-      "badge": "Front-end developer",
+      "badge": "Frontend developer",
       "skills": [
         {
           "name": "Generic",
