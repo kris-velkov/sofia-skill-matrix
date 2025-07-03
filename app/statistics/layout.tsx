@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function StatisticsLayout({
   children,
 }: {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }) {
   return <ProtectedAdminRoute>{children}</ProtectedAdminRoute>;
 }
