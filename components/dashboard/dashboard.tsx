@@ -125,7 +125,7 @@ export function Dashboard({ employees }: Readonly<DashboardProps>) {
       <div className="text-lg font-semibold mt-4 text-gray-800">
         Employees ({filteredEmployees.length})
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 mb-20">
         {filteredEmployees.map((employee) => (
           <EmployeeSkillCard key={employee.id} employee={employee} />
         ))}
