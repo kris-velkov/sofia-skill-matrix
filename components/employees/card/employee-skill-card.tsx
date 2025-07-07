@@ -2,7 +2,10 @@
 
 import { CardContent } from "@/components/ui/card";
 import { EmployeeCardHeader } from "@/components/employees/card/employee-card-header";
-import { EmployeeCardSlackLink } from "@/components/employees/card/employee-slack-link";
+import {
+  EmployeeCardSlackLink,
+  EmployeeCardSocialLink,
+} from "@/components/employees/card/employee-linkedin-link";
 import type { Employee } from "@/lib/types";
 import { Award, AwardIcon, LucideClock } from "lucide-react";
 import Link from "next/link";
@@ -50,10 +53,10 @@ export function EmployeeSkillCard({
           </div>
         </CardContent>
       </Link>
-      {employee.slackUrl && (
+      {employee.linkedinUrl && (
         <div className="mt-2 h-15 max-h-15">
-          <EmployeeCardSlackLink
-            slackUrl={employee.slackUrl}
+          <EmployeeCardSocialLink
+            url={employee.linkedinUrl}
             name={employee.firstName + " " + employee.lastName}
           />
         </div>

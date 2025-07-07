@@ -45,6 +45,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
         lastName: formData.get("lastName") as string,
         department: formData.get("department") as string,
         careerExperience: formData.get("careerExperience") as string,
+        startDate: formData.get("startDate") as string,
         program: formData.get("program") as string,
         role: formData.get("careerBadge") as string,
         bio: formData.get("bio") as string,
@@ -99,31 +100,21 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             />
           </div>
           <div>
-            <Label>Department</Label>
-            <input
-              name="department"
-              defaultValue={localEmployee.department || ""}
-              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Department"
-            />
-          </div>
-          <div>
-            <Label>Total Experience (start date)</Label>
-            <input
-              type="date"
-              name="careerExperience"
-              defaultValue={localEmployee.careerExperience || ""}
-              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Start Date"
-            />
-          </div>
-          <div>
             <Label>Program</Label>
             <input
               name="program"
               defaultValue={localEmployee.program || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="Program name"
+            />
+          </div>
+          <div>
+            <Label>Department</Label>
+            <input
+              name="department"
+              defaultValue={localEmployee.department || ""}
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
+              placeholder="Department"
             />
           </div>
           <div>
@@ -136,6 +127,26 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             />
           </div>
 
+          <div>
+            <Label>Experience Since</Label>
+            <input
+              type="date"
+              name="careerExperience"
+              defaultValue={localEmployee.careerExperience || ""}
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
+              placeholder="Start Date"
+            />
+          </div>
+          <div>
+            <Label>Hired On</Label>
+            <input
+              type="date"
+              name="startDate"
+              defaultValue={localEmployee.startDate || ""}
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
+              placeholder="Start Date"
+            />
+          </div>
           <div>
             <Label>Country</Label>
             <input

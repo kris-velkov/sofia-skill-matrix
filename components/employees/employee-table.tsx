@@ -100,6 +100,9 @@ export function EmployeeTable({
                 Department
               </TableHead>
               <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
+                Hired On
+              </TableHead>
+              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
                 Career Experience
               </TableHead>
               <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
@@ -146,8 +149,12 @@ export function EmployeeTable({
                     {employee.department}
                   </TableCell>
                   <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
+                    {getExperienceFromDate(employee.startDate)}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
                     {getExperienceFromDate(employee.careerExperience)}
                   </TableCell>
+
                   <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
                     {employee.role ?? "N/A"}
                   </TableCell>

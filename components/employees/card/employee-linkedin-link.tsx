@@ -1,36 +1,36 @@
 import React from "react";
 import Image from "next/image";
 
-interface EmployeeCardSlackLinkProps {
-  slackUrl: string;
+interface EmployeeCardSocialLinkProps {
+  url: string;
   name: string;
 }
-export function EmployeeCardSlackLink({
-  slackUrl,
+export function EmployeeCardSocialLink({
+  url,
   name,
-}: Readonly<EmployeeCardSlackLinkProps>) {
+}: Readonly<EmployeeCardSocialLinkProps>) {
   return (
     <div className="mt-5 pt-5 border-t border-gray-200 flex items-center justify-center cursor-pointer  transition-colors">
       <button
         type="button"
         onClick={(e) => {
           e.stopPropagation();
-          window.open(slackUrl, "_blank", "noopener,noreferrer");
+          window.open(url, "_blank", "noopener,noreferrer");
         }}
         className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700  text-sm font-medium focus:outline-none cursor-pointer"
-        aria-label={`Connect with ${name} on Slack`}
+        aria-label={`View on LinkedIn`}
       >
         <div className="relative h-5 w-5">
           <Image
-            src="/slack-logo.webp"
-            alt="Slack logo"
+            src="/linkedin-logo.webp"
+            alt="LinkedIn logo"
             fill
-            sizes="20px"
+            sizes="30px"
             className="object-contain"
             priority
           />
         </div>
-        Connect on Slack
+        View on LinkedIn
       </button>
     </div>
   );

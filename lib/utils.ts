@@ -12,7 +12,9 @@ export function getEmployeeFullName(
   return `${firstName} ${lastName}`.trim();
 }
 
-export function getExperienceFromDate(dateString: string): string | undefined {
+export function getExperienceFromDate(
+  dateString: string | undefined
+): string | undefined {
   if (!dateString) return "0y 0m 0d";
 
   const start = new Date(dateString);

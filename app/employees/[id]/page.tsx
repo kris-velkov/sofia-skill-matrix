@@ -31,34 +31,11 @@ export default async function EmployeeProfilePage({
     <section className="flex flex-col items-center justify-center min-h-screen p-4 md:p-8">
       <div className="w-full max-w-4xl space-y-8 mt-8">
         <Breadcrumbs items={breadcrumbItems} />
-        <EmployeeHeaderInfo
-          employee={{
-            firstName: employee.firstName,
-            lastName: employee.lastName,
-            department: employee.department,
-            city: employee.city,
-            bio: employee.bio,
-            country: employee.country,
-            role: employee.role,
-            profileImage: employee.profileImage,
-            linkedinUrl: employee.linkedinUrl,
-            slackUrl: employee.slackUrl,
-          }}
-        />
-        <EmployeePersonalInfo
-          employee={{
-            id: employee.id,
-            firstName: employee.firstName,
-            lastName: employee.lastName,
-            department: employee.department,
-            city: employee.city,
-            bio: employee.bio,
-            country: employee.country,
-            careerExperience: employee.careerExperience,
-          }}
-        />
+
+        <EmployeeHeaderInfo employee={employee} />
+        <EmployeePersonalInfo employee={employee} />
         <EmployeeCertificatesInfo certificates={employee.certificates} />
-        <EmployeeSkillsInfo skills={employee.skills} />
+        {employee.skills && <EmployeeSkillsInfo skills={employee.skills} />}
       </div>
     </section>
   );

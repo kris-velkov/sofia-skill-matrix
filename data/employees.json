@@ -7,10 +7,11 @@
       "bio": "Very good ",
       "country": "Bulgaria",
       "city": "Sofia",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MH3J5HJN-71a8957b8fe5-192",
-      "slackUrl": "",
+      "slackUrl": "https://ua.linkedin.com/in/alex-ponomarenko-cn",
       "linkedinUrl": "https://ua.linkedin.com/in/alex-ponomarenko-cn",
-      "careerExperience": "2019-01-07",
+      "careerExperience": "2025-04-03",
       "department": "Backend",
       "role": "Group architect",
       "skills": [
@@ -399,13 +400,13 @@
       "certificates": [
         {
           "id": "bbecef5a-1884-459f-bc00-9d43dc0c5f19",
-          "issuer": "",
-          "name": "Test",
-          "url": "",
+          "issuer": "AWS",
+          "name": "AWS",
+          "url": "https://www.theknowledgeacademy.com/bg/offers/amazon-aws-certification-training-courses/?utm_term=aws%20certification&utm_campaign=%5BAWS+Training%5D&utm_source=adwords&utm_medium=ppc&hsa_acc=1570805160&hsa_cam=15560883761&hsa_grp=130627253226&hsa_ad=569416226066&hsa_src=g&hsa_tgt=kwd-364483928&hsa_kw=aws%20certification&hsa_mt=e&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=15560883761&gbraid=0AAAAAoUorGwKXBUIKvRWCSp12m8M1aykz&gclid=CjwKCAjw4K3DBhBqEiwAYtG_9Oe1YTgRmkrbgKIfJ3za3vqySTCWtu-EN4Dt3-tAtysSauPvGUa1uRoCvl4QAvD_BwE",
           "date": "2025-07-24"
         }
       ],
-      "program": "Sirius"
+      "startDate": "2021-09-30"
     },
     {
       "id": "alexandru-dumitru",
@@ -1406,7 +1407,22 @@
           ]
         }
       ],
-      "certificates": []
+      "certificates": [
+        {
+          "id": "ba0f2c88-3a0d-40c0-89a0-90d5aecb5903",
+          "issuer": "Docker",
+          "name": "Docker Developer Master Class",
+          "url": "https://www.docker.com/",
+          "date": "2025-04-02"
+        },
+        {
+          "id": "5a9b22c2-14bc-415b-b43c-d1b4540ecd10",
+          "name": "Test certificate",
+          "url": "https://www.docker.com/",
+          "date": "2025-07-03",
+          "issuer": "Docker"
+        }
+      ]
     },
     {
       "id": "mariya-valcheva-tosheva",
@@ -5727,6 +5743,413 @@
         }
       ],
       "certificates": []
+    },
+    {
+      "id": "42f74c68-e3e7-4a84-8d26-f0dee0efaa06",
+      "firstName": "New",
+      "lastName": "Employee",
+      "department": "Front-end",
+      "careerExperience": "",
+      "bio": "",
+      "country": "Bulgaria",
+      "city": "Sofia",
+      "profileImage": "",
+      "slackUrl": "",
+      "linkedinUrl": "",
+      "role": "",
+      "certificates": [],
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 0
+            },
+            {
+              "name": "Potential",
+              "level": 0
+            },
+            {
+              "name": "Communication",
+              "level": 0
+            },
+            {
+              "name": "Confidence",
+              "level": 0
+            },
+            {
+              "name": "English",
+              "level": 0
+            },
+            {
+              "name": "Lecturing",
+              "level": 0
+            },
+            {
+              "name": "Presentations",
+              "level": 0
+            },
+            {
+              "name": "Leadership",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Javascript",
+          "skills": [
+            {
+              "name": "Javascript",
+              "level": 0
+            },
+            {
+              "name": "Nodejs",
+              "level": 0
+            },
+            {
+              "name": "async/Promises",
+              "level": 0
+            },
+            {
+              "name": "parallel",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Data stores",
+          "skills": [
+            {
+              "name": "mysql",
+              "level": 0
+            },
+            {
+              "name": "mongodb",
+              "level": 0
+            },
+            {
+              "name": "dynamo",
+              "level": 0
+            },
+            {
+              "name": "MSSQL",
+              "level": 0
+            },
+            {
+              "name": "NeDB",
+              "level": 0
+            },
+            {
+              "name": "S3",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Build tools",
+          "skills": [
+            {
+              "name": "BLT",
+              "level": 0
+            },
+            {
+              "name": "docksal",
+              "level": 0
+            },
+            {
+              "name": "Lando",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Drupal",
+          "skills": [
+            {
+              "name": "Drupal",
+              "level": 0
+            },
+            {
+              "name": "Migrate",
+              "level": 0
+            },
+            {
+              "name": "Multisite",
+              "level": 0
+            },
+            {
+              "name": "Domain",
+              "level": 0
+            },
+            {
+              "name": "Headless",
+              "level": 0
+            },
+            {
+              "name": "Static",
+              "level": 0
+            },
+            {
+              "name": "Commerce",
+              "level": 0
+            },
+            {
+              "name": "Twig",
+              "level": 0
+            },
+            {
+              "name": "Tests",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "CI/CD",
+          "skills": [
+            {
+              "name": "Gitlab pipelines",
+              "level": 0
+            },
+            {
+              "name": "Jenkins",
+              "level": 0
+            },
+            {
+              "name": "Ansible",
+              "level": 0
+            },
+            {
+              "name": "Others",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "CMD",
+          "skills": [
+            {
+              "name": "Vim, nano",
+              "level": 0
+            },
+            {
+              "name": "find, grep",
+              "level": 0
+            },
+            {
+              "name": "awk, sed",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "VCS",
+          "skills": [
+            {
+              "name": "GIT",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Scripting",
+          "skills": [
+            {
+              "name": "Bash",
+              "level": 0
+            },
+            {
+              "name": "Python",
+              "level": 0
+            },
+            {
+              "name": "Expect",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Devops",
+          "skills": [
+            {
+              "name": "Devops",
+              "level": 0
+            },
+            {
+              "name": "AWS",
+              "level": 0
+            },
+            {
+              "name": "GCP",
+              "level": 0
+            },
+            {
+              "name": "Azure",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "FE frameworks",
+          "skills": [
+            {
+              "name": "React",
+              "level": 0
+            },
+            {
+              "name": "Vue",
+              "level": 0
+            },
+            {
+              "name": "Angular",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Mobile",
+          "skills": [
+            {
+              "name": "Mobile",
+              "level": 0
+            },
+            {
+              "name": "Hybrid",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "SEO",
+          "skills": [
+            {
+              "name": "SEO",
+              "level": 0
+            },
+            {
+              "name": "GTM",
+              "level": 0
+            },
+            {
+              "name": "Matomo",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Search",
+          "skills": [
+            {
+              "name": "Solr",
+              "level": 0
+            },
+            {
+              "name": "Elasticsearch",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Cache",
+          "skills": [
+            {
+              "name": "Varnish",
+              "level": 0
+            },
+            {
+              "name": "Redis",
+              "level": 0
+            },
+            {
+              "name": "Memcache",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Hosting",
+          "skills": [
+            {
+              "name": "Platform.sh",
+              "level": 0
+            },
+            {
+              "name": "Acquia",
+              "level": 0
+            },
+            {
+              "name": "Pantheon",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Virtualization",
+          "skills": [
+            {
+              "name": "Docker",
+              "level": 0
+            },
+            {
+              "name": "docker-compose",
+              "level": 0
+            },
+            {
+              "name": "Kubernetes",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Sysadmin",
+          "skills": [
+            {
+              "name": "Linux admin",
+              "level": 0
+            },
+            {
+              "name": "Networking",
+              "level": 0
+            },
+            {
+              "name": "Security",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "Regex",
+              "level": 0
+            },
+            {
+              "name": "Xpath/XSL",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        }
+      ]
     }
   ]
 }

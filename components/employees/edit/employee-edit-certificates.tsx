@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, LucideClockFading, Plus, SaveAll, Trash2 } from "lucide-react";
+import { Award, LucideClockFading, Plus, Save, Trash2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import {
   addEmployeeCertificate,
@@ -181,7 +181,7 @@ export const EmployeeEditCertificates: React.FC<
                           {updatingCertId === cert.id ? (
                             <LucideClockFading className="w-5 h-5 animate-spin text-blue-600" />
                           ) : (
-                            <SaveAll className="w-5 h-5 text-blue-500" />
+                            <Save className="w-5 h-5 text-blue-500" />
                           )}
                         </Button>
                       </div>

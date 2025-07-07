@@ -6,7 +6,7 @@ import type { Certificate } from "@/lib/types";
 import EmptyState from "@/components/ui/empty-state";
 
 interface EmployeeCertificatesInfoProps {
-  certificates: Certificate[];
+  certificates: Certificate[] | null;
 }
 
 export const EmployeeCertificatesInfo: React.FC<
