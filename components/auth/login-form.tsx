@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/store/use-auth-store";
 import { BarChart, Eye, EyeOff } from "lucide-react";
-import { LoadingSpinner } from "@/components/loading-spinner";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export function LoginForm() {
   const [password, setPassword] = useState("");

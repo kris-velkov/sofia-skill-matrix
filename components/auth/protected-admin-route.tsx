@@ -2,7 +2,7 @@
 import { useAuthStore } from "@/store/use-auth-store";
 import { ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { LoadingSpinner } from "../loading-spinner";
+import { LoadingSpinner } from "../ui/loading-spinner";
 
 type ProtectedAdminRouteProps = {
   children: ReactNode;
