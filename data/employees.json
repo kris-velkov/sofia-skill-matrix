@@ -1434,7 +1434,7 @@
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MAE6QS3G-01aaaf43c911-512",
       "slackUrl": "https://jakala-talk.slack.com/team/U07MAE6QS3G",
       "linkedinUrl": "",
-      "careerExperience": "14y 3m",
+      "careerExperience": "2020-02-07",
       "department": "Frontend",
       "role": "ML3 Adv PHP",
       "skills": [
@@ -1814,7 +1814,17 @@
           ]
         }
       ],
-      "certificates": []
+      "certificates": [
+        {
+          "id": "ca9aee51-ddbc-402f-a82e-f377956358d5",
+          "issuer": "Meta",
+          "name": "Front-end Proffesional",
+          "url": "",
+          "date": "2023-02-17"
+        }
+      ],
+      "startDate": "",
+      "program": ""
     },
     {
       "id": "mykola-balabash",

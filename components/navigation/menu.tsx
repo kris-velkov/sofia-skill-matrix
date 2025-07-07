@@ -10,7 +10,7 @@ const NAV_LINKS = [
   },
   {
     href: "/statistics",
-    label: "Statistics",
+    label: "Certificates Statistics",
     icon: <BarChart2 className="mr-2 h-4 w-4" />,
   },
 ];
