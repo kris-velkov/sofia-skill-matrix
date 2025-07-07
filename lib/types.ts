@@ -22,21 +22,21 @@ export interface Certificate {
 
 export interface Employee {
   id: string;
-  careerExperience: string;
-  department: string;
-  skills: SkillCategory[];
-  badge?: string;
   firstName: string;
   lastName: string;
-  email?: string;
-  phone?: string;
-  bio?: string;
+  program?: string;
+  department: string;
+  role?: string;
+  careerExperience?: string;
+  startDate?: string;
   country?: string;
   city?: string;
-  slackProfileImage?: string;
+  bio?: string;
+  profileImage?: string;
   slackUrl?: string;
   linkedinUrl?: string;
   certificates?: Certificate[];
+  skills: SkillCategory[];
 }
 
 export interface FilterState {

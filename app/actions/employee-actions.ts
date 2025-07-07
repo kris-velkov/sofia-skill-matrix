@@ -3,30 +3,60 @@
 import { addEmployee, deleteEmployee } from "@/lib/employeeInfoDB";
 import { Employee } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { DEFAULT_CATEGORIES } from "@/constants/employeeDefaultsSkills";
+import {
+  DEFAULT_CATEGORIES_FE_BE,
+  DEFAULT_CATEGORIES_PM,
+  DEFAULT_CATEGORIES_QA,
+} from "@/constants/employeeDefaultsSkills";
 
-export async function addNewEmployee(): Promise<Employee> {
+export async function addNewEmployee(departament: {
+  id: string;
+  name: string;
+}): Promise<Employee> {
+  let categories = [];
+
+  switch (departament.id) {
+    case "frontend":
+      categories = DEFAULT_CATEGORIES_FE_BE;
+      break;
+    case "backend":
+      categories = DEFAULT_CATEGORIES_FE_BE;
+      break;
+    case "pm":
+      categories = DEFAULT_CATEGORIES_PM;
+      break;
+    case "qa":
+      categories = DEFAULT_CATEGORIES_QA;
+      break;
+    default:
+      categories = DEFAULT_CATEGORIES_FE_BE;
+  }
+
+  console.log(
+    "Adding new employee to department:",
+    departament.name,
+    departament.id
+  );
+
   const newEmployee: Employee = {
     id: crypto.randomUUID(),
     firstName: "New",
     lastName: "Employee",
-    department: "Backend",
+    department: departament.name,
     careerExperience: "",
-    email: "",
-    phone: "",
     bio: "",
     country: "Bulgaria",
-    city: "",
-    slackProfileImage: "",
+    city: "Sofia",
+    profileImage: "",
     slackUrl: "",
     linkedinUrl: "",
-    badge: "",
+    role: "",
     certificates: [],
-    skills: DEFAULT_CATEGORIES.map((cat) => ({
-      name: cat.name,
-      skills: cat.skills.map((skill) => ({
+    skills: categories.map((category) => ({
+      name: category.name,
+      skills: category.skills.map((skill) => ({
         name: skill.name,
-        level: skill.level as 0 | 1 | 2 | 3 | 4,
+        level: skill.level as 0,
       })),
       averageLevel: 0,
     })),

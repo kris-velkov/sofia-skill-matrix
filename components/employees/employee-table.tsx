@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import type { Employee } from "@/lib/types";
 import { EmployeeAvatar } from "./employee-avatar";
 import { deleteEmployeeAction } from "@/app/actions/employee-actions";
+import { getExperienceFromDate } from "@/lib/utils";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];
@@ -70,7 +71,7 @@ export function EmployeeTable({
       (employee) =>
         employee?.firstName.toLowerCase().includes(lowerCaseSearchTerm) ||
         employee.department.toLowerCase().includes(lowerCaseSearchTerm) ||
-        employee.badge?.toLowerCase().includes(lowerCaseSearchTerm)
+        employee.role?.toLowerCase().includes(lowerCaseSearchTerm)
     );
   }, [employees, searchTerm]);
 
@@ -79,7 +80,7 @@ export function EmployeeTable({
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 ">
         <Input
           type="text"
-          placeholder="Search employees by name, department, or badge..."
+          placeholder="Search employees by name, department, or role..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="max-w-md w-full md:w-auto border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm min-w-[250px] md:min-w-[450px] mb-4 md:mb-0 bg-white text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-offset-2 focus:ring-offset-white"
@@ -93,13 +94,16 @@ export function EmployeeTable({
                 Employee
               </TableHead>
               <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
+                Program
+              </TableHead>
+              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
                 Department
               </TableHead>
               <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
-                Experience
+                Career Experience
               </TableHead>
               <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
-                Badge
+                Role
               </TableHead>
               <TableHead className="py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 text-right">
                 Actions
@@ -125,7 +129,7 @@ export function EmployeeTable({
                   <TableCell className="w-[120px] md:w-[300px] font-medium py-4 md:py-5 px-2 md:px-5 border-r border-gray-100 align-top">
                     <div className="flex items-center gap-2 md:gap-3">
                       <EmployeeAvatar
-                        src={employee.slackProfileImage}
+                        src={employee.profileImage}
                         alt={employee.firstName + " profile picture"}
                       />
                       <div>
@@ -136,13 +140,16 @@ export function EmployeeTable({
                     </div>
                   </TableCell>
                   <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
+                    {employee.program}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
                     {employee.department}
                   </TableCell>
                   <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
-                    {employee.careerExperience}
+                    {getExperienceFromDate(employee.careerExperience)}
                   </TableCell>
                   <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none">
-                    {employee.badge ?? "N/A"}
+                    {employee.role ?? "N/A"}
                   </TableCell>
                   <TableCell className="text-right py-3 md:py-4 px-2 md:px-6 align-top">
                     <div className="flex justify-end gap-1 md:gap-2 flex-wrap">

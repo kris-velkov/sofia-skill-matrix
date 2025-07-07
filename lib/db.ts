@@ -26,6 +26,19 @@ export async function getEmployees(): Promise<Employee[]> {
   return db.data.employees;
 }
 
+export async function getDepartments(): Promise<string[]> {
+  await ensureDbLoaded();
+  const employees = db.data.employees;
+  const departments = new Set<string>();
+
+  for (const employee of employees) {
+    if (employee.department) {
+      departments.add(employee.department);
+    }
+  }
+  return Array.from(departments);
+}
+
 export function getEmployeeIndexById(id: string): number {
   return db.data.employees.findIndex((emp) => emp.id === id);
 }
@@ -36,4 +49,3 @@ export async function getEmployeeById(
   await ensureDbLoaded();
   return db.data.employees.find((emp) => emp.id === id);
 }
-

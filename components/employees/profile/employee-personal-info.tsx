@@ -1,13 +1,14 @@
 import React from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Phone, Briefcase, Award, MapPin, User } from "lucide-react";
+import { Briefcase, Award, MapPin, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import InfoRow from "@/components/ui/info-row";
 import { Employee } from "@/lib/types";
+import { getExperienceFromDate } from "@/lib/utils";
 
 interface EmployeePersonalInfoProps {
-  employee: Employee;
+  employee: Partial<Employee>;
 }
 
 export const EmployeePersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
@@ -32,26 +33,27 @@ export const EmployeePersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
           icon={<User className="h-5 w-5 text-blue-500" />}
         />
         <InfoRow
-          label="Email address"
-          value={employee.email}
-          icon={<Mail className="h-5 w-5 text-blue-500" />}
-        />
-        <InfoRow
-          label="Phone"
-          value={employee.phone}
-          icon={<Phone className="h-5 w-5 text-blue-500" />}
+          label="Program"
+          value={employee.program}
+          icon={<Briefcase className="h-5 w-5 text-blue-500" />}
         />
         <InfoRow
           label="Department"
           value={employee.department}
           icon={<Briefcase className="h-5 w-5 text-blue-500" />}
-          badge={!!employee.department}
         />
         <InfoRow
-          label="Career Experience"
-          value={employee.careerExperience}
-          icon={<Award className="h-5 w-5 text-blue-500" />}
+          label="Role"
+          value={employee.role}
+          icon={<Briefcase className="h-5 w-5 text-blue-500" />}
         />
+        {employee.careerExperience && (
+          <InfoRow
+            label="Career Experience"
+            value={getExperienceFromDate(employee.careerExperience)}
+            icon={<Award className="h-5 w-5 text-blue-500" />}
+          />
+        )}
         <InfoRow
           label="Country"
           value={employee.country}

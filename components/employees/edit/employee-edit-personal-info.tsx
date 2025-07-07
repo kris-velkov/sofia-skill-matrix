@@ -43,15 +43,14 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
       const data: FormValues = {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
-        email: formData.get("email") as string,
-        phone: formData.get("phone") as string,
         department: formData.get("department") as string,
         careerExperience: formData.get("careerExperience") as string,
-        badge: formData.get("careerBadge") as string,
+        program: formData.get("program") as string,
+        role: formData.get("careerBadge") as string,
         bio: formData.get("bio") as string,
         country: formData.get("country") as string,
         city: formData.get("city") as string,
-        slackProfileImage: formData.get("slackProfileImage") as string,
+        profileImage: formData.get("profileImage") as string,
         slackUrl: formData.get("slackUrl") as string,
         linkedinUrl: formData.get("linkedinUrl") as string,
       };
@@ -100,26 +99,6 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             />
           </div>
           <div>
-            <Label>Email address</Label>
-            <input
-              name="email"
-              defaultValue={localEmployee.email || ""}
-              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Email"
-              type="email"
-            />
-          </div>
-          <div>
-            <Label>Phone</Label>
-            <input
-              name="phone"
-              defaultValue={localEmployee.phone || ""}
-              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Phone"
-              type="tel"
-            />
-          </div>
-          <div>
             <Label>Department</Label>
             <input
               name="department"
@@ -129,19 +108,29 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             />
           </div>
           <div>
-            <Label>Career Experience</Label>
+            <Label>Total Experience (start date)</Label>
             <input
+              type="date"
               name="careerExperience"
               defaultValue={localEmployee.careerExperience || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Career Experience"
+              placeholder="Start Date"
+            />
+          </div>
+          <div>
+            <Label>Program</Label>
+            <input
+              name="program"
+              defaultValue={localEmployee.program || ""}
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
+              placeholder="Program name"
             />
           </div>
           <div>
             <Label>Role</Label>
             <input
               name="careerBadge"
-              defaultValue={localEmployee.badge || ""}
+              defaultValue={localEmployee.role || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="Career role"
             />
@@ -166,12 +155,12 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             />
           </div>
           <div className="md:col-span-2">
-            <Label>Slack Profile Image URL</Label>
+            <Label> Image URL</Label>
             <input
-              name="slackProfileImage"
-              defaultValue={localEmployee.slackProfileImage || ""}
+              name="profileImage"
+              defaultValue={localEmployee.profileImage || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Slack Profile Image URL"
+              placeholder="Image URL"
             />
           </div>
           <div className="md:col-span-2">

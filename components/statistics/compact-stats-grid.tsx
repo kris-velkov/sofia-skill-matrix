@@ -20,15 +20,10 @@ export function CompactStatsGrid({ employees }: CompactStatsGridProps) {
 
   const totalDepartments = Object.keys(departmentCounts).length;
 
-  const totalSkills = employees.reduce((total, emp) => {
-    return (
-      total +
-      emp.skills.reduce((skillCount, cat) => skillCount + cat.skills.length, 0)
-    );
-  }, 0);
-
-  const avgSkillsPerEmployee =
-    totalEmployees > 0 ? Math.round(totalSkills / totalEmployees) : 0;
+  const totalCertificates = employees.reduce(
+    (total, emp) => total + (emp.certificates?.length || 0),
+    0
+  );
 
   const stats: {
     title: string;
@@ -52,18 +47,11 @@ export function CompactStatsGrid({ employees }: CompactStatsGridProps) {
       textColor: "text-green-600",
     },
     {
-      title: "Total Skills",
-      value: totalSkills,
+      title: "Total Certificates",
+      value: totalCertificates,
       icon: Award,
       color: "bg-purple-500",
       textColor: "text-purple-600",
-    },
-    {
-      title: "Avg Skills/Employee",
-      value: avgSkillsPerEmployee,
-      icon: TrendingUp,
-      color: "bg-orange-500",
-      textColor: "text-orange-600",
     },
   ];
 

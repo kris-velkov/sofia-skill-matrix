@@ -6,7 +6,7 @@ interface InfoRowProps {
   label: string;
   value?: React.ReactNode;
   icon?: React.ReactNode;
-  badge?: boolean;
+  role?: boolean;
   className?: string;
 }
 
@@ -14,7 +14,7 @@ export const InfoRow: React.FC<InfoRowProps> = ({
   label,
   value,
   icon,
-  badge,
+  role,
   className,
 }) => (
   <div
@@ -27,7 +27,7 @@ export const InfoRow: React.FC<InfoRowProps> = ({
       {icon && <span className="text-primary">{icon}</span>}
       <span>{label}</span>
     </Label>
-    {badge ? (
+    {role ? (
       <Badge className="w-fit text-base font-semibold mt-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800">
         {value || "N/A"}
       </Badge>

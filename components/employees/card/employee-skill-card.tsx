@@ -4,9 +4,10 @@ import { CardContent } from "@/components/ui/card";
 import { EmployeeCardHeader } from "@/components/employees/card/employee-card-header";
 import { EmployeeCardSlackLink } from "@/components/employees/card/employee-slack-link";
 import type { Employee } from "@/lib/types";
-import { LucideClock } from "lucide-react";
+import { Award, AwardIcon, LucideClock } from "lucide-react";
 import Link from "next/link";
 import { EmployeeCardTopSkills } from "./employee-card-top-skills";
+import { getExperienceFromDate } from "@/lib/utils";
 
 export interface EmployeeSkillCardProps {
   employee: Employee;
@@ -33,15 +34,17 @@ export function EmployeeSkillCard({
           <EmployeeCardHeader
             name={employee.firstName + " " + employee.lastName}
             department={employee.department}
-            badge={employee.badge}
-            profileImage={employee.slackProfileImage}
+            role={employee.role}
+            profileImage={employee.profileImage}
+            certificates={employee.certificates}
           />
 
-          <div className="flex items-center text-sm text-gray-500 mb-1">
+          <div className="flex items-center text-sm text-gray-500">
             <LucideClock className="h-4 w-4 mr-2 text-indigo-500" />
-            <span className="font-medium">{employee.careerExperience}</span>
+            <span className="font-medium">
+              {getExperienceFromDate(employee.careerExperience)}
+            </span>
           </div>
-
           <div className="mb-1 h-45 max-h-45 overflow-hidden">
             <EmployeeCardTopSkills skills={topSkills} />
           </div>
