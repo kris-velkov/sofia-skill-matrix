@@ -7,7 +7,7 @@ export const ROLES = [
   { id: "frontend", name: "Front-end" },
   { id: "backend", name: "Back-end" },
   { id: "qa", name: "QA" },
-  { id: "pm", name: "Program Manager" },
+  { id: "pm", name: "Project Manager" },
 ];
 
 export const DEFAULT_CATEGORIES_FE_BE = [
