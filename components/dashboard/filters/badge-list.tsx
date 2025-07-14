@@ -38,16 +38,19 @@ export function BadgeList({
           <Badge
             key={`emp-${employeeId}`}
             variant="secondary"
-            className="bg-blue-100 text-blue-700 flex items-center gap-1 pr-1"
+            className="bg-gray-200 text-black flex items-center gap-1 pr-1 shadow"
           >
-            Employee: {employee.firstName + " " + employee.lastName}
+            <span className="font-bold text-blue-400">Employee: </span>
+            <span className="text-gray-800">
+              {employee.firstName + " " + employee.lastName}
+            </span>
             <Button
               variant="ghost"
               size="icon"
-              className="h-4 w-4 p-0 text-blue-700 hover:bg-transparent"
+              className="h-4 w-4 p-0 text-red-700 hover:text-red-900 cursor-pointer ml-2"
               onClick={() => handleEmployeeSelect(employeeId)}
             >
-              <X className="h-3 w-3" />
+              <X className="h-3 w-3 rounded-full shadow p-0.5 bg-white" />
               <span className="sr-only">Remove employee filter</span>
             </Button>
           </Badge>
@@ -58,54 +61,40 @@ export function BadgeList({
         filterState.selectedDepartment !== "all" && (
           <Badge
             variant="secondary"
-            className="bg-blue-100 text-blue-700 flex items-center gap-1 pr-1"
+            className="bg-gray-200 flex items-center gap-1 pr-1"
           >
-            Department: {filterState.selectedDepartment}
+            <span className="font-bold text-black text-orange-400">
+              Departament:{" "}
+            </span>
+            <span className="text-gray-900">
+              {filterState.selectedDepartment}
+            </span>
             <Button
               variant="ghost"
               size="icon"
-              className="h-4 w-4 p-0 text-blue-700 hover:bg-transparent"
+              className="h-4 w-4 p-0 text-red-700 hover:text-red-900 cursor-pointer ml-2"
               onClick={() => onFilterChange({ selectedDepartment: null })}
             >
-              <X className="h-3 w-3" />
+              <X className="h-3 w-3 rounded-full shadow p-0.5 bg-white" />
               <span className="sr-only">Remove department filter</span>
             </Button>
           </Badge>
         )}
-
-      {filterState.selectedSkillCategory &&
-        filterState.selectedSkillCategory !== "all" && (
-          <Badge
-            variant="secondary"
-            className="bg-blue-100 text-blue-700 flex items-center gap-1 pr-1"
-          >
-            Category: {filterState.selectedSkillCategory}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-4 w-4 p-0 text-blue-700 hover:bg-transparent"
-              onClick={() => onFilterChange({ selectedSkillCategory: null })}
-            >
-              <X className="h-3 w-3" />
-              <span className="sr-only">Remove skill category filter</span>
-            </Button>
-          </Badge>
-        )}
-
       {filterState.selectedSkills.map((skillName) => (
         <Badge
           key={`skill-${skillName}`}
           variant="secondary"
-          className="bg-blue-100 text-blue-700 flex items-center gap-1 pr-1"
+          className="bg-stone-300 text-red-700 flex items-center gap-1 pr-1 shadow-sm"
         >
-          Skill: {skillName}
+          <span className="font-bold text-green-600">Skill: </span>
+          <span className="text-gray-800">{skillName}</span>
           <Button
             variant="ghost"
             size="icon"
-            className="h-4 w-4 p-0 text-blue-700 hover:bg-transparent"
+            className="h-4 w-4 p-0 text-red-700 hover:text-red-900 cursor-pointer ml-2"
             onClick={() => handleSkillSelect(skillName)}
           >
-            <X className="h-3 w-3" />
+            <X className="h-3 w-3 rounded-full shadow p-0.5 bg-white" />
             <span className="sr-only">Remove skill filter</span>
           </Button>
         </Badge>
@@ -114,16 +103,17 @@ export function BadgeList({
       {filterState.minimumSkillLevel !== null && (
         <Badge
           variant="secondary"
-          className="bg-blue-100 text-blue-700 flex items-center gap-1 pr-1"
+          className="bg-stone-300 text-black flex items-center gap-1 pr-1"
         >
-          Level: {filterState.minimumSkillLevel}
+          <span className="font-bold text-rose-500"> Level:</span>
+          <span className="text-gray-900">{filterState.minimumSkillLevel}</span>
           <Button
             variant="ghost"
             size="icon"
-            className="h-4 w-4 p-0 text-blue-700 hover:bg-transparent"
+            className="h-4 w-4 p-0 text-red-700 hover:text-red-900 cursor-pointer ml-2"
             onClick={() => onFilterChange({ minimumSkillLevel: null })}
           >
-            <X className="h-3 w-3" />
+            <X className="h-3 w-3 rounded-full shadow p-0.5 bg-white" />
             <span className="sr-only">Remove minimum skill level filter</span>
           </Button>
         </Badge>

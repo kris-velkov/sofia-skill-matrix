@@ -33,20 +33,20 @@ export function EmployeeCardHeader({
         </div>
       </div>
       <div className="flex text-sm text-gray-600 flex gap-2 ml-14">
-        {department && (
-          <Badge
-            variant="secondary"
-            className="px-3 py-0.5 text-black bg-gray-200 rounded-full min-w-[85px] flex items-center justify-center"
-          >
-            {department}
-          </Badge>
-        )}
         {role && (
           <Badge
             variant="secondary"
-            className="px-2 py-0.5 text-xs bg-slate-200 text-black rounded-full text-center"
+            className="px-2 py-0.5 text-xs bg-gray-700 text-white rounded-full text-center shadow"
           >
             {role}
+          </Badge>
+        )}
+        {department && (
+          <Badge
+            variant="secondary"
+            className="px-3 py-0.5 text-black bg-gray-200 text-gray-600 rounded-full min-w-[85px] flex items-center justify-center shadow"
+          >
+            {department}
           </Badge>
         )}
       </div>

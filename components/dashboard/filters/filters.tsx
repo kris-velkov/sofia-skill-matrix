@@ -96,7 +96,7 @@ export function Filters({
               filterState.minimumSkillLevel === null
             }
             aria-label="Clear Filters"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold flex items-center  px-4 py-2 rounded-lg shadow transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+            className="bg-slate-600 hover:bg-slate-700 text-white font-semibold flex items-center  px-4 py-2 rounded-lg shadow transition-all disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <X className="h-3 w-3" />
             Clear Filters
