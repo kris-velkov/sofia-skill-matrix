@@ -1,7 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function EmployeesLoading() {
-  // Simulate a skeleton table with 5 rows
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <div className="flex-1 p-4 md:p-6">
@@ -12,15 +11,11 @@ export default function EmployeesLoading() {
           </div>
           <Skeleton className="h-5 w-80" />
           <div className="space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="flex items-center space-x-4">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <Skeleton className="h-6 w-40" />
-                <Skeleton className="h-6 w-32" />
-                <Skeleton className="h-6 w-24" />
-                <Skeleton className="h-8 w-20 ml-auto" />
-              </div>
-            ))}
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <Skeleton className="h-6 w-40" />
+            <Skeleton className="h-6 w-32" />
+            <Skeleton className="h-6 w-24" />
+            <Skeleton className="h-8 w-20 ml-auto" />
           </div>
         </div>
       </div>

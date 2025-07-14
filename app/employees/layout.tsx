@@ -3,10 +3,18 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Jakala Skill Matrix - Employees Table",
-  description:
-    "Employees table for managing and visualizing skills within Jakala.",
-  generator: "Jakala Skill Matrix - Employees",
+  title: "Employees – Jakala Skill Matrix",
+  description: "Secure interface for managing and visualizing employee skills.",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
 };
 
 export default function EmployeesLayout({

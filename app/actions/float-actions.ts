@@ -12,7 +12,9 @@ export async function fetchFloatUserInfo(floatId: string) {
     const res = await fetch(url, { next: { revalidate: 60 } });
 
     if (!res.ok) {
-      console.error(`Float API request failed: ${res.status}`);
+      console.error(
+        `Float API request failed: ${res.status} ${res.statusText}`
+      );
       return { isBooked: null };
     }
 

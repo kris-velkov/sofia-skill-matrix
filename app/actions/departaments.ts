@@ -3,11 +3,17 @@
 import { getDepartments } from "@/lib/db";
 
 export async function getDepartmentsAction(): Promise<string[]> {
-  const response = await getDepartments();
+  try {
+    const response = await getDepartments();
 
-  if (!response || !Array.isArray(response)) {
+    if (Array.isArray(response)) {
+      return response;
+    }
+
+    console.warn("⚠️ Invalid departments response:", response);
     return [];
-  } else {
-    return response;
+  } catch (error) {
+    console.error("❌ Failed to fetch departments:", error);
+    return [];
   }
 }

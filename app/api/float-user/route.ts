@@ -49,7 +49,10 @@ export async function GET(req: NextRequest) {
     const tasks = await response.json();
     const isBooked = Array.isArray(tasks) && tasks.length > 0;
 
-    return NextResponse.json({ isBooked });
+    return NextResponse.json(
+      { isBooked },
+      { status: 200, headers: { "Cache-Control": "s-maxage=60" } }
+    );
   } catch (error) {
     console.error("Float API error:", error);
     return NextResponse.json(

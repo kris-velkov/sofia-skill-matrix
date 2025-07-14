@@ -1,4 +1,3 @@
-"use server";
 import { EmployeeTable } from "@/components/employees/employee-table";
 import AddEmployeeButton from "@/components/employees/add/add-employee-button";
 import { getEmployees } from "@/lib/db";
@@ -9,12 +8,31 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Manage Employees – Jakala Skill Matrix",
+  description: "View, edit, add, and delete employee details and skills.",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
+};
 
 export default async function EmployeesPage() {
   const employees = await getEmployees();
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <section
+      className="flex flex-col min-h-screen"
+      aria-labelledby="employees-page-title"
+    >
       <div className="flex-1 p-4 md:p-8">
         <div className="max-w-7xl mx-auto grid gap-8">
           <Card className="border-0 bg-white/90">
@@ -35,6 +53,6 @@ export default async function EmployeesPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

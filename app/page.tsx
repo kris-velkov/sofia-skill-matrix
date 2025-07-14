@@ -1,24 +1,31 @@
-import type { Employee } from "@/lib/types";
 import { Dashboard } from "@/components/dashboard/dashboard";
 import ProtectedRoute from "@/components/auth/protected-route";
+import { getEmployeesData } from "./actions/employees-action";
+import { Suspense } from "react";
 
-async function fetchEmployees(): Promise<Employee[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employees`);
-  if (!res.ok) return [];
-  return res.json();
-}
+export const metadata = {
+  title: "Skills Matrix Dashboard",
+  description: "Track and manage employee skills at a glance.",
+};
 
 export default async function HomePage() {
-  const employees = await fetchEmployees();
+  const employees = await getEmployeesData();
 
   return (
     <ProtectedRoute>
-      <div className="max-w-7xl mx-auto grid gap-10 mt-10 w-full">
+      <section
+        className="max-w-7xl mx-auto grid gap-10 mt-10 w-full "
+        aria-labelledby="skills-matrix-heading"
+      >
         <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-5">
           Skills Matrix Dashboard
         </h1>
-        <Dashboard employees={employees} />
-      </div>
+        <Suspense
+          fallback={<p className="text-center">Loading dashboard...</p>}
+        >
+          <Dashboard employees={employees} />
+        </Suspense>
+      </section>
     </ProtectedRoute>
   );
 }

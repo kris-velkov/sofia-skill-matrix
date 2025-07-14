@@ -32,7 +32,10 @@ export default async function EditEmployeeProfilePage({
 
   return (
     <ProtectedAdminRoute>
-      <section className="flex flex-col items-center justify-center min-h-screen p-4 md:p-8">
+      <section
+        className="flex flex-col items-center justify-center min-h-screen p-4 md:p-8"
+        aria-labelledby="edit-employee"
+      >
         <div className="w-full max-w-4xl space-y-8 mt-8">
           <Breadcrumbs items={breadcrumbItems} />
           <EmployeeEditHeaderInfo employee={employee} />

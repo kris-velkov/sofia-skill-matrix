@@ -4,10 +4,9 @@ import { getEmployees } from "@/lib/db";
 
 export async function getAllEmployees() {
   try {
-    const employees = await getEmployees();
-    return employees;
+    return await getEmployees();
   } catch (error) {
-    console.error("Failed to fetch employees:", error);
-    throw new Error("Failed to fetch employees");
+    console.error("❌ Failed to fetch employees:", error);
+    throw new Error("Unable to load employees at this time.");
   }
 }

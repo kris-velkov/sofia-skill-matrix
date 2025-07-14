@@ -7,18 +7,33 @@ import {
 } from "@/lib/skillsDB";
 import { Employee } from "@/lib/types";
 
+type SkillCategory = {
+  name: string;
+  skills: { name: string; level: number }[];
+};
+
 export async function updateEmployeeSkills(
   employeeId: string,
-  category: { name: string; skills: { name: string; level: number }[] }
+  category: SkillCategory
 ): Promise<Employee | undefined> {
-  return updateEmployeeSkillsInDb(employeeId, category);
+  try {
+    return await updateEmployeeSkillsInDb(employeeId, category);
+  } catch (error) {
+    console.error(`❌ Failed to update skills for ${employeeId}:`, error);
+    throw new Error("Unable to update employee skills.");
+  }
 }
 
 export async function deleteEmployeeSkill(
   employeeId: string,
-  category: { name: string; skills: { name: string; level: number }[] }
+  category: SkillCategory
 ): Promise<Employee | undefined> {
-  return deleteEmployeeSkillInDb(employeeId, category);
+  try {
+    return await deleteEmployeeSkillInDb(employeeId, category);
+  } catch (error) {
+    console.error(`❌ Failed to delete skill for ${employeeId}:`, error);
+    throw new Error("Unable to delete employee skill.");
+  }
 }
 
 export async function updateEmployeeCategoryName(
@@ -26,5 +41,10 @@ export async function updateEmployeeCategoryName(
   oldName: string,
   newName: string
 ): Promise<Employee | undefined> {
-  return updateEmployeeCategoryNameInDb(employeeId, oldName, newName);
+  try {
+    return await updateEmployeeCategoryNameInDb(employeeId, oldName, newName);
+  } catch (error) {
+    console.error(`❌ Failed to rename category for ${employeeId}:`, error);
+    throw new Error("Unable to update category name.");
+  }
 }
