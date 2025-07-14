@@ -92,7 +92,6 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
       return updated;
     });
     try {
-      // Remove the skill from the category and update the backend
       const updatedSkills = category.skills.filter((_, i) => i !== skillIdx);
       await updateEmployeeSkills(employeeId, {
         name: category.name,
@@ -216,7 +215,10 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
               </div>
               <div className="space-y-6">
                 {category.skills.map((skill, skillIdx) => {
-                  const color = COMPETENCY_LEVELS[skill.level].bgColor || 0;
+                  const competency = COMPETENCY_LEVELS.find(
+                    (item) => item.grade === skill.level || 0
+                  );
+
                   return (
                     <div
                       key={catIdx + "-" + skillIdx}
@@ -239,7 +241,7 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
                         <div className="relative w-full h-2 rounded-full bg-gray-200 overflow-hidden shadow-inner">
                           <div
                             className={cn(
-                              color,
+                              competency?.bgColor,
                               "absolute left-0 top-0 h-2 rounded-full transition-all"
                             )}
                             style={{
@@ -254,11 +256,11 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
                         </div>
                         <span
                           className={cn(
-                            "text-xs font-semibold mt-1 ml-1",
-                            color
+                            "text-xs font-semibold mt-1 ml-1 text-green-300",
+                            competency?.progressTextColor
                           )}
                         >
-                          {color}
+                          {competency?.name}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 min-w-[80px] w-full sm:w-auto">

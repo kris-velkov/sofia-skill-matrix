@@ -5,38 +5,11 @@ import { Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SkillCategory } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
+import { COMPETENCY_LEVELS } from "@/constants/competency-level";
 
 interface EmployeeSkillsInfoProps {
   skills: SkillCategory[];
 }
-
-const levelColors = [
-  {
-    bar: "bg-gray-300",
-    text: "text-gray-500",
-    label: "No Competency",
-  },
-  {
-    bar: "bg-red-400",
-    text: "text-red-600",
-    label: "Some knowledge",
-  },
-  {
-    bar: "bg-yellow-400",
-    text: "text-yellow-700",
-    label: "Working knowledge",
-  },
-  {
-    bar: "bg-blue-400",
-    text: "text-blue-700",
-    label: "Good proficiency",
-  },
-  {
-    bar: "bg-green-500",
-    text: "text-green-700",
-    label: "Expert",
-  },
-];
 
 export const EmployeeSkillsInfo: React.FC<EmployeeSkillsInfoProps> = ({
   skills,
@@ -77,7 +50,8 @@ export const EmployeeSkillsInfo: React.FC<EmployeeSkillsInfoProps> = ({
               </div>
               <div className="space-y-6">
                 {category.skills.map((skill) => {
-                  const color = levelColors[skill.level] || levelColors[0];
+                  const item =
+                    COMPETENCY_LEVELS[skill.level] || COMPETENCY_LEVELS[0];
                   return (
                     <div
                       key={skill.name}
@@ -90,7 +64,7 @@ export const EmployeeSkillsInfo: React.FC<EmployeeSkillsInfoProps> = ({
                         <div className="relative w-full h-2 rounded-full bg-gray-200 overflow-hidden shadow-inner">
                           <div
                             className={cn(
-                              color.bar,
+                              item.bgColor,
                               "absolute left-0 top-0 h-2 rounded-full transition-all"
                             )}
                             style={{
@@ -106,16 +80,16 @@ export const EmployeeSkillsInfo: React.FC<EmployeeSkillsInfoProps> = ({
                         <span
                           className={cn(
                             "text-xs font-semibold mt-1 ml-1",
-                            color.text
+                            item.progressTextColor
                           )}
                         >
-                          {color.label}
+                          {item.name}
                         </span>
                       </div>
                       <span
                         className={cn(
                           "font-bold min-w-[48px] text-right",
-                          color.text
+                          item.progressTextColor
                         )}
                       >
                         {skill.level}/{maxLevel}
