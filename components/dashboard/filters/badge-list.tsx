@@ -116,7 +116,7 @@ export function BadgeList({
           variant="secondary"
           className="bg-blue-100 text-blue-700 flex items-center gap-1 pr-1"
         >
-          Min Level: {filterState.minimumSkillLevel}
+          Level: {filterState.minimumSkillLevel}
           <Button
             variant="ghost"
             size="icon"

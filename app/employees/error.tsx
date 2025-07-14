@@ -31,7 +31,12 @@ export default function ErrorPage({
           {error.message ||
             "An unexpected error occurred while loading employee data."}
         </p>
-        <Button onClick={reset}>Try again</Button>
+        <Button
+          onClick={reset}
+          className="bg-red-500 hover:bg-red-600 text-white"
+        >
+          Try again
+        </Button>
       </div>
     </section>
   );

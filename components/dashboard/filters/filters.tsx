@@ -72,7 +72,9 @@ export function Filters({
         />
         <MinimumSkillLevelSelector
           value={filterState.minimumSkillLevel}
-          onChange={(level) => onFilterChange({ minimumSkillLevel: level })}
+          onChange={(level) =>
+            onFilterChange({ minimumSkillLevel: level ?? 1 })
+          }
         />
       </CardContent>
       <div className="border-t border-gray-200 mt-2 pt-4 px-6 bg-white/95 rounded-b-2xl">

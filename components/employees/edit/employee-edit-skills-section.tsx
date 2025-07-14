@@ -11,10 +11,10 @@ import {
   updateEmployeeSkills,
   updateEmployeeCategoryName,
 } from "@/app/actions/employee-skills-actions";
-import { LEVEL_COLORS } from "@/constants/competency-level";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-hot-toast";
+import { COMPETENCY_LEVELS } from "@/constants/competency-level";
 
 interface EmployeeEditSkillsProps {
   skills: SkillCategory[];
@@ -216,7 +216,7 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
               </div>
               <div className="space-y-6">
                 {category.skills.map((skill, skillIdx) => {
-                  const color = LEVEL_COLORS[skill.level] || LEVEL_COLORS[0];
+                  const color = COMPETENCY_LEVELS[skill.level].bgColor || 0;
                   return (
                     <div
                       key={catIdx + "-" + skillIdx}

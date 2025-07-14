@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Employee, FilterState } from "./types";
+import { useSkillsStore } from "@/store/use-skills-store";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -33,4 +35,54 @@ export function getExperienceFromDate(
   const rdDays = (days + (days < 0 ? 30 : 0)) % 31;
 
   return `${rdYears}y ${rdMonths}m ${rdDays}d`;
+}
+
+type Filter = FilterState;
+
+export function getFilteredEmployees(
+  employees: Employee[],
+  filter: Filter
+): Employee[] {
+  return employees.filter((e) => {
+    const matchesEmployee =
+      !filter.selectedEmployees.length ||
+      filter.selectedEmployees.includes(e.id);
+
+    const matchesDepartment =
+      !filter.selectedDepartment ||
+      filter.selectedDepartment === "all" ||
+      e.department === filter.selectedDepartment;
+
+    const matchesSkillCategory =
+      !filter.selectedSkillCategory ||
+      filter.selectedSkillCategory === "all" ||
+      e.skills.some(
+        (cat) =>
+          cat.name === filter.selectedSkillCategory &&
+          (filter.minimumSkillLevel === null ||
+            cat.averageLevel >= filter.minimumSkillLevel)
+      );
+
+    const matchesSkills =
+      !filter.selectedSkills.length && filter.minimumSkillLevel === null
+        ? true
+        : e.skills.some((cat) =>
+            cat.skills.some((skill) => {
+              const matchSkill =
+                !filter.selectedSkills.length ||
+                filter.selectedSkills.includes(skill.name);
+              const matchLevel =
+                filter.minimumSkillLevel === null ||
+                skill.level >= filter.minimumSkillLevel;
+              return matchSkill && matchLevel;
+            })
+          );
+
+    return (
+      matchesEmployee &&
+      matchesDepartment &&
+      matchesSkillCategory &&
+      matchesSkills
+    );
+  });
 }

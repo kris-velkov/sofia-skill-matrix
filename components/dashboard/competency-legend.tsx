@@ -42,7 +42,7 @@ export function CompetencyLegendContent() {
             <div
               className={cn(
                 "w-6 h-6 rounded-full border border-gray-200",
-                level.color
+                level.bgColor
               )}
               aria-label={`Color for ${level.name}`}
             />

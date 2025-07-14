@@ -1,83 +1,65 @@
 import { SkillLevel } from "@/lib/types";
+import {
+  Award,
+  CheckCircle,
+  Circle,
+  LucideIcon,
+  Star,
+  TrendingUp,
+} from "lucide-react";
 
 export interface CompetencyLevel {
   grade: SkillLevel;
+  icon: LucideIcon;
   name: string;
   description: string;
-  color: string;
+  textColor: string;
+  bgColor: string;
 }
 
 export const COMPETENCY_LEVELS: CompetencyLevel[] = [
   {
     grade: 0,
+    icon: Circle,
     name: "No competency",
     description: "I know nothing about this or the skill is not applicable.",
-    color: "bg-red-500",
+    textColor: "text-white",
+    bgColor: "bg-rose-400",
   },
   {
     grade: 1,
+    icon: Star,
     name: "Some knowledge",
     description:
       "I know something, and after further reading I am able to perform simple tasks.",
-    color: "bg-orange-500",
+    bgColor: "bg-amber-300",
+    textColor: "text-white",
   },
   {
     grade: 2,
     name: "Working knowledge",
+    icon: TrendingUp,
     description:
       "I can perform simple tasks. After further reading I can challenge average tasks.",
-    color: "bg-yellow-200",
+    bgColor: "bg-yellow-400",
+    textColor: "text-white",
   },
   {
     grade: 3,
+    icon: CheckCircle,
     name: "Good competency",
     description:
       "I can perform average tasks and with further research I can challenge complex tasks.",
-    color: "bg-green-500",
+    bgColor: "bg-green-400",
+    textColor: "text-white",
   },
   {
     grade: 4,
+    icon: Award,
     name: "Expert",
     description:
       "I can perform complex tasks and with further research I can challenge very complex tasks.",
-    color: "bg-blue-500",
+    bgColor: "bg-sky-400",
+    textColor: "text-white",
   },
 ];
-
-export const LEVEL_COLORS = [
-  {
-    bar: "bg-gray-300",
-    text: "text-gray-500",
-    label: "No Competency",
-  },
-  {
-    bar: "bg-orange-400",
-    text: "text-orange-600",
-    label: "Some knowledge",
-  },
-  {
-    bar: "bg-yellow-400",
-    text: "text-yellow-700",
-    label: "Working knowledge",
-  },
-  {
-    bar: "bg-green-400",
-    text: "text-green-700",
-    label: "Good proficiency",
-  },
-  {
-    bar: "bg-blue-500",
-    text: "text-blue-700",
-    label: "Expert",
-  },
-];
-
-export const CAREER_EXPERIENCE_LEVELS = [
-  "0-1y",
-  "1-3y",
-  "3-5y",
-  "5-10y",
-  "10y+",
-] as const;
-
-export const SKILL_LEVELS = [1, 2, 3, 4];

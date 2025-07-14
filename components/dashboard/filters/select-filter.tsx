@@ -30,7 +30,7 @@ export function SelectFilter<T extends string>({
   showAll = true,
   allLabel = "All",
   className,
-}: SelectFilterProps<T>) {
+}: Readonly<SelectFilterProps<T>>) {
   return (
     <div className="grid gap-2">
       <Label htmlFor={id} className="text-gray-700">

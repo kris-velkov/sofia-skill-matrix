@@ -19,7 +19,7 @@ export function EmployeeSkillCard({
     .filter((cat, idx) => idx !== 0)
     .flatMap((cat) => cat.skills)
     .sort((a, b) => b.level - a.level)
-    .slice(0, 9);
+    .slice(0, 8);
 
   return (
     <section className="w-full max-w-lg bg-white shadow-2xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-3xl hover:-translate-y-1 border border-gray-200 cursor-pointer block group">
