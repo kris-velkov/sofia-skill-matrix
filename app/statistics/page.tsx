@@ -7,7 +7,7 @@ import type { Employee } from "@/lib/types";
 import { getAllEmployees } from "../actions/certificate-statistics-action";
 import { CompactStatsGrid } from "@/components/statistics/compact-stats-grid";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { CertificatesTable } from "@/components/statistics/cerfificates-table";
+import { CertificatesTable } from "@/components/statistics/certificates-table";
 import { Input } from "@/components/ui/input";
 
 export default function CertificateStatisticsPage() {

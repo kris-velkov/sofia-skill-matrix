@@ -3,10 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { SelectFilter } from "./SelectFilter";
-import { MultiSelectPopover } from "./MultiSelectPopover";
-import { MinimumSkillLevelSelector } from "./MinimumSkillLevelSelector";
-import { BadgeList } from "./BadgeList";
+import { SelectFilter } from "./select-filter";
+import { MultiSelectPopover } from "./multi-select-popover";
+import { MinimumSkillLevelSelector } from "./minimum-skill-level-selector";
+import { BadgeList } from "./badge-list";
 import type { FilterState, Employee } from "@/lib/types";
 
 interface FiltersProps {

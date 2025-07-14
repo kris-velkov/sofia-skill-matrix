@@ -59,7 +59,7 @@ export function LoginForm() {
   }
 
   return (
-    <div className="flex min-h-screen w-full bg-gradient-to-br from-blue-100 via-white to-blue-200">
+    <div className="flex md:min-h-screen w-full bg-gradient-to-br from-blue-100 via-white to-blue-200">
       <div className="hidden lg:flex flex-1 flex-col items-center justify-center bg-gradient-to-br from-cyan-400 to-blue-700">
         <BarChart className="h-20 w-20 text-white mb-6" strokeWidth={2.5} />
         <span className="text-4xl font-extrabold text-white drop-shadow-lg">
@@ -102,7 +102,7 @@ export function LoginForm() {
                   aria-describedby={error ? "password-error" : undefined}
                   placeholder="Enter your password"
                 />
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
                   className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-blue-600"
@@ -114,7 +114,7 @@ export function LoginForm() {
                   ) : (
                     <Eye className="h-5 w-5" />
                   )}
-                </button>
+                </Button>
               </div>
             </div>
             {error && (

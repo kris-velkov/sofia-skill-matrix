@@ -3656,7 +3656,7 @@
           "skills": [
             {
               "name": "React",
-              "level": 0
+              "level": 4
             },
             {
               "name": "Vue",
@@ -3666,7 +3666,8 @@
               "name": "Angular",
               "level": 0
             }
-          ]
+          ],
+          "averageLevel": 1.3
         },
         {
           "name": "Mobile",
