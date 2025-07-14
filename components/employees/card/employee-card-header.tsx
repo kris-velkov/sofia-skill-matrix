@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { EmployeeAvatar } from "../employee-avatar";
 import React from "react";
-import { Award } from "lucide-react";
+import { GraduationCap } from "lucide-react";
 import { Certificate } from "@/lib/types";
 
 interface EmployeeCardHeaderProps {
@@ -25,7 +25,7 @@ export function EmployeeCardHeader({
         <div className="flex flex-row items-center justify-between w-full">
           <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
           <div className="flex items-center gap-1 shadow rounded p-1">
-            <Award className="h-4 w-4 text-indigo-700" />
+            <GraduationCap className="h-4 w-4 text-indigo-700" />
             <span className="font-normal text-sm text-indigo-600 ">
               {certificates ? certificates?.length : 0}
             </span>
@@ -36,7 +36,7 @@ export function EmployeeCardHeader({
         {role && (
           <Badge
             variant="secondary"
-            className="px-2 py-0.5 text-xs bg-gray-700 text-white rounded-full text-center shadow"
+            className="px-2 py-0.5 text-xs bg-blue-200 text-blue-700 rounded-full text-center shadow"
           >
             {role}
           </Badge>

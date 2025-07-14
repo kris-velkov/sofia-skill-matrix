@@ -24,8 +24,8 @@ export function SkillLevelBadge({
       aria-label={`Skill level ${name}`}
       title={`Skill level ${name}`}
     >
-      <span className="flex items-center justify-center rounded-full p-1">
-        <Icon className="h-4 w-4" aria-hidden="true" />
+      <span className="flex items-center justify-center rounded-full p-0">
+        <Icon className="h-4 w-4 " aria-hidden="true" />
       </span>
       <span>{children}</span>
     </Badge>
