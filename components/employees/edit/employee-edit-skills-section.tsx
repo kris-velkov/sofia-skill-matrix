@@ -239,7 +239,7 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
                         <div className="relative w-full h-2 rounded-full bg-gray-200 overflow-hidden shadow-inner">
                           <div
                             className={cn(
-                              color.bar,
+                              color,
                               "absolute left-0 top-0 h-2 rounded-full transition-all"
                             )}
                             style={{
@@ -255,10 +255,10 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
                         <span
                           className={cn(
                             "text-xs font-semibold mt-1 ml-1",
-                            color.text
+                            color
                           )}
                         >
-                          {color.label}
+                          {color}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 min-w-[80px] w-full sm:w-auto">
