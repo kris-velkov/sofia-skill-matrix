@@ -5,13 +5,13 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import EmployeeEditHeaderInfo from "@/components/employees/edit/employee-edit-header-info";
 import EmployeeEditPersonalInfo from "@/components/employees/edit/employee-edit-personal-info";
 import EmployeeEditCertificates from "@/components/employees/edit/employee-edit-certificates";
-import EmployeeEditSkills from "@/components/employees/edit/employee-edit-skills-section";
 import ProtectedAdminRoute from "@/components/auth/protected-admin-route";
+import EmployeeEditSkills from "@/components/employees/edit/employee-edit-skills-section";
 
 export default async function EditEmployeeProfilePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const employee = await getEmployeeById(id);

@@ -7,7 +7,6 @@ interface EmployeeCardSocialLinkProps {
 }
 export function EmployeeCardSocialLink({
   url,
-  name,
 }: Readonly<EmployeeCardSocialLinkProps>) {
   return (
     <div className="mt-5 pt-5 border-t border-gray-200 flex items-center justify-center cursor-pointer  transition-colors">

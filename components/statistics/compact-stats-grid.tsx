@@ -1,8 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Users, Building2, Award, TrendingUp } from "lucide-react";
+import { Users, Building2, Award, LucideIcon } from "lucide-react";
 import type { Employee } from "@/lib/types";
 
 interface CompactStatsGridProps {
@@ -28,7 +27,7 @@ export function CompactStatsGrid({ employees }: CompactStatsGridProps) {
   const stats: {
     title: string;
     value: number | string;
-    icon: any;
+    icon: LucideIcon;
     color: string;
     textColor: string;
   }[] = [

@@ -1,19 +1,19 @@
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
-import type { Employee } from "@/lib/types"
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { Employee, SkillLevel } from "@/lib/types";
 
 export interface FilterState {
-  selectedEmployees: Employee["id"][]
-  selectedDepartment: string | null
-  selectedSkillCategory: string | null
-  selectedSkills: string[]
-  minimumSkillLevel: number | null
+  selectedEmployees: Employee["id"][];
+  selectedDepartment: string | null;
+  selectedSkillCategory: string | null;
+  selectedSkills: string[];
+  minimumSkillLevel: SkillLevel | null;
 }
 
 interface SkillsState {
-  filterState: FilterState
-  setFilterState: (partial: Partial<FilterState>) => void
-  clearFilters: () => void
+  filterState: FilterState;
+  setFilterState: (partial: Partial<FilterState>) => void;
+  clearFilters: () => void;
 }
 
 const DEFAULT_FILTER_STATE: FilterState = {
@@ -22,11 +22,11 @@ const DEFAULT_FILTER_STATE: FilterState = {
   selectedSkillCategory: null,
   selectedSkills: [],
   minimumSkillLevel: null,
-}
+};
 
 export const useSkillsStore = create<SkillsState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       filterState: DEFAULT_FILTER_STATE,
 
       setFilterState: (partial) =>
@@ -36,6 +36,6 @@ export const useSkillsStore = create<SkillsState>()(
 
       clearFilters: () => set({ filterState: DEFAULT_FILTER_STATE }),
     }),
-    { name: "skills-store" },
-  ),
-)
+    { name: "skills-store" }
+  )
+);

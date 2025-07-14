@@ -12,7 +12,10 @@ interface DashboardProps {
 }
 
 export function Dashboard({ employees }: Readonly<DashboardProps>) {
-  const safeEmployees = Array.isArray(employees) ? employees : [];
+  const safeEmployees = useMemo(
+    () => (Array.isArray(employees) ? employees : []),
+    [employees]
+  );
 
   const filterState = useSkillsStore((state) => state.filterState);
   const setFilterState = useSkillsStore((state) => state.setFilterState);

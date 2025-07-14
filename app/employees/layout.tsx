@@ -1,4 +1,5 @@
 import ProtectedAdminRoute from "@/components/auth/protected-admin-route";
+import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 export default function EmployeesLayout({
   children,
 }: {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }) {
   return <ProtectedAdminRoute>{children}</ProtectedAdminRoute>;
 }

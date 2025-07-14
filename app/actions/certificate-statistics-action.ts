@@ -7,6 +7,7 @@ export async function getAllEmployees() {
     const employees = await getEmployees();
     return employees;
   } catch (error) {
+    console.error("Failed to fetch employees:", error);
     throw new Error("Failed to fetch employees");
   }
 }

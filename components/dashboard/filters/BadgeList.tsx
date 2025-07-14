@@ -40,7 +40,7 @@ export function BadgeList({
             variant="secondary"
             className="bg-blue-100 text-blue-700 flex items-center gap-1 pr-1"
           >
-            Employee: {employee.name}
+            Employee: {employee.firstName + " " + employee.lastName}
             <Button
               variant="ghost"
               size="icon"

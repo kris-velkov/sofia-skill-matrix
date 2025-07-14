@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 import { Employee } from "@/lib/types";
 
 interface EmployeePersonalInfoProps {
-  employee: Employee;
+  employee: Omit<Employee, "skills">;
 }
 
 type FormValues = Omit<EmployeePersonalInfoProps["employee"], "id">;
@@ -44,6 +44,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
         department: formData.get("department") as string,
+        floatId: formData.get("floatId") as string,
         careerExperience: formData.get("careerExperience") as string,
         startDate: formData.get("startDate") as string,
         program: formData.get("program") as string,
@@ -126,7 +127,15 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
               placeholder="Career role"
             />
           </div>
-
+          <div>
+            <Label>Float Id</Label>
+            <input
+              name="floatId"
+              defaultValue={localEmployee.floatId || ""}
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
+              placeholder="Float id"
+            />
+          </div>
           <div>
             <Label>Experience Since</Label>
             <input

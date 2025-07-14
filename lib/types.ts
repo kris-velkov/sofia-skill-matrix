@@ -22,6 +22,7 @@ export interface Certificate {
 
 export interface Employee {
   id: string;
+  floatId: string;
   firstName: string;
   lastName: string;
   program?: string;

@@ -1,10 +1,9 @@
-"use client";
-
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Linkedin, Slack } from "lucide-react";
 import { Employee } from "@/lib/types";
+import { FloatUserStatusBadge } from "./employee-float-status";
 
 interface EmployeeHeaderInfoProps {
   employee: Partial<Employee>;
@@ -33,11 +32,17 @@ export const EmployeeHeaderInfo: React.FC<EmployeeHeaderInfoProps> = ({
           {employee.city && ` • ${employee.city}`}
           {employee.country && `, ${employee.country}`}
         </p>
-        {employee.role && (
-          <Badge className="mt-2 px-4 py-1 text-base bg-blue-200 text-blue-800 font-semibold shadow">
-            {employee.role}
-          </Badge>
-        )}
+        <div className="flex flex-wrap items-center gap-2 text-center justify-center lg:justify-start">
+          {employee.role && (
+            <Badge className="mt-2 px-4 py-1 bg-blue-200 text-blue-800  shadow">
+              {employee.role}
+            </Badge>
+          )}
+
+          {employee.floatId && (
+            <FloatUserStatusBadge floatId={employee.floatId} />
+          )}
+        </div>
       </div>
       <div className="flex gap-4 mt-6 md:mt-0">
         {employee.linkedinUrl && (

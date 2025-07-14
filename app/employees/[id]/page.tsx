@@ -10,7 +10,7 @@ import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-i
 export default async function EmployeeProfilePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const employee = await getEmployeeById(id);
@@ -34,7 +34,9 @@ export default async function EmployeeProfilePage({
 
         <EmployeeHeaderInfo employee={employee} />
         <EmployeePersonalInfo employee={employee} />
-        <EmployeeCertificatesInfo certificates={employee.certificates} />
+        {employee.certificates && (
+          <EmployeeCertificatesInfo certificates={employee.certificates} />
+        )}
         {employee.skills && <EmployeeSkillsInfo skills={employee.skills} />}
       </div>
     </section>

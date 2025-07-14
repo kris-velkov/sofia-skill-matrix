@@ -10,8 +10,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { EmployeeAvatar } from "../employees/employee-avatar";
-import { Award } from "lucide-react";
-import InfoRow from "../ui/info-row";
 
 interface CertificatesTableProps {
   certificates: {

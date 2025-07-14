@@ -79,3 +79,5 @@ export const CAREER_EXPERIENCE_LEVELS = [
   "5-10y",
   "10y+",
 ] as const;
+
+export const SKILL_LEVELS = [1, 2, 3, 4];

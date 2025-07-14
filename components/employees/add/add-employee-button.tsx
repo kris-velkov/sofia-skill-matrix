@@ -30,6 +30,7 @@ export const AddEmployeeButton: React.FC = () => {
       router.push(`/employees/${res.id}/edit`);
     } catch (error) {
       toast.error("Error adding employee.");
+      console.error("Error adding employee:", error);
     }
   };
 

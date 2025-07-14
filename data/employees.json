@@ -4,31 +4,33 @@
       "id": "aleksandr-ponomarenko",
       "firstName": "Aleksandr",
       "lastName": "Ponomarenko",
-      "bio": "Very good ",
+      "bio": "",
       "country": "Bulgaria",
       "city": "Sofia",
       "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MH3J5HJN-71a8957b8fe5-192",
       "slackUrl": "https://ua.linkedin.com/in/alex-ponomarenko-cn",
       "linkedinUrl": "https://ua.linkedin.com/in/alex-ponomarenko-cn",
-      "careerExperience": "2025-04-03",
-      "department": "Backend",
+      "careerExperience": "2009-04-01",
+      "startDate": "2021-12-13",
+      "department": "Back-end",
       "role": "Group Architect",
+      "floatId": "17723477",
       "skills": [
         {
           "name": "Generic",
           "skills": [
             {
               "name": "Motivation",
-              "level": 4
+              "level": 3
             },
             {
               "name": "Potential",
-              "level": 4
+              "level": 3
             },
             {
               "name": "Communication",
-              "level": 4
+              "level": 3
             },
             {
               "name": "Confidence",
@@ -55,7 +57,7 @@
               "level": 4
             }
           ],
-          "averageLevel": 3.3
+          "averageLevel": 3
         },
         {
           "name": "Javascript",
@@ -105,8 +107,7 @@
               "name": "S3",
               "level": 1
             }
-          ],
-          "averageLevel": 0.7
+          ]
         },
         {
           "name": "Build tools",
@@ -123,8 +124,7 @@
               "name": "Lando",
               "level": 4
             }
-          ],
-          "averageLevel": 2.7
+          ]
         },
         {
           "name": "Drupal",
@@ -165,8 +165,7 @@
               "name": "Tests",
               "level": 2
             }
-          ],
-          "averageLevel": 1.8
+          ]
         },
         {
           "name": "CI/CD",
@@ -187,8 +186,7 @@
               "name": "Others",
               "level": 2
             }
-          ],
-          "averageLevel": 1.8
+          ]
         },
         {
           "name": "CMD",
@@ -205,8 +203,7 @@
               "name": "awk, sed",
               "level": 2
             }
-          ],
-          "averageLevel": 2.7
+          ]
         },
         {
           "name": "VCS",
@@ -215,8 +212,7 @@
               "name": "GIT",
               "level": 4
             }
-          ],
-          "averageLevel": 4
+          ]
         },
         {
           "name": "Scripting",
@@ -233,8 +229,7 @@
               "name": "Expect",
               "level": 0
             }
-          ],
-          "averageLevel": 1
+          ]
         },
         {
           "name": "Devops",
@@ -255,8 +250,7 @@
               "name": "Azure",
               "level": 0
             }
-          ],
-          "averageLevel": 1.3
+          ]
         },
         {
           "name": "FE frameworks",
@@ -273,8 +267,7 @@
               "name": "Angular",
               "level": 0
             }
-          ],
-          "averageLevel": 0
+          ]
         },
         {
           "name": "Mobile",
@@ -404,18 +397,19 @@
             }
           ],
           "averageLevel": 1.7
-        }
-      ],
-      "certificates": [
+        },
         {
-          "id": "bbecef5a-1884-459f-bc00-9d43dc0c5f19",
-          "issuer": "AWS",
-          "name": "AWS",
-          "url": "https://www.theknowledgeacademy.com/bg/offers/amazon-aws-certification-training-courses/?utm_term=aws%20certification&utm_campaign=%5BAWS+Training%5D&utm_source=adwords&utm_medium=ppc&hsa_acc=1570805160&hsa_cam=15560883761&hsa_grp=130627253226&hsa_ad=569416226066&hsa_src=g&hsa_tgt=kwd-364483928&hsa_kw=aws%20certification&hsa_mt=e&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=15560883761&gbraid=0AAAAAoUorGwKXBUIKvRWCSp12m8M1aykz&gclid=CjwKCAjw4K3DBhBqEiwAYtG_9Oe1YTgRmkrbgKIfJ3za3vqySTCWtu-EN4Dt3-tAtysSauPvGUa1uRoCvl4QAvD_BwE",
-          "date": "2025-07-24"
+          "name": "Test",
+          "skills": [
+            {
+              "name": "Test 2",
+              "level": 2
+            }
+          ],
+          "averageLevel": 2
         }
       ],
-      "startDate": "2021-09-30"
+      "certificates": []
     },
     {
       "id": "alexandru-dumitru",
@@ -423,14 +417,15 @@
       "lastName": "Dumitru",
       "bio": "",
       "country": "Romania",
-      "city": "",
+      "city": "Cluj",
       "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07N5SQ0WM6-5c3c0477202a-512",
       "slackUrl": "https://jakala-talk.slack.com/team/U07N5SQ0WM6",
       "linkedinUrl": "https://ro.linkedin.com/in/dumitrualexandruiulian",
-      "careerExperience": "",
-      "department": "Backend",
-      "role": "Senior Technical Lead",
+      "careerExperience": "2014-11-01",
+      "startDate": "2023-09-18",
+      "department": "Back-end",
+      "role": "Senior L2 Sr. Project Lead",
       "skills": [
         {
           "name": "Generic",
@@ -811,13 +806,13 @@
       "certificates": [
         {
           "id": "6e37da67-546c-4613-8961-b539516cb64a",
-          "issuer": "",
-          "name": "Acquia Certified Drupal Backend Specialist",
-          "url": "https://docs.acquia.com/acquia-academy/acquia-certified-drupal-backend-specialist",
-          "date": "2025-05-08"
+          "issuer": "Acquia",
+          "name": "Acquia Certified Developer - Drupal 10",
+          "url": "https://drive.google.com/file/d/18uXpcUjABeZ70_b_akUCAz7jYPm8bBDC/view?usp=drive_link",
+          "date": "2025-06-02"
         }
       ],
-      "startDate": ""
+      "floatId": "18083136"
     },
     {
       "id": "andrii-prokh",
@@ -826,12 +821,14 @@
       "bio": "",
       "country": "Ukraine",
       "city": "",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07M2GQG763-59483b017499-512",
       "slackUrl": "https://jakala-talk.slack.com/team/U07M2GQG763",
       "linkedinUrl": "https://ua.linkedin.com/in/andrii-prokh-72544a159",
-      "careerExperience": "2023-05-12",
-      "department": "Backend",
-      "role": "SL1",
+      "careerExperience": "2017-04-01",
+      "startDate": "2022-10-10",
+      "department": "Back-end",
+      "role": "Senior L1 Sr. PHP developer",
       "skills": [
         {
           "name": "Generic",
@@ -1026,9 +1023,7 @@
           ]
         }
       ],
-      "certificates": [],
-      "startDate": "2024-02-09",
-      "program": ""
+      "certificates": []
     },
     {
       "id": "dmitry-kiselev",
@@ -1037,12 +1032,14 @@
       "bio": "",
       "country": "Poland",
       "city": "",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MAEBEZGE-9506a13ab19a-512",
       "slackUrl": "https://jakala-talk.slack.com/team/U07MAEBEZGE",
-      "linkedinUrl": "",
-      "careerExperience": "12",
-      "department": "Backend",
-      "role": "SL1",
+      "linkedinUrl": "https://www.linkedin.com/in/kala4ek/",
+      "careerExperience": "2012-02-01",
+      "startDate": "2020-08-17",
+      "department": "Back-end",
+      "role": "Senior L1 Sr. PHP developer",
       "skills": [
         {
           "name": "Generic",
@@ -1420,22 +1417,7 @@
           ]
         }
       ],
-      "certificates": [
-        {
-          "id": "ba0f2c88-3a0d-40c0-89a0-90d5aecb5903",
-          "issuer": "Docker",
-          "name": "Docker Developer Master Class",
-          "url": "https://www.docker.com/",
-          "date": "2025-04-02"
-        },
-        {
-          "id": "5a9b22c2-14bc-415b-b43c-d1b4540ecd10",
-          "name": "Test certificate",
-          "url": "https://www.docker.com/",
-          "date": "2025-07-03",
-          "issuer": "Docker"
-        }
-      ]
+      "certificates": []
     },
     {
       "id": "mariya-valcheva-tosheva",
@@ -1443,13 +1425,15 @@
       "lastName": "Valcheva-Tosheva",
       "bio": "",
       "country": "Bulgaria",
-      "city": "",
+      "city": "Sofia",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MAE6QS3G-01aaaf43c911-512",
       "slackUrl": "https://jakala-talk.slack.com/team/U07MAE6QS3G",
-      "linkedinUrl": "",
-      "careerExperience": "2020-02-07",
-      "department": "Frontend",
-      "role": "ML3 Adv PHP",
+      "linkedinUrl": "https://www.linkedin.com/in/mariavalcheva/",
+      "careerExperience": "2005-02-01",
+      "startDate": "2010-03-08",
+      "department": "Back-end",
+      "role": "Mid-Level L3 Advanced PHP developer",
       "skills": [
         {
           "name": "Generic",
@@ -1827,17 +1811,7 @@
           ]
         }
       ],
-      "certificates": [
-        {
-          "id": "ca9aee51-ddbc-402f-a82e-f377956358d5",
-          "issuer": "Meta",
-          "name": "Front-end Proffesional",
-          "url": "",
-          "date": "2023-02-17"
-        }
-      ],
-      "startDate": "",
-      "program": ""
+      "certificates": []
     },
     {
       "id": "mykola-balabash",
@@ -1846,12 +1820,14 @@
       "bio": "",
       "country": "Ukraine",
       "city": "",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MVPB9T89-0b73cfafd001-512",
       "slackUrl": "https://jakala-talk.slack.com/team/U07MVPB9T89",
-      "linkedinUrl": "",
-      "careerExperience": "6",
-      "department": "Backend",
-      "role": "SL1TL",
+      "linkedinUrl": "https://www.linkedin.com/in/twilderan/",
+      "careerExperience": "2018-12-01",
+      "startDate": "2023-06-12",
+      "department": "Back-end",
+      "role": "Senior L1 Team Lead",
       "skills": [
         {
           "name": "Generic",
@@ -2237,13 +2213,15 @@
       "lastName": "Kostova",
       "bio": "",
       "country": "Bulgaria",
-      "city": "",
+      "city": "Sofia",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MH0ARFS7-3666ed4aabea-512",
       "slackUrl": "https://jakala-talk.slack.com/team/U07MH0ARFS7",
       "linkedinUrl": "https://bg.linkedin.com/in/nevenakostova",
-      "careerExperience": "7y 5m",
-      "department": "Backend",
-      "role": "GA",
+      "careerExperience": "2007-11-01",
+      "startDate": "2017-01-16",
+      "department": "Back-end",
+      "role": "Senior L2 Sr. Project Lead",
       "skills": [
         {
           "name": "Generic",
@@ -2625,9 +2603,9 @@
         {
           "id": "d31fcd85-6830-48b5-a975-a3aeb868fce0",
           "issuer": "Acquia",
-          "name": "Acquia Certified Drupal 10 Developer",
-          "url": "https://docs.acquia.com/acquia-academy/acquia-certified-drupal-backend-specialist",
-          "date": "2024-05-05"
+          "name": "Acquia Certified Developer - Drupal 10",
+          "url": "https://jakalacorp-my.sharepoint.com/my?id=%2Fpersonal%2Fgeorgi%5Fneshev%5Fjakala%5Fcom%2FDocuments%2FCertificates%2FNevena%20Kostova%2FAcquia%2DCerfified%2DDeveloper%2DDrupal%2D10%2Epdf&parent=%2Fpersonal%2Fgeorgi%5Fneshev%5Fjakala%5Fcom%2FDocuments%2FCertificates%2FNevena%20Kostova",
+          "date": "2024-05-24"
         }
       ]
     },
@@ -2637,13 +2615,15 @@
       "lastName": "Boyadzhiev",
       "bio": "",
       "country": "Bulgaria",
-      "city": "",
+      "city": "Burgas",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MVPBQUHX-f2737bcc051c-192",
       "slackUrl": "https://jakala-talk.slack.com/archives/D089L9BDX38",
-      "linkedinUrl": "https://bg.linkedin.com/in/nevenakostova",
-      "careerExperience": "8m",
-      "department": "Frontend",
-      "role": "SL1",
+      "linkedinUrl": "https://www.linkedin.com/in/nikolay-boyadzhiev-789741125/",
+      "careerExperience": "2016-09-01",
+      "startDate": "2023-08-14",
+      "department": "Front-end",
+      "role": "Senior Drupal Themer",
       "skills": [
         {
           "name": "Generic",
@@ -3021,7 +3001,15 @@
           ]
         }
       ],
-      "certificates": []
+      "certificates": [
+        {
+          "id": "nikolay-b-cert1",
+          "issuer": "W3Cx",
+          "name": "WAI0.1x: Introduction to Web Accessibility",
+          "url": "https://courses.edx.org/certificates/f4be164614b44eedb484748d41c6ff42",
+          "date": "2024-11-05"
+        }
+      ]
     },
     {
       "id": "ovanes-budakyan",
@@ -3030,12 +3018,14 @@
       "bio": "",
       "country": "Bulgaria",
       "city": "Sofia",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MH0DN8CT-f301263d0465-512",
       "slackUrl": "https://jakala-talk.slack.com/archives/D094L3QQ22Z",
-      "linkedinUrl": "",
-      "careerExperience": "15y",
-      "department": "Backend",
-      "role": "SL1TL",
+      "linkedinUrl": "https://www.linkedin.com/in/ovanesb/",
+      "careerExperience": "2009-02-01",
+      "startDate": "2017-06-20",
+      "department": "Back-end",
+      "role": "Senior L1 Team Lead",
       "skills": [
         {
           "name": "Generic",
@@ -3422,12 +3412,14 @@
       "bio": "",
       "country": "Bulgaria",
       "city": "Sofia",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07ME755KQD-3684d61c3cda-192",
       "slackUrl": "https://jakala-talk.slack.com/archives/D07U0EJQ094",
-      "linkedinUrl": "",
-      "careerExperience": "3y 7m",
-      "department": "Frontend",
-      "role": "ML2 JS",
+      "linkedinUrl": "https://www.linkedin.com/in/radostina-mangarudova/",
+      "careerExperience": "2018-11-01",
+      "startDate": "2020-11-23",
+      "department": "Front-end",
+      "role": "Mid-level L2 Javascript developer",
       "skills": [
         {
           "name": "Generic",
@@ -3814,12 +3806,14 @@
       "bio": "",
       "country": "Poland",
       "city": "",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MAE8U2BY-e78b126f67ad-512",
       "slackUrl": "https://jakala-talk.slack.com/archives/D094H956ET0",
-      "linkedinUrl": "",
-      "careerExperience": "8",
-      "department": "Backend",
-      "role": "SL1",
+      "linkedinUrl": "https://www.linkedin.com/in/sergei-semchuk-36866b144/",
+      "careerExperience": "2016-09-01",
+      "startDate": "2021-03-01",
+      "department": "Back-end",
+      "role": "Senior L1 Sr. PHP developer",
       "skills": [
         {
           "name": "Generic",
@@ -4205,13 +4199,15 @@
       "lastName": "Tereshchenko",
       "bio": "",
       "country": "Ukraine",
-      "city": "",
+      "city": "Kiev",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MH0EE92P-81de734ad181-512",
-      "slackUrl": "",
-      "linkedinUrl": "",
-      "careerExperience": "7",
-      "department": "Frontend",
-      "role": "SL1",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07MH0EE92P",
+      "linkedinUrl": "https://www.linkedin.com/in/svitlana-tereshchenko/",
+      "careerExperience": "2013-12-01",
+      "startDate": "2021-02-01",
+      "department": "Front-end",
+      "role": "Senior Drupal Themer",
       "skills": [
         {
           "name": "Generic",
@@ -4598,12 +4594,14 @@
       "bio": "",
       "country": "Poland",
       "city": "",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07M2GMF05V-81c79f34bbab-512",
-      "slackUrl": "",
-      "linkedinUrl": "",
-      "careerExperience": "12",
-      "department": "Backend",
-      "role": "SL1",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07M2GMF05V",
+      "linkedinUrl": "https://www.linkedin.com/in/tatiana-kiseleva-2383bba6/",
+      "careerExperience": "2015-01-01",
+      "startDate": "2020-06-15",
+      "department": "Back-end",
+      "role": "Senior L1 Sr. PHP developer",
       "skills": [
         {
           "name": "Generic",
@@ -4989,13 +4987,15 @@
       "lastName": "Kolmyk",
       "bio": "",
       "country": "Ukraine",
-      "city": "",
+      "city": "Kharkiv",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MH3ES8US-8ef403c72006-512",
-      "slackUrl": "",
-      "linkedinUrl": "",
-      "careerExperience": "11",
-      "department": "Backend",
-      "role": "SL1",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07MH3ES8US",
+      "linkedinUrl": "https://www.linkedin.com/in/yevhenii-kolmyk-0a441198/",
+      "careerExperience": "2013-12-01",
+      "startDate": "2023-06-19",
+      "department": "Back-end",
+      "role": "Senior L1 Sr. PHP developer",
       "skills": [
         {
           "name": "Generic",
@@ -5381,13 +5381,15 @@
       "lastName": "Ivanova",
       "bio": "",
       "country": "Bulgaria",
-      "city": "",
+      "city": "Sofia",
+      "program": "Sirius",
       "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MH0B6AE7-fcfe2dc251cc-512",
-      "slackUrl": "",
-      "linkedinUrl": "",
-      "careerExperience": "10",
-      "department": "Frontend",
-      "role": "SL1",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07MH0B6AE7",
+      "linkedinUrl": "https://www.linkedin.com/in/zornitsa-ivanova-a84b10b4/",
+      "careerExperience": "2014-07-01",
+      "startDate": "2018-08-13",
+      "department": "Front-end",
+      "role": "Senior Drupal Themer",
       "skills": [
         {
           "name": "Generic",
@@ -5768,10 +5770,2318 @@
       "certificates": []
     },
     {
-      "id": "817f0e06-3f6b-4598-8a38-cf0a017ab524",
+      "id": "christina-dimkova",
+      "firstName": "Christina",
+      "lastName": "Dimkova",
+      "bio": "",
+      "country": "Bulgaria",
+      "city": "Sofia",
+      "program": "Sirius",
+      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07ME774B1B-5ee9a36b2030-512",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07ME774B1B",
+      "linkedinUrl": "https://www.linkedin.com/in/christinadimkova/",
+      "careerExperience": "2012-05-01",
+      "startDate": "2022-11-01",
+      "department": "QA",
+      "role": "QA Lead",
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 4
+            },
+            {
+              "name": "Potential",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Soft Skills",
+          "skills": [
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Confidence",
+              "level": 3
+            },
+            {
+              "name": "English",
+              "level": 3
+            },
+            {
+              "name": "Lecturing",
+              "level": 3
+            },
+            {
+              "name": "Presentations",
+              "level": 3
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Languages",
+          "skills": [
+            {
+              "name": "SQL",
+              "level": 2
+            },
+            {
+              "name": "PHP",
+              "level": 2
+            },
+            {
+              "name": "JS",
+              "level": 2
+            },
+            {
+              "name": "CSS",
+              "level": 2
+            },
+            {
+              "name": "Bash scripts",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Drupal",
+          "skills": [
+            {
+              "name": "Drupal",
+              "level": 2
+            },
+            {
+              "name": "Migrate",
+              "level": 2
+            },
+            {
+              "name": "Multisite",
+              "level": 2
+            },
+            {
+              "name": "Headless",
+              "level": 2
+            },
+            {
+              "name": "Static",
+              "level": 2
+            },
+            {
+              "name": "Commerce",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "CMD",
+          "skills": [
+            {
+              "name": "UNIX CMD",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "VCS",
+          "skills": [
+            {
+              "name": "GIT",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "DevOps",
+          "skills": [
+            {
+              "name": "DevOps",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "SEO",
+          "skills": [
+            {
+              "name": "SEO",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Virtualization",
+          "skills": [
+            {
+              "name": "Docker",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "Regex",
+              "level": 1
+            },
+            {
+              "name": "Xpath/XSL",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "QA specific",
+          "skills": [
+            {
+              "name": "Behat",
+              "level": 3
+            },
+            {
+              "name": "Appium",
+              "level": 1
+            },
+            {
+              "name": "Protractor",
+              "level": 2
+            },
+            {
+              "name": "Katalon",
+              "level": 2
+            },
+            {
+              "name": "Jest",
+              "level": 2
+            },
+            {
+              "name": "PHPUnit",
+              "level": 2
+            },
+            {
+              "name": "Cucumber",
+              "level": 3
+            },
+            {
+              "name": "Puppeteer",
+              "level": 1
+            },
+            {
+              "name": "OWASP ZAP",
+              "level": 2
+            },
+            {
+              "name": "Detectify",
+              "level": 1
+            },
+            {
+              "name": "Browser DevTools",
+              "level": 4
+            },
+            {
+              "name": "Trakr",
+              "level": 2
+            },
+            {
+              "name": "Browserstack",
+              "level": 4
+            },
+            {
+              "name": "Test Cases",
+              "level": 4
+            },
+            {
+              "name": "Review of complex architectures",
+              "level": 3
+            },
+            {
+              "name": "JMeter",
+              "level": 1
+            },
+            {
+              "name": "API",
+              "level": 3
+            },
+            {
+              "name": "Complex tasks",
+              "level": 3
+            },
+            {
+              "name": "Accessibility",
+              "level": 2
+            },
+            {
+              "name": "Penetration",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "Scrum",
+          "skills": [
+            {
+              "name": "Client management",
+              "level": 4
+            },
+            {
+              "name": "Business analyst",
+              "level": 4
+            },
+            {
+              "name": "Onboarding speed",
+              "level": 4
+            },
+            {
+              "name": "Sprint Demos",
+              "level": 4
+            },
+            {
+              "name": "Documentation",
+              "level": 2
+            },
+            {
+              "name": "Client trainings",
+              "level": 3
+            },
+            {
+              "name": "Discovery",
+              "level": 3
+            },
+            {
+              "name": "UAT support",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Meth",
+          "skills": [
+            {
+              "name": "BDD",
+              "level": 4
+            },
+            {
+              "name": "TDD",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "JSON",
+              "level": 4
+            },
+            {
+              "name": "yaml",
+              "level": 3
+            }
+          ]
+        }
+      ],
+      "certificates": [
+        {
+          "id": "christina-acquia-cert1",
+          "issuer": "Acquia",
+          "name": "Acquia Certified Site Builder - Drupal 10",
+          "url": "https://jakalacorp-my.sharepoint.com/:b:/r/personal/georgi_neshev_jakala_com/Documents/Certificates/Christina%20Dimkova/22406%20Acquia%20Certified%20Site%20Builder%20%20Drupal%2010%2020240221%20Pass.pdf?csf=1&web=1&e=aPfU06",
+          "date": "2024-02-21"
+        }
+      ]
+    },
+    {
+      "id": "ivan-penchev",
+      "firstName": "Ivan",
+      "lastName": "Penchev",
+      "bio": "",
+      "country": "Bulgaria",
+      "city": "Gabrovo",
+      "program": "Sirius",
+      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MKHTQY7N-87b2fd9066bc-512",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07MKHTQY7N",
+      "linkedinUrl": "https://www.linkedin.com/in/ivan-penchev-85636b13a/",
+      "careerExperience": "2019-06-24",
+      "startDate": "2019-06-24",
+      "department": "QA",
+      "role": "Automation Engineer",
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 3
+            },
+            {
+              "name": "Potential",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Soft Skills",
+          "skills": [
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Confidence",
+              "level": 4
+            },
+            {
+              "name": "English",
+              "level": 4
+            },
+            {
+              "name": "Lecturing",
+              "level": 4
+            },
+            {
+              "name": "Presentations",
+              "level": 4
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Languages",
+          "skills": [
+            {
+              "name": "SQL",
+              "level": 2
+            },
+            {
+              "name": "PHP",
+              "level": 1
+            },
+            {
+              "name": "JS",
+              "level": 1
+            },
+            {
+              "name": "CSS",
+              "level": 2
+            },
+            {
+              "name": "Bash scripts",
+              "level": 0
+            }
+          ]
+        },
+        {
+          "name": "Drupal",
+          "skills": [
+            {
+              "name": "Drupal",
+              "level": 4
+            },
+            {
+              "name": "Migrate",
+              "level": 3
+            },
+            {
+              "name": "Multisite",
+              "level": 2
+            },
+            {
+              "name": "Headless",
+              "level": 1
+            },
+            {
+              "name": "Static",
+              "level": 0
+            },
+            {
+              "name": "Commerce",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "CMD",
+          "skills": [
+            {
+              "name": "UNIX CMD",
+              "level": 0
+            }
+          ]
+        },
+        {
+          "name": "VCS",
+          "skills": [
+            {
+              "name": "GIT",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "DevOps",
+          "skills": [
+            {
+              "name": "DevOps",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "SEO",
+          "skills": [
+            {
+              "name": "SEO",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Virtualization",
+          "skills": [
+            {
+              "name": "Docker",
+              "level": 0
+            }
+          ]
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "Regex",
+              "level": 0
+            },
+            {
+              "name": "Xpath/XSL",
+              "level": 0
+            }
+          ]
+        },
+        {
+          "name": "QA specific",
+          "skills": [
+            {
+              "name": "Behat",
+              "level": 2
+            },
+            {
+              "name": "Appium",
+              "level": 0
+            },
+            {
+              "name": "Protractor",
+              "level": 0
+            },
+            {
+              "name": "Katalon",
+              "level": 1
+            },
+            {
+              "name": "Jest",
+              "level": 0
+            },
+            {
+              "name": "PHPUnit",
+              "level": 1
+            },
+            {
+              "name": "Cucumber",
+              "level": 2
+            },
+            {
+              "name": "Puppeteer",
+              "level": 0
+            },
+            {
+              "name": "OWASP ZAP",
+              "level": 0
+            },
+            {
+              "name": "Detectify",
+              "level": 0
+            },
+            {
+              "name": "Browser DevTools",
+              "level": 4
+            },
+            {
+              "name": "Trakr",
+              "level": 3
+            },
+            {
+              "name": "Browserstack",
+              "level": 3
+            },
+            {
+              "name": "Test Cases",
+              "level": 4
+            },
+            {
+              "name": "Review of complex architectures",
+              "level": 3
+            },
+            {
+              "name": "JMeter",
+              "level": 1
+            },
+            {
+              "name": "API",
+              "level": 4
+            },
+            {
+              "name": "Complex tasks",
+              "level": 4
+            },
+            {
+              "name": "Accessibility",
+              "level": 2
+            },
+            {
+              "name": "Penetration",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Scrum",
+          "skills": [
+            {
+              "name": "Client management",
+              "level": 4
+            },
+            {
+              "name": "Business analyst",
+              "level": 4
+            },
+            {
+              "name": "Onboarding speed",
+              "level": 4
+            },
+            {
+              "name": "Sprint Demos",
+              "level": 4
+            },
+            {
+              "name": "Documentation",
+              "level": 4
+            },
+            {
+              "name": "Client trainings",
+              "level": 4
+            },
+            {
+              "name": "Discovery",
+              "level": 4
+            },
+            {
+              "name": "UAT support",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Meth",
+          "skills": [
+            {
+              "name": "BDD",
+              "level": 4
+            },
+            {
+              "name": "TDD",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "JSON",
+              "level": 3
+            },
+            {
+              "name": "yaml",
+              "level": 2
+            }
+          ]
+        }
+      ],
+      "certificates": []
+    },
+    {
+      "id": "ivo-shopov",
+      "firstName": "Ivo",
+      "lastName": "Shopov",
+      "bio": "",
+      "country": "Bulgaria",
+      "city": "Sofia",
+      "program": "Sirius",
+      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MVP9CFS5-72320b526d03-512",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07MVP9CFS5",
+      "linkedinUrl": "https://www.linkedin.com/in/ivo-shopov-43322283/",
+      "careerExperience": "2017-08-01",
+      "startDate": "2021-05-31",
+      "department": "QA",
+      "role": "Senior Manual QA",
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 4
+            },
+            {
+              "name": "Potential",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Soft Skills",
+          "skills": [
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Confidence",
+              "level": 3
+            },
+            {
+              "name": "English",
+              "level": 3
+            },
+            {
+              "name": "Lecturing",
+              "level": 3
+            },
+            {
+              "name": "Presentations",
+              "level": 3
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Languages",
+          "skills": [
+            {
+              "name": "SQL",
+              "level": 2
+            },
+            {
+              "name": "PHP",
+              "level": 1
+            },
+            {
+              "name": "JS",
+              "level": 1
+            },
+            {
+              "name": "CSS",
+              "level": 2
+            },
+            {
+              "name": "Bash scripts",
+              "level": 0
+            }
+          ]
+        },
+        {
+          "name": "Drupal",
+          "skills": [
+            {
+              "name": "Drupal",
+              "level": 4
+            },
+            {
+              "name": "Migrate",
+              "level": 2
+            },
+            {
+              "name": "Multisite",
+              "level": 2
+            },
+            {
+              "name": "Headless",
+              "level": 0
+            },
+            {
+              "name": "Static",
+              "level": 0
+            },
+            {
+              "name": "Commerce",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "CMD",
+          "skills": [
+            {
+              "name": "UNIX CMD",
+              "level": 0
+            }
+          ]
+        },
+        {
+          "name": "VCS",
+          "skills": [
+            {
+              "name": "GIT",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "DevOps",
+          "skills": [
+            {
+              "name": "DevOps",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "SEO",
+          "skills": [
+            {
+              "name": "SEO",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Virtualization",
+          "skills": [
+            {
+              "name": "Docker",
+              "level": 0
+            }
+          ]
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "Regex",
+              "level": 0
+            },
+            {
+              "name": "Xpath/XSL",
+              "level": 0
+            }
+          ]
+        },
+        {
+          "name": "QA specific",
+          "skills": [
+            {
+              "name": "Behat",
+              "level": 3
+            },
+            {
+              "name": "Appium",
+              "level": 0
+            },
+            {
+              "name": "Protractor",
+              "level": 0
+            },
+            {
+              "name": "Katalon",
+              "level": 0
+            },
+            {
+              "name": "Jest",
+              "level": 0
+            },
+            {
+              "name": "PHPUnit",
+              "level": 1
+            },
+            {
+              "name": "Cucumber",
+              "level": 0
+            },
+            {
+              "name": "Puppeteer",
+              "level": 0
+            },
+            {
+              "name": "OWASP ZAP",
+              "level": 0
+            },
+            {
+              "name": "Detectify",
+              "level": 0
+            },
+            {
+              "name": "Browser DevTools",
+              "level": 4
+            },
+            {
+              "name": "Trakr",
+              "level": 3
+            },
+            {
+              "name": "Browserstack",
+              "level": 3
+            },
+            {
+              "name": "Test Cases",
+              "level": 3
+            },
+            {
+              "name": "Review of complex architectures",
+              "level": 2
+            },
+            {
+              "name": "JMeter",
+              "level": 2
+            },
+            {
+              "name": "API",
+              "level": 3
+            },
+            {
+              "name": "Complex tasks",
+              "level": 4
+            },
+            {
+              "name": "Accessibility",
+              "level": 2
+            },
+            {
+              "name": "Penetration",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Scrum",
+          "skills": [
+            {
+              "name": "Client management",
+              "level": 4
+            },
+            {
+              "name": "Business analyst",
+              "level": 3
+            },
+            {
+              "name": "Onboarding speed",
+              "level": 3
+            },
+            {
+              "name": "Sprint Demos",
+              "level": 4
+            },
+            {
+              "name": "Documentation",
+              "level": 3
+            },
+            {
+              "name": "Client trainings",
+              "level": 4
+            },
+            {
+              "name": "Discovery",
+              "level": 2
+            },
+            {
+              "name": "UAT support",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Meth",
+          "skills": [
+            {
+              "name": "BDD",
+              "level": 4
+            },
+            {
+              "name": "TDD",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "JSON",
+              "level": 3
+            },
+            {
+              "name": "yaml",
+              "level": 2
+            }
+          ]
+        }
+      ],
+      "certificates": []
+    },
+    {
+      "id": "tomas-zdravkov",
+      "firstName": "Tomas",
+      "lastName": "Zdravkov",
+      "bio": "",
+      "country": "Bulgaria",
+      "city": "Sofia",
+      "program": "Sirius",
+      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MH0DJUG3-03436b7dfd07-512",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07MH0DJUG3",
+      "linkedinUrl": "https://www.linkedin.com/in/tomas-zdravkov-8a8485288/",
+      "careerExperience": "2019-10-21",
+      "startDate": "2019-10-21",
+      "department": "QA",
+      "role": "Mid Level QA",
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 4
+            },
+            {
+              "name": "Potential",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Soft Skills",
+          "skills": [
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Confidence",
+              "level": 3
+            },
+            {
+              "name": "English",
+              "level": 3
+            },
+            {
+              "name": "Lecturing",
+              "level": 2
+            },
+            {
+              "name": "Presentations",
+              "level": 2
+            },
+            {
+              "name": "Leadership",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Languages",
+          "skills": [
+            {
+              "name": "SQL",
+              "level": 2
+            },
+            {
+              "name": "PHP",
+              "level": 2
+            },
+            {
+              "name": "JS",
+              "level": 2
+            },
+            {
+              "name": "CSS",
+              "level": 2
+            },
+            {
+              "name": "Bash scripts",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Drupal",
+          "skills": [
+            {
+              "name": "Drupal",
+              "level": 3
+            },
+            {
+              "name": "Migrate",
+              "level": 1
+            },
+            {
+              "name": "Multisite",
+              "level": 3
+            },
+            {
+              "name": "Headless",
+              "level": 2
+            },
+            {
+              "name": "Static",
+              "level": 3
+            },
+            {
+              "name": "Commerce",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "CMD",
+          "skills": [
+            {
+              "name": "UNIX CMD",
+              "level": 0
+            }
+          ]
+        },
+        {
+          "name": "VCS",
+          "skills": [
+            {
+              "name": "GIT",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "DevOps",
+          "skills": [
+            {
+              "name": "DevOps",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "SEO",
+          "skills": [
+            {
+              "name": "SEO",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Virtualization",
+          "skills": [
+            {
+              "name": "Docker",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "Regex",
+              "level": 0
+            },
+            {
+              "name": "Xpath/XSL",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "QA specific",
+          "skills": [
+            {
+              "name": "Behat",
+              "level": 3
+            },
+            {
+              "name": "Appium",
+              "level": 0
+            },
+            {
+              "name": "Protractor",
+              "level": 0
+            },
+            {
+              "name": "Katalon",
+              "level": 2
+            },
+            {
+              "name": "Jest",
+              "level": 0
+            },
+            {
+              "name": "PHPUnit",
+              "level": 1
+            },
+            {
+              "name": "Cucumber",
+              "level": 1
+            },
+            {
+              "name": "Puppeteer",
+              "level": 0
+            },
+            {
+              "name": "OWASP ZAP",
+              "level": 1
+            },
+            {
+              "name": "Detectify",
+              "level": 1
+            },
+            {
+              "name": "Browser DevTools",
+              "level": 2
+            },
+            {
+              "name": "Trakr",
+              "level": 3
+            },
+            {
+              "name": "Browserstack",
+              "level": 3
+            },
+            {
+              "name": "Test Cases",
+              "level": 3
+            },
+            {
+              "name": "Review of complex architectures",
+              "level": 1
+            },
+            {
+              "name": "JMeter",
+              "level": 2
+            },
+            {
+              "name": "API",
+              "level": 2
+            },
+            {
+              "name": "Complex tasks",
+              "level": 2
+            },
+            {
+              "name": "Accessibility",
+              "level": 2
+            },
+            {
+              "name": "Penetration",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Scrum",
+          "skills": [
+            {
+              "name": "Client management",
+              "level": 3
+            },
+            {
+              "name": "Business analyst",
+              "level": 2
+            },
+            {
+              "name": "Onboarding speed",
+              "level": 2
+            },
+            {
+              "name": "Sprint Demos",
+              "level": 3
+            },
+            {
+              "name": "Documentation",
+              "level": 2
+            },
+            {
+              "name": "Client trainings",
+              "level": 3
+            },
+            {
+              "name": "Discovery",
+              "level": 2
+            },
+            {
+              "name": "UAT support",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Meth",
+          "skills": [
+            {
+              "name": "BDD",
+              "level": 2
+            },
+            {
+              "name": "TDD",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "JSON",
+              "level": 2
+            },
+            {
+              "name": "yaml",
+              "level": 2
+            }
+          ]
+        }
+      ],
+      "certificates": []
+    },
+    {
+      "id": "asen-hristov",
+      "firstName": "Asen",
+      "lastName": "Hristov",
+      "bio": "",
+      "country": "Bulgaria",
+      "city": "Sofia",
+      "program": "Sirius",
+      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07M2GMGC79-65d9fd581302-512",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07M2GMGC79",
+      "linkedinUrl": "https://www.linkedin.com/in/asen-p-hristov/",
+      "careerExperience": "2005-01-01",
+      "startDate": "2023-03-13",
+      "department": "Project Manager",
+      "role": "Senior L1",
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 3
+            },
+            {
+              "name": "Potential",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Soft Skills",
+          "skills": [
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Confidence",
+              "level": 4
+            },
+            {
+              "name": "English",
+              "level": 3
+            },
+            {
+              "name": "Lecturing",
+              "level": 3
+            },
+            {
+              "name": "Presentations",
+              "level": 2
+            },
+            {
+              "name": "Leadership",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "PM Methodologies",
+          "skills": [
+            {
+              "name": "Waterfall",
+              "level": 4
+            },
+            {
+              "name": "Kanban",
+              "level": 3
+            },
+            {
+              "name": "Scrum",
+              "level": 3
+            },
+            {
+              "name": "Agile",
+              "level": 3
+            },
+            {
+              "name": "Wagile",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Project Management",
+          "skills": [
+            {
+              "name": "Process",
+              "level": 3
+            },
+            {
+              "name": "Integration",
+              "level": 4
+            },
+            {
+              "name": "Scope",
+              "level": 3
+            },
+            {
+              "name": "Time",
+              "level": 4
+            },
+            {
+              "name": "Cost",
+              "level": 4
+            },
+            {
+              "name": "Quality",
+              "level": 4
+            },
+            {
+              "name": "Human Resource",
+              "level": 3
+            },
+            {
+              "name": "Communications",
+              "level": 4
+            },
+            {
+              "name": "Procurement",
+              "level": 3
+            },
+            {
+              "name": "Stakeholder",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "PM Specific Skills",
+          "skills": [
+            {
+              "name": "Critical Thinking",
+              "level": 4
+            },
+            {
+              "name": "Data Analysis",
+              "level": 3
+            },
+            {
+              "name": "Research",
+              "level": 4
+            },
+            {
+              "name": "Problem Solving",
+              "level": 4
+            },
+            {
+              "name": "Organizational",
+              "level": 4
+            },
+            {
+              "name": "Documentation",
+              "level": 3
+            },
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Negotiation",
+              "level": 4
+            },
+            {
+              "name": "Leadership",
+              "level": 4
+            },
+            {
+              "name": "Multitasking",
+              "level": 4
+            },
+            {
+              "name": "Industry Expertise",
+              "level": 4
+            },
+            {
+              "name": "Team Building",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Tools",
+          "skills": [
+            {
+              "name": "Metric",
+              "level": 3
+            },
+            {
+              "name": "Float",
+              "level": 4
+            },
+            {
+              "name": "Jira",
+              "level": 4
+            },
+            {
+              "name": "Confluence",
+              "level": 3
+            },
+            {
+              "name": "Google/MS Office",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Technology",
+          "skills": [
+            {
+              "name": "Internet",
+              "level": 4
+            },
+            {
+              "name": "Drupal",
+              "level": 2
+            },
+            {
+              "name": "AWS",
+              "level": 3
+            },
+            {
+              "name": "Commerce",
+              "level": 3
+            },
+            {
+              "name": "UX/UI Concept",
+              "level": 4
+            },
+            {
+              "name": "Accessibility",
+              "level": 2
+            },
+            {
+              "name": "Development",
+              "level": 3
+            },
+            {
+              "name": "CI/CD",
+              "level": 2
+            },
+            {
+              "name": "Security",
+              "level": 2
+            },
+            {
+              "name": "SEO",
+              "level": 3
+            }
+          ]
+        }
+      ],
+      "certificates": []
+    },
+    {
+      "id": "niki-minkov",
+      "firstName": "Niki",
+      "lastName": "Minkov",
+      "bio": "",
+      "country": "Spain",
+      "city": "Valencia",
+      "program": "Sirius",
+      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07M2GHRYB1-033e90f908be-512",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07M2GHRYB1",
+      "linkedinUrl": "https://www.linkedin.com/in/niki-minkov-192234156/",
+      "careerExperience": "2021-04-26",
+      "startDate": "2021-04-26",
+      "department": "Project Manager",
+      "role": "Senior L1",
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 4
+            },
+            {
+              "name": "Potential",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Soft Skills",
+          "skills": [
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Confidence",
+              "level": 3
+            },
+            {
+              "name": "English",
+              "level": 3
+            },
+            {
+              "name": "Lecturing",
+              "level": 2
+            },
+            {
+              "name": "Presentations",
+              "level": 2
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "PM Methodologies",
+          "skills": [
+            {
+              "name": "Waterfall",
+              "level": 2
+            },
+            {
+              "name": "Kanban",
+              "level": 3
+            },
+            {
+              "name": "Scrum",
+              "level": 4
+            },
+            {
+              "name": "Agile",
+              "level": 3
+            },
+            {
+              "name": "Wagile",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Project Management",
+          "skills": [
+            {
+              "name": "Process",
+              "level": 3
+            },
+            {
+              "name": "Integration",
+              "level": 4
+            },
+            {
+              "name": "Scope",
+              "level": 3
+            },
+            {
+              "name": "Time",
+              "level": 4
+            },
+            {
+              "name": "Cost",
+              "level": 4
+            },
+            {
+              "name": "Quality",
+              "level": 4
+            },
+            {
+              "name": "Human Resource",
+              "level": 3
+            },
+            {
+              "name": "Communications",
+              "level": 4
+            },
+            {
+              "name": "Procurement",
+              "level": 3
+            },
+            {
+              "name": "Stakeholder",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "PM Specific Skills",
+          "skills": [
+            {
+              "name": "Critical Thinking",
+              "level": 3
+            },
+            {
+              "name": "Data Analysis",
+              "level": 3
+            },
+            {
+              "name": "Research",
+              "level": 4
+            },
+            {
+              "name": "Problem Solving",
+              "level": 4
+            },
+            {
+              "name": "Organizational",
+              "level": 3
+            },
+            {
+              "name": "Documentation",
+              "level": 2
+            },
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Negotiation",
+              "level": 4
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            },
+            {
+              "name": "Multitasking",
+              "level": 4
+            },
+            {
+              "name": "Industry Expertise",
+              "level": 3
+            },
+            {
+              "name": "Team Building",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Tools",
+          "skills": [
+            {
+              "name": "Metric",
+              "level": 4
+            },
+            {
+              "name": "Float",
+              "level": 4
+            },
+            {
+              "name": "Jira",
+              "level": 4
+            },
+            {
+              "name": "Confluence",
+              "level": 4
+            },
+            {
+              "name": "Google/MS Office",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Technology",
+          "skills": [
+            {
+              "name": "Internet",
+              "level": 4
+            },
+            {
+              "name": "Drupal",
+              "level": 3
+            },
+            {
+              "name": "AWS",
+              "level": 2
+            },
+            {
+              "name": "Commerce",
+              "level": 3
+            },
+            {
+              "name": "UX/UI Concept",
+              "level": 2
+            },
+            {
+              "name": "Accessibility",
+              "level": 1
+            },
+            {
+              "name": "Development",
+              "level": 0
+            },
+            {
+              "name": "CI/CD",
+              "level": 1
+            },
+            {
+              "name": "Security",
+              "level": 1
+            },
+            {
+              "name": "SEO",
+              "level": 2
+            }
+          ]
+        }
+      ],
+      "certificates": []
+    },
+    {
+      "id": "victoria-popova",
+      "firstName": "Victoria",
+      "lastName": "Popova",
+      "bio": "",
+      "country": "Bulgaria",
+      "city": "Sofia",
+      "program": "Sirius",
+      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MKHVT6DS-2ec5086bb37c-512",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07MKHVT6DS",
+      "linkedinUrl": "https://www.linkedin.com/in/vix-popova/",
+      "careerExperience": "2015-11-01",
+      "startDate": "2022-05-03",
+      "department": "Project Manager",
+      "role": "Medium Level",
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 4
+            },
+            {
+              "name": "Potential",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Soft Skills",
+          "skills": [
+            {
+              "name": "Communication",
+              "level": 3
+            },
+            {
+              "name": "Confidence",
+              "level": 3
+            },
+            {
+              "name": "English",
+              "level": 4
+            },
+            {
+              "name": "Lecturing",
+              "level": 3
+            },
+            {
+              "name": "Presentations",
+              "level": 4
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "PM Methodologies",
+          "skills": [
+            {
+              "name": "Waterfall",
+              "level": 3
+            },
+            {
+              "name": "Kanban",
+              "level": 3
+            },
+            {
+              "name": "Scrum",
+              "level": 3
+            },
+            {
+              "name": "Agile",
+              "level": 3
+            },
+            {
+              "name": "Wagile",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Project Management",
+          "skills": [
+            {
+              "name": "Process",
+              "level": 3
+            },
+            {
+              "name": "Integration",
+              "level": 3
+            },
+            {
+              "name": "Scope",
+              "level": 3
+            },
+            {
+              "name": "Time",
+              "level": 3
+            },
+            {
+              "name": "Cost",
+              "level": 3
+            },
+            {
+              "name": "Quality",
+              "level": 3
+            },
+            {
+              "name": "Human Resource",
+              "level": 3
+            },
+            {
+              "name": "Communications",
+              "level": 3
+            },
+            {
+              "name": "Procurement",
+              "level": 2
+            },
+            {
+              "name": "Stakeholder",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "PM Specific Skills",
+          "skills": [
+            {
+              "name": "Critical Thinking",
+              "level": 4
+            },
+            {
+              "name": "Data Analysis",
+              "level": 3
+            },
+            {
+              "name": "Research",
+              "level": 4
+            },
+            {
+              "name": "Problem Solving",
+              "level": 3
+            },
+            {
+              "name": "Organizational",
+              "level": 4
+            },
+            {
+              "name": "Documentation",
+              "level": 3
+            },
+            {
+              "name": "Communication",
+              "level": 3
+            },
+            {
+              "name": "Negotiation",
+              "level": 3
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            },
+            {
+              "name": "Multitasking",
+              "level": 4
+            },
+            {
+              "name": "Industry Expertise",
+              "level": 3
+            },
+            {
+              "name": "Team Building",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Tools",
+          "skills": [
+            {
+              "name": "Metric",
+              "level": 3
+            },
+            {
+              "name": "Float",
+              "level": 4
+            },
+            {
+              "name": "Jira",
+              "level": 4
+            },
+            {
+              "name": "Confluence",
+              "level": 3
+            },
+            {
+              "name": "Google/MS Office",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Technology",
+          "skills": [
+            {
+              "name": "Internet",
+              "level": 4
+            },
+            {
+              "name": "Drupal",
+              "level": 3
+            },
+            {
+              "name": "AWS",
+              "level": 1
+            },
+            {
+              "name": "Commerce",
+              "level": 2
+            },
+            {
+              "name": "UX/UI Concept",
+              "level": 3
+            },
+            {
+              "name": "Accessibility",
+              "level": 3
+            },
+            {
+              "name": "Development",
+              "level": 3
+            },
+            {
+              "name": "CI/CD",
+              "level": 2
+            },
+            {
+              "name": "Security",
+              "level": 2
+            },
+            {
+              "name": "SEO",
+              "level": 3
+            }
+          ]
+        }
+      ],
+      "certificates": []
+    },
+    {
+      "id": "angelina-velikova",
+      "firstName": "Angelina",
+      "lastName": "Velikova",
+      "bio": "",
+      "country": "Bulgaria",
+      "city": "Sofia",
+      "program": "Sirius",
+      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MVP75WQ1-fde6dce8341f-512",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07MVP75WQ1",
+      "linkedinUrl": "https://www.linkedin.com/in/angelina-velikova-agilepm%C2%AE-csm-psm-i-7186a929/",
+      "careerExperience": "2006-11-01",
+      "startDate": "2018-07-25",
+      "department": "Project Manager",
+      "role": "Project Manager Lead",
+      "skills": [
+        {
+          "name": "Generic",
+          "skills": [
+            {
+              "name": "Motivation",
+              "level": 3
+            },
+            {
+              "name": "Potential",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Soft Skills",
+          "skills": [
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Confidence",
+              "level": 4
+            },
+            {
+              "name": "English",
+              "level": 4
+            },
+            {
+              "name": "Lecturing",
+              "level": 3
+            },
+            {
+              "name": "Presentations",
+              "level": 4
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "PM Methodologies",
+          "skills": [
+            {
+              "name": "Waterfall",
+              "level": 4
+            },
+            {
+              "name": "Kanban",
+              "level": 3
+            },
+            {
+              "name": "Scrum",
+              "level": 4
+            },
+            {
+              "name": "Agile",
+              "level": 3
+            },
+            {
+              "name": "Wagile",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Project Management",
+          "skills": [
+            {
+              "name": "Process",
+              "level": 4
+            },
+            {
+              "name": "Integration",
+              "level": 4
+            },
+            {
+              "name": "Scope",
+              "level": 4
+            },
+            {
+              "name": "Time",
+              "level": 4
+            },
+            {
+              "name": "Cost",
+              "level": 4
+            },
+            {
+              "name": "Quality",
+              "level": 4
+            },
+            {
+              "name": "Human Resource",
+              "level": 3
+            },
+            {
+              "name": "Communications",
+              "level": 3
+            },
+            {
+              "name": "Procurement",
+              "level": 3
+            },
+            {
+              "name": "Stakeholder",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "PM Specific Skills",
+          "skills": [
+            {
+              "name": "Critical Thinking",
+              "level": 4
+            },
+            {
+              "name": "Data Analysis",
+              "level": 3
+            },
+            {
+              "name": "Research",
+              "level": 4
+            },
+            {
+              "name": "Problem Solving",
+              "level": 4
+            },
+            {
+              "name": "Organizational",
+              "level": 4
+            },
+            {
+              "name": "Documentation",
+              "level": 4
+            },
+            {
+              "name": "Communication",
+              "level": 3
+            },
+            {
+              "name": "Negotiation",
+              "level": 3
+            },
+            {
+              "name": "Leadership",
+              "level": 3
+            },
+            {
+              "name": "Multitasking",
+              "level": 4
+            },
+            {
+              "name": "Industry Expertise",
+              "level": 4
+            },
+            {
+              "name": "Team Building",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Tools",
+          "skills": [
+            {
+              "name": "Metric",
+              "level": 4
+            },
+            {
+              "name": "Float",
+              "level": 4
+            },
+            {
+              "name": "Jira",
+              "level": 4
+            },
+            {
+              "name": "Confluence",
+              "level": 4
+            },
+            {
+              "name": "Google/MS Office",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Technology",
+          "skills": [
+            {
+              "name": "Internet",
+              "level": 4
+            },
+            {
+              "name": "Drupal",
+              "level": 4
+            },
+            {
+              "name": "AWS",
+              "level": 2
+            },
+            {
+              "name": "Commerce",
+              "level": 3
+            },
+            {
+              "name": "UX/UI Concept",
+              "level": 4
+            },
+            {
+              "name": "Accessibility",
+              "level": 3
+            },
+            {
+              "name": "Development",
+              "level": 3
+            },
+            {
+              "name": "CI/CD",
+              "level": 2
+            },
+            {
+              "name": "Security",
+              "level": 2
+            },
+            {
+              "name": "SEO",
+              "level": 3
+            }
+          ]
+        }
+      ],
+      "certificates": []
+    },
+    {
+      "id": "78c4528e-e1f6-4cb8-abb3-f1ef270f87d7",
       "firstName": "New",
       "lastName": "Employee",
-      "department": "Project Manager",
+      "department": "Front-end",
       "careerExperience": "",
       "bio": "",
       "country": "Bulgaria",
@@ -5779,7 +8089,7 @@
       "profileImage": "",
       "slackUrl": "",
       "linkedinUrl": "",
-      "role": "JavaScript Domain knowledge lead",
+      "role": "",
       "certificates": [],
       "skills": [
         {
@@ -5821,144 +8131,100 @@
           "averageLevel": 0
         },
         {
-          "name": "PM Methodologies",
+          "name": "Javascript",
           "skills": [
             {
-              "name": "Process",
+              "name": "Javascript",
               "level": 0
             },
             {
-              "name": "Integration",
+              "name": "Nodejs",
               "level": 0
             },
             {
-              "name": "Scope",
+              "name": "async/Promises",
               "level": 0
             },
             {
-              "name": "Time",
-              "level": 0
-            },
-            {
-              "name": "Cost",
-              "level": 0
-            },
-            {
-              "name": "Quality",
-              "level": 0
-            },
-            {
-              "name": "Human Resource",
-              "level": 0
-            },
-            {
-              "name": "Communications",
-              "level": 0
-            },
-            {
-              "name": "Procurement",
-              "level": 0
-            },
-            {
-              "name": "Stakeholder",
+              "name": "parallel",
               "level": 0
             }
           ],
           "averageLevel": 0
         },
         {
-          "name": "PM Specific",
+          "name": "Data stores",
           "skills": [
             {
-              "name": "Critical Thinking",
+              "name": "mysql",
               "level": 0
             },
             {
-              "name": "Data Analysis",
+              "name": "mongodb",
               "level": 0
             },
             {
-              "name": "Research",
+              "name": "dynamo",
               "level": 0
             },
             {
-              "name": "Problem Solving",
+              "name": "MSSQL",
               "level": 0
             },
             {
-              "name": "Organizational",
+              "name": "NeDB",
               "level": 0
             },
             {
-              "name": "Documentation",
-              "level": 0
-            },
-            {
-              "name": "Communication",
-              "level": 0
-            },
-            {
-              "name": "Negotiation",
-              "level": 0
-            },
-            {
-              "name": "Leadership",
-              "level": 0
-            },
-            {
-              "name": "Multitasking",
-              "level": 0
-            },
-            {
-              "name": "Industry Expertise",
-              "level": 0
-            },
-            {
-              "name": "Team Building",
+              "name": "S3",
               "level": 0
             }
           ],
           "averageLevel": 0
         },
         {
-          "name": "tools",
+          "name": "Build tools",
           "skills": [
             {
-              "name": "Metric",
+              "name": "BLT",
               "level": 0
             },
             {
-              "name": "Float",
+              "name": "docksal",
               "level": 0
             },
             {
-              "name": "Jira",
-              "level": 0
-            },
-            {
-              "name": "Confluence",
-              "level": 0
-            },
-            {
-              "name": "Google/MS Office",
+              "name": "Lando",
               "level": 0
             }
           ],
           "averageLevel": 0
         },
         {
-          "name": "technologies",
+          "name": "Drupal",
           "skills": [
-            {
-              "name": "Internet",
-              "level": 0
-            },
             {
               "name": "Drupal",
               "level": 0
             },
             {
-              "name": "AWS",
+              "name": "Migrate",
+              "level": 0
+            },
+            {
+              "name": "Multisite",
+              "level": 0
+            },
+            {
+              "name": "Domain",
+              "level": 0
+            },
+            {
+              "name": "Headless",
+              "level": 0
+            },
+            {
+              "name": "Static",
               "level": 0
             },
             {
@@ -5966,35 +8232,257 @@
               "level": 0
             },
             {
-              "name": "UX/UI Concept",
+              "name": "Twig",
               "level": 0
             },
             {
-              "name": "Accessibility",
+              "name": "Tests",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "CI/CD",
+          "skills": [
+            {
+              "name": "Gitlab pipelines",
               "level": 0
             },
             {
-              "name": "Development",
+              "name": "Jenkins",
               "level": 0
             },
             {
-              "name": "CI/CD",
+              "name": "Ansible",
+              "level": 0
+            },
+            {
+              "name": "Others",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "CMD",
+          "skills": [
+            {
+              "name": "Vim, nano",
+              "level": 0
+            },
+            {
+              "name": "find, grep",
+              "level": 0
+            },
+            {
+              "name": "awk, sed",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "VCS",
+          "skills": [
+            {
+              "name": "GIT",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Scripting",
+          "skills": [
+            {
+              "name": "Bash",
+              "level": 0
+            },
+            {
+              "name": "Python",
+              "level": 0
+            },
+            {
+              "name": "Expect",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Devops",
+          "skills": [
+            {
+              "name": "Devops",
+              "level": 0
+            },
+            {
+              "name": "AWS",
+              "level": 0
+            },
+            {
+              "name": "GCP",
+              "level": 0
+            },
+            {
+              "name": "Azure",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "FE frameworks",
+          "skills": [
+            {
+              "name": "React",
+              "level": 0
+            },
+            {
+              "name": "Vue",
+              "level": 0
+            },
+            {
+              "name": "Angular",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Mobile",
+          "skills": [
+            {
+              "name": "Mobile",
+              "level": 0
+            },
+            {
+              "name": "Hybrid",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "SEO",
+          "skills": [
+            {
+              "name": "SEO",
+              "level": 0
+            },
+            {
+              "name": "GTM",
+              "level": 0
+            },
+            {
+              "name": "Matomo",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Search",
+          "skills": [
+            {
+              "name": "Solr",
+              "level": 0
+            },
+            {
+              "name": "Elasticsearch",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Cache",
+          "skills": [
+            {
+              "name": "Varnish",
+              "level": 0
+            },
+            {
+              "name": "Redis",
+              "level": 0
+            },
+            {
+              "name": "Memcache",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Hosting",
+          "skills": [
+            {
+              "name": "Platform.sh",
+              "level": 0
+            },
+            {
+              "name": "Acquia",
+              "level": 0
+            },
+            {
+              "name": "Pantheon",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Virtualization",
+          "skills": [
+            {
+              "name": "Docker",
+              "level": 0
+            },
+            {
+              "name": "docker-compose",
+              "level": 0
+            },
+            {
+              "name": "Kubernetes",
+              "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Sysadmin",
+          "skills": [
+            {
+              "name": "Linux admin",
+              "level": 0
+            },
+            {
+              "name": "Networking",
               "level": 0
             },
             {
               "name": "Security",
               "level": 0
+            }
+          ],
+          "averageLevel": 0
+        },
+        {
+          "name": "Misc languages",
+          "skills": [
+            {
+              "name": "Regex",
+              "level": 0
             },
             {
-              "name": "SEO",
+              "name": "Xpath/XSL",
               "level": 0
             }
           ],
           "averageLevel": 0
         }
-      ],
-      "startDate": "",
-      "program": "Sirius"
+      ]
     }
   ]
 }

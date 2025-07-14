@@ -32,17 +32,12 @@ export async function addNewEmployee(departament: {
       categories = DEFAULT_CATEGORIES_FE_BE;
   }
 
-  console.log(
-    "Adding new employee to department:",
-    departament.name,
-    departament.id
-  );
-
   const newEmployee: Employee = {
     id: crypto.randomUUID(),
     firstName: "New",
     lastName: "Employee",
     department: departament.name,
+    floatId: "",
     careerExperience: "",
     bio: "",
     country: "Bulgaria",

@@ -29,13 +29,17 @@ export default function CertificateStatisticsPage() {
   const certificates = useMemo(() => {
     return employees.flatMap((emp) =>
       (emp.certificates || []).map((cert) => ({
-        ...cert,
+        id: cert.id,
+        name: cert.name,
+        issuer: cert.issuer ?? "Unknown",
+        date: cert.date ?? null,
+        url: cert.url ?? null,
         employee: {
           id: emp.id,
           name: `${emp.firstName} ${emp.lastName}`,
-          profileImage: emp.profileImage,
-          department: emp.department,
-          role: emp.role,
+          profileImage: emp.profileImage ?? null,
+          department: emp.department ?? null,
+          role: emp.role ?? null,
         },
       }))
     );
@@ -45,6 +49,7 @@ export default function CertificateStatisticsPage() {
     if (!searchTerm) return certificates;
 
     const lower = searchTerm.toLowerCase();
+
     return certificates.filter((cert) =>
       [
         cert.name,
@@ -55,7 +60,7 @@ export default function CertificateStatisticsPage() {
         cert.employee?.role,
       ]
         .filter(Boolean)
-        .some((field) => field.toLowerCase().includes(lower))
+        .some((field) => (field ? field.toLowerCase().includes(lower) : false))
     );
   }, [certificates, searchTerm]);
 
@@ -81,7 +86,9 @@ export default function CertificateStatisticsPage() {
             className="max-w-md w-full md:w-auto border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm min-w-[250px] md:min-w-[450px] mb-4 md:mb-0 bg-white text-gray-800 focus:ring-2 focus:outline-none focus:ring-offset-2 focus:ring-offset-white"
           />
 
-          <CertificatesTable certificates={filteredCertificates} />
+          {filteredCertificates && (
+            <CertificatesTable certificates={filteredCertificates} />
+          )}
         </div>
       </div>
     </div>

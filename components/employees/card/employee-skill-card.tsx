@@ -2,12 +2,9 @@
 
 import { CardContent } from "@/components/ui/card";
 import { EmployeeCardHeader } from "@/components/employees/card/employee-card-header";
-import {
-  EmployeeCardSlackLink,
-  EmployeeCardSocialLink,
-} from "@/components/employees/card/employee-linkedin-link";
+import { EmployeeCardSocialLink } from "@/components/employees/card/employee-linkedin-link";
 import type { Employee } from "@/lib/types";
-import { Award, AwardIcon, LucideClock } from "lucide-react";
+import { LucideClock } from "lucide-react";
 import Link from "next/link";
 import { EmployeeCardTopSkills } from "./employee-card-top-skills";
 import { getExperienceFromDate } from "@/lib/utils";

@@ -3,19 +3,22 @@ import { getEmployeeById } from "@/lib/db";
 
 export const runtime = "nodejs";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = await params;
+export async function GET(request: Request) {
+  const id = request.url.split("/").pop();
+  if (!id) {
+    return NextResponse.json({ error: "Missing employee ID" }, { status: 400 });
+  }
+
   try {
     const employee = await getEmployeeById(id);
+
     if (!employee) {
       return NextResponse.json(
         { error: "Employee not found" },
         { status: 404 }
       );
     }
+
     return NextResponse.json(employee);
   } catch (error) {
     console.error("Error fetching employee:", error);
