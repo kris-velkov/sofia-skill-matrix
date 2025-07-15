@@ -7,6 +7,8 @@ import EmployeeSkillsInfo from "@/components/employees/profile/employee-skills-i
 import EmployeeCertificatesInfo from "@/components/employees/profile/employee-certificates-info";
 import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-info";
 import { Metadata } from "next";
+import { getEmployeeCertificates } from "@/lib/certificatesDB";
+import { getEmployeeSkills } from "@/lib/skillsDB";
 
 export const metadata: Metadata = {
   title: "View Employees – Jakala Skill Matrix",
@@ -30,6 +32,8 @@ export default async function EmployeeProfilePage({
 }) {
   const { id } = await params;
   const employee = await getEmployeeById(id);
+  const certificates = await getEmployeeCertificates(id);
+  const skills = await getEmployeeSkills(id);
 
   if (!employee) {
     notFound();
@@ -53,12 +57,10 @@ export default async function EmployeeProfilePage({
         <Breadcrumbs items={breadcrumbItems} />
         <EmployeeHeaderInfo employee={employee} />
         <EmployeePersonalInfo employee={employee} />
-        {!!employee.certificates?.length && (
-          <EmployeeCertificatesInfo certificates={employee.certificates} />
+        {!!certificates && (
+          <EmployeeCertificatesInfo certificates={certificates} />
         )}
-        {!!employee.skills?.length && (
-          <EmployeeSkillsInfo skills={employee.skills} />
-        )}
+        {!!skills && <EmployeeSkillsInfo skills={skills} />}
       </div>
     </section>
   );

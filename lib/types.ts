@@ -13,12 +13,28 @@ export interface SkillCategory {
 }
 
 export interface Certificate {
-  id: string;
+  id?: string;
+  employeeId: string;
   name: string;
   issuer?: string;
-  date?: string;
+  date?: string | null;
   url?: string;
 }
+
+export type EmployeeCertificate = {
+  id: string;
+  name: string;
+  issuer: string;
+  date: string | null;
+  url: string | null;
+  employee: {
+    id: string;
+    name: string;
+    profileImage: string | null;
+    department: string | null;
+    role: string | null;
+  };
+};
 
 export interface Employee {
   id: string;
@@ -28,8 +44,8 @@ export interface Employee {
   program?: string;
   department: string;
   role?: string;
-  careerExperience?: string;
-  startDate?: string;
+  careerExperience?: Date | null | string;
+  startDate?: Date | null | string;
   country?: string;
   city?: string;
   bio?: string;

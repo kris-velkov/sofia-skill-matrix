@@ -2,20 +2,22 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import type { Employee } from "@/lib/types";
+import type { EmployeeCertificate } from "@/lib/types";
 
-import { getAllEmployees } from "../actions/certificate-statistics-action";
 import { CompactStatsGrid } from "@/components/statistics/compact-stats-grid";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { CertificatesTable } from "@/components/statistics/certificates-table";
 import { Input } from "@/components/ui/input";
+import { getAllEmployeeCertificates } from "@/lib/certificatesDB";
+import { CertificatesTable } from "@/components/statistics/certificates-table";
 
 export default function CertificateStatisticsPage() {
-  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [employeesCertificates, setEmployeesCertificates] = useState<
+    EmployeeCertificate[]
+  >([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    getAllEmployees().then(setEmployees);
+    getAllEmployeeCertificates().then(setEmployeesCertificates);
   }, []);
 
   const breadcrumbItems = useMemo(
@@ -26,31 +28,12 @@ export default function CertificateStatisticsPage() {
     []
   );
 
-  const certificates = useMemo(() => {
-    return employees.flatMap((emp) =>
-      (emp.certificates || []).map((cert) => ({
-        id: cert.id,
-        name: cert.name,
-        issuer: cert.issuer ?? "Unknown",
-        date: cert.date ?? null,
-        url: cert.url ?? null,
-        employee: {
-          id: emp.id,
-          name: `${emp.firstName} ${emp.lastName}`,
-          profileImage: emp.profileImage ?? null,
-          department: emp.department ?? null,
-          role: emp.role ?? null,
-        },
-      }))
-    );
-  }, [employees]);
-
   const filteredCertificates = useMemo(() => {
-    if (!searchTerm) return certificates;
+    if (!searchTerm) return employeesCertificates;
 
     const lower = searchTerm.toLowerCase();
 
-    return certificates.filter((cert) =>
+    return employeesCertificates.filter((cert) =>
       [
         cert.name,
         cert.date,
@@ -62,14 +45,14 @@ export default function CertificateStatisticsPage() {
         .filter(Boolean)
         .some((field) => (field ? field.toLowerCase().includes(lower) : false))
     );
-  }, [certificates, searchTerm]);
+  }, [employeesCertificates, searchTerm]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="flex-1 p-4 md:p-6">
         <div className="max-w-7xl mx-auto grid gap-6">
           <Breadcrumbs items={breadcrumbItems} />
-          <CompactStatsGrid employees={employees} />
+          <CompactStatsGrid employeesCertificates={employeesCertificates} />
 
           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             Certificates Statistics

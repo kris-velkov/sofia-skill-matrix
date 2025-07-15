@@ -1,6 +1,6 @@
 import { EmployeeTable } from "@/components/employees/employee-table";
 import AddEmployeeButton from "@/components/employees/add/add-employee-button";
-import { getEmployees } from "@/lib/db";
+import { getEmployees, seedEmployeesFromJson } from "@/lib/db";
 import {
   Card,
   CardHeader,

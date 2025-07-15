@@ -9,10 +9,10 @@ import { Certificate } from "@/lib/types";
 
 export async function addEmployeeCertificate(
   employeeId: string,
-  certificate: { name: string; url?: string }
+  certificate: Certificate
 ) {
   try {
-    return await addEmployeeCertificateInDb(employeeId, certificate);
+    return await addEmployeeCertificateInDb(certificate);
   } catch (error) {
     console.error(
       `❌ Failed to add certificate for employee ${employeeId}:`,
@@ -37,17 +37,11 @@ export async function deleteEmployeeCertificate(
   }
 }
 
-export async function updateEmployeeCertificate(
-  employeeId: string,
-  certificates: Certificate[]
-) {
+export async function updateEmployeeCertificate(certificates: Certificate) {
   try {
-    return await updateEmployeeCertificatesInDb(employeeId, certificates);
+    return await updateEmployeeCertificatesInDb(certificates);
   } catch (error) {
-    console.error(
-      `❌ Failed to update certificates for employee ${employeeId}:`,
-      error
-    );
+    console.error(`❌ Failed to update certificates`, error);
     throw new Error("Unable to update certificates.");
   }
 }

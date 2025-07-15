@@ -8,6 +8,7 @@ import {
   DEFAULT_CATEGORIES_PM,
   DEFAULT_CATEGORIES_QA,
 } from "@/constants/employeeDefaultsSkills";
+import { createDefaultSkillsForEmployee } from "@/lib/skillsDB";
 
 type Department = {
   id: string;
@@ -16,7 +17,7 @@ type Department = {
 
 export async function addNewEmployee(
   department: Department
-): Promise<Employee> {
+): Promise<Employee | undefined> {
   const defaultCategories = (() => {
     switch (department.id) {
       case "frontend":
@@ -31,13 +32,11 @@ export async function addNewEmployee(
     }
   })();
 
-  const newEmployee: Employee = {
-    id: crypto.randomUUID(),
+  const newEmployee: Partial<Employee> = {
     firstName: "New",
     lastName: "Employee",
     department: department.name,
     floatId: "",
-    careerExperience: "",
     bio: "",
     country: "Bulgaria",
     city: "Sofia",
@@ -45,20 +44,18 @@ export async function addNewEmployee(
     slackUrl: "",
     linkedinUrl: "",
     role: "",
-    certificates: [],
-    skills: defaultCategories.map((category) => ({
-      name: category.name,
-      skills: category.skills.map((skill) => ({
-        name: skill.name,
-        level: skill.level as 0,
-      })),
-      averageLevel: 0,
-    })),
   };
+  try {
+    const employee = await addEmployee(newEmployee);
 
-  const result = await addEmployee(newEmployee);
-  revalidatePath("/employees");
-  return result;
+    if (employee && employee.id) {
+      await createDefaultSkillsForEmployee(employee?.id, defaultCategories);
+      revalidatePath("/employees");
+      return employee;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function deleteEmployeeAction(userId: string) {
@@ -71,3 +68,5 @@ export async function deleteEmployeeAction(userId: string) {
     return { success: false, message: "Failed to delete employee." };
   }
 }
+
+

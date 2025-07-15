@@ -1,28 +1,60 @@
-import { ensureDbLoaded, getEmployeeIndexById, db } from "./db";
-import { Employee } from "./types";
+"use server";
+
+import type { Employee } from "./types";
+import { supabaseClient } from "./supabase/supabaseClient";
+import snakecaseKeys from "snakecase-keys";
+import camelcaseKeys from "camelcase-keys";
+
+export async function addEmployee(
+  newEmployee: Partial<Employee>
+): Promise<Employee | null> {
+  if (!newEmployee) {
+    throw new Error(`No new employee to add`);
+  }
+
+  const payload = snakecaseKeys(newEmployee, { deep: true });
+
+  const { data, error } = await supabaseClient
+    .from("employees")
+    .insert([payload])
+    .select()
+    .single();
+
+  if (error) throw new Error(`Add failed: ${error.message}`);
+  if (!data) throw new Error("Insert succeeded but no data returned");
+
+  return camelcaseKeys(data, { deep: true }) as Employee;
+}
 
 export async function updateEmployee(
   updatedEmployee: Employee
 ): Promise<Employee | undefined> {
-  await ensureDbLoaded();
-  const index = getEmployeeIndexById(updatedEmployee.id);
-  if (index > -1) {
-    db.data.employees[index] = updatedEmployee;
-    await db.write();
-    return updatedEmployee;
+  const { error } = await supabaseClient
+    .from("employees")
+    .update(updatedEmployee)
+    .eq("id", updatedEmployee.id);
+
+  if (error) {
+    console.error("Error updating employee:", error);
+    return undefined;
   }
-  return undefined;
+
+  return updatedEmployee;
 }
 
+// Delete employee by ID
 export async function deleteEmployee(id: string): Promise<boolean> {
-  await ensureDbLoaded();
-  const index = getEmployeeIndexById(id);
-  if (index > -1) {
-    db.data.employees.splice(index, 1);
-    await db.write();
-    return true;
+  const { error } = await supabaseClient
+    .from("employees")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error deleting employee:", error);
+    return false;
   }
-  return false;
+
+  return true;
 }
 
 export async function updateEmployeeFieldById<T extends keyof Employee>(
@@ -30,40 +62,46 @@ export async function updateEmployeeFieldById<T extends keyof Employee>(
   field: T,
   value: Employee[T]
 ): Promise<Employee | undefined> {
-  await ensureDbLoaded();
-  const idx = getEmployeeIndexById(id);
-  if (idx > -1) {
-    db.data.employees[idx][field] = value;
-    await db.write();
-    return db.data.employees[idx];
+  const { data, error } = await supabaseClient
+    .from("employees")
+    .update({ [field]: value })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error updating employee field:", error);
+    return undefined;
   }
-  return undefined;
+
+  return data;
 }
 
 export async function updateEmployeePartial(
   id: string,
   data: Partial<Employee>
 ): Promise<Employee | undefined> {
-  await ensureDbLoaded();
-  const idx = getEmployeeIndexById(id);
-  if (idx > -1) {
-    db.data.employees[idx] = { ...db.data.employees[idx], ...data };
-    await db.write();
-    return db.data.employees[idx];
+  const payload = snakecaseKeys(data, { deep: true });
+  const { data: updated, error } = await supabaseClient
+    .from("employees")
+    .update(payload)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error patching employee:", error);
+    throw new Error("Error patching employee:", error);
   }
-  return undefined;
+  return updated;
 }
 
 export async function updateEmployeePersonalInfoInDb(
   employeeId: string,
   data: Partial<Employee>
 ) {
-  return updateEmployeePartial(employeeId, data);
-}
+  if (data.careerExperience === "") data.careerExperience = null;
+  if (data.startDate === "") data.startDate = null;
 
-export async function addEmployee(newEmployee: Employee): Promise<Employee> {
-  await ensureDbLoaded();
-  db.data.employees.push(newEmployee);
-  await db.write();
-  return newEmployee;
+  return updateEmployeePartial(employeeId, data);
 }

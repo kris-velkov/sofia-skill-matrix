@@ -3,7 +3,14 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Award, Plus, Trash2, SaveAll, LucideClockFading } from "lucide-react";
+import {
+  Award,
+  Plus,
+  Trash2,
+  SaveAll,
+  LucideClockFading,
+  User2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SkillCategory, SkillLevel } from "@/lib/types";
 import {
@@ -15,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-hot-toast";
 import { COMPETENCY_LEVELS } from "@/constants/competency-level";
+import EmptyState from "@/components/ui/empty-state";
 
 interface EmployeeEditSkillsProps {
   skills: SkillCategory[];
@@ -162,7 +170,7 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
           <span>Edit Skills</span>
         </CardTitle>
       </CardHeader>
-      {skills.length > 0 ? (
+      {skills && skills.length > 0 ? (
         <div className="space-y-14">
           {skills.map((category, catIdx) => (
             <div key={catIdx}>
@@ -312,9 +320,10 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
           </div>
         </div>
       ) : (
-        <p className="text-blue-600 italic text-center py-12 text-lg">
-          No skills listed for this employee.
-        </p>
+        <EmptyState
+          message={"No skills listed for this employee."}
+          icon={<User2 className="w-6 h-6 mb-5"></User2>}
+        />
       )}
     </Card>
   );

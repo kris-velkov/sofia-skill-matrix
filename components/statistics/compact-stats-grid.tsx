@@ -2,27 +2,26 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Building2, Award, LucideIcon } from "lucide-react";
-import type { Employee } from "@/lib/types";
+import type { EmployeeCertificate } from "@/lib/types";
 
 interface CompactStatsGridProps {
-  employees: Employee[];
+  employeesCertificates: EmployeeCertificate[];
 }
 
-export function CompactStatsGrid({ employees }: CompactStatsGridProps) {
-  const totalEmployees = employees.length;
+export function CompactStatsGrid({
+  employeesCertificates,
+}: Readonly<CompactStatsGridProps>) {
+  const totalEmployees = employeesCertificates.length;
 
-  const departmentCounts = employees.reduce((acc, emp) => {
-    const dept = emp.department ?? "Unknown";
+  const departmentCounts = employeesCertificates.reduce((acc, emp) => {
+    const dept = emp.employee.department ?? "Unknown";
     acc[dept] = (acc[dept] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   const totalDepartments = Object.keys(departmentCounts).length;
 
-  const totalCertificates = employees.reduce(
-    (total, emp) => total + (emp.certificates?.length || 0),
-    0
-  );
+  const totalCertificates = employeesCertificates?.length;
 
   const stats: {
     title: string;
@@ -32,7 +31,7 @@ export function CompactStatsGrid({ employees }: CompactStatsGridProps) {
     textColor: string;
   }[] = [
     {
-      title: "Total Employees",
+      title: "Total Employees with certificate",
       value: totalEmployees,
       icon: Users,
       color: "bg-blue-500",

@@ -137,16 +137,6 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             />
           </div>
           <div>
-            <Label>Experience Since</Label>
-            <input
-              type="date"
-              name="careerExperience"
-              defaultValue={localEmployee.careerExperience || ""}
-              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Start Date"
-            />
-          </div>
-          <div>
             <Label>Hired On</Label>
             <input
               type="date"
@@ -156,6 +146,17 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
               placeholder="Start Date"
             />
           </div>
+          <div>
+            <Label>Experience Since</Label>
+            <input
+              type="date"
+              name="careerExperience"
+              defaultValue={localEmployee.careerExperience || ""}
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
+              placeholder="Start Date"
+            />
+          </div>
+
           <div>
             <Label>Country</Label>
             <input

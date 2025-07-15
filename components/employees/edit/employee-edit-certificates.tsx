@@ -25,11 +25,11 @@ export const EmployeeEditCertificates: React.FC<
   const [certificates, setCertificates] =
     useState<Certificate[]>(initialCertificates);
   const [newCert, setNewCert] = useState<Certificate>({
-    id: "",
+    employeeId: employeeId,
     issuer: "",
     name: "",
     url: "",
-    date: "",
+    date: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [updatingCertId, setUpdatingCertId] = useState<string | null>(null);
@@ -41,7 +41,14 @@ export const EmployeeEditCertificates: React.FC<
         const certWithId = { ...newCert, id: crypto.randomUUID() };
         await addEmployeeCertificate(employeeId, certWithId);
         setCertificates((prev) => [...prev, certWithId]);
-        setNewCert({ id: "", name: "", url: "", date: "", issuer: "" });
+        setNewCert({
+          id: "",
+          employeeId: employeeId,
+          name: "",
+          url: "",
+          date: null,
+          issuer: "",
+        });
         toast.success("Certificate added!");
       } catch {
         toast.error("Failed to add certificate");
@@ -84,7 +91,7 @@ export const EmployeeEditCertificates: React.FC<
     try {
       const certToUpdate = certificates.find((c) => c.id === certId);
       if (!certToUpdate) return;
-      await updateEmployeeCertificate(employeeId, certificates);
+      await updateEmployeeCertificate(certToUpdate);
       toast.success("Certificate updated!");
     } catch {
       toast.error("Failed to update certificate");
