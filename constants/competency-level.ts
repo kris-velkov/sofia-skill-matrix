@@ -1,4 +1,4 @@
-import { SkillLevel } from "@/lib/types";
+import { SkillLevel } from "@/types/employees";
 import {
   Award,
   CheckCircle,

@@ -1,4 +1,4 @@
-import { Employee } from "@/lib/types";
+import { Employee } from "@/types/employees";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

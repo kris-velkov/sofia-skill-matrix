@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Employee, SkillLevel } from "@/lib/types";
+import { Employee, SkillLevel } from "@/types/employees";
 
 export interface FilterState {
   selectedEmployees: Employee["id"][];
