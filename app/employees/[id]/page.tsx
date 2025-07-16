@@ -32,8 +32,6 @@ export default async function EmployeeProfilePage({
 }) {
   const { id } = await params;
   const employee = await getEmployee(id);
-  const certificates = await getEmployeeCertificates(id);
-  const skills = await getEmployeeSkillsGrouped(id);
 
   if (!employee) {
     notFound();
@@ -57,10 +55,10 @@ export default async function EmployeeProfilePage({
         <Breadcrumbs items={breadcrumbItems} />
         <EmployeeHeaderInfo employee={employee} />
         <EmployeePersonalInfo employee={employee} />
-        {!!certificates && (
-          <EmployeeCertificatesInfo certificates={certificates} />
+        {!!employee.certificates && (
+          <EmployeeCertificatesInfo certificates={employee.certificates} />
         )}
-        {!!skills && <EmployeeSkillsInfo skills={skills} />}
+        {!!employee.skills && <EmployeeSkillsInfo skills={employee.skills} />}
       </div>
     </section>
   );

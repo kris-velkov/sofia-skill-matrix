@@ -6,8 +6,6 @@ import EmployeeEditPersonalInfo from "@/components/employees/edit/employee-edit-
 import EmployeeEditCertificates from "@/components/employees/edit/employee-edit-certificates";
 import ProtectedAdminRoute from "@/components/auth/protected-admin-route";
 import EmployeeEditSkills from "@/components/employees/edit/employee-edit-skills-section";
-import { getEmployeeCertificates } from "@/lib/certificatesDB";
-import { getEmployeeSkillsGrouped } from "@/lib/skillsDB";
 import { getEmployeeById } from "@/lib/employees";
 
 export default async function EditEmployeeProfilePage({
@@ -17,8 +15,6 @@ export default async function EditEmployeeProfilePage({
 }) {
   const { id } = await params;
   const employee = await getEmployeeById(id);
-  const certificates = await getEmployeeCertificates(id);
-  const skills = await getEmployeeSkillsGrouped(id);
 
   if (!employee) {
     notFound();
@@ -46,9 +42,12 @@ export default async function EditEmployeeProfilePage({
           <EmployeeEditPersonalInfo employee={employee} />
           <EmployeeEditCertificates
             employeeId={employee.id}
-            certificates={certificates ?? []}
+            certificates={employee.certificates ?? []}
           />
-          <EmployeeEditSkills employeeId={employee.id} skills={skills} />
+          <EmployeeEditSkills
+            employeeId={employee.id}
+            skills={employee.skills ?? []}
+          />
         </div>
       </section>
     </ProtectedAdminRoute>

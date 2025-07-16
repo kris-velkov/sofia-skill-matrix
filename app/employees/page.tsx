@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Metadata } from "next";
 import { getEmployees } from "@/lib/employees";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Manage Employees – Jakala Skill Matrix",
@@ -28,6 +29,11 @@ export const metadata: Metadata = {
 export default async function EmployeesPage() {
   const employees = await getEmployees();
 
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "Manage Employees" },
+  ];
+
   return (
     <section
       className="flex flex-col min-h-screen"
@@ -35,6 +41,7 @@ export default async function EmployeesPage() {
     >
       <div className="flex-1 p-4 md:p-8">
         <div className="max-w-7xl mx-auto grid gap-8">
+          <Breadcrumbs items={breadcrumbItems} />
           <Card className="border-0 bg-white/90">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
