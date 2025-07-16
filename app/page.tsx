@@ -1,6 +1,5 @@
 import { Dashboard } from "@/components/dashboard/dashboard";
 import ProtectedRoute from "@/components/auth/protected-route";
-import { getEmployeesData } from "./actions/employees-action";
 import { Suspense } from "react";
 import { seedCategories } from "@/lib/skillsDB";
 import {
@@ -9,6 +8,7 @@ import {
   DEFAULT_CATEGORIES_QA,
 } from "@/constants/employeeDefaultsSkills";
 import { seedEmployeesFromJson } from "@/lib/db";
+import { getEmployeesData } from "./actions/employees-action";
 
 export const metadata = {
   title: "Skills Matrix Dashboard",
@@ -18,11 +18,13 @@ export const metadata = {
 export default async function HomePage() {
   const employees = await getEmployeesData();
 
+  // console.log(employees);
+
   // await seedCategories(DEFAULT_CATEGORIES_FE_BE, ["frontend", "backend"]);
   // await seedCategories(DEFAULT_CATEGORIES_QA, ["qa"]);
   // await seedCategories(DEFAULT_CATEGORIES_PM, ["pm"]);
 
-  await seedEmployeesFromJson();
+  // await seedEmployeesFromJson();
 
   return (
     <ProtectedRoute>

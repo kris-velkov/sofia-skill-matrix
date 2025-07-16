@@ -24,10 +24,10 @@ export const AddEmployeeButton: React.FC = () => {
   }) => {
     try {
       setPopoverOpen(false);
-      const res = await addNewEmployee(departament);
-      if (!res || !res.id) throw new Error("Failed to add employee");
+      const employeeId = await addNewEmployee(departament);
+      if (!employeeId) throw new Error("Failed to add employee");
       toast.success("Employee added successfully!");
-      router.push(`/employees/${res.id}/edit`);
+      router.push(`/employees/${employeeId}/edit`);
     } catch (error) {
       toast.error("Error adding employee.");
       console.error("Error adding employee:", error);

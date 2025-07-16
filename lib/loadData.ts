@@ -1,54 +1,117 @@
-"use server";
-
-import type { Employee } from "./types";
 import { supabaseClient } from "./supabase/supabaseClient";
-import camelcaseKeys from "camelcase-keys";
+import { normalizeDepartment } from "./utils";
 import fs from "fs";
 import path from "path";
 
-export async function getEmployees(): Promise<Employee[]> {
-  const { data, error } = await supabaseClient.from("employees").select("*");
+type DefaultCategory = {
+  id: string;
+  name: string;
+  skills: { name: string; level: number }[];
+};
 
-  if (error) {
-    console.error("Error fetching employees:", error);
-    throw new Error("Failed to fetch employees");
+export async function seedCategories(
+  defaultCategories: DefaultCategory[],
+  newDepartments: string[]
+) {
+  for (const cat of defaultCategories) {
+    try {
+      const { data: existingCategory } = await supabaseClient
+        .from("categories")
+        .select("id, departments")
+        .eq("name", cat.name)
+        .single();
+
+      let categoryId: string;
+
+      if (existingCategory) {
+        // ✅ Merge departments with normalization
+        const mergedDepartments = Array.from(
+          new Set([
+            ...(existingCategory.departments || []),
+            ...newDepartments.map((d) => normalizeDepartment(d)),
+          ])
+        );
+
+        await supabaseClient
+          .from("categories")
+          .update({ departments: mergedDepartments })
+          .eq("id", existingCategory.id);
+
+        categoryId = existingCategory.id;
+      } else {
+        // ✅ Insert new category
+        const { data: newCat, error: catError } = await supabaseClient
+          .from("categories")
+          .insert({
+            name: cat.name,
+            departments: newDepartments.map((d) => normalizeDepartment(d)),
+          })
+          .select("id")
+          .single();
+
+        if (catError || !newCat) {
+          console.error(
+            `❌ Failed to insert category ${cat.name}:`,
+            catError?.message
+          );
+          continue;
+        }
+        categoryId = newCat.id;
+      }
+
+      // ✅ Fetch existing skills with their order_index
+      const { data: existingSkills } = await supabaseClient
+        .from("skills")
+        .select("name, order_index")
+        .eq("category_id", categoryId);
+
+      const existingSkillNames = new Set(
+        existingSkills?.map((s) => s.name) || []
+      );
+      const maxOrderIndex =
+        existingSkills?.length > 0
+          ? Math.max(...existingSkills.map((s) => s.order_index ?? 0))
+          : -1;
+
+      // ✅ Find only missing skills
+      const newSkills = cat.skills.filter(
+        (s) => !existingSkillNames.has(s.name)
+      );
+
+      if (newSkills.length > 0) {
+        // ✅ Start order_index after the last one
+        let startIndex = maxOrderIndex + 1;
+
+        const skillPayload = newSkills.map((s) => ({
+          category_id: categoryId,
+          name: s.name,
+          order_index: startIndex++, // increment for each new skill
+        }));
+
+        const { error: skillsError } = await supabaseClient
+          .from("skills")
+          .insert(skillPayload);
+
+        if (skillsError) {
+          console.error(
+            `❌ Failed to insert skills for ${cat.name}:`,
+            skillsError.message
+          );
+        } else {
+          console.log(
+            `✅ Added ${newSkills.length} missing skills for category: ${cat.name}`
+          );
+        }
+      } else {
+        console.log(`ℹ️ All skills already exist for ${cat.name}, skipping.`);
+      }
+    } catch (err: any) {
+      console.error(
+        `❌ Error while processing category ${cat.name}:`,
+        err.message
+      );
+    }
   }
-
-  return camelcaseKeys(data);
-}
-
-export async function getDepartments(): Promise<string[]> {
-  const { data, error } = await supabaseClient
-    .from("employees")
-    .select("department");
-
-  if (error) {
-    console.error("Error fetching departments:", error);
-    throw new Error("Failed to fetch departments");
-  }
-
-  const uniqueDepartments = Array.from(
-    new Set(data.map((emp) => emp.department).filter(Boolean))
-  );
-
-  return uniqueDepartments;
-}
-
-export async function getEmployeeById(
-  id: string
-): Promise<Employee | undefined> {
-  const { data, error } = await supabaseClient
-    .from("employees")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    console.error(`Error fetching employee with ID ${id}:`, error);
-    return undefined;
-  }
-
-  return camelcaseKeys(data);
 }
 
 export async function insertEmployee(emp: any) {

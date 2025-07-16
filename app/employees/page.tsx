@@ -1,6 +1,5 @@
 import { EmployeeTable } from "@/components/employees/employee-table";
 import AddEmployeeButton from "@/components/employees/add/add-employee-button";
-import { getEmployees, seedEmployeesFromJson } from "@/lib/db";
 import {
   Card,
   CardHeader,
@@ -9,6 +8,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Metadata } from "next";
+import { getEmployees } from "@/lib/employees";
 
 export const metadata: Metadata = {
   title: "Manage Employees – Jakala Skill Matrix",

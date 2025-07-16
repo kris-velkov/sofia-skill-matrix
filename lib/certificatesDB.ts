@@ -1,9 +1,14 @@
 "use server";
 
-import type { Certificate, EmployeeCertificate } from "./types";
 import { supabaseClient } from "./supabase/supabaseClient";
 import snakecaseKeys from "snakecase-keys";
 import camelcaseKeys from "camelcase-keys";
+import {
+  Certificate,
+  EmployeeCertificate,
+  EmployeeCertificateData,
+} from "@/types/employees";
+import { EMPLOYEE_CERTIFICATE_QUERY } from "./supabase/queries";
 
 export async function getEmployeeCertificates(
   employeeId: string
@@ -11,13 +16,14 @@ export async function getEmployeeCertificates(
   const { data, error } = await supabaseClient
     .from("certificates")
     .select("*")
-    .eq("employee_id", employeeId);
+    .eq("employee_id", employeeId)
+    .order("date", { ascending: false });
 
   if (error) {
     console.error("Error get certificate:", error);
     throw new Error("Failed to get User certificate");
   }
-  return camelcaseKeys(data);
+  return camelcaseKeys(data) as unknown as Certificate[];
 }
 
 export async function addEmployeeCertificateInDb(
@@ -81,23 +87,10 @@ export async function updateEmployeeCertificatesInDb(
 export async function getAllEmployeeCertificates(): Promise<
   EmployeeCertificate[]
 > {
-  const { data, error } = await supabaseClient.from("certificates").select(
-    `
-        id,
-        name,
-        issuer,
-        date,
-        url,
-        employee:employees (
-          id,
-          first_name,
-          last_name,
-          profile_image,
-          department,
-          role
-        )
-      `
-  );
+  const { data, error } = await supabaseClient
+    .from("certificates")
+    .select(EMPLOYEE_CERTIFICATE_QUERY)
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.error("Error fetching all employee certificates:", error);
@@ -106,18 +99,22 @@ export async function getAllEmployeeCertificates(): Promise<
 
   const normalized = camelcaseKeys(data, { deep: true });
 
-  return normalized.map((cert: any) => ({
+  return normalized.map((cert: EmployeeCertificateData) => ({
     id: cert.id,
-    name: cert.name,
+    name: cert.name ?? "Unknown Certificate",
     issuer: cert.issuer ?? "Unknown",
     date: cert.date ?? null,
     url: cert.url ?? null,
     employee: {
-      id: cert.employee.id,
-      name: `${cert.employee.firstName} ${cert.employee.lastName}`,
-      profileImage: cert.employee.profileImage ?? null,
-      department: cert.employee.department ?? null,
-      role: cert.employee.role ?? null,
+      id: cert.employee?.id ?? "",
+      name: cert.employee
+        ? `${cert.employee.firstName ?? ""} ${
+            cert.employee.lastName ?? ""
+          }`.trim() || "Unknown Employee"
+        : "Unknown Employee",
+      profileImage: cert.employee?.profileImage ?? null,
+      department: cert.employee?.department ?? null,
+      role: cert.employee?.role ?? null,
     },
   }));
 }

@@ -7,8 +7,8 @@ import type { EmployeeCertificate } from "@/lib/types";
 import { CompactStatsGrid } from "@/components/statistics/compact-stats-grid";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { Input } from "@/components/ui/input";
-import { getAllEmployeeCertificates } from "@/lib/certificatesDB";
 import { CertificatesTable } from "@/components/statistics/certificates-table";
+import { getAllEmployeesCertificates } from "../actions/certificate-statistics-action";
 
 export default function CertificateStatisticsPage() {
   const [employeesCertificates, setEmployeesCertificates] = useState<
@@ -17,7 +17,7 @@ export default function CertificateStatisticsPage() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    getAllEmployeeCertificates().then(setEmployeesCertificates);
+    getAllEmployeesCertificates().then(setEmployeesCertificates);
   }, []);
 
   const breadcrumbItems = useMemo(

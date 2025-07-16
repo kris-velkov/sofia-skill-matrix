@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import { getEmployeeById } from "@/lib/db";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import EmployeePersonalInfo from "@/components/employees/profile/employee-personal-info";
 import EmployeeSkillsInfo from "@/components/employees/profile/employee-skills-info";
 import EmployeeCertificatesInfo from "@/components/employees/profile/employee-certificates-info";
 import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-info";
+import { getEmployee } from "@/app/actions/employees-action";
 
 export default async function Page({
   params,
@@ -12,7 +12,7 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const employee = await getEmployeeById(id);
+  const employee = await getEmployee(id);
 
   if (!employee) {
     notFound();

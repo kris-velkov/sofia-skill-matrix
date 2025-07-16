@@ -85,3 +85,7 @@ export function getFilteredEmployees(
     );
   });
 }
+
+export function normalizeDepartment(department: string) {
+  return department.toLowerCase().replace(/[^a-z]/g, "");
+}

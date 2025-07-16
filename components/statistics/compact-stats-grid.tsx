@@ -11,7 +11,9 @@ interface CompactStatsGridProps {
 export function CompactStatsGrid({
   employeesCertificates,
 }: Readonly<CompactStatsGridProps>) {
-  const totalEmployees = employeesCertificates.length;
+  const totalEmployees = new Set(
+    employeesCertificates.map((cert) => cert.employee.id)
+  ).size;
 
   const departmentCounts = employeesCertificates.reduce((acc, emp) => {
     const dept = emp.employee.department ?? "Unknown";

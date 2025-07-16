@@ -1,9 +1,9 @@
 "use server";
 
-import type { Employee } from "./types";
 import { supabaseClient } from "./supabase/supabaseClient";
 import snakecaseKeys from "snakecase-keys";
 import camelcaseKeys from "camelcase-keys";
+import { Employee } from "@/types/employees";
 
 export async function addEmployee(
   newEmployee: Partial<Employee>
@@ -23,7 +23,7 @@ export async function addEmployee(
   if (error) throw new Error(`Add failed: ${error.message}`);
   if (!data) throw new Error("Insert succeeded but no data returned");
 
-  return camelcaseKeys(data, { deep: true }) as Employee;
+  return camelcaseKeys(data, { deep: true }) as unknown as Employee;
 }
 
 export async function updateEmployee(
@@ -42,7 +42,6 @@ export async function updateEmployee(
   return updatedEmployee;
 }
 
-// Delete employee by ID
 export async function deleteEmployee(id: string): Promise<boolean> {
   const { error } = await supabaseClient
     .from("employees")

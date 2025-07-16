@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { getEmployeeById } from "@/lib/db";
 import {} from "@/components/employees/card/employee-skill-card";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import EmployeePersonalInfo from "@/components/employees/profile/employee-personal-info";
@@ -8,7 +7,8 @@ import EmployeeCertificatesInfo from "@/components/employees/profile/employee-ce
 import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-info";
 import { Metadata } from "next";
 import { getEmployeeCertificates } from "@/lib/certificatesDB";
-import { getEmployeeSkills } from "@/lib/skillsDB";
+import { getEmployeeSkillsGrouped } from "@/lib/skillsDB";
+import { getEmployee } from "@/app/actions/employees-action";
 
 export const metadata: Metadata = {
   title: "View Employees – Jakala Skill Matrix",
@@ -31,9 +31,9 @@ export default async function EmployeeProfilePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const employee = await getEmployeeById(id);
+  const employee = await getEmployee(id);
   const certificates = await getEmployeeCertificates(id);
-  const skills = await getEmployeeSkills(id);
+  const skills = await getEmployeeSkillsGrouped(id);
 
   if (!employee) {
     notFound();

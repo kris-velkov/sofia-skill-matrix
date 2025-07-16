@@ -1,16 +1,13 @@
 "use server";
 
-import snakecaseKeys from "snakecase-keys";
-import { getEmployeeById } from "./db";
+import { Employee } from "@/types/employees";
 import { supabaseClient } from "./supabase/supabaseClient";
-import type { Employee, Skill, SkillCategory, SkillLevel } from "./types";
-import { DEFAULT_CATEGORIES_FE_BE } from "@/constants/employeeDefaultsSkills";
+import { getEmployeeById } from "./employees";
 
 export async function deleteEmployeeSkillInDb(
   employeeId: string,
   category: { name: string; skills: { name: string; level: number }[] }
 ): Promise<Employee | undefined> {
-  // Get the group ID
   const { data: group, error: groupError } = await supabaseClient
     .from("skill_groups")
     .select("id")
@@ -20,7 +17,6 @@ export async function deleteEmployeeSkillInDb(
 
   if (groupError || !group) return undefined;
 
-  // Delete group and cascade delete skills
   const { error } = await supabaseClient
     .from("skill_groups")
     .delete()
@@ -34,72 +30,41 @@ export async function deleteEmployeeSkillInDb(
   return getEmployeeById(employeeId);
 }
 
-// 🔁 Update or insert a skill group for an employee
 export async function updateEmployeeSkillsInDb(
   employeeId: string,
   category: { name: string; skills: { name: string; level: number }[] }
-): Promise<Employee | undefined> {
-  const averageLevel =
-    category.skills.length > 0
-      ? Math.round(
-          (category.skills.reduce((acc, s) => acc + s.level, 0) /
-            category.skills.length) *
-            10
-        ) / 10
-      : 0;
+): Promise<void> {
+  for (const skill of category.skills) {
+    const { data: skillData } = await supabaseClient
+      .from("skills")
+      .select("id")
+      .eq("name", skill.name)
+      .maybeSingle();
 
-  // Check if group exists
-  const { data: existingGroup, error: groupError } = await supabaseClient
-    .from("skill_groups")
-    .select("id")
-    .eq("employee_id", employeeId)
-    .eq("name", category.name)
-    .single();
+    if (!skillData) {
+      console.warn(`Skill '${skill.name}' not found in DB, skipping.`);
+      continue;
+    }
 
-  let groupId: string;
+    const skillId = skillData.id;
 
-  if (existingGroup) {
-    groupId = existingGroup.id;
+    const { error } = await supabaseClient
+      .from("employee_skill_levels")
+      .upsert({
+        employee_id: employeeId,
+        skill_id: skillId,
+        level: skill.level,
+      });
 
-    await supabaseClient.from("skills").delete().eq("group_id", groupId);
-
-    await supabaseClient
-      .from("skill_groups")
-      .update({ average_level: averageLevel })
-      .eq("id", groupId);
-  } else {
-    const { data: newGroup, error: insertGroupError } = await supabaseClient
-      .from("skill_groups")
-      .insert([
-        {
-          employee_id: employeeId,
-          name: category.name,
-          average_level: averageLevel,
-        },
-      ])
-      .select()
-      .single();
-
-    if (insertGroupError || !newGroup) return undefined;
-    groupId = newGroup.id;
+    if (error) {
+      console.error(
+        `Failed to update ${skill.name} for employee ${employeeId}:`,
+        error.message
+      );
+    } else {
+      console.log(`Updated ${skill.name} (${skill.level})`);
+    }
   }
-
-  const skills = category.skills.map((s) => ({
-    group_id: groupId,
-    name: s.name,
-    level: s.level as SkillLevel,
-  }));
-
-  const { error: insertSkillsError } = await supabaseClient
-    .from("skills")
-    .insert(skills);
-
-  if (insertSkillsError) {
-    console.error("Error inserting skills:", insertSkillsError);
-    return undefined;
-  }
-
-  return getEmployeeById(employeeId);
 }
 
 export async function updateEmployeeCategoryNameInDb(
@@ -121,149 +86,120 @@ export async function updateEmployeeCategoryNameInDb(
   return getEmployeeById(employeeId);
 }
 
-export async function getEmployeeSkills(
-  employeeId: string
-): Promise<SkillCategory[]> {
+export async function getEmployeeSkillsGrouped(employeeId: string) {
   const { data, error } = await supabaseClient
-    .from("employee_skills")
+    .from("employee_skill_levels")
     .select(
       `
-        id,
-        name,
-        average_level
-        skills:skills (
+        level,
+        skills (
           name,
-          level
+          categories (
+            name
+          )
         )
       `
     )
     .eq("employee_id", employeeId);
 
-  if (error) throw error;
-
-  return snakecaseKeys(data, { deep: true });
-}
-
-export async function createDefaultSkillsForEmployee(
-  employeeId: string,
-  categories: typeof DEFAULT_CATEGORIES_FE_BE
-) {
-  for (const category of categories) {
-    const { data: group, error: groupError } = await supabaseClient
-      .from("employee_skills")
-      .insert({
-        employee_id: employeeId,
-        name: category.name,
-        average_level: 0,
-      })
-      .select("id")
-      .single();
-
-    if (groupError || !group)
-      throw new Error(`Failed to create group ${category.name}`, groupError);
-
-    const groupId = group.id;
-
-    const skillPayload = category.skills.map((s) => ({
-      group_id: groupId,
-      name: s.name,
-      level: s.level,
-    }));
-
-    const { error: skillsError } = await supabaseClient
-      .from("skills")
-      .insert(skillPayload);
-
-    if (skillsError)
-      throw new Error(`Failed to insert skills for group ${category.name}`);
+  if (error) {
+    console.error("❌ Failed to fetch skills:", error.message);
+    return [];
   }
+
+  return groupSkillsByCategoryWithAverage(data);
 }
 
-type DefaultCategory = {
-  id: string;
-  name: string;
-  skills: { name: string; level: number }[];
-};
+async function getSkillsForDepartment(department: string) {
+  const { data, error } = await supabaseClient
+    .from("categories")
+    .select(
+      `
+        id,
+        name,
+        skills (
+          id,
+          name
+        )
+      `
+    )
+    .contains("departments", [department.toLowerCase()]);
 
-export async function seedCategories(
-  defaultCategories: DefaultCategory[],
-  newDepartments: string[]
-) {
-  for (const cat of defaultCategories) {
-    const { data: existingCategory } = await supabaseClient
-      .from("categories")
-      .select("id, departments")
-      .eq("name", cat.name)
-      .single();
-
-    let categoryId: string;
-
-    if (existingCategory) {
-      const mergedDepartments = Array.from(
-        new Set([...(existingCategory.departments || []), ...newDepartments])
-      );
-
-      await supabaseClient
-        .from("categories")
-        .update({ departments: mergedDepartments })
-        .eq("id", existingCategory.id);
-
-      categoryId = existingCategory.id;
-    } else {
-      const { data: newCat, error: catError } = await supabaseClient
-        .from("categories")
-        .insert({
-          name: cat.name,
-          departments: newDepartments,
-        })
-        .select("id")
-        .single();
-
-      if (catError) {
-        console.error(
-          `❌ Failed to insert category ${cat.name}:`,
-          catError.message
-        );
-        continue;
-      }
-
-      categoryId = newCat.id;
-    }
-
-    const { data: existingSkills } = await supabaseClient
-      .from("skills")
-      .select("name")
-      .eq("category_id", categoryId);
-
-    const existingSkillNames = new Set(
-      existingSkills?.map((s: { name: string }) => s.name) || []
+  if (error) {
+    console.error(
+      `❌ Failed to load categories for ${department}:`,
+      error.message
     );
-
-    const newSkills = cat.skills.filter((s) => !existingSkillNames.has(s.name));
-
-    if (newSkills.length > 0) {
-      const skillPayload = newSkills.map((s, idx) => ({
-        category_id: categoryId,
-        name: s.name,
-        order_index: idx,
-      }));
-
-      const { error: skillsError } = await supabaseClient
-        .from("skills")
-        .insert(skillPayload);
-
-      if (skillsError) {
-        console.error(
-          `❌ Failed to insert skills for ${cat.name}:`,
-          skillsError.message
-        );
-      } else {
-        console.log(
-          `✅ Added ${newSkills.length} missing skills for category: ${cat.name}`
-        );
-      }
-    } else {
-      console.log(`ℹ️ All skills already exist for ${cat.name}, skipping.`);
-    }
+    return [];
   }
+
+  return data.flatMap((cat) => cat.skills);
+}
+
+export async function assignDefaultLevelsToEmployee(
+  employeeId: string,
+  department: string
+) {
+  const skills = await getSkillsForDepartment(department);
+
+  if (skills.length === 0) {
+    console.warn(`No skills found for department ${department}`);
+    return;
+  }
+
+  const payload = skills.map((s) => ({
+    employee_id: employeeId,
+    skill_id: s.id,
+    level: 0,
+  }));
+
+  const { error } = await supabaseClient
+    .from("employee_skill_levels")
+    .insert(payload);
+
+  if (error) {
+    console.error(
+      `Failed to assign default skill levels for employee ${employeeId}:`,
+      error.message
+    );
+  } else {
+    console.log(
+      `Assigned ${payload.length} default skills for employee ${employeeId}`
+    );
+  }
+}
+
+export async function groupSkillsByCategoryWithAverage(rawSkills) {
+  const grouped = new Map();
+
+  for (const item of rawSkills) {
+    const categoryName = item.skills.categories.name;
+    const skillName = item.skills.name;
+    const skillLevel = item.level;
+
+    if (!grouped.has(categoryName)) {
+      grouped.set(categoryName, {
+        name: categoryName,
+        skills: [],
+        totalLevel: 0,
+        count: 0,
+      });
+    }
+
+    const categoryGroup = grouped.get(categoryName);
+
+    categoryGroup.skills.push({ name: skillName, level: skillLevel });
+    categoryGroup.totalLevel += skillLevel;
+    categoryGroup.count += 1;
+  }
+
+  console.log(grouped.values);
+  return Array.from(grouped.values()).map((group) => ({
+    name: group.name,
+    skills: group.skills,
+    averageLevel:
+      group.count > 0
+        ? parseFloat((group.totalLevel / group.count).toFixed(2))
+        : 0,
+  }));
 }

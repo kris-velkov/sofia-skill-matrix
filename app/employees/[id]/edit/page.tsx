@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { getEmployeeById } from "@/lib/db";
 import {} from "@/components/employees/card/employee-skill-card";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import EmployeeEditHeaderInfo from "@/components/employees/edit/employee-edit-header-info";
@@ -8,6 +7,8 @@ import EmployeeEditCertificates from "@/components/employees/edit/employee-edit-
 import ProtectedAdminRoute from "@/components/auth/protected-admin-route";
 import EmployeeEditSkills from "@/components/employees/edit/employee-edit-skills-section";
 import { getEmployeeCertificates } from "@/lib/certificatesDB";
+import { getEmployeeSkillsGrouped } from "@/lib/skillsDB";
+import { getEmployeeById } from "@/lib/employees";
 
 export default async function EditEmployeeProfilePage({
   params,
@@ -17,6 +18,7 @@ export default async function EditEmployeeProfilePage({
   const { id } = await params;
   const employee = await getEmployeeById(id);
   const certificates = await getEmployeeCertificates(id);
+  const skills = await getEmployeeSkillsGrouped(id);
 
   if (!employee) {
     notFound();
@@ -46,10 +48,7 @@ export default async function EditEmployeeProfilePage({
             employeeId={employee.id}
             certificates={certificates ?? []}
           />
-          <EmployeeEditSkills
-            employeeId={employee.id}
-            skills={employee.skills}
-          /> 
+          <EmployeeEditSkills employeeId={employee.id} skills={skills} />
         </div>
       </section>
     </ProtectedAdminRoute>

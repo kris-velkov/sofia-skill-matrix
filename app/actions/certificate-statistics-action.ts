@@ -1,10 +1,10 @@
 "use server";
 
-import { getEmployees } from "@/lib/db";
+import { getAllEmployeeCertificates } from "@/lib/certificatesDB";
 
-export async function getAllEmployees() {
+export async function getAllEmployeesCertificates() {
   try {
-    return await getEmployees();
+    return await getAllEmployeeCertificates();
   } catch (error) {
     console.error("❌ Failed to fetch employees:", error);
     throw new Error("Unable to load employees at this time.");
