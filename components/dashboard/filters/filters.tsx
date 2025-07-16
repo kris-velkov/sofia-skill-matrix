@@ -7,7 +7,8 @@ import { SelectFilter } from "./select-filter";
 import { MultiSelectPopover } from "./multi-select-popover";
 import { MinimumSkillLevelSelector } from "./minimum-skill-level-selector";
 import { BadgeList } from "./badge-list";
-import type { FilterState, Employee } from "@/lib/types";
+import { Employee } from "@/types/employees";
+import { FilterState } from "@/store/use-skills-store";
 
 interface FiltersProps {
   filterState: FilterState;

@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Award, GraduationCap, Link as LinkIcon } from "lucide-react";
-import type { Certificate } from "@/lib/types";
+import type { Certificate } from "@/types/employees";
 import EmptyState from "@/components/ui/empty-state";
 
 interface EmployeeCertificatesInfoProps {

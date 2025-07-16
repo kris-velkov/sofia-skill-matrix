@@ -122,11 +122,3 @@ export type EmployeeCertificate = {
     role: string | null;
   };
 };
-
-export interface FilterState {
-  selectedEmployees: string[];
-  selectedDepartment: string | null;
-  selectedSkillCategory: string | null;
-  selectedSkills: string[];
-  minimumSkillLevel: SkillLevel | null;
-}

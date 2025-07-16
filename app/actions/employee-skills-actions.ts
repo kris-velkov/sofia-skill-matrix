@@ -5,7 +5,7 @@ import {
   deleteEmployeeSkillInDb,
   updateEmployeeCategoryNameInDb,
 } from "@/lib/skillsDB";
-import { Employee } from "@/lib/types";
+import { Employee } from "@/types/employees";
 
 type SkillCategory = {
   name: string;

@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Building2, Award, LucideIcon } from "lucide-react";
-import type { EmployeeCertificate } from "@/lib/types";
+import type { EmployeeCertificate } from "@/types/employees";
 
 interface CompactStatsGridProps {
   employeesCertificates: EmployeeCertificate[];

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import type { EmployeeCertificate } from "@/lib/types";
+import type { EmployeeCertificate } from "@/types/employees";
 
 import { CompactStatsGrid } from "@/components/statistics/compact-stats-grid";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";

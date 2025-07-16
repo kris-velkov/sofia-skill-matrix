@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Input } from "@/components/ui/input";
-import type { Employee } from "@/lib/types";
+import type { Employee } from "@/types/employees";
 import { EmployeeAvatar } from "./employee-avatar";
 import { deleteEmployeeAction } from "@/app/actions/employee-actions";
 import { getExperienceFromDate } from "@/lib/utils";

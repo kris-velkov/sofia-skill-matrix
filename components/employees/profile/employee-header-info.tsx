@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Linkedin, Slack } from "lucide-react";
-import { Employee } from "@/lib/types";
+import { Employee } from "@/types/employees";
 import { FloatUserStatusBadge } from "./employee-float-status";
 
 interface EmployeeHeaderInfoProps {

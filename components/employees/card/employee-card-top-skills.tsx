@@ -1,5 +1,5 @@
 import React from "react";
-import type { Skill } from "@/lib/types";
+import type { Skill } from "@/types/employees";
 import { SkillLevelBadge } from "../employee-skill-level-badge";
 
 interface EmployeeCardTopSkillsProps {

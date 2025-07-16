@@ -12,7 +12,7 @@ import {
   User2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { SkillCategory, SkillLevel } from "@/lib/types";
+import type { SkillCategory, SkillLevel } from "@/types/employees";
 import {
   deleteEmployeeSkill,
   updateEmployeeSkills,

@@ -1,8 +1,8 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { SkillLevel } from "@/lib/types";
 import { COMPETENCY_LEVELS } from "@/constants/competency-level";
+import { SkillLevel } from "@/types/employees";
 
 interface MinimumSkillLevelSelectorProps {
   value: SkillLevel | null;
@@ -24,7 +24,11 @@ export function MinimumSkillLevelSelector({
             onClick={() => onChange(value === item.grade ? null : item.grade)}
             className={cn(
               "w-10 h-10 rounded-lg",
-              `${item.bgColor} ${item.textColor} border-2 border-gray-200 sgadow-sm`
+              `${item.bgColor} ${item.textColor} border-2 ${
+                value === item.grade
+                  ? "ring-2 ring-blue-300"
+                  : "border-gray-200"
+              } shadow-sm`
             )}
           >
             {item.grade}

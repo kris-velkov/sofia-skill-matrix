@@ -3,7 +3,7 @@
 import { CardContent } from "@/components/ui/card";
 import { EmployeeCardHeader } from "@/components/employees/card/employee-card-header";
 import { EmployeeCardSocialLink } from "@/components/employees/card/employee-linkedin-link";
-import type { Employee } from "@/lib/types";
+import type { Employee } from "@/types/employees";
 import { LucideClock } from "lucide-react";
 import Link from "next/link";
 import { EmployeeCardTopSkills } from "./employee-card-top-skills";

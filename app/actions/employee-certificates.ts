@@ -5,7 +5,7 @@ import {
   deleteEmployeeCertificateInDb,
   updateEmployeeCertificatesInDb,
 } from "@/lib/certificatesDB";
-import { Certificate } from "@/lib/types";
+import { Certificate } from "@/types/employees";
 
 export async function addEmployeeCertificate(
   employeeId: string,

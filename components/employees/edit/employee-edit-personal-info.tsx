@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { updateEmployeePersonalInfo } from "@/app/actions/employee-personal-info";
 import { toast } from "react-hot-toast";
-import { Employee } from "@/lib/types";
+import { Employee } from "@/types/employees";
 
 interface EmployeePersonalInfoProps {
   employee: Omit<Employee, "skills">;

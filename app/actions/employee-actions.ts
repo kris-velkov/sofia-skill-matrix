@@ -2,7 +2,7 @@
 
 import { addEmployee, deleteEmployee } from "@/lib/employeeInfoDB";
 import { assignDefaultLevelsToEmployee } from "@/lib/skillsDB";
-import { Employee } from "@/lib/types";
+import { Employee } from "@/types/employees";
 import { normalizeDepartment } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 

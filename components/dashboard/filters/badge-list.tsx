@@ -1,7 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { FilterState } from "@/store/use-skills-store";
+import { Employee } from "@/types/employees";
 import { X } from "lucide-react";
-import type { Employee, FilterState } from "@/lib/types";
 
 interface BadgeListProps {
   filterState: FilterState;

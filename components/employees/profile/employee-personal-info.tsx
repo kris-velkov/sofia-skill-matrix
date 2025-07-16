@@ -4,7 +4,7 @@ import { Briefcase, Award, MapPin, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import InfoRow from "@/components/ui/info-row";
-import { Employee } from "@/lib/types";
+import { Employee } from "@/types/employees";
 import { getExperienceFromDate } from "@/lib/utils";
 
 interface EmployeePersonalInfoProps {

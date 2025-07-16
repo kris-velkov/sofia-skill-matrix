@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { EmployeeAvatar } from "../employee-avatar";
 import React from "react";
 import { GraduationCap } from "lucide-react";
-import { Certificate } from "@/lib/types";
+import { Certificate } from "crypto";
 
 interface EmployeeCardHeaderProps {
   name: string;

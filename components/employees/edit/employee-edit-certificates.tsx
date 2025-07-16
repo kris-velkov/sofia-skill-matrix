@@ -9,7 +9,7 @@ import {
   deleteEmployeeCertificate,
   updateEmployeeCertificate,
 } from "@/app/actions/employee-certificates";
-import { Certificate } from "@/lib/types";
+import { Certificate } from "@/types/employees";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import EmptyState from "@/components/ui/empty-state";

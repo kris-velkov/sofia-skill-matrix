@@ -10,7 +10,7 @@ import { getEmployeeFullName } from "@/lib/utils";
 import { useState, useCallback } from "react";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Employee } from "@/lib/types";
+import { Employee } from "@/types/employees";
 import { deleteEmployeeAction } from "@/app/actions/employee-actions";
 
 interface EmployeeEditHeaderInfoProps {

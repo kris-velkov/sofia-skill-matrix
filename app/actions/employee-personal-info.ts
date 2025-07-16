@@ -1,7 +1,7 @@
 "use server";
 
 import { updateEmployeePersonalInfoInDb } from "@/lib/employeeInfoDB";
-import { Employee } from "@/lib/types";
+import { Employee } from "@/types/employees";
 
 export async function updateEmployeePersonalInfo(
   employeeId: string,
