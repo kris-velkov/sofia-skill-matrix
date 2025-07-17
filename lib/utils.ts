@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Employee, FilterState } from "./types";
+import { Department, SupabaseEmployee } from "@/types/employees";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -86,6 +87,48 @@ export function getFilteredEmployees(
   });
 }
 
-export function normalizeDepartment(department: string) {
-  return department.toLowerCase().replace(/[^a-z]/g, "");
+export function normalizeDepartment(department: string): Department {
+  const normalized = department
+    .toLowerCase()
+    .trim()
+    .replace(/\-/g, "")
+    .replace(/\s+/g, "");
+  if (normalized === "frontend" || normalized === "fe") return "fe";
+  if (normalized === "backend" || normalized === "be") return "be";
+  if (normalized === "quality assurance" || normalized === "qa") return "qa";
+  if (normalized === "projectmanager" || normalized === "pm") return "pm";
+
+  throw new Error(`Invalid department: ${department}, ${normalized}`);
+}
+
+export function normalizeSkillName(str: string): string {
+  return str
+    .trim()
+    .toLowerCase()
+    .replace(/\s*\/\s*/g, "/")
+    .replace(/\s+/g, " ");
+}
+
+export function getSortedEmployeesData(
+  data: SupabaseEmployee[]
+): SupabaseEmployee[] {
+  if (!data) return data;
+
+  return data.map((employee) => {
+    // Sort the skill levels based on their category's order_index
+    if (employee.employees_skill_levels) {
+      employee.employees_skill_levels = employee.employees_skill_levels.sort(
+        (a, b) => {
+          const aOrderIndex =
+            a.skills?.categories?.order_index ?? Number.MAX_SAFE_INTEGER;
+          const bOrderIndex =
+            b.skills?.categories?.order_index ?? Number.MAX_SAFE_INTEGER;
+
+          return aOrderIndex - bOrderIndex;
+        }
+      );
+    }
+
+    return employee;
+  });
 }

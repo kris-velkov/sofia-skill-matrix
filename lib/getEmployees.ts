@@ -1,6 +1,7 @@
 import { supabaseClient } from "@/lib/supabase/supabaseClient";
 import { EMPLOYEE_FULL_SELECT_QUERY } from "./supabase/queries";
 import { SupabaseEmployee } from "../types/employees";
+import { getSortedEmployeesData } from "./utils";
 
 type FetchEmployeeFilter = {
   id?: string;
@@ -25,6 +26,17 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
       throw new Error(`Failed to fetch employee with ID ${filter.id}`);
     }
 
+    if (data && data.employees_skill_levels) {
+      data.employees_skill_levels = data.employees_skill_levels.sort((a, b) => {
+        const aOrderIndex =
+          a.skills?.categories?.order_index ?? Number.MAX_SAFE_INTEGER;
+        const bOrderIndex =
+          b.skills?.categories?.order_index ?? Number.MAX_SAFE_INTEGER;
+
+        return aOrderIndex - bOrderIndex;
+      });
+    }
+
     return data as FetchEmployeeResult<T>;
   }
 
@@ -35,5 +47,5 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
     throw new Error(`Failed to fetch employees: ${error.message}`);
   }
 
-  return (data ?? []) as FetchEmployeeResult<T>;
+  return data as FetchEmployeeResult<T>;
 }

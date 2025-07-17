@@ -1,29 +1,31 @@
 import { Dashboard } from "@/components/dashboard/dashboard";
 import ProtectedRoute from "@/components/auth/protected-route";
 import { Suspense } from "react";
-import { seedCategories } from "@/lib/skillsDB";
-import {
-  DEFAULT_CATEGORIES_FE_BE,
-  DEFAULT_CATEGORIES_PM,
-  DEFAULT_CATEGORIES_QA,
-} from "@/constants/employeeDefaultsSkills";
-import { seedEmployeesFromJson } from "@/lib/db";
 import { getEmployeesData } from "./actions/employees-action";
+// import {
+//   seedEmployeesFromJson,
+//   extractAndSeedSkillsFromJson,
+// } from "@/lib/loadData";
 
 export const metadata = {
   title: "Skills Matrix Dashboard",
   description: "Track and manage employee skills at a glance.",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
 };
 
 export default async function HomePage() {
   const employees = await getEmployeesData();
 
-  // console.log(employees);
-
-  // await seedCategories(DEFAULT_CATEGORIES_FE_BE, ["frontend", "backend"]);
-  // await seedCategories(DEFAULT_CATEGORIES_QA, ["qa"]);
-  // await seedCategories(DEFAULT_CATEGORIES_PM, ["pm"]);
-
+  // await extractAndSeedSkillsFromJson();
   // await seedEmployeesFromJson();
 
   return (

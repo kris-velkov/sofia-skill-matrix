@@ -1,5 +1,5 @@
 export const EMPLOYEE_FULL_SELECT_QUERY = `
-  id,
+id,
   first_name,
   last_name,
   bio,
@@ -21,12 +21,16 @@ export const EMPLOYEE_FULL_SELECT_QUERY = `
     date,
     url
   ),
-  employee_skill_levels (
+  employees_skill_levels (
     level,
     skills (
+      id,
       name,
+      order_index,
       categories!inner (
-        name
+        id,
+        name,
+        order_index
       )
     )
   )

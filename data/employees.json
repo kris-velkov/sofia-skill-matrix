@@ -1,21 +1,20 @@
 {
   "employees": [
     {
-      "id": "aleksandr-ponomarenko",
-      "firstName": "Aleksandr",
-      "lastName": "Ponomarenko",
+      "id": "asen-hristov",
+      "firstName": "Asen",
+      "lastName": "Hristov",
       "bio": "",
       "country": "Bulgaria",
       "city": "Sofia",
       "program": "Sirius",
-      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07MH3J5HJN-71a8957b8fe5-192",
-      "slackUrl": "https://ua.linkedin.com/in/alex-ponomarenko-cn",
-      "linkedinUrl": "https://ua.linkedin.com/in/alex-ponomarenko-cn",
-      "careerExperience": "2009-04-01",
-      "startDate": "2021-12-13",
-      "department": "Back-end",
-      "role": "Group Architect",
-      "floatId": "17723477",
+      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07M2GMGC79-65d9fd581302-512",
+      "slackUrl": "https://jakala-talk.slack.com/team/U07M2GMGC79",
+      "linkedinUrl": "https://www.linkedin.com/in/asen-p-hristov/",
+      "careerExperience": "2005-01-01",
+      "startDate": "2023-03-13",
+      "department": "Project Manager",
+      "role": "Senior L1",
       "skills": [
         {
           "name": "Generic",
@@ -26,15 +25,20 @@
             },
             {
               "name": "Potential",
-              "level": 3
-            },
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Soft Skills",
+          "skills": [
             {
               "name": "Communication",
-              "level": 3
+              "level": 4
             },
             {
               "name": "Confidence",
-              "level": 3
+              "level": 4
             },
             {
               "name": "English",
@@ -50,769 +54,205 @@
             },
             {
               "name": "Leadership",
-              "level": 3
-            },
-            {
-              "name": "Test",
-              "level": 4
-            }
-          ],
-          "averageLevel": 3
-        },
-        {
-          "name": "Javascript",
-          "skills": [
-            {
-              "name": "Javascript",
-              "level": 1
-            },
-            {
-              "name": "Nodejs",
-              "level": 0
-            },
-            {
-              "name": "async/Promises",
-              "level": 0
-            },
-            {
-              "name": "parallel",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Data stores",
-          "skills": [
-            {
-              "name": "mysql",
-              "level": 3
-            },
-            {
-              "name": "mongodb",
-              "level": 0
-            },
-            {
-              "name": "dynamo",
-              "level": 0
-            },
-            {
-              "name": "MSSQL",
-              "level": 0
-            },
-            {
-              "name": "NeDB",
-              "level": 0
-            },
-            {
-              "name": "S3",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "Build tools",
-          "skills": [
-            {
-              "name": "BLT",
-              "level": 2
-            },
-            {
-              "name": "docksal",
-              "level": 2
-            },
-            {
-              "name": "Lando",
               "level": 4
             }
           ]
         },
         {
-          "name": "Drupal",
+          "name": "PM Methodologies",
           "skills": [
+            {
+              "name": "Waterfall",
+              "level": 4
+            },
+            {
+              "name": "Kanban",
+              "level": 3
+            },
+            {
+              "name": "Scrum",
+              "level": 3
+            },
+            {
+              "name": "Agile",
+              "level": 3
+            },
+            {
+              "name": "Wagile",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "Project Management",
+          "skills": [
+            {
+              "name": "Process",
+              "level": 3
+            },
+            {
+              "name": "Integration",
+              "level": 4
+            },
+            {
+              "name": "Scope",
+              "level": 3
+            },
+            {
+              "name": "Time",
+              "level": 4
+            },
+            {
+              "name": "Cost",
+              "level": 4
+            },
+            {
+              "name": "Quality",
+              "level": 4
+            },
+            {
+              "name": "Human Resource",
+              "level": 3
+            },
+            {
+              "name": "Communications",
+              "level": 4
+            },
+            {
+              "name": "Procurement",
+              "level": 3
+            },
+            {
+              "name": "Stakeholder",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "name": "PM Specific Skills",
+          "skills": [
+            {
+              "name": "Critical Thinking",
+              "level": 4
+            },
+            {
+              "name": "Data Analysis",
+              "level": 3
+            },
+            {
+              "name": "Research",
+              "level": 4
+            },
+            {
+              "name": "Problem Solving",
+              "level": 4
+            },
+            {
+              "name": "Organizational",
+              "level": 4
+            },
+            {
+              "name": "Documentation",
+              "level": 3
+            },
+            {
+              "name": "Communication",
+              "level": 4
+            },
+            {
+              "name": "Negotiation",
+              "level": 4
+            },
+            {
+              "name": "Leadership",
+              "level": 4
+            },
+            {
+              "name": "Multitasking",
+              "level": 4
+            },
+            {
+              "name": "Industry Expertise",
+              "level": 4
+            },
+            {
+              "name": "Team Building",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Tools",
+          "skills": [
+            {
+              "name": "Metric",
+              "level": 3
+            },
+            {
+              "name": "Float",
+              "level": 4
+            },
+            {
+              "name": "Jira",
+              "level": 4
+            },
+            {
+              "name": "Confluence",
+              "level": 3
+            },
+            {
+              "name": "Google/MS Office",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "name": "Technology",
+          "skills": [
+            {
+              "name": "Internet",
+              "level": 4
+            },
             {
               "name": "Drupal",
-              "level": 3
-            },
-            {
-              "name": "Migrate",
-              "level": 1
-            },
-            {
-              "name": "Multisite",
-              "level": 3
-            },
-            {
-              "name": "Domain",
-              "level": 3
-            },
-            {
-              "name": "Headless",
-              "level": 1
-            },
-            {
-              "name": "Static",
-              "level": 0
-            },
-            {
-              "name": "Commerce",
-              "level": 1
-            },
-            {
-              "name": "Twig",
               "level": 2
-            },
-            {
-              "name": "Tests",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "CI/CD",
-          "skills": [
-            {
-              "name": "Gitlab pipelines",
-              "level": 3
-            },
-            {
-              "name": "Jenkins",
-              "level": 2
-            },
-            {
-              "name": "Ansible",
-              "level": 0
-            },
-            {
-              "name": "Others",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "CMD",
-          "skills": [
-            {
-              "name": "Vim, nano",
-              "level": 3
-            },
-            {
-              "name": "find, grep",
-              "level": 3
-            },
-            {
-              "name": "awk, sed",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "VCS",
-          "skills": [
-            {
-              "name": "GIT",
-              "level": 4
-            }
-          ]
-        },
-        {
-          "name": "Scripting",
-          "skills": [
-            {
-              "name": "Bash",
-              "level": 3
-            },
-            {
-              "name": "Python",
-              "level": 0
-            },
-            {
-              "name": "Expect",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Devops",
-          "skills": [
-            {
-              "name": "Devops",
-              "level": 3
             },
             {
               "name": "AWS",
-              "level": 2
-            },
-            {
-              "name": "GCP",
-              "level": 0
-            },
-            {
-              "name": "Azure",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "FE frameworks",
-          "skills": [
-            {
-              "name": "React",
-              "level": 0
-            },
-            {
-              "name": "Vue",
-              "level": 0
-            },
-            {
-              "name": "Angular",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Mobile",
-          "skills": [
-            {
-              "name": "Mobile",
-              "level": 0
-            },
-            {
-              "name": "Hybrid",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "SEO",
-          "skills": [
-            {
-              "name": "SEO",
-              "level": 2
-            },
-            {
-              "name": "GTM",
-              "level": 1
-            },
-            {
-              "name": "Matomo",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Search",
-          "skills": [
-            {
-              "name": "Solr",
-              "level": 2
-            },
-            {
-              "name": "Elasticsearch",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "Cache",
-          "skills": [
-            {
-              "name": "Varnish",
-              "level": 4
-            },
-            {
-              "name": "Redis",
               "level": 3
             },
             {
-              "name": "Memcache",
-              "level": 4
-            }
-          ]
-        },
-        {
-          "name": "Hosting",
-          "skills": [
-            {
-              "name": "Platform.sh",
-              "level": 2
-            },
-            {
-              "name": "Acquia",
-              "level": 2
-            },
-            {
-              "name": "Pantheon",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Virtualization",
-          "skills": [
-            {
-              "name": "Docker",
-              "level": 4
-            },
-            {
-              "name": "docker-compose",
-              "level": 4
-            },
-            {
-              "name": "Kubernetes",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Sysadmin",
-          "skills": [
-            {
-              "name": "Linux admin",
+              "name": "Commerce",
               "level": 3
             },
             {
-              "name": "Networking",
+              "name": "UX/UI Concept",
+              "level": 4
+            },
+            {
+              "name": "Accessibility",
+              "level": 2
+            },
+            {
+              "name": "Development",
+              "level": 3
+            },
+            {
+              "name": "CI/CD",
               "level": 2
             },
             {
               "name": "Security",
               "level": 2
+            },
+            {
+              "name": "SEO",
+              "level": 3
             }
           ]
-        },
-        {
-          "name": "Misc languages",
-          "skills": [
-            {
-              "name": "Regex",
-              "level": 1
-            },
-            {
-              "name": "Xpath/XSL",
-              "level": 2
-            },
-            {
-              "name": "CSS/SASS",
-              "level": 2
-            }
-          ],
-          "averageLevel": 1.7
-        },
-        {
-          "name": "Test",
-          "skills": [
-            {
-              "name": "Test 2",
-              "level": 2
-            }
-          ],
-          "averageLevel": 2
         }
       ],
       "certificates": []
-    },
-    {
-      "id": "alexandru-dumitru",
-      "firstName": "Alexandru",
-      "lastName": "Dumitru",
-      "bio": "",
-      "country": "Romania",
-      "city": "Cluj",
-      "program": "Sirius",
-      "profileImage": "https://ca.slack-edge.com/T04FKRTHY83-U07N5SQ0WM6-5c3c0477202a-512",
-      "slackUrl": "https://jakala-talk.slack.com/team/U07N5SQ0WM6",
-      "linkedinUrl": "https://ro.linkedin.com/in/dumitrualexandruiulian",
-      "careerExperience": "2014-11-01",
-      "startDate": "2023-09-18",
-      "department": "Back-end",
-      "role": "Senior L2 Sr. Project Lead",
-      "skills": [
-        {
-          "name": "Generic",
-          "skills": [
-            {
-              "name": "Motivation",
-              "level": 4
-            },
-            {
-              "name": "Potential",
-              "level": 3
-            },
-            {
-              "name": "Communication",
-              "level": 4
-            },
-            {
-              "name": "Confidence",
-              "level": 3
-            },
-            {
-              "name": "English",
-              "level": 4
-            },
-            {
-              "name": "Lecturing",
-              "level": 3
-            },
-            {
-              "name": "Presentations",
-              "level": 2
-            },
-            {
-              "name": "Leadership",
-              "level": 3
-            }
-          ]
-        },
-        {
-          "name": "Javascript",
-          "skills": [
-            {
-              "name": "Javascript",
-              "level": 3
-            },
-            {
-              "name": "Nodejs",
-              "level": 1
-            },
-            {
-              "name": "async/Promises",
-              "level": 0
-            },
-            {
-              "name": "parallel",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Data stores",
-          "skills": [
-            {
-              "name": "mysql",
-              "level": 3
-            },
-            {
-              "name": "mongodb",
-              "level": 1
-            },
-            {
-              "name": "dynamo",
-              "level": 1
-            },
-            {
-              "name": "MSSQL",
-              "level": 0
-            },
-            {
-              "name": "NeDB",
-              "level": 0
-            },
-            {
-              "name": "S3",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "Build tools",
-          "skills": [
-            {
-              "name": "BLT",
-              "level": 3
-            },
-            {
-              "name": "docksal",
-              "level": 2
-            },
-            {
-              "name": "Lando",
-              "level": 4
-            }
-          ]
-        },
-        {
-          "name": "Drupal",
-          "skills": [
-            {
-              "name": "Drupal",
-              "level": 3
-            },
-            {
-              "name": "Migrate",
-              "level": 2
-            },
-            {
-              "name": "Multisite",
-              "level": 3
-            },
-            {
-              "name": "Domain",
-              "level": 3
-            },
-            {
-              "name": "Headless",
-              "level": 1
-            },
-            {
-              "name": "Static",
-              "level": 1
-            },
-            {
-              "name": "Commerce",
-              "level": 2
-            },
-            {
-              "name": "Twig",
-              "level": 2
-            },
-            {
-              "name": "Tests",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "CI/CD",
-          "skills": [
-            {
-              "name": "Gitlab pipelines",
-              "level": 3
-            },
-            {
-              "name": "Jenkins",
-              "level": 1
-            },
-            {
-              "name": "Ansible",
-              "level": 0
-            },
-            {
-              "name": "Others",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "CMD",
-          "skills": [
-            {
-              "name": "Vim, nano",
-              "level": 3
-            },
-            {
-              "name": "find, grep",
-              "level": 3
-            },
-            {
-              "name": "awk, sed",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "VCS",
-          "skills": [
-            {
-              "name": "GIT",
-              "level": 3
-            }
-          ]
-        },
-        {
-          "name": "Scripting",
-          "skills": [
-            {
-              "name": "Bash",
-              "level": 2
-            },
-            {
-              "name": "Python",
-              "level": 0
-            },
-            {
-              "name": "Expect",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Devops",
-          "skills": [
-            {
-              "name": "Devops",
-              "level": 2
-            },
-            {
-              "name": "AWS",
-              "level": 2
-            },
-            {
-              "name": "GCP",
-              "level": 0
-            },
-            {
-              "name": "Azure",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "FE frameworks",
-          "skills": [
-            {
-              "name": "React",
-              "level": 1
-            },
-            {
-              "name": "Vue",
-              "level": 0
-            },
-            {
-              "name": "Angular",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Mobile",
-          "skills": [
-            {
-              "name": "Mobile",
-              "level": 0
-            },
-            {
-              "name": "Hybrid",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "SEO",
-          "skills": [
-            {
-              "name": "SEO",
-              "level": 1
-            },
-            {
-              "name": "GTM",
-              "level": 0
-            },
-            {
-              "name": "Matomo",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Search",
-          "skills": [
-            {
-              "name": "Solr",
-              "level": 1
-            },
-            {
-              "name": "Elasticsearch",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "name": "Cache",
-          "skills": [
-            {
-              "name": "Varnish",
-              "level": 2
-            },
-            {
-              "name": "Redis",
-              "level": 2
-            },
-            {
-              "name": "Memcache",
-              "level": 3
-            }
-          ]
-        },
-        {
-          "name": "Hosting",
-          "skills": [
-            {
-              "name": "Platform.sh",
-              "level": 0
-            },
-            {
-              "name": "Acquia",
-              "level": 2
-            },
-            {
-              "name": "Pantheon",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Virtualization",
-          "skills": [
-            {
-              "name": "Docker",
-              "level": 3
-            },
-            {
-              "name": "docker-compose",
-              "level": 3
-            },
-            {
-              "name": "Kubernetes",
-              "level": 0
-            }
-          ]
-        },
-        {
-          "name": "Sysadmin",
-          "skills": [
-            {
-              "name": "Linux admin",
-              "level": 3
-            },
-            {
-              "name": "Networking",
-              "level": 2
-            },
-            {
-              "name": "Security",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "Misc languages",
-          "skills": [
-            {
-              "name": "Regex",
-              "level": 1
-            },
-            {
-              "name": "Xpath/XSL",
-              "level": 2
-            },
-            {
-              "name": "CSS/SASS",
-              "level": 3
-            }
-          ]
-        }
-      ],
-      "certificates": [
-        {
-          "id": "6e37da67-546c-4613-8961-b539516cb64a",
-          "issuer": "Acquia",
-          "name": "Acquia Certified Developer - Drupal 10",
-          "url": "https://drive.google.com/file/d/18uXpcUjABeZ70_b_akUCAz7jYPm8bBDC/view?usp=drive_link",
-          "date": "2025-06-02"
-        }
-      ],
-      "floatId": "18083136"
     }
   ]
 }

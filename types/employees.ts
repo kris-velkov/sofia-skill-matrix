@@ -9,8 +9,12 @@ export interface SupabaseCertificate {
 export interface SupabaseSkillLevel {
   level: number;
   skills: {
+    id: string;
     name: string;
+    order_index: number;
     categories: {
+      id: string;
+      order_index: number;
       name: string;
     };
   };
@@ -33,10 +37,17 @@ export interface SupabaseEmployee {
   role: string | null;
   float_id: string | null;
   certificates: SupabaseCertificate[];
-  employee_skill_levels: SupabaseSkillLevel[];
+  employees_skill_levels: SupabaseSkillLevel[];
 }
+export type Department = "fe" | "be" | "qa" | "pm";
 
-// Base skill types
+export const DepartmentLabels: Record<Department, string> = {
+  fe: "Front-end",
+  be: "Back-end",
+  qa: "QA",
+  pm: "Project Manager",
+};
+
 export type SkillLevel = 0 | 1 | 2 | 3 | 4;
 
 export interface Skill {

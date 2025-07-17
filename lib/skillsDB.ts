@@ -49,7 +49,7 @@ export async function updateEmployeeSkillsInDb(
     const skillId = skillData.id;
 
     const { error } = await supabaseClient
-      .from("employee_skill_levels")
+      .from("employees_skill_levels")
       .upsert({
         employee_id: employeeId,
         skill_id: skillId,
@@ -88,7 +88,7 @@ export async function updateEmployeeCategoryNameInDb(
 
 export async function getEmployeeSkillsGrouped(employeeId: string) {
   const { data, error } = await supabaseClient
-    .from("employee_skill_levels")
+    .from("employees_skill_levels")
     .select(
       `
         level,
@@ -154,7 +154,7 @@ export async function assignDefaultLevelsToEmployee(
   }));
 
   const { error } = await supabaseClient
-    .from("employee_skill_levels")
+    .from("employees_skill_levels")
     .insert(payload);
 
   if (error) {

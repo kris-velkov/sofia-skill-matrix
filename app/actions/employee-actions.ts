@@ -31,15 +31,21 @@ export async function addNewEmployee(
     const employee = await addEmployee(newEmployee);
 
     if (employee) {
+      const departmentName = employee.department || department.name;
       await assignDefaultLevelsToEmployee(
         employee.id,
-        normalizeDepartment(employee.department)
+        normalizeDepartment(departmentName)
       );
       revalidatePath("/employees");
       return employee.id;
     }
   } catch (error) {
-    throw new Error(`❌ Failed to add new employee`, error);
+    console.error("❌ Failed to add new employee:", error);
+    throw new Error(
+      `❌ Failed to add new employee: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
 }
 

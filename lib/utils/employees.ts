@@ -57,7 +57,7 @@ export function mapSupabaseEmployee(emp: SupabaseEmployee): Employee {
     throw new Error("Employee data is required");
   }
 
-  const skillCategories = normalizeSkills(emp.employee_skill_levels);
+  const skillCategories = normalizeSkills(emp.employees_skill_levels);
 
   return {
     id: emp.id,
