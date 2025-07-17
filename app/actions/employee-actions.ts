@@ -2,14 +2,9 @@
 
 import { addEmployee, deleteEmployee } from "@/lib/employeeInfoDB";
 import { assignDefaultLevelsToEmployee } from "@/lib/skillsDB";
-import { Employee } from "@/types/employees";
+import { Department, Employee } from "@/types/employees";
 import { normalizeDepartment } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
-
-type Department = {
-  id: string;
-  name: string;
-};
 
 export async function addNewEmployee(
   department: Department
@@ -17,7 +12,7 @@ export async function addNewEmployee(
   const newEmployee: Partial<Employee> = {
     firstName: "New",
     lastName: "Employee",
-    department: department.name,
+    department: department,
     floatId: "",
     bio: "",
     country: "Bulgaria",
@@ -31,7 +26,7 @@ export async function addNewEmployee(
     const employee = await addEmployee(newEmployee);
 
     if (employee) {
-      const departmentName = employee.department || department.name;
+      const departmentName = employee.department || department;
       await assignDefaultLevelsToEmployee(
         employee.id,
         normalizeDepartment(departmentName)

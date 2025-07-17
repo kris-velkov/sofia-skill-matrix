@@ -39,7 +39,19 @@ export interface SupabaseEmployee {
   certificates: SupabaseCertificate[];
   employees_skill_levels: SupabaseSkillLevel[];
 }
+
 export type Department = "fe" | "be" | "qa" | "pm";
+export type DepartmentFullName =
+  | "Front-end"
+  | "Back-end"
+  | "QA"
+  | "Project Manager";
+
+export interface EmployeeRole {
+  id: string;
+  name: DepartmentFullName;
+  departament: Department;
+}
 
 export const DepartmentLabels: Record<Department, string> = {
   fe: "Front-end",
@@ -94,7 +106,7 @@ export interface EmployeeCertificateData {
     firstName: string | null;
     lastName: string | null;
     profileImage: string | null;
-    department: string | null;
+    department: Department;
     role: string | null;
   } | null;
 }
@@ -105,7 +117,7 @@ export interface Employee {
   firstName: string;
   lastName: string;
   program?: string | null;
-  department: string | null;
+  department?: Department | null;
   role?: string | null;
   careerExperience?: Date | null | string;
   startDate?: Date | null | string;
@@ -129,7 +141,7 @@ export type EmployeeCertificate = {
     id: string;
     name: string;
     profileImage: string | null;
-    department: string | null;
+    department: Department;
     role: string | null;
   };
 };

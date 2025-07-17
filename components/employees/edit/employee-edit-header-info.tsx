@@ -6,7 +6,7 @@ import { Linkedin, Slack, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { getEmployeeFullName } from "@/lib/utils";
+import { formatDepartment, getEmployeeFullName } from "@/lib/utils";
 import { useState, useCallback } from "react";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Badge } from "@/components/ui/badge";
@@ -60,7 +60,7 @@ export const EmployeeEditHeaderInfo: React.FC<EmployeeEditHeaderInfoProps> = ({
             {employee.firstName} {employee.lastName}
           </h1>
           <p className="text-lg text-gray-600">
-            {employee.department}
+            {employee.department && formatDepartment(employee.department)}
             {employee.city && ` • ${employee.city}`}
             {employee.country && `• ${employee.country}`}
             {employee.program && `• ${employee.program}`}

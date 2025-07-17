@@ -1,7 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Employee, FilterState } from "./types";
-import { Department, SupabaseEmployee } from "@/types/employees";
+import { Department, EmployeeRole, SupabaseEmployee } from "@/types/employees";
+import { ROLES } from "@/constants/employeeDefaultsSkills";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -93,12 +94,23 @@ export function normalizeDepartment(department: string): Department {
     .trim()
     .replace(/\-/g, "")
     .replace(/\s+/g, "");
-  if (normalized === "frontend" || normalized === "fe") return "fe";
-  if (normalized === "backend" || normalized === "be") return "be";
-  if (normalized === "quality assurance" || normalized === "qa") return "qa";
-  if (normalized === "projectmanager" || normalized === "pm") return "pm";
 
+  const role = ROLES.find(
+    (role) =>
+      role.departament === normalized ||
+      (role.departament === "fe" && normalized === "frontend") ||
+      (role.departament === "be" && normalized === "backend") ||
+      (role.departament === "qa" && normalized === "quality assurance") ||
+      (role.departament === "pm" && normalized === "projectmanager")
+  );
+
+  if (role) return role.departament;
   throw new Error(`Invalid department: ${department}, ${normalized}`);
+}
+
+export function formatDepartment(department: Department): string {
+  const role = ROLES.find((role) => role.departament === department);
+  return role ? role.name : department;
 }
 
 export function normalizeSkillName(str: string): string {
@@ -115,7 +127,6 @@ export function getSortedEmployeesData(
   if (!data) return data;
 
   return data.map((employee) => {
-    // Sort the skill levels based on their category's order_index
     if (employee.employees_skill_levels) {
       employee.employees_skill_levels = employee.employees_skill_levels.sort(
         (a, b) => {

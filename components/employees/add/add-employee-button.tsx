@@ -18,10 +18,7 @@ export const AddEmployeeButton: React.FC = () => {
   const router = useRouter();
   const [popoverOpen, setPopoverOpen] = useState(false);
 
-  const handleAddNewEmployee = async (departament: {
-    id: string;
-    name: string;
-  }) => {
+  const handleAddNewEmployee = async (departament: string) => {
     try {
       setPopoverOpen(false);
       const employeeId = await addNewEmployee(departament);
@@ -61,7 +58,7 @@ export const AddEmployeeButton: React.FC = () => {
                 key={role.id}
                 variant="ghost"
                 className="w-full justify-start text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors rounded-md px-3 py-2"
-                onClick={() => handleAddNewEmployee(role)}
+                onClick={() => handleAddNewEmployee(role.departament)}
               >
                 {role.name}
               </Button>

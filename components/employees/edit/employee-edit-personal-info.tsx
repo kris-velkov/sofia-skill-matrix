@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { updateEmployeePersonalInfo } from "@/app/actions/employee-personal-info";
 import { toast } from "react-hot-toast";
-import { Employee } from "@/types/employees";
+import { Department, Employee } from "@/types/employees";
+import { formatDepartment } from "@/lib/utils";
 
 interface EmployeePersonalInfoProps {
   employee: Omit<Employee, "skills">;
@@ -43,7 +44,6 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
       const data: FormValues = {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
-        department: formData.get("department") as string,
         floatId: formData.get("floatId") as string,
         careerExperience: formData.get("careerExperience") as string,
         startDate: formData.get("startDate") as string,
@@ -109,13 +109,18 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
               placeholder="Program name"
             />
           </div>
-          <div>
+          <div className="text-gray-400 cursor-not-allowed">
             <Label>Department</Label>
             <input
               name="department"
-              defaultValue={localEmployee.department || ""}
-              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
+              defaultValue={
+                localEmployee.department
+                  ? formatDepartment(localEmployee.department as Department)
+                  : ""
+              }
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base cursor-not-allowed"
               placeholder="Department"
+              disabled
             />
           </div>
           <div>

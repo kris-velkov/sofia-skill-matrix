@@ -12,7 +12,11 @@ export async function addEmployee(
     throw new Error(`No new employee to add`);
   }
 
+  // Convert to snake_case for database and ensure all fields are properly formatted
   const payload = snakecaseKeys(newEmployee, { deep: true });
+
+  // Log the payload to debug department field
+  console.log("Employee payload being sent to database:", payload);
 
   const { data, error } = await supabaseClient
     .from("employees")
@@ -22,6 +26,9 @@ export async function addEmployee(
 
   if (error) throw new Error(`Add failed: ${error.message}`);
   if (!data) throw new Error("Insert succeeded but no data returned");
+
+  // Log the returned data to see what the database actually stored
+  console.log("Data returned from database:", data);
 
   return camelcaseKeys(data, { deep: true }) as unknown as Employee;
 }
