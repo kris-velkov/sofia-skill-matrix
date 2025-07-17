@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 import { COMPETENCY_LEVELS } from "@/constants/competency-level";
 import { SkillLevel } from "@/types/employees";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Award } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 import type { SkillCategory } from "@/types/employees";
 import { Badge } from "@/components/ui/badge";
 import { COMPETENCY_LEVELS } from "@/constants/competency-level";

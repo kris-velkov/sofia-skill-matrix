@@ -1,7 +1,7 @@
 import { supabaseClient } from "@/lib/supabase/supabaseClient";
 import { EMPLOYEE_FULL_SELECT_QUERY } from "./supabase/queries";
 import { SupabaseEmployee } from "../types/employees";
-import { getSortedEmployeesData } from "./utils";
+import { formatDepartment } from "./utils/normalize";
 
 type FetchEmployeeFilter = {
   id?: string;
@@ -19,25 +19,31 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
     .select(EMPLOYEE_FULL_SELECT_QUERY);
 
   if (filter?.id) {
-    const { data, error } = await query.eq("id", filter.id).maybeSingle();
+    const { data, error } = await query.eq("id", filter.id).single();
 
     if (error) {
       console.error("Supabase fetch error:", error.message);
       throw new Error(`Failed to fetch employee with ID ${filter.id}`);
     }
 
-    if (data && data.employees_skill_levels) {
-      data.employees_skill_levels = data.employees_skill_levels.sort((a, b) => {
+    if (data.employees_skill_levels?.length > 0) {
+      data.employees_skill_levels.sort((a, b) => {
         const aOrderIndex =
           a.skills?.categories?.order_index ?? Number.MAX_SAFE_INTEGER;
         const bOrderIndex =
           b.skills?.categories?.order_index ?? Number.MAX_SAFE_INTEGER;
-
         return aOrderIndex - bOrderIndex;
       });
     }
+    if (data.department) {
+      data.department = formatDepartment(data.department);
+    }
 
     return data as FetchEmployeeResult<T>;
+  }
+
+  if (filter?.department) {
+    query.eq("department", filter.department);
   }
 
   const { data, error } = await query;
@@ -47,5 +53,12 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
     throw new Error(`Failed to fetch employees: ${error.message}`);
   }
 
-  return data as FetchEmployeeResult<T>;
+  if (data && Array.isArray(data)) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].department) {
+        data[i].department = formatDepartment(data[i].department);
+      }
+    }
+  }
+  return (data || []) as FetchEmployeeResult<T>;
 }

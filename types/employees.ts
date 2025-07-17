@@ -14,10 +14,20 @@ export interface SupabaseSkillLevel {
     order_index: number;
     categories: {
       id: string;
+      default: boolean;
       order_index: number;
       name: string;
     };
   };
+}
+
+export interface SkillCategoryGroup {
+  id: string;
+  name: string;
+  default: boolean;
+  skills: { id: string; name: string; level: number }[];
+  total: number;
+  count: number;
 }
 
 export interface SupabaseEmployee {
@@ -33,7 +43,7 @@ export interface SupabaseEmployee {
   linkedin_url: string | null;
   career_experience: string | null;
   start_date: string | null;
-  department: string | null;
+  department: Department | null;
   role: string | null;
   float_id: string | null;
   certificates: SupabaseCertificate[];
@@ -63,19 +73,23 @@ export const DepartmentLabels: Record<Department, string> = {
 export type SkillLevel = 0 | 1 | 2 | 3 | 4;
 
 export interface Skill {
+  id: string;
   name: string;
   level: SkillLevel;
   url?: string;
 }
 
 export interface SkillCategory {
+  id: string;
   name: string;
+  default: boolean;
   skills: Skill[];
   averageLevel: number;
 }
 
 // Normalized skill types (for processing Supabase data)
 export interface NormalizedSkill {
+  id: number;
   name: string;
   level: number;
 }

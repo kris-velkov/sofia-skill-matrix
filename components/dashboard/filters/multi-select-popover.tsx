@@ -16,7 +16,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Check, ChevronDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 
 interface MultiSelectPopoverProps {
   label: string;

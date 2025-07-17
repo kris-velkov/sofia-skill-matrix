@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import type { Employee } from "@/types/employees";
 import { EmployeeAvatar } from "./employee-avatar";
 import { deleteEmployeeAction } from "@/app/actions/employee-actions";
-import { formatDepartment, getExperienceFromDate } from "@/lib/utils";
+import { getExperienceFromDate } from "@/lib/utils/experienceDate";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];
@@ -78,10 +78,7 @@ export function EmployeeTable({
     return employees.filter(
       (employee) =>
         employee?.firstName.toLowerCase().includes(lowerCaseSearchTerm) ||
-        employee?.department?.toLowerCase().includes(lowerCaseSearchTerm) ||
-        formatDepartment(employee.department || "")
-          .toLowerCase()
-          .includes(lowerCaseSearchTerm) ||
+        employee?.department.toLowerCase().includes(lowerCaseSearchTerm) ||
         employee.role?.toLowerCase().includes(lowerCaseSearchTerm)
     );
   }, [employees, searchTerm]);
@@ -157,8 +154,7 @@ export function EmployeeTable({
                     {employee.program}
                   </TableCell>
                   <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none min-w-[150px]">
-                    {employee.department &&
-                      formatDepartment(employee.department)}
+                    {employee.department}
                   </TableCell>
                   <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none truncate">
                     {getExperienceFromDate(employee.startDate)}

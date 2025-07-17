@@ -1,16 +1,11 @@
+import { FilterState } from "@/store/use-skills-store";
 import {
   SupabaseSkillLevel,
   SupabaseEmployee,
   Employee,
   NormalizedSkillCategory,
+  SkillCategoryGroup,
 } from "@/types/employees";
-
-interface SkillCategoryGroup {
-  name: string;
-  skills: { name: string; level: number }[];
-  total: number;
-  count: number;
-}
 
 export function normalizeSkills(
   rawSkills: SupabaseSkillLevel[]
@@ -20,17 +15,26 @@ export function normalizeSkills(
   const grouped = new Map<string, SkillCategoryGroup>();
 
   for (const item of rawSkills) {
-    const categoryName = item.skills.categories?.name;
-    const skillName = item.skills.name;
+    const categoryName = item.skills?.categories?.name;
+    const categoryId = item.skills.categories?.id;
+    const categoryDefault = item.skills.categories.default;
+    const skillName = item.skills?.name;
     const skillLevel = item.level;
+    const skillId = item.skills?.id;
 
-    // Skip invalid entries
-    if (!categoryName || !skillName || typeof skillLevel !== "number") {
+    if (
+      !categoryName ||
+      !skillName ||
+      typeof skillLevel !== "number" ||
+      !skillId
+    ) {
       continue;
     }
 
     if (!grouped.has(categoryName)) {
       grouped.set(categoryName, {
+        id: categoryId,
+        default: categoryDefault,
         name: categoryName,
         skills: [],
         total: 0,
@@ -39,12 +43,17 @@ export function normalizeSkills(
     }
 
     const categoryGroup = grouped.get(categoryName)!;
-    categoryGroup.skills.push({ name: skillName, level: skillLevel });
+    categoryGroup.skills.push({
+      id: skillId,
+      name: skillName,
+      level: skillLevel,
+    });
     categoryGroup.total += skillLevel;
     categoryGroup.count += 1;
   }
 
   return Array.from(grouped.values()).map((group) => ({
+    id: group.id,
     name: group.name,
     skills: group.skills,
     averageLevel:
@@ -57,45 +66,37 @@ export function mapSupabaseEmployee(emp: SupabaseEmployee): Employee {
     throw new Error("Employee data is required");
   }
 
-  const skillCategories = normalizeSkills(emp.employees_skill_levels);
+  const skillCategories = normalizeSkills(emp.employees_skill_levels || []);
 
   return {
     id: emp.id,
-    firstName: emp.first_name,
-    lastName: emp.last_name,
+    firstName: emp.first_name || "",
+    lastName: emp.last_name || "",
     bio: emp.bio ?? "",
-    country: emp.country,
-    city: emp.city,
-    program: emp.program,
-    profileImage: emp.profile_image,
+    country: emp.country || "",
+    city: emp.city || "",
+    program: emp.program || "",
+    profileImage: emp.profile_image || "",
     slackUrl: emp.slack_url || undefined,
     linkedinUrl: emp.linkedin_url || undefined,
-    careerExperience: emp.career_experience,
+    careerExperience: emp.career_experience || "",
     startDate: emp.start_date,
-    department: emp.department,
-    role: emp.role,
+    department: emp.department || "",
+    role: emp.role || "",
     floatId: emp.float_id || undefined,
     skills: skillCategories,
     certificates: emp.certificates || [],
   };
 }
 
-/**
- * Maps multiple Supabase employee records to normalized Employee interfaces
- */
 export function mapSupabaseEmployees(
   employees: SupabaseEmployee[]
 ): Employee[] {
   if (!Array.isArray(employees)) return [];
 
-  return employees
-    .filter((emp) => emp && emp.id) // Filter out invalid entries
-    .map(mapSupabaseEmployee);
+  return employees.filter((emp) => emp && emp.id).map(mapSupabaseEmployee);
 }
 
-/**
- * Gets the full name of an employee
- */
 export function getEmployeeFullName(
   employee: Employee | SupabaseEmployee
 ): string {
@@ -105,9 +106,6 @@ export function getEmployeeFullName(
   return `${employee.first_name} ${employee.last_name}`.trim();
 }
 
-/**
- * Calculates the overall skill average for an employee
- */
 export function calculateOverallSkillAverage(
   skills: NormalizedSkillCategory[]
 ): number {
@@ -118,4 +116,54 @@ export function calculateOverallSkillAverage(
     0
   );
   return Math.round((totalAverage / skills.length) * 100) / 100;
+}
+
+type Filter = FilterState;
+
+export function getFilteredEmployees(
+  employees: Employee[],
+  filter: Filter
+): Employee[] {
+  return employees.filter((e) => {
+    const matchesEmployee =
+      !filter.selectedEmployees.length ||
+      filter.selectedEmployees.includes(e.id);
+
+    const matchesDepartment =
+      !filter.selectedDepartment ||
+      filter.selectedDepartment === "all" ||
+      e.department === filter.selectedDepartment;
+
+    const matchesSkillCategory =
+      !filter.selectedSkillCategory ||
+      filter.selectedSkillCategory === "all" ||
+      e.skills.some(
+        (cat) =>
+          cat.name === filter.selectedSkillCategory &&
+          (filter.minimumSkillLevel === null ||
+            cat.averageLevel >= filter.minimumSkillLevel)
+      );
+
+    const matchesSkills =
+      !filter.selectedSkills.length && filter.minimumSkillLevel === null
+        ? true
+        : e.skills.some((cat) =>
+            cat.skills.some((skill) => {
+              const matchSkill =
+                !filter.selectedSkills.length ||
+                filter.selectedSkills.includes(skill.name);
+              const matchLevel =
+                filter.minimumSkillLevel === null ||
+                skill.level >= filter.minimumSkillLevel;
+              return matchSkill && matchLevel;
+            })
+          );
+
+    return (
+      matchesEmployee &&
+      matchesDepartment &&
+      matchesSkillCategory &&
+      matchesSkills
+    );
+  });
 }

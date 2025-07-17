@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import InfoRow from "@/components/ui/info-row";
 import { Employee } from "@/types/employees";
-import { getExperienceFromDate } from "@/lib/utils";
+import { getExperienceFromDate } from "@/lib/utils/experienceDate";
 
 interface EmployeePersonalInfoProps {
   employee: Partial<Employee>;

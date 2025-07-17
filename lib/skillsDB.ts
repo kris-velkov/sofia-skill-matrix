@@ -1,89 +1,154 @@
 "use server";
 
-import { Employee } from "@/types/employees";
 import { supabaseClient } from "./supabase/supabaseClient";
-import { getEmployeeById } from "./employees";
+import { PostgrestError } from "@supabase/supabase-js";
+import { normalizeDepartment } from "@/lib/utils/normalize";
 
 export async function deleteEmployeeSkillInDb(
   employeeId: string,
-  category: { name: string; skills: { name: string; level: number }[] }
-): Promise<Employee | undefined> {
-  const { data: group, error: groupError } = await supabaseClient
-    .from("skill_groups")
-    .select("id")
-    .eq("employee_id", employeeId)
-    .eq("name", category.name)
-    .single();
-
-  if (groupError || !group) return undefined;
-
-  const { error } = await supabaseClient
-    .from("skill_groups")
-    .delete()
-    .eq("id", group.id);
-
-  if (error) {
-    console.error("Error deleting skill group:", error);
-    return undefined;
-  }
-
-  return getEmployeeById(employeeId);
-}
-
-export async function updateEmployeeSkillsInDb(
-  employeeId: string,
-  category: { name: string; skills: { name: string; level: number }[] }
-): Promise<void> {
-  for (const skill of category.skills) {
-    const { data: skillData } = await supabaseClient
-      .from("skills")
-      .select("id")
-      .eq("name", skill.name)
-      .maybeSingle();
-
-    if (!skillData) {
-      console.warn(`Skill '${skill.name}' not found in DB, skipping.`);
-      continue;
-    }
-
-    const skillId = skillData.id;
-
+  skillId: string
+): Promise<{ success: boolean; error: PostgrestError | null }> {
+  try {
     const { error } = await supabaseClient
       .from("employees_skill_levels")
-      .upsert({
-        employee_id: employeeId,
-        skill_id: skillId,
-        level: skill.level,
-      });
+      .delete()
+      .eq("employee_id", employeeId)
+      .eq("skill_id", skillId);
 
-    if (error) {
-      console.error(
-        `Failed to update ${skill.name} for employee ${employeeId}:`,
-        error.message
-      );
-    } else {
-      console.log(`Updated ${skill.name} (${skill.level})`);
-    }
+    return {
+      success: !error,
+      error: error,
+    };
+  } catch (e) {
+    console.error("Failed to delete employee skill:", e);
+    return {
+      success: false,
+      error: e as PostgrestError,
+    };
   }
 }
 
 export async function updateEmployeeCategoryNameInDb(
-  employeeId: string,
+  categoryId: string,
   oldName: string,
   newName: string
-): Promise<Employee | undefined> {
+): Promise<PostgrestError | null> {
   const { error } = await supabaseClient
-    .from("skill_groups")
+    .from("categories")
     .update({ name: newName })
-    .eq("employee_id", employeeId)
-    .eq("name", oldName);
+    .eq("id", categoryId);
 
   if (error) {
-    console.error("Error renaming skill group:", error);
-    return undefined;
+    console.error(
+      `Failed to update category name from ${oldName} to ${newName}:`,
+      error.message
+    );
+    return error;
   }
 
-  return getEmployeeById(employeeId);
+  return null;
+}
+
+export async function updateEmployeeSkillsInDb(
+  employeeId: string,
+  category: {
+    name: string;
+    skills: { id?: string; name: string; level: number }[];
+  }
+): Promise<PostgrestError | null> {
+  try {
+    const { data: categoryData, error: categoryError } = await supabaseClient
+      .from("categories")
+      .select("id")
+      .ilike("name", category.name.trim())
+      .maybeSingle();
+
+    if (categoryError || !categoryData) {
+      console.error(
+        `Category '${category.name}' not found in DB, cannot add skills`
+      );
+      return categoryError ?? null;
+    }
+
+    const categoryId = categoryData.id;
+    const skillUpdates = [];
+
+    for (const skill of category.skills) {
+      let skillId: string;
+
+      if (skill.id) {
+        skillId = skill.id;
+
+        skillUpdates.push(
+          supabaseClient
+            .from("skills")
+            .update({ name: skill.name.trim() })
+            .eq("id", skillId)
+            .then(({ error }) => {
+              if (error) {
+                console.error(
+                  `Failed to update skill name for ${skillId}:`,
+                  error.message
+                );
+              }
+            })
+        );
+      } else {
+        const { data: skillData } = await supabaseClient
+          .from("skills")
+          .select("id")
+          .ilike("name", skill.name.trim())
+          .eq("category_id", categoryId)
+          .maybeSingle();
+
+        if (skillData) {
+          skillId = skillData.id;
+        } else {
+          const { data: newSkill, error: createError } = await supabaseClient
+            .from("skills")
+            .insert({
+              name: skill.name.trim(),
+              category_id: categoryId,
+            })
+            .select("id")
+            .single();
+
+          if (createError || !newSkill) {
+            console.error(
+              `Failed to create skill '${skill.name}':`,
+              createError?.message
+            );
+            continue;
+          }
+
+          skillId = newSkill.id;
+        }
+      }
+
+      skillUpdates.push(
+        supabaseClient
+          .from("employees_skill_levels")
+          .upsert({
+            employee_id: employeeId,
+            skill_id: skillId,
+            level: skill.level,
+          })
+          .then(({ error }) => {
+            if (error) {
+              console.error(
+                `Failed to update ${skill.name} for employee ${employeeId}:`,
+                error.message
+              );
+            }
+          })
+      );
+    }
+    await Promise.all(skillUpdates);
+    return null;
+  } catch (error) {
+    console.error(`Error updating employee skills:`, error);
+    return error as PostgrestError;
+  }
 }
 
 export async function getEmployeeSkillsGrouped(employeeId: string) {
@@ -169,7 +234,7 @@ export async function assignDefaultLevelsToEmployee(
   }
 }
 
-export async function groupSkillsByCategoryWithAverage(rawSkills) {
+export async function groupSkillsByCategoryWithAverage(rawSkills: unknown[]) {
   const grouped = new Map();
 
   for (const item of rawSkills) {
@@ -202,4 +267,192 @@ export async function groupSkillsByCategoryWithAverage(rawSkills) {
         ? parseFloat((group.totalLevel / group.count).toFixed(2))
         : 0,
   }));
+}
+
+export async function createOrFindCategoryInDb(
+  categoryName: string,
+  department: string
+): Promise<{ id: string; name: string; departments: string[] }> {
+  const { data: existingCategory } = await supabaseClient
+    .from("categories")
+    .select("id, name, departments, default")
+    .ilike("name", categoryName.trim())
+    .maybeSingle();
+
+  if (existingCategory) {
+    const currentDepartments = existingCategory.departments || [];
+    const normalizedDepartment = normalizeDepartment(department);
+
+    if (!currentDepartments.includes(normalizedDepartment)) {
+      const updatedDepartments = [...currentDepartments, normalizedDepartment];
+
+      const { error: updateError } = await supabaseClient
+        .from("categories")
+        .update({ departments: updatedDepartments })
+        .eq("id", existingCategory.id);
+
+      if (updateError) {
+        throw new Error(
+          `Failed to update category departments: ${updateError.message}`
+        );
+      }
+
+      return {
+        id: existingCategory.id,
+        name: existingCategory.name,
+        departments: updatedDepartments,
+      };
+    }
+
+    return {
+      id: existingCategory.id,
+      name: existingCategory.name,
+      departments: currentDepartments,
+    };
+  }
+
+  let hasIsOriginalColumn = true;
+  try {
+    const { error: columnCheckError } = await supabaseClient
+      .from("categories")
+      .select("default")
+      .limit(1);
+
+    if (columnCheckError && columnCheckError.message.includes("column")) {
+      hasIsOriginalColumn = false;
+    }
+  } catch (e) {
+    hasIsOriginalColumn = false;
+    console.log("Error checking type column:", e);
+  }
+
+  const insertData = {
+    name: categoryName.trim(),
+    departments: [department.toLowerCase().trim()],
+  };
+
+  if (hasIsOriginalColumn) {
+    insertData["default"] = false;
+  }
+
+  const { data: newCategory, error: createError } = await supabaseClient
+    .from("categories")
+    .insert(insertData)
+    .select("id, name, departments")
+    .single();
+
+  if (createError || !newCategory) {
+    console.error("❌ Failed to create category:", createError?.message);
+    throw new Error(`Failed to create category: ${createError?.message}`);
+  }
+
+  return {
+    id: newCategory.id,
+    name: newCategory.name,
+    departments: newCategory.departments,
+  };
+}
+export async function deleteCategoryInDb(categoryId: string): Promise<{
+  success: boolean;
+  isOriginal?: boolean;
+  error?: PostgrestError;
+}> {
+  try {
+    let hasIsOriginalColumn = true;
+    try {
+      const { error: columnCheckError } = await supabaseClient
+        .from("categories")
+        .select("default")
+        .limit(1);
+
+      if (columnCheckError && columnCheckError.message.includes("column")) {
+        hasIsOriginalColumn = false;
+        console.log("default column does not exist, skipping original check");
+      }
+    } catch (e) {
+      hasIsOriginalColumn = false;
+      console.log("Error checking default column:", e);
+    }
+
+    if (hasIsOriginalColumn) {
+      const { data: categoryData, error: fetchError } = await supabaseClient
+        .from("categories")
+        .select("default")
+        .eq("id", categoryId)
+        .single();
+
+      if (fetchError) {
+        console.error(
+          `Failed to fetch category ${categoryId}:`,
+          fetchError.message
+        );
+        return { success: false, error: fetchError };
+      }
+
+      if (categoryData?.default) {
+        console.log(
+          `Category ${categoryId} is an original category and cannot be deleted`
+        );
+        return { success: false, isOriginal: true };
+      }
+    }
+
+    const { data: skillsData } = await supabaseClient
+      .from("skills")
+      .select("id")
+      .eq("category_id", categoryId);
+
+    if (skillsData && skillsData.length > 0) {
+      const skillIds = skillsData.map((skill) => skill.id);
+
+      const { error: deleteSkillLevelsError } = await supabaseClient
+        .from("employees_skill_levels")
+        .delete()
+        .in("skill_id", skillIds);
+
+      if (deleteSkillLevelsError) {
+        console.error(
+          `Failed to delete skill levels for category ${categoryId}:`,
+          deleteSkillLevelsError.message
+        );
+        return { success: false, error: deleteSkillLevelsError };
+      }
+
+      const { error: deleteSkillsError } = await supabaseClient
+        .from("skills")
+        .delete()
+        .eq("category_id", categoryId);
+
+      if (deleteSkillsError) {
+        console.error(
+          `Failed to delete skills for category ${categoryId}:`,
+          deleteSkillsError.message
+        );
+        return { success: false, error: deleteSkillsError };
+      }
+    }
+
+    const { error: deleteCategoryError } = await supabaseClient
+      .from("categories")
+      .delete()
+      .eq("id", categoryId);
+
+    if (deleteCategoryError) {
+      console.error(
+        `Failed to delete category ${categoryId}:`,
+        deleteCategoryError.message
+      );
+      return { success: false, error: deleteCategoryError };
+    }
+    return { success: true };
+  } catch (e) {
+    console.error(`Unexpected error deleting category ${categoryId}:`, e);
+    return {
+      success: false,
+      error:
+        e instanceof Error
+          ? ({ message: e.message } as PostgrestError)
+          : undefined,
+    };
+  }
 }

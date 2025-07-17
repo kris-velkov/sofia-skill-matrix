@@ -1,5 +1,5 @@
 import { supabaseClient } from "./supabase/supabaseClient";
-import { normalizeDepartment, normalizeSkillName } from "./utils";
+import { normalizeDepartment, normalizeSkillName } from "@/lib/utils/normalize";
 import fs from "fs";
 import path from "path";
 

@@ -47,6 +47,7 @@ export default async function EditEmployeeProfilePage({
           <EmployeeEditSkills
             employeeId={employee.id}
             skills={employee.skills ?? []}
+            employeeDepartment={employee.department || ""}
           />
         </div>
       </section>

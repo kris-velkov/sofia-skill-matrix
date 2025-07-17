@@ -7,7 +7,7 @@ import type { Employee } from "@/types/employees";
 import { LucideClock } from "lucide-react";
 import Link from "next/link";
 import { EmployeeCardTopSkills } from "./employee-card-top-skills";
-import { getExperienceFromDate } from "@/lib/utils";
+import { getExperienceFromDate } from "@/lib/utils/experienceDate";
 
 export interface EmployeeSkillCardProps {
   employee: Employee;

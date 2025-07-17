@@ -5,7 +5,7 @@ import { Filters } from "@/components/dashboard/filters/filters";
 import { EmployeeSkillCard } from "@/components/employees/card/employee-skill-card";
 import { useSkillsStore } from "@/store/use-skills-store";
 import { Ghost, User } from "lucide-react";
-import { getFilteredEmployees } from "@/lib/utils";
+import { getFilteredEmployees } from "@/lib/utils/employees";
 import EmptyState from "../ui/empty-state";
 import { Employee } from "@/types/employees";
 

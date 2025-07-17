@@ -8,7 +8,6 @@ import { Separator } from "@/components/ui/separator";
 import { updateEmployeePersonalInfo } from "@/app/actions/employee-personal-info";
 import { toast } from "react-hot-toast";
 import { Department, Employee } from "@/types/employees";
-import { formatDepartment } from "@/lib/utils";
 
 interface EmployeePersonalInfoProps {
   employee: Omit<Employee, "skills">;
@@ -113,11 +112,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             <Label>Department</Label>
             <input
               name="department"
-              defaultValue={
-                localEmployee.department
-                  ? formatDepartment(localEmployee.department as Department)
-                  : ""
-              }
+              defaultValue={localEmployee.department ?? ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base cursor-not-allowed"
               placeholder="Department"
               disabled

@@ -22,6 +22,7 @@ id,
     url
   ),
   employees_skill_levels (
+    skill_id,
     level,
     skills (
       id,
@@ -30,6 +31,7 @@ id,
       categories!inner (
         id,
         name,
+        default,
         order_index
       )
     )

@@ -3,7 +3,7 @@
 import { addEmployee, deleteEmployee } from "@/lib/employeeInfoDB";
 import { assignDefaultLevelsToEmployee } from "@/lib/skillsDB";
 import { Department, Employee } from "@/types/employees";
-import { normalizeDepartment } from "@/lib/utils";
+import { normalizeDepartment } from "@/lib/utils/normalize";
 import { revalidatePath } from "next/cache";
 
 export async function addNewEmployee(

@@ -11,34 +11,68 @@ import {
   LucideClockFading,
   User2,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import type { SkillCategory, SkillLevel } from "@/types/employees";
+import { cn } from "@/lib/utils/cn";
+import type { Skill, SkillCategory, SkillLevel } from "@/types/employees";
 import {
   deleteEmployeeSkill,
   updateEmployeeSkills,
   updateEmployeeCategoryName,
+  createOrFindCategory,
+  deleteCategory,
 } from "@/app/actions/employee-skills-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-hot-toast";
 import { COMPETENCY_LEVELS } from "@/constants/competency-level";
 import EmptyState from "@/components/ui/empty-state";
+import { CategoryNameDialog } from "@/components/dialog/category-name-dialog";
+import { CategoryDeleteDialog } from "@/components/dialog/category-delete-dialog";
 
 interface EmployeeEditSkillsProps {
   skills: SkillCategory[];
   employeeId: string;
+  employeeDepartment: string;
   maxLevel?: number;
 }
 
 export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
   skills: initialSkills,
   employeeId,
+  employeeDepartment,
   maxLevel = 4,
 }) => {
   const [skills, setSkills] = useState<SkillCategory[]>(initialSkills);
   const [savingCategory, setSavingCategory] = useState<{
     [catIdx: number]: boolean;
   }>({});
+  const [isAddingCategory] = useState(false);
+  const [categoryNameDialog, setCategoryNameDialog] = useState<{
+    open: boolean;
+    categoryIndex: number;
+    currentName: string;
+    isLoading: boolean;
+  }>({
+    open: false,
+    categoryIndex: -1,
+    currentName: "",
+    isLoading: false,
+  });
+
+  const [categoryDeleteDialog, setCategoryDeleteDialog] = useState<{
+    open: boolean;
+    categoryIndex: number;
+    categoryId: string;
+    categoryName: string;
+    default: boolean;
+    isLoading: boolean;
+  }>({
+    open: false,
+    categoryIndex: -1,
+    categoryId: "",
+    categoryName: "",
+    default: false,
+    isLoading: false,
+  });
 
   const handleLevelChange = async (
     catIdx: number,
@@ -57,28 +91,67 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
     });
   };
 
-  const handleAddCategory = async () => {
-    const newCategory = { name: "New Category", skills: [], averageLevel: 0 };
+  const handleAddCategory = () => {
+    const newCategory = {
+      id: "",
+      name: "New Category",
+      skills: [],
+      averageLevel: 0,
+    };
+
     setSkills((prev) => [...prev, newCategory]);
   };
 
-  const handleDeleteCategory = async (catIdx: number) => {
+  const handleDeleteCategory = (catIdx: number) => {
     const category = skills[catIdx];
-    setSkills((prev) => prev.filter((_, idx) => idx !== catIdx));
+
+    if (!category.id) {
+      setSkills((prev) => prev.filter((_, idx) => idx !== catIdx));
+      return;
+    }
+
+    setCategoryDeleteDialog({
+      open: true,
+      categoryIndex: catIdx,
+      categoryId: category.id,
+      categoryName: category.name,
+      default: category.default || false,
+      isLoading: false,
+    });
+  };
+
+  const handleConfirmDeleteCategory = async () => {
+    const { categoryId, categoryIndex } = categoryDeleteDialog;
+
+    setCategoryDeleteDialog((prev) => ({ ...prev, isLoading: true }));
+
     try {
-      await deleteEmployeeSkill(employeeId, {
-        name: category.name,
-        skills: category.skills.map((s) => ({ name: s.name, level: s.level })),
-      });
-      toast.success("Category deleted!");
-    } catch (e) {
+      const result = await deleteCategory(categoryId);
+
+      if (result.success) {
+        // Remove the category from local state
+        setSkills((prev) => prev.filter((_, idx) => idx !== categoryIndex));
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
       toast.error("Failed to delete category");
-      console.error(e);
+      console.error(error);
+    } finally {
+      setCategoryDeleteDialog({
+        open: false,
+        categoryIndex: -1,
+        categoryId: "",
+        categoryName: "",
+        default: false,
+        isLoading: false,
+      });
     }
   };
 
   const handleAddSkill = async (catIdx: number) => {
-    const newSkill = { name: "", level: 0 as SkillLevel };
+    const newSkill: Skill = { id: "", name: "", level: 0 };
     setSkills((prev) => {
       const updated = [...prev];
       updated[catIdx] = {
@@ -89,22 +162,22 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
     });
   };
 
-  const handleDeleteSkill = async (catIdx: number, skillIdx: number) => {
-    const category = skills[catIdx];
-    setSkills((prev) => {
-      const updated = [...prev];
-      updated[catIdx] = {
-        ...updated[catIdx],
-        skills: updated[catIdx].skills.filter((_, i) => i !== skillIdx),
-      };
-      return updated;
-    });
+  const handleDeleteSkill = async (
+    catIdx: number,
+    skillPosition: number,
+    skillId: string
+  ) => {
     try {
-      const updatedSkills = category.skills.filter((_, i) => i !== skillIdx);
-      await updateEmployeeSkills(employeeId, {
-        name: category.name,
-        skills: updatedSkills.map((s) => ({ name: s.name, level: s.level })),
+      await deleteEmployeeSkill(employeeId, skillId);
+      setSkills((prev) => {
+        const updated = [...prev];
+        updated[catIdx] = {
+          ...updated[catIdx],
+          skills: updated[catIdx].skills.filter((_, i) => i !== skillPosition),
+        };
+        return updated;
       });
+
       toast.success("Skill deleted!");
     } catch (e) {
       toast.error("Failed to delete skill");
@@ -130,29 +203,106 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
   };
 
   const handleCategoryNameInput = (catIdx: number, newName: string) => {
-    setSkills((prev) => {
-      const updated = [...prev];
-      updated[catIdx] = { ...updated[catIdx], name: newName };
-      return updated;
-    });
+    const originalName = initialSkills[catIdx]?.name;
+    if (originalName && originalName !== newName && newName.trim() !== "") {
+      setCategoryNameDialog({
+        open: true,
+        categoryIndex: catIdx,
+        currentName: originalName,
+        isLoading: false,
+      });
+    } else {
+      setSkills((prev) => {
+        const updated = [...prev];
+        updated[catIdx] = { ...updated[catIdx], name: newName };
+        return updated;
+      });
+    }
+  };
+
+  const handleCategoryNameConfirm = async (newName: string) => {
+    const { categoryIndex } = categoryNameDialog;
+
+    setCategoryNameDialog((prev) => ({ ...prev, isLoading: true }));
+
+    try {
+      const category = skills[categoryIndex];
+      const originalName = initialSkills[categoryIndex]?.name;
+
+      if (originalName && category.id) {
+        await updateEmployeeCategoryName(
+          employeeId,
+          category.id,
+          originalName,
+          newName
+        );
+      }
+
+      setSkills((prev) => {
+        const updated = [...prev];
+        updated[categoryIndex] = { ...updated[categoryIndex], name: newName };
+        return updated;
+      });
+
+      toast.success("Category name updated for all employees!");
+
+      setCategoryNameDialog({
+        open: false,
+        categoryIndex: -1,
+        currentName: "",
+        isLoading: false,
+      });
+    } catch (error) {
+      toast.error("Failed to update category name");
+      console.error(error);
+      setCategoryNameDialog((prev) => ({ ...prev, isLoading: false }));
+    }
   };
 
   const handleSaveCategory = async (catIdx: number) => {
     setSavingCategory((prev) => ({ ...prev, [catIdx]: true }));
+
     try {
       const category = skills[catIdx];
-      const originalName = initialSkills[catIdx]?.name;
-      if (originalName && originalName !== category.name) {
-        await updateEmployeeCategoryName(
-          employeeId,
-          originalName,
-          category.name
+
+      if (!category.id) {
+        const categoryResult = await createOrFindCategory(
+          category.name,
+          employeeDepartment
         );
+
+        setSkills((prev) => {
+          const updated = [...prev];
+          updated[catIdx] = {
+            ...updated[catIdx],
+            id: categoryResult.id,
+          };
+          return updated;
+        });
+
+        category.id = categoryResult.id;
+      } else {
+        const originalName = initialSkills[catIdx]?.name;
+        if (originalName && originalName !== category.name) {
+          await updateEmployeeCategoryName(
+            employeeId,
+            category.id,
+            originalName,
+            category.name
+          );
+        }
       }
+      console.log("Skills being saved:", category.skills);
+
       await updateEmployeeSkills(employeeId, {
         name: category.name,
-        skills: category.skills.map((s) => ({ name: s.name, level: s.level })),
+        skills: category.skills.map((s) => ({
+          id: s.id,
+          name: s.name,
+          level: s.level,
+        })),
       });
+
       toast.success("Category saved!");
     } catch (e) {
       toast.error("Failed to save category");
@@ -295,7 +445,9 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
                       <button
                         type="button"
                         className="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
-                        onClick={() => handleDeleteSkill(catIdx, skillIdx)}
+                        onClick={() =>
+                          handleDeleteSkill(catIdx, skillIdx, skill.id)
+                        }
                         title="Delete Skill"
                       >
                         <Trash2 className="w-5 h-5" />
@@ -312,10 +464,16 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
           <div className="flex justify-end mt-8">
             <button
               type="button"
-              className="px-4 py-2 rounded-lg bg-blue-100 text-blue-700 font-bold shadow hover:bg-blue-200 transition"
+              className="px-4 py-2 rounded-lg bg-blue-100 text-blue-700 font-bold shadow hover:bg-blue-200 transition flex items-center"
               onClick={handleAddCategory}
+              disabled={isAddingCategory}
             >
-              <Plus className="w-5 h-5 inline-block mr-2" /> Add Category
+              {isAddingCategory ? (
+                <LucideClockFading className="w-5 h-5 animate-spin mr-2" />
+              ) : (
+                <Plus className="w-5 h-5 mr-2" />
+              )}
+              {isAddingCategory ? "Adding..." : "Add Category"}
             </button>
           </div>
         </div>
@@ -325,6 +483,27 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
           icon={<User2 className="w-6 h-6 mb-5"></User2>}
         />
       )}
+
+      <CategoryNameDialog
+        open={categoryNameDialog.open}
+        onOpenChange={(open) =>
+          setCategoryNameDialog((prev) => ({ ...prev, open }))
+        }
+        currentName={categoryNameDialog.currentName}
+        onConfirm={handleCategoryNameConfirm}
+        isLoading={categoryNameDialog.isLoading}
+      />
+
+      <CategoryDeleteDialog
+        open={categoryDeleteDialog.open}
+        onOpenChange={(open) =>
+          setCategoryDeleteDialog((prev) => ({ ...prev, open }))
+        }
+        categoryName={categoryDeleteDialog.categoryName}
+        isOriginal={categoryDeleteDialog.isOriginal}
+        onConfirm={handleConfirmDeleteCategory}
+        isLoading={categoryDeleteDialog.isLoading}
+      />
     </Card>
   );
 };
