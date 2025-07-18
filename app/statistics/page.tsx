@@ -3,6 +3,8 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { StatisticsSearch } from "@/components/statistics/statistics-search";
 import { getAllEmployeesCertificates } from "../actions/certificate-statistics-action";
 
+export const revalidate = 0;
+
 export default async function CertificateStatisticsPage() {
   const employeesCertificates = await getAllEmployeesCertificates();
 

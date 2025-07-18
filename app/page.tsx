@@ -3,6 +3,8 @@ import ClientProtectedWrapper from "@/components/auth/client-protected-wrapper";
 import { Suspense } from "react";
 import { getEmployeesData } from "./actions/employees-action";
 
+export const revalidate = 0;
+
 export const metadata = {
   title: "Skills Matrix Dashboard",
   description: "Track and manage employee skills at a glance.",

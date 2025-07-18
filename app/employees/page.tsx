@@ -11,6 +11,8 @@ import { Metadata } from "next";
 import { getEmployees } from "@/lib/employees";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Manage Employees – Jakala Skill Matrix",
   description: "View, edit, add, and delete employee details and skills.",

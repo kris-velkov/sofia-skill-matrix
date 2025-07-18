@@ -5,7 +5,6 @@ import {
   deleteEmployeeSkillInDb,
   updateEmployeeCategoryNameInDb,
 } from "@/lib/skillsDB";
-import { revalidatePath } from "next/cache";
 
 type SkillCategory = {
   name: string;
@@ -19,7 +18,6 @@ export async function updateEmployeeSkills(
   try {
     const result = await updateEmployeeSkillsInDb(employeeId, category);
     if (!result.success) {
-      revalidatePath("/");
       return {
         success: false,
         message: result.error || "Failed to update employee skills",
@@ -49,7 +47,6 @@ export async function deleteEmployeeSkill(
   try {
     const result = await deleteEmployeeSkillInDb(employeeId, skillId);
     if (!result.success) {
-      revalidatePath("/");
       return {
         success: false,
         message: result.error?.message || "Failed to delete employee skill",

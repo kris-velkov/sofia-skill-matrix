@@ -4,7 +4,6 @@ import { addEmployee, deleteEmployee } from "@/lib/employeeInfoDB";
 import { assignDefaultLevelsToEmployee } from "@/lib/skillsDB";
 import { Department, Employee } from "@/types/employees";
 import { normalizeDepartment } from "@/lib/utils/normalize";
-import { revalidatePath } from "next/cache";
 import { getEmployeeById } from "@/lib/employees";
 
 export async function addNewEmployee(
@@ -32,8 +31,6 @@ export async function addNewEmployee(
 
       await assignDefaultLevelsToEmployee(employee.id, normalizedDept);
 
-      revalidatePath("/employees");
-      revalidatePath("/");
       return employee.id;
     }
     throw new Error("Failed to create employee");
@@ -45,8 +42,6 @@ export async function addNewEmployee(
 export async function deleteEmployeeAction(userId: string) {
   try {
     await deleteEmployee(userId);
-    revalidatePath("/employees");
-    revalidatePath("/");
     return { success: true, message: "Employee deleted successfully!" };
   } catch (error) {
     console.error("❌ Failed to delete employee:", error);
