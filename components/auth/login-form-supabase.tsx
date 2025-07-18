@@ -19,19 +19,12 @@ export function LoginFormSupabase() {
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
   const hydrated = useAuthStore((s) => s.hydrated);
 
-  // Add useEffect to handle redirection when already logged in
   useEffect(() => {
     if (isLoggedIn && !redirecting) {
-      console.log("User is already logged in, redirecting...");
       setRedirecting(true);
 
-      // Get any redirect path from URL
-      const params = new URLSearchParams(window.location.search);
-      const redirectPath = params.get("redirectedFrom");
-
-      // Force a hard navigation to ensure middleware runs
       setTimeout(() => {
-        window.location.href = redirectPath || "/";
+        window.location.href = "/";
       }, 100);
     }
   }, [isLoggedIn, redirecting]);
@@ -47,24 +40,14 @@ export function LoginFormSupabase() {
 
       if (result.success) {
         setRedirecting(true);
-
-        const params = new URLSearchParams(window.location.search);
-        const redirectPath = params.get("redirectedFrom");
-
-        setTimeout(() => {
-          if (result.role === "admin" && !redirectPath) {
-            window.location.href = "/admin";
-          } else {
-            window.location.href = redirectPath || "/";
-          }
-        }, 100);
+        window.location.href = "/";
       } else {
         setError(
           result.error?.message ?? "Invalid credentials. Please try again."
         );
       }
     } catch (err) {
-      console.error("Login error:", err);
+      console.error(err);
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
