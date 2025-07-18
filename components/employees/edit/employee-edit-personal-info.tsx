@@ -40,6 +40,12 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
       _: FormActionState,
       formData: FormData
     ): Promise<FormActionState> => {
+      let imageUrl = formData.get("profileImage") as string;
+      if (!imageUrl.includes("ca.slack-edge.com")) {
+        imageUrl = "";
+        toast.error("Not valid image url! Please use Slack image url.");
+      }
+
       const data: FormValues = {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
@@ -51,7 +57,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
         bio: formData.get("bio") as string,
         country: formData.get("country") as string,
         city: formData.get("city") as string,
-        profileImage: formData.get("profileImage") as string,
+        profileImage: imageUrl,
         slackUrl: formData.get("slackUrl") as string,
         linkedinUrl: formData.get("linkedinUrl") as string,
       };
@@ -176,12 +182,12 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             />
           </div>
           <div className="md:col-span-2">
-            <Label> Image URL</Label>
+            <Label> Slack Image URL</Label>
             <input
               name="profileImage"
               defaultValue={localEmployee.profileImage || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Image URL"
+              placeholder="https://ca.slack-edge.com/"
             />
           </div>
           <div className="md:col-span-2">
