@@ -55,6 +55,7 @@ export function normalizeSkills(
   return Array.from(grouped.values()).map((group) => ({
     id: group.id,
     name: group.name,
+    default: group.default,
     skills: group.skills,
     averageLevel:
       group.count > 0 ? Math.round((group.total / group.count) * 100) / 100 : 0,
@@ -98,12 +99,13 @@ export function mapSupabaseEmployees(
 }
 
 export function getEmployeeFullName(
-  employee: Employee | SupabaseEmployee
+  firstName?: string,
+  lastName?: string
 ): string {
-  if ("firstName" in employee) {
-    return `${employee.firstName} ${employee.lastName}`.trim();
+  if (firstName !== undefined && lastName !== undefined) {
+    return `${firstName} ${lastName}`.trim();
   }
-  return `${employee.first_name} ${employee.last_name}`.trim();
+  return "";
 }
 
 export function calculateOverallSkillAverage(

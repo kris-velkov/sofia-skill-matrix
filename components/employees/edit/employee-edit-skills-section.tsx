@@ -42,6 +42,7 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
   maxLevel = 4,
 }) => {
   const [skills, setSkills] = useState<SkillCategory[]>(initialSkills);
+
   const [savingCategory, setSavingCategory] = useState<{
     [catIdx: number]: boolean;
   }>({});
@@ -129,7 +130,6 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
       const result = await deleteCategory(categoryId);
 
       if (result.success) {
-        // Remove the category from local state
         setSkills((prev) => prev.filter((_, idx) => idx !== categoryIndex));
         toast.success(result.message);
       } else {
@@ -285,14 +285,12 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
         const originalName = initialSkills[catIdx]?.name;
         if (originalName && originalName !== category.name) {
           await updateEmployeeCategoryName(
-            employeeId,
             category.id,
             originalName,
             category.name
           );
         }
       }
-      console.log("Skills being saved:", category.skills);
 
       await updateEmployeeSkills(employeeId, {
         name: category.name,
@@ -500,7 +498,7 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
           setCategoryDeleteDialog((prev) => ({ ...prev, open }))
         }
         categoryName={categoryDeleteDialog.categoryName}
-        isOriginal={categoryDeleteDialog.isOriginal}
+        isDefault={categoryDeleteDialog.default}
         onConfirm={handleConfirmDeleteCategory}
         isLoading={categoryDeleteDialog.isLoading}
       />

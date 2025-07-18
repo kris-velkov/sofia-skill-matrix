@@ -42,153 +42,123 @@ type SkillLevelPayload = {
   level: number;
 };
 
-export async function seedCategories(
-  defaultCategories: DefaultCategory[],
-  newDepartments: string[]
-) {
-  for (const cat of defaultCategories) {
-    try {
-      const normalizedCategoryName = normalizeSkillName(cat.name);
-      console.log(`Processing category: ${normalizedCategoryName}`);
-      const { data: existingCategory, error: fetchError } = await supabaseClient
-        .from("categories")
-        .select("id, departments")
-        .ilike("name", normalizedCategoryName)
-        .maybeSingle();
+// Category Management Functions
+async function fetchCategory(categoryName: string) {
+  const normalizedCategoryName = normalizeSkillName(categoryName);
+  const { data, error } = await supabaseClient
+    .from("categories")
+    .select("id, departments")
+    .ilike("name", normalizedCategoryName)
+    .maybeSingle();
 
-      if (fetchError) {
-        console.error(
-          `❌ Error fetching category ${normalizedCategoryName}:`,
-          fetchError.message
-        );
-        continue;
-      }
-      let categoryId: string;
-
-      if (existingCategory) {
-        console.log(
-          `Found existing category: ${normalizedCategoryName}`,
-          existingCategory
-        );
-        // Ensure we're working with arrays and normalize each department
-        const existingDepts = Array.isArray(existingCategory.departments)
-          ? existingCategory.departments
-          : [];
-
-        const normalizedNewDepts = newDepartments.map((d) =>
-          normalizeDepartment(d)
-        );
-
-        // Remove duplicates with Set
-        const mergedDepartments = Array.from(
-          new Set([...existingDepts, ...normalizedNewDepts])
-        );
-
-        const { error: updateError } = await supabaseClient
-          .from("categories")
-          .update({
-            name: normalizedCategoryName,
-            departments: mergedDepartments,
-          })
-          .eq("id", existingCategory.id);
-
-        if (updateError) {
-          console.error(
-            `❌ Failed to update category ${normalizedCategoryName}:`,
-            updateError.message
-          );
-          continue;
-        }
-
-        categoryId = existingCategory.id;
-        console.log(
-          `✅ Updated category ${normalizedCategoryName} with departments:`,
-          mergedDepartments
-        );
-      } else {
-        console.log(`Creating new category: ${normalizedCategoryName}`);
-        const { data: newCat, error: catError } = await supabaseClient
-          .from("categories")
-          .insert({
-            name: normalizedCategoryName,
-            departments: newDepartments.map((d) => normalizeDepartment(d)),
-          })
-          .select("id")
-          .single();
-
-        if (catError || !newCat) {
-          console.error(
-            `❌ Failed to insert category ${normalizedCategoryName}:`,
-            catError?.message
-          );
-          continue;
-        }
-        categoryId = newCat.id;
-        console.log(
-          `✅ Created new category: ${normalizedCategoryName} with ID: ${categoryId}`
-        );
-      }
-
-      const { data: existingSkills, error: skillsError } = await supabaseClient
-        .from("skills")
-        .select("name")
-        .eq("category_id", categoryId);
-
-      if (skillsError) {
-        console.error(
-          `❌ Failed to fetch skills for category ${normalizedCategoryName}:`,
-          skillsError.message
-        );
-        continue;
-      }
-
-      const existingSkillMap = new Map(
-        existingSkills?.map((s) => [
-          normalizeSkillName(s.name).toLowerCase(),
-          s,
-        ]) || []
-      );
-
-      const newSkills = cat.skills.filter(
-        (s) => !existingSkillMap.has(normalizeSkillName(s.name).toLowerCase())
-      );
-
-      if (newSkills.length > 0) {
-        const skillPayload = newSkills.map((s) => ({
-          category_id: categoryId,
-          name: normalizeSkillName(s.name),
-        }));
-
-        const { error: skillsInsertError } = await supabaseClient
-          .from("skills")
-          .insert(skillPayload);
-
-        if (skillsInsertError) {
-          console.error(
-            `❌ Failed to insert skills for ${normalizedCategoryName}:`,
-            skillsInsertError.message
-          );
-        } else {
-          console.log(
-            `✅ Added ${newSkills.length} missing skills for category: ${normalizedCategoryName}`
-          );
-        }
-      } else {
-        console.log(
-          `ℹ️ All skills already exist for ${normalizedCategoryName}, skipping.`
-        );
-      }
-    } catch (err) {
-      console.error(
-        `❌ Error while processing category ${cat.name}:`,
-        err instanceof Error ? err.message : "Unknown error"
-      );
-    }
+  if (error) {
+    console.error(
+      `❌ Error fetching category ${normalizedCategoryName}:`,
+      error.message
+    );
+    return null;
   }
+  return data;
 }
 
-export async function insertEmployee(emp: EmployeeData) {
-  const { data: insertedEmp, error: empError } = await supabaseClient
+async function updateCategoryDepartments(
+  categoryId: string,
+  categoryName: string,
+  departments: string[]
+) {
+  const { error } = await supabaseClient
+    .from("categories")
+    .update({
+      name: categoryName,
+      departments: departments,
+    })
+    .eq("id", categoryId);
+
+  if (error) {
+    console.error(
+      `❌ Failed to update category ${categoryName}:`,
+      error.message
+    );
+    return false;
+  }
+
+  console.log(
+    `Updated category ${categoryName} with departments:`,
+    departments
+  );
+  return true;
+}
+
+async function createCategory(categoryName: string, departments: string[]) {
+  const normalizedDepartments = departments.map((d) => normalizeDepartment(d));
+
+  const { data, error } = await supabaseClient
+    .from("categories")
+    .insert({
+      name: categoryName,
+      departments: normalizedDepartments,
+    })
+    .select("id")
+    .single();
+
+  if (error || !data) {
+    console.error(
+      `❌ Failed to insert category ${categoryName}:`,
+      error?.message
+    );
+    return null;
+  }
+
+  console.log(`✅ Created new category: ${categoryName} with ID: ${data.id}`);
+  return data.id;
+}
+
+async function fetchSkillsForCategory(
+  categoryId: string,
+  categoryName: string
+) {
+  const { data, error } = await supabaseClient
+    .from("skills")
+    .select("name")
+    .eq("category_id", categoryId);
+
+  if (error) {
+    console.error(
+      `❌ Failed to fetch skills for category ${categoryName}:`,
+      error.message
+    );
+    return null;
+  }
+
+  return data;
+}
+
+async function insertSkillsForCategory(
+  categoryId: string,
+  skills: { name: string }[],
+  categoryName: string
+) {
+  if (skills.length === 0) return true;
+
+  const { error } = await supabaseClient.from("skills").insert(skills);
+
+  if (error) {
+    console.error(
+      `❌ Failed to insert skills for ${categoryName}:`,
+      error.message
+    );
+    return false;
+  }
+
+  console.log(
+    `✅ Added ${skills.length} missing skills for category: ${categoryName}`
+  );
+  return true;
+}
+
+// Employee Management Functions
+async function insertEmployee(emp: EmployeeData) {
+  const { data, error } = await supabaseClient
     .from("employees")
     .insert({
       first_name: emp.firstName,
@@ -209,19 +179,28 @@ export async function insertEmployee(emp: EmployeeData) {
     .select("id")
     .single();
 
-  if (empError || !insertedEmp) {
+  if (error || !data) {
     console.error(
       `❌ Failed to insert employee ${emp.firstName} ${emp.lastName}:`,
-      empError?.message
+      error?.message
     );
     return null;
   }
-
   console.log(`✅ Inserted employee: ${emp.firstName} ${emp.lastName}`);
-  return insertedEmp.id;
+  return data.id;
 }
 
-export async function insertEmployeeCertificates(
+async function findEmployeeByFloatId(floatId: string) {
+  const { data } = await supabaseClient
+    .from("employees")
+    .select("id")
+    .eq("float_id", floatId)
+    .maybeSingle();
+
+  return data;
+}
+
+async function insertEmployeeCertificates(
   employeeId: string,
   certificates: EmployeeData["certificates"]
 ) {
@@ -235,24 +214,188 @@ export async function insertEmployeeCertificates(
     url: cert.url,
   }));
 
-  const { error: certError } = await supabaseClient
+  const { error } = await supabaseClient
     .from("certificates")
     .insert(certPayload);
 
-  if (certError) {
+  if (error) {
     console.error(
       `❌ Failed to insert certificates for employee ${employeeId}:`,
-      certError.message
+      error.message
     );
-  } else {
-    console.log(`✅ Inserted ${certificates.length} certificates`);
+    return false;
   }
+
+  console.log(`✅ Inserted ${certificates.length} certificates`);
+  return true;
+}
+async function fetchAllSkillsWithCategories() {
+  const { data, error } = await supabaseClient
+    .from("skills")
+    .select("id, name, category_id, categories(id, name, departments)");
+
+  if (error || !data) {
+    console.error(
+      "❌ Failed to fetch skills:",
+      error?.message || "Unknown error"
+    );
+    return null;
+  }
+
+  return data;
+}
+
+async function clearEmployeeSkills(employeeId: string) {
+  const { error } = await supabaseClient
+    .from("employees_skill_levels")
+    .delete()
+    .eq("employee_id", employeeId);
+
+  if (error) {
+    console.error(
+      `❌ Failed to clear existing skill levels for ${employeeId}:`,
+      error.message
+    );
+    return false;
+  }
+
+  return true;
+}
+
+async function insertEmployeeSkillLevels(
+  skillPayload: SkillLevelPayload[],
+  employeeId: string,
+  department: string
+) {
+  if (skillPayload.length === 0) {
+    console.log(
+      `ℹ️ No skills to insert for ${employeeId} in department ${department}`
+    );
+    return true;
+  }
+
+  // Deduplicate skill payload to avoid primary key violations
+  const uniqueSkillPayload = skillPayload.filter(
+    (item, index, self) =>
+      index ===
+      self.findIndex(
+        (t) =>
+          t.employee_id === item.employee_id && t.skill_id === item.skill_id
+      )
+  );
+
+  const { error } = await supabaseClient
+    .from("employees_skill_levels")
+    .insert(uniqueSkillPayload);
+
+  if (error) {
+    console.error(
+      `❌ Failed to insert skill levels for ${employeeId}:`,
+      error.message
+    );
+    return false;
+  }
+
+  console.log(
+    `✅ Inserted ${uniqueSkillPayload.length} skill levels for ${employeeId} in department ${department}`
+  );
+  return true;
 }
 
 function loadEmployeesFromJson(filePath: string) {
   const fullPath = path.resolve(filePath);
   const rawData = fs.readFileSync(fullPath, "utf-8");
   return JSON.parse(rawData);
+}
+
+// Main Functions
+export async function seedCategories(
+  defaultCategories: DefaultCategory[],
+  newDepartments: string[]
+) {
+  for (const cat of defaultCategories) {
+    try {
+      const normalizedCategoryName = normalizeSkillName(cat.name);
+      console.log(`Processing category: ${normalizedCategoryName}`);
+
+      const existingCategory = await fetchCategory(cat.name);
+      let categoryId: string;
+
+      if (existingCategory) {
+        console.log(
+          `Found existing category: ${normalizedCategoryName}`,
+          existingCategory
+        );
+
+        const existingDepts = Array.isArray(existingCategory.departments)
+          ? existingCategory.departments
+          : [];
+
+        const normalizedNewDepts = newDepartments.map((d) =>
+          normalizeDepartment(d)
+        );
+
+        const mergedDepartments = Array.from(
+          new Set([...existingDepts, ...normalizedNewDepts])
+        );
+
+        const updated = await updateCategoryDepartments(
+          existingCategory.id,
+          normalizedCategoryName,
+          mergedDepartments
+        );
+
+        if (!updated) continue;
+        categoryId = existingCategory.id;
+      } else {
+        console.log(`Creating new category: ${normalizedCategoryName}`);
+        categoryId = await createCategory(
+          normalizedCategoryName,
+          newDepartments
+        );
+        if (!categoryId) continue;
+      }
+
+      const existingSkills = await fetchSkillsForCategory(
+        categoryId,
+        normalizedCategoryName
+      );
+      if (!existingSkills) continue;
+
+      const existingSkillMap = new Map(
+        existingSkills?.map((s) => [
+          normalizeSkillName(s.name).toLowerCase(),
+          s,
+        ]) || []
+      );
+
+      const newSkills = cat.skills.filter(
+        (s) => !existingSkillMap.has(normalizeSkillName(s.name).toLowerCase())
+      );
+
+      if (newSkills.length > 0) {
+        const skillPayload = newSkills.map((s) => ({
+          category_id: categoryId,
+          name: normalizeSkillName(s.name),
+        }));
+
+        await insertSkillsForCategory(
+          categoryId,
+          skillPayload,
+          normalizedCategoryName
+        );
+      } else {
+        console.log(
+          `ℹ️ All skills already exist for ${normalizedCategoryName}, skipping.`
+        );
+      }
+    } catch (err) {
+      console.error(
+        `❌ Error while processing category ${cat.name}:`,
+        err instanceof Error ? err.message : "Unknown error"
+      );
+    }
+  }
 }
 
 export async function insertEmployeeSkillsBulk(
@@ -265,20 +408,9 @@ export async function insertEmployeeSkillsBulk(
     `Processing skills for ${employeeId} in department: ${normalizedDepartment}`
   );
 
-  // Fetch all skills with their categories to have complete data
-  const { data: skillData, error: skillFetchError } = await supabaseClient
-    .from("skills")
-    .select("id, name, category_id, categories(id, name, departments)");
+  const skillData = await fetchAllSkillsWithCategories();
+  if (!skillData) return;
 
-  if (skillFetchError || !skillData) {
-    console.error(
-      "❌ Failed to fetch skills:",
-      skillFetchError?.message || "Unknown error"
-    );
-    return;
-  }
-
-  // Create a map for quick skill lookup by normalized name
   const skillMap = new Map(
     skillData.map((skill) => [
       normalizeSkillName(skill.name).toLowerCase(),
@@ -286,113 +418,150 @@ export async function insertEmployeeSkillsBulk(
     ])
   );
 
-  // Track skills that need to be created
   const missingSkills = new Map<
     string,
     { categoryId: string; skillName: string; level: number }
   >();
   const skillPayload: SkillLevelPayload[] = [];
 
-  // First, process all categories and skills to identify missing ones
+  await processEmployeeSkills(
+    empSkills,
+    normalizedDepartment,
+    skillMap,
+    missingSkills,
+    skillPayload,
+    employeeId
+  );
+
+  await createMissingSkills(
+    missingSkills,
+    skillPayload,
+    employeeId,
+    normalizedDepartment
+  );
+
+  const cleared = await clearEmployeeSkills(employeeId);
+  if (!cleared) return;
+
+  await insertEmployeeSkillLevels(
+    skillPayload,
+    employeeId,
+    normalizedDepartment
+  );
+}
+
+async function processEmployeeSkills(
+  empSkills: EmployeeData["skills"],
+  normalizedDepartment: string,
+  skillMap: Map<string, any>,
+  missingSkills: Map<
+    string,
+    { categoryId: string; skillName: string; level: number }
+  >,
+  skillPayload: SkillLevelPayload[],
+  employeeId: string
+) {
   for (const category of empSkills) {
     const normalizedCategoryName = normalizeSkillName(category.name);
 
-    // Find if the category exists
-    const { data: existingCategory } = await supabaseClient
-      .from("categories")
-      .select("id, departments")
-      .ilike("name", normalizedCategoryName)
-      .maybeSingle();
-
+    const existingCategory = await fetchCategory(category.name);
     let categoryId: string;
 
-    // Create category if it doesn't exist
     if (!existingCategory) {
-      const { data: newCategory, error: categoryError } = await supabaseClient
-        .from("categories")
-        .insert({
-          name: normalizedCategoryName,
-          departments: [normalizedDepartment],
-        })
-        .select("id")
-        .single();
-
-      if (categoryError || !newCategory) {
-        console.error(
-          `❌ Failed to create category ${normalizedCategoryName}:`,
-          categoryError?.message
-        );
-        continue;
-      }
-      categoryId = newCategory.id;
-      console.log(
-        `✅ Created new category: ${normalizedCategoryName} for department ${normalizedDepartment}`
-      );
+      const newCategoryId = await createCategory(normalizedCategoryName, [
+        normalizedDepartment,
+      ]);
+      if (!newCategoryId) continue;
+      categoryId = newCategoryId;
     } else {
       categoryId = existingCategory.id;
 
-      // Check if this category is relevant for the employee's department
       const departments = existingCategory.departments || [];
       if (!departments.includes(normalizedDepartment)) {
-        // Add this department to the category
         const updatedDepartments = [...departments, normalizedDepartment];
-        await supabaseClient
-          .from("categories")
-          .update({ departments: updatedDepartments })
-          .eq("id", categoryId);
-
-        console.log(
-          `✅ Updated category ${normalizedCategoryName} with department ${normalizedDepartment}`
+        await updateCategoryDepartments(
+          categoryId,
+          normalizedCategoryName,
+          updatedDepartments
         );
       }
     }
 
-    // Process skills in this category
-    for (const skill of category.skills) {
-      const normalizedSkillName = normalizeSkillName(skill.name);
-      const existingSkill = skillMap.get(normalizedSkillName.toLowerCase());
+    await processSkillsInCategory(
+      category.skills,
+      categoryId,
+      normalizedDepartment,
+      skillMap,
+      missingSkills,
+      skillPayload,
+      employeeId
+    );
+  }
+}
 
-      if (existingSkill) {
-        // Check if the skill's category is appropriate for this department
-        const skillCategory = existingSkill.categories;
+async function processSkillsInCategory(
+  skills: Array<{ name: string; level: number }>,
+  categoryId: string,
+  normalizedDepartment: string,
+  skillMap: Map<string, any>,
+  missingSkills: Map<
+    string,
+    { categoryId: string; skillName: string; level: number }
+  >,
+  skillPayload: SkillLevelPayload[],
+  employeeId: string
+) {
+  for (const skill of skills) {
+    const normalizedSkillName = normalizeSkillName(skill.name);
+    const existingSkill = skillMap.get(normalizedSkillName.toLowerCase());
 
-        // Add the skill regardless of department association
-        // We'll update the category's departments if needed
-        if (skillCategory) {
-          const departments = Array.isArray(skillCategory.departments)
-            ? skillCategory.departments
-            : [];
-          if (!departments.includes(normalizedDepartment)) {
-            // Update the category to include this department
-            const updatedDepartments = [...departments, normalizedDepartment];
-            await supabaseClient
-              .from("categories")
-              .update({ departments: updatedDepartments })
-              .eq("id", skillCategory.id);
-            console.log(
-              `✅ Updated skill category for ${normalizedSkillName} to include department ${normalizedDepartment}`
-            );
-          }
+    if (existingSkill) {
+      // Check if the skill's category is appropriate for this department
+      const skillCategory = existingSkill.categories;
 
-          // Add the skill to the payload
-          skillPayload.push({
-            employee_id: employeeId,
-            skill_id: existingSkill.id,
-            level: skill.level,
-          });
+      // Add the skill regardless of department association
+      // We'll update the category's departments if needed
+      if (skillCategory) {
+        const departments = Array.isArray(skillCategory.departments)
+          ? skillCategory.departments
+          : [];
+        if (!departments.includes(normalizedDepartment)) {
+          // Update the category to include this department
+          const updatedDepartments = [...departments, normalizedDepartment];
+          await updateCategoryDepartments(
+            skillCategory.id,
+            skillCategory.name,
+            updatedDepartments
+          );
         }
-      } else {
-        // Track missing skill for creation
-        missingSkills.set(normalizedSkillName.toLowerCase(), {
-          categoryId,
-          skillName: normalizedSkillName,
+
+        // Add the skill to the payload
+        skillPayload.push({
+          employee_id: employeeId,
+          skill_id: existingSkill.id,
           level: skill.level,
         });
       }
+    } else {
+      // Track missing skill for creation
+      missingSkills.set(normalizedSkillName.toLowerCase(), {
+        categoryId,
+        skillName: normalizedSkillName,
+        level: skill.level,
+      });
     }
   }
+}
 
-  // Create any missing skills
+async function createMissingSkills(
+  missingSkills: Map<
+    string,
+    { categoryId: string; skillName: string; level: number }
+  >,
+  skillPayload: SkillLevelPayload[],
+  employeeId: string,
+  normalizedDepartment: string
+) {
   if (missingSkills.size > 0) {
     const skillsToCreate = Array.from(missingSkills.values()).map(
       ({ categoryId, skillName }) => ({
@@ -432,60 +601,41 @@ export async function insertEmployeeSkillsBulk(
       }
     }
   }
-
-  // First delete any existing skill levels for this employee to avoid duplicates
-  const { error: deleteError } = await supabaseClient
-    .from("employees_skill_levels")
-    .delete()
-    .eq("employee_id", employeeId);
-
-  if (deleteError) {
-    console.error(
-      `❌ Failed to clear existing skill levels for ${employeeId}:`,
-      deleteError.message
-    );
-    return; // Exit early if we can't clear existing skills
-  }
-
-  // Deduplicate skill payload to avoid primary key violations
-  const uniqueSkillPayload = skillPayload.filter(
-    (item, index, self) =>
-      index ===
-      self.findIndex(
-        (t) =>
-          t.employee_id === item.employee_id && t.skill_id === item.skill_id
-      )
-  );
-
-  // Insert all skill levels
-  if (uniqueSkillPayload.length > 0) {
-    const { error: insertError } = await supabaseClient
-      .from("employees_skill_levels")
-      .insert(uniqueSkillPayload);
-
-    if (insertError) {
-      console.error(
-        `❌ Failed to insert skill levels for ${employeeId}:`,
-        insertError.message
-      );
-    } else {
-      console.log(
-        `✅ Inserted ${skillPayload.length} skill levels for ${employeeId} in department ${normalizedDepartment}`
-      );
-    }
-  } else {
-    console.log(
-      `ℹ️ No skills to insert for ${employeeId} in department ${normalizedDepartment}`
-    );
-  }
 }
 
 export async function extractAndSeedSkillsFromJson() {
   const employees = loadEmployeesFromJson("./data/employees-original.json");
+  const departmentCategoriesMap = buildDepartmentCategoriesMap(
+    employees.employees
+  );
 
+  for (const [department, categoriesMap] of departmentCategoriesMap.entries()) {
+    console.log(`\n🔍 Processing department: ${department}`);
+
+    const categoriesForDepartment = Array.from(categoriesMap.entries()).map(
+      ([categoryName, skillsSet]) => ({
+        id: "",
+        name: categoryName,
+        skills: Array.from(skillsSet).map((skillName) => ({
+          name: skillName,
+          level: 0,
+        })),
+      })
+    );
+
+    console.log(
+      `🔍 Found ${categoriesForDepartment.length} categories with skills for ${department}`
+    );
+
+    await seedCategories(categoriesForDepartment, [department]);
+  }
+  console.log("✅ Skills from JSON seeded successfully");
+}
+
+function buildDepartmentCategoriesMap(employees: EmployeeData[]) {
   const departmentCategoriesMap = new Map<string, Map<string, Set<string>>>();
 
-  for (const emp of employees.employees) {
+  for (const emp of employees) {
     const department = normalizeDepartment(emp.department);
 
     if (!departmentCategoriesMap.has(department)) {
@@ -508,29 +658,7 @@ export async function extractAndSeedSkillsFromJson() {
     }
   }
 
-  // Process each department separately
-  for (const [department, categoriesMap] of departmentCategoriesMap.entries()) {
-    console.log(`\n🔍 Processing department: ${department}`);
-
-    const categoriesForDepartment = Array.from(categoriesMap.entries()).map(
-      ([categoryName, skillsSet]) => ({
-        id: "",
-        name: categoryName,
-        skills: Array.from(skillsSet).map((skillName) => ({
-          name: skillName,
-          level: 0,
-        })),
-      })
-    );
-
-    console.log(
-      `🔍 Found ${categoriesForDepartment.length} categories with skills for ${department}`
-    );
-
-    // Seed categories and skills for this department only
-    await seedCategories(categoriesForDepartment, [department]);
-  }
-  console.log("✅ Skills from JSON seeded successfully");
+  return departmentCategoriesMap;
 }
 
 export async function seedEmployeesFromJson() {
@@ -547,45 +675,13 @@ export async function seedEmployeesFromJson() {
 }
 
 export async function seedEmployeeWithSkills(emp: EmployeeData) {
-  const { data: existingEmp } = await supabaseClient
-    .from("employees")
-    .select("id")
-    .eq("float_id", emp.floatId)
-    .maybeSingle();
-
+  const existingEmp = await findEmployeeByFloatId(emp.floatId);
   let employeeId: string;
 
   if (!existingEmp) {
-    const { data: insertedEmp, error: empError } = await supabaseClient
-      .from("employees")
-      .insert({
-        first_name: emp.firstName,
-        last_name: emp.lastName,
-        bio: emp.bio,
-        country: emp.country,
-        city: emp.city,
-        program: emp.program,
-        profile_image: emp.profileImage,
-        slack_url: emp.slackUrl,
-        linkedin_url: emp.linkedinUrl,
-        career_experience: emp.careerExperience,
-        start_date: emp.startDate,
-        department: normalizeDepartment(emp.department),
-        role: emp.role,
-        float_id: emp.floatId,
-      })
-      .select("id")
-      .single();
-
-    if (empError || !insertedEmp) {
-      console.error(
-        `❌ Failed to insert employee ${emp.firstName} ${emp.lastName}:`,
-        empError?.message
-      );
-      return;
-    }
-    employeeId = insertedEmp.id;
-    console.log(`✅ Inserted employee: ${emp.firstName} ${emp.lastName}`);
+    const newEmployeeId = await insertEmployee(emp);
+    if (!newEmployeeId) return;
+    employeeId = newEmployeeId;
   } else {
     employeeId = existingEmp.id;
     console.log(
@@ -594,19 +690,7 @@ export async function seedEmployeeWithSkills(emp: EmployeeData) {
   }
 
   if (emp.certificates && emp.certificates.length > 0) {
-    const certPayload = emp.certificates.map((cert) => ({
-      employee_id: employeeId,
-      name: cert.name,
-      issuer: cert.issuer,
-      date: cert.date,
-      url: cert.url,
-    }));
-
-    const { error: certError } = await supabaseClient
-      .from("certificates")
-      .insert(certPayload);
-    if (certError) console.error(`❌ Failed certs: ${certError.message}`);
-    else console.log(`✅ Inserted ${emp.certificates.length} certificates`);
+    await insertEmployeeCertificates(employeeId, emp.certificates);
   }
 
   await insertEmployeeSkillsBulk(employeeId, emp.skills, emp.department);

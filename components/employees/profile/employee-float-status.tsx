@@ -9,8 +9,22 @@ interface Props {
 }
 
 export async function FloatUserStatusBadge({ floatId }: Props) {
-  const { isBooked } = await fetchFloatUserInfo(floatId);
+  const { isBooked, found, message } = await fetchFloatUserInfo(floatId);
 
+  // If user is not found in Float, show appropriate message
+  if (!found) {
+    return (
+      <Badge
+        variant="secondary"
+        className="bg-gray-100 text-gray-700 mt-2 px-4 py-1 shadow"
+      >
+        <Ban className="w-4 h-4 mr-2" />
+        Not found in Float
+      </Badge>
+    );
+  }
+
+  // If user is found, show booking status
   return isBooked ? (
     <Badge
       variant="secondary"

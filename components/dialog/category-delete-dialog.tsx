@@ -1,21 +1,21 @@
 "use client";
 
-import { Trash2, AlertTriangle, Loader2 } from "lucide-react";
+import { Trash2, AlertTriangle, Loader2, User2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface CategoryDeleteDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   categoryName: string;
-  isOriginal: boolean;
+  isDefault: boolean;
   onConfirm: () => void;
   isLoading?: boolean;
 }
@@ -24,7 +24,7 @@ export function CategoryDeleteDialog({
   open,
   onOpenChange,
   categoryName,
-  isOriginal,
+  isDefault,
   onConfirm,
   isLoading = false,
 }: CategoryDeleteDialogProps) {
@@ -44,40 +44,55 @@ export function CategoryDeleteDialog({
           </DialogTitle>
         </DialogHeader>
 
-        <DialogDescription className="text-sm text-muted-foreground text-left pt-2 pb-4">
-          {isOriginal ? (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 shadow-sm">
-              <p className="text-red-800 text-sm font-medium flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4" />
-                This is an original category and cannot be deleted
-              </p>
-              <p className="text-red-700 text-sm mt-2 ml-6">
-                Original categories are system-defined and required for proper
-                functioning.
-              </p>
+        <div className="text-sm text-muted-foreground text-left pt-2 pb-4">
+          {isDefault ? (
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 shadow-sm">
+              <div className="text-amber-800 text-sm font-medium flex items-center gap-2">
+                <AlertTriangle className="h-5 w-5 text-amber-600" />
+                <strong>
+                  This is a default category and cannot be deleted!
+                </strong>
+              </div>
+              <div className="text-amber-700 text-sm mt-2 ml-7">
+                <p className="mb-2">
+                  Default categories are system-defined and required for proper
+                  functioning of the employee management system.
+                </p>
+                <p className="flex items-center gap-1.5">
+                  <User2 className="h-4 w-4" />
+                  <span>Need help? Contact:</span>
+                  <Link
+                    className="font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                    href="https://www.linkedin.com/in/kristiyanvelkov/"
+                    target="_blank"
+                  >
+                    Kristiyan Velkov
+                  </Link>
+                </p>
+              </div>
             </div>
           ) : (
             <>
-              <p className="text-gray-700 mb-4">
+              <div className="text-gray-700 mb-4">
                 You are about to delete the category{" "}
                 <span className="font-semibold text-gray-900">
                   {categoryName}
                 </span>
                 .
-              </p>
+              </div>
               <div className="bg-red-50 border border-red-200 rounded-lg p-4 shadow-sm">
-                <p className="text-red-800 text-sm font-medium flex items-center gap-2">
+                <div className="text-red-800 text-sm font-medium flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5 text-red-600" />
                   <strong>Warning: This action cannot be undone</strong>
-                </p>
-                <p className="text-red-700 text-sm mt-2 ml-6">
+                </div>
+                <div className="text-red-700 text-sm mt-2 ml-6">
                   Deleting this category will remove it and all associated
                   skills from all employees.
-                </p>
+                </div>
               </div>
             </>
           )}
-        </DialogDescription>
+        </div>
 
         <DialogFooter className="mt-6 gap-3">
           <Button
@@ -88,10 +103,10 @@ export function CategoryDeleteDialog({
           >
             Cancel
           </Button>
-          {!isOriginal && (
+          {!isDefault && (
             <Button
               onClick={onConfirm}
-              disabled={isLoading || isOriginal}
+              disabled={isLoading || isDefault}
               className="bg-red-600 hover:bg-red-700 text-white transition-colors shadow-sm"
             >
               {isLoading ? (

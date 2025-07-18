@@ -1,7 +1,7 @@
 import { ROLES } from "@/constants/employeeDefaultsSkills";
 import { Department } from "@/types/employees";
 
-export function normalizeSkillName(str: string): string {
+export function normalizeName(str: string): string {
   return str
     .trim()
     .toLowerCase()

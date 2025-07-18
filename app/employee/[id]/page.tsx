@@ -4,7 +4,7 @@ import EmployeePersonalInfo from "@/components/employees/profile/employee-person
 import EmployeeSkillsInfo from "@/components/employees/profile/employee-skills-info";
 import EmployeeCertificatesInfo from "@/components/employees/profile/employee-certificates-info";
 import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-info";
-import { getEmployee } from "@/app/actions/employees-action";
+import { getEmployee } from "@/app/actions/employee-actions";
 
 export default async function Page({
   params,

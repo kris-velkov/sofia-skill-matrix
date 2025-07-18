@@ -6,9 +6,7 @@ import EmployeeSkillsInfo from "@/components/employees/profile/employee-skills-i
 import EmployeeCertificatesInfo from "@/components/employees/profile/employee-certificates-info";
 import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-info";
 import { Metadata } from "next";
-import { getEmployeeCertificates } from "@/lib/certificatesDB";
-import { getEmployeeSkillsGrouped } from "@/lib/skillsDB";
-import { getEmployee } from "@/app/actions/employees-action";
+import { getEmployee } from "@/app/actions/employee-actions";
 
 export const metadata: Metadata = {
   title: "View Employees – Jakala Skill Matrix",

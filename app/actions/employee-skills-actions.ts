@@ -5,7 +5,6 @@ import {
   deleteEmployeeSkillInDb,
   updateEmployeeCategoryNameInDb,
 } from "@/lib/skillsDB";
-import { Employee } from "@/types/employees";
 
 type SkillCategory = {
   name: string;
@@ -15,44 +14,95 @@ type SkillCategory = {
 export async function updateEmployeeSkills(
   employeeId: string,
   category: SkillCategory
-): Promise<Employee | undefined> {
+): Promise<{ success: boolean; message: string }> {
   try {
-    return await updateEmployeeSkillsInDb(employeeId, category);
+    const result = await updateEmployeeSkillsInDb(employeeId, category);
+
+    if (!result.success) {
+      return {
+        success: false,
+        message: result.error || "Failed to update employee skills",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Skills updated successfully",
+    };
   } catch (error) {
     console.error(`❌ Failed to update skills for ${employeeId}:`, error);
-    throw new Error("Unable to update employee skills.");
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to update employee skills",
+    };
   }
 }
 
 export async function deleteEmployeeSkill(
   employeeId: string,
   skillId: string
-): Promise<void> {
-  console.log(employeeId, skillId);
+): Promise<{ success: boolean; message: string }> {
   try {
-    await deleteEmployeeSkillInDb(employeeId, skillId);
+    const result = await deleteEmployeeSkillInDb(employeeId, skillId);
+
+    if (!result.success) {
+      return {
+        success: false,
+        message: result.error?.message || "Failed to delete employee skill",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Skill deleted successfully",
+    };
   } catch (error) {
     console.error(`❌ Failed to delete skill for ${employeeId}:`, error);
-    throw new Error("Unable to delete employee skill.");
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to delete employee skill",
+    };
   }
 }
 
 export async function updateEmployeeCategoryName(
-  employeeId: string,
   categoryId: string,
   oldName: string,
   newName: string
-): Promise<void> {
+): Promise<{ success: boolean; message: string }> {
   try {
-    await updateEmployeeCategoryNameInDb(
-      employeeId,
+    const result = await updateEmployeeCategoryNameInDb(
       categoryId,
       oldName,
       newName
     );
+
+    if (!result.success) {
+      return {
+        success: false,
+        message: result.error || "Failed to update category name",
+      };
+    }
+
+    return {
+      success: true,
+      message: `Category name updated from "${oldName}" to "${newName}"`,
+    };
   } catch (error) {
-    console.error(`❌ Failed to rename category for ${employeeId}:`, error);
-    throw new Error("Unable to update category name.");
+    console.error(`❌ Failed to rename category.`, error);
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to update category name",
+    };
   }
 }
 
@@ -82,19 +132,38 @@ export async function deleteCategory(
     }
   } catch (error) {
     console.error(`❌ Failed to delete category ${categoryId}:`, error);
-    throw new Error("Unable to delete category.");
+    return {
+      success: false,
+      message:
+        error instanceof Error ? error.message : "Unable to delete category",
+    };
   }
 }
 
 export async function createOrFindCategory(
   categoryName: string,
   department: string
-): Promise<{ id: string; name: string; departments: string[] }> {
+): Promise<{
+  success: boolean;
+  data?: { id: string; name: string; departments: string[] };
+  message?: string;
+}> {
   try {
     const { createOrFindCategoryInDb } = await import("@/lib/skillsDB");
-    return await createOrFindCategoryInDb(categoryName, department);
+    const result = await createOrFindCategoryInDb(categoryName, department);
+
+    return {
+      success: true,
+      data: result,
+    };
   } catch (error) {
     console.error(`❌ Failed to create/find category ${categoryName}:`, error);
-    throw new Error("Unable to create or find category.");
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to create or find category",
+    };
   }
 }

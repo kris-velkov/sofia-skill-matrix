@@ -55,7 +55,8 @@ export function CategoryNameDialog({
             Change Category Name
           </DialogTitle>
         </DialogHeader>
-        <DialogDescription className="text-left pt-2 pb-4">
+        {/* Use a div instead of DialogDescription to avoid nesting p tags */}
+        <div className="text-sm text-muted-foreground text-left pt-2 pb-4">
           <div className="space-y-2">
             <div className="text-gray-700 mb-4">
               You are about to change the category name from{" "}
@@ -75,7 +76,7 @@ export function CategoryNameDialog({
               </div>
             </div>
           </div>
-        </DialogDescription>
+        </div>
 
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
