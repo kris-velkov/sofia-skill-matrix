@@ -4,22 +4,38 @@ import { persist } from "zustand/middleware";
 
 export type UserRole = "admin" | "user" | null;
 
+export interface AuthUser {
+  id: string;
+  email?: string;
+  user_metadata: {
+    role?: UserRole;
+    first_name?: string;
+    last_name?: string;
+    [key: string]: unknown;
+  };
+  app_metadata?: Record<string, unknown>;
+  aud?: string;
+}
+
 interface AuthState {
   isLoggedIn: boolean;
   role: UserRole;
   hydrated: boolean;
-  user: Employee | null;
+  user: AuthUser | null;
+  employeeData: Employee | null;
 }
 
 interface AuthActions {
-  login: (role: UserRole, user?: Employee) => void;
+  login: (user: AuthUser, employeeData?: Employee | null) => void;
   logout: () => void;
   setHydrated: (hydrated: boolean) => void;
-  updateRole: (role: UserRole) => void;
+  updateUser: (user: Partial<AuthUser>) => void;
+  updateEmployeeData: (employeeData: Employee | null) => void;
 }
 
 interface AuthSelectors {
   isAdmin: () => boolean;
+  hasRole: (requiredRole: UserRole) => boolean;
 }
 
 type AuthStore = AuthState & AuthActions & AuthSelectors;
@@ -30,13 +46,43 @@ export const useAuthStore = create<AuthStore>()(
       isLoggedIn: false,
       role: null,
       user: null,
+      employeeData: null,
       hydrated: false,
-      login: (role, user?: Employee) =>
-        set({ isLoggedIn: true, role, user: user ?? null }),
-      logout: () => set({ isLoggedIn: false, role: null, user: null }),
+
+      login: (user: AuthUser, employeeData?: Employee | null) => {
+        const role = user?.user_metadata?.role || "user";
+        set({
+          isLoggedIn: true,
+          role,
+          user,
+          employeeData: employeeData || null,
+        });
+      },
+
+      logout: () =>
+        set({
+          isLoggedIn: false,
+          role: null,
+          user: null,
+          employeeData: null,
+        }),
+
       setHydrated: (hydrated) => set({ hydrated }),
-      updateRole: (role) => set({ role }),
+
+      updateUser: (userData) =>
+        set((state) => ({
+          user: state.user ? { ...state.user, ...userData } : null,
+          role: userData.user_metadata?.role || state.role,
+        })),
+
+      updateEmployeeData: (employeeData) => set({ employeeData }),
+
       isAdmin: () => get().isLoggedIn && get().role === "admin",
+
+      hasRole: (requiredRole) => {
+        if (requiredRole === null) return true;
+        return get().isLoggedIn && get().role === requiredRole;
+      },
     }),
     {
       name: "auth-store",

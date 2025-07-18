@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.scss";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/navigation/header";
+import { AuthProvider } from "@/components/auth/auth-provider";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -45,11 +46,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
-        <main className="flex flex-col min-h-screen bg-gray-50 w-full">
-          {children}
-        </main>
-        <Toaster />
+        <AuthProvider>
+          <Header />
+          <main className="flex flex-col min-h-screen bg-gray-50 w-full">
+            {children}
+          </main>
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

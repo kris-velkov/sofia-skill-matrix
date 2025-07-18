@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/auth/login-form";
+import { LoginFormSupabase } from "@/components/auth/login-form-supabase";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default async function LoginPage() {
       role="main"
       aria-labelledby="login-title"
     >
-      <LoginForm />
+      <LoginFormSupabase />
     </main>
   );
 }

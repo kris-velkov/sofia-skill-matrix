@@ -1,4 +1,4 @@
-import ProtectedAdminRoute from "@/components/auth/protected-admin-route";
+import ClientProtectedAdminWrapper from "@/components/auth/client-protected-admin-wrapper";
 import { Metadata } from "next";
 import React from "react";
 
@@ -22,5 +22,5 @@ export default function EmployeesLayout({
 }: {
   readonly children: React.ReactNode;
 }) {
-  return <ProtectedAdminRoute>{children}</ProtectedAdminRoute>;
+  return <ClientProtectedAdminWrapper>{children}</ClientProtectedAdminWrapper>;
 }

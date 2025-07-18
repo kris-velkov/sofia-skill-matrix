@@ -1,5 +1,5 @@
 import { Dashboard } from "@/components/dashboard/dashboard";
-import ProtectedRoute from "@/components/auth/protected-route";
+import ClientProtectedWrapper from "@/components/auth/client-protected-wrapper";
 import { Suspense } from "react";
 import { getEmployeesData } from "./actions/employees-action";
 
@@ -22,7 +22,7 @@ export default async function HomePage() {
   const employees = await getEmployeesData();
 
   return (
-    <ProtectedRoute>
+    <ClientProtectedWrapper>
       <section
         className="max-w-7xl mx-auto grid gap-10 mt-10 w-full "
         aria-labelledby="skills-matrix-heading"
@@ -36,6 +36,6 @@ export default async function HomePage() {
           <Dashboard employees={employees} />
         </Suspense>
       </section>
-    </ProtectedRoute>
+    </ClientProtectedWrapper>
   );
 }

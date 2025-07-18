@@ -9,7 +9,7 @@ import { getEmployeeById } from "@/lib/employees";
 
 export async function addNewEmployee(
   department: Department
-): Promise<{ success: boolean; employeeId?: string; message?: string }> {
+): Promise<string | Error | undefined> {
   const newEmployee: Partial<Employee> = {
     firstName: "New",
     lastName: "Employee",
@@ -33,26 +33,11 @@ export async function addNewEmployee(
       await assignDefaultLevelsToEmployee(employee.id, normalizedDept);
 
       revalidatePath("/employees");
-      return {
-        success: true,
-        employeeId: employee.id,
-        message: "Employee created successfully",
-      };
+      return employee.id;
     }
-
-    return {
-      success: false,
-      message: "Failed to create employee",
-    };
+    throw new Error("Failed to create employee");
   } catch (error) {
-    console.error("❌ Failed to add new employee:", error);
-    return {
-      success: false,
-      message:
-        error instanceof Error
-          ? error.message
-          : "Unknown error occurred while creating employee",
-    };
+    return error as Error;
   }
 }
 

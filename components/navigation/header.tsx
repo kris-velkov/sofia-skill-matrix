@@ -6,9 +6,9 @@ import { CompetencyLegendTrigger } from "../dashboard/competency-legend";
 import { Logo } from "@/components/navigation/logo";
 import Navigation from "@/components/navigation/menu";
 import { useAuthStore } from "@/store/use-auth-store";
+import { signOut } from "@/lib/auth/authService";
 
 export function Header() {
-  const logout = useAuthStore((s) => s.logout);
   const isAdmin = useAuthStore((s) => s.role === "admin");
 
   return (
@@ -21,10 +21,7 @@ export function Header() {
           <Button
             variant="ghost"
             className="text-gray-700 hover:bg-gray-100"
-            onClick={() => {
-              logout();
-              window.location.href = "/login";
-            }}
+            onClick={signOut}
           >
             <LogOut className="h-4 w-4" />
             Logout

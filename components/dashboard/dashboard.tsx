@@ -70,7 +70,7 @@ export function Dashboard({ employees }: Readonly<DashboardProps>) {
       ? filterState.selectedSkills.filter((n) => n !== name)
       : [...filterState.selectedSkills, name];
 
-    setFilterState({ selectedSkills: selected });
+    setFilterState({ selectedSkills: selected, minimumSkillLevel: 1 });
   };
 
   const filteredEmployees = useMemo(() => {

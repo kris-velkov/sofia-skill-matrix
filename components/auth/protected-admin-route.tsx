@@ -1,8 +1,7 @@
 "use client";
-import { useAuthStore } from "@/store/use-auth-store";
-import { ReactNode, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { LoadingSpinner } from "../ui/loading-spinner";
+
+import { ReactNode } from "react";
+import ProtectedRoute from "./protected-route";
 
 type ProtectedAdminRouteProps = {
   children: ReactNode;
@@ -11,24 +10,5 @@ type ProtectedAdminRouteProps = {
 export default function ProtectedAdminRoute({
   children,
 }: Readonly<ProtectedAdminRouteProps>) {
-  const isAdmin = useAuthStore((state) => state.role == "admin");
-  const hydrated = useAuthStore((s) => s.hydrated);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (hydrated && !isAdmin) {
-      router.replace("/");
-    }
-  }, [hydrated, isAdmin, router]);
-
-  if (!hydrated) {
-    return <LoadingSpinner />;
-  }
-
-  if (!isAdmin) {
-    return null;
-  }
-
-  return <>{children}</>;
+  return <ProtectedRoute requiredRole="admin">{children}</ProtectedRoute>;
 }

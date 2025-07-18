@@ -1,52 +1,79 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/store/use-auth-store";
-import { BarChart, Eye, EyeOff } from "lucide-react";
+import { BarChart, Eye, EyeOff, Mail } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { signInWithEmail } from "@/lib/auth/authService";
 
-export function LoginForm() {
+export function LoginFormSupabase() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
-  const login = useAuthStore((s) => s.login);
-  const router = useRouter();
   const hydrated = useAuthStore((s) => s.hydrated);
 
+  // Add useEffect to handle redirection when already logged in
   useEffect(() => {
-    if (isLoggedIn) {
-      router.push("/");
+    if (isLoggedIn && !redirecting) {
+      console.log("User is already logged in, redirecting...");
+      setRedirecting(true);
+
+      // Get any redirect path from URL
+      const params = new URLSearchParams(window.location.search);
+      const redirectPath = params.get("redirectedFrom");
+
+      // Force a hard navigation to ensure middleware runs
+      setTimeout(() => {
+        window.location.href = redirectPath || "/";
+      }, 100);
     }
-  }, [isLoggedIn, router]);
+  }, [isLoggedIn, redirecting]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (loading) return;
+    if (loading || redirecting) return;
     setError("");
     setLoading(true);
+
     try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        login(data.role);
+      const result = await signInWithEmail(email, password);
+
+      if (result.success) {
+        setRedirecting(true);
+
+        const params = new URLSearchParams(window.location.search);
+        const redirectPath = params.get("redirectedFrom");
+
+        setTimeout(() => {
+          if (result.role === "admin" && !redirectPath) {
+            window.location.href = "/admin";
+          } else {
+            window.location.href = redirectPath || "/";
+          }
+        }, 100);
       } else {
-        setError(data.message ?? "Invalid password. Please try again.");
+        setError(
+          result.error?.message ?? "Invalid credentials. Please try again."
+        );
       }
-    } catch {
+    } catch (err) {
+      console.error("Login error:", err);
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (error) setError("");
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +85,21 @@ export function LoginForm() {
     return <LoadingSpinner />;
   }
 
+  if (isLoggedIn && !redirecting) {
+    return (
+      <div className="flex md:min-h-screen w-full bg-gradient-to-br from-blue-100 via-white to-blue-200">
+        <div className="flex flex-1 flex-col items-center justify-center p-6">
+          <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl px-8 py-10 text-center">
+            <LoadingSpinner />
+            <p className="mt-4 text-gray-700">
+              You are already logged in. Redirecting...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex md:min-h-screen w-full bg-gradient-to-br from-blue-100 via-white to-blue-200">
       <div className="hidden lg:flex flex-1 flex-col items-center justify-center bg-gradient-to-br from-cyan-400 to-blue-700">
@@ -66,15 +108,15 @@ export function LoginForm() {
           Skill-Matrix Dashboard
         </span>
         <p className="mt-4 text-lg text-white max-w-xs text-center">
-          Effortlessly track, analyze, and grow your team skills.
+          Streamline skill tracking, evaluation, and development for your team.
         </p>
       </div>
       <div className="flex flex-1 flex-col items-center justify-center p-6">
         <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl px-8 py-10">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold text-blue-700 mb-2">Sign In</h1>
-            <p className="text-gray-500">
-              Enter your password to access your dashboard
+            <p className="text-gray-500 mt-4">
+              Enter your credentials to access the dashboard.
             </p>
           </div>
           <form
@@ -82,6 +124,30 @@ export function LoginForm() {
             className="space-y-6"
             autoComplete="off"
           >
+            <div className="grid gap-2">
+              <Label
+                htmlFor="email"
+                className="text-base font-medium text-gray-700"
+              >
+                Email<span className="text-red-500">*</span>
+              </Label>
+              <div className="relative">
+                <Input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={handleEmailChange}
+                  className="pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+                  autoComplete="email"
+                  placeholder="Enter your email"
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
+                  <Mail className="h-5 w-5" />
+                </div>
+              </div>
+            </div>
+
             <div className="grid gap-2">
               <Label
                 htmlFor="password"
@@ -117,6 +183,7 @@ export function LoginForm() {
                 </Button>
               </div>
             </div>
+
             {error && (
               <p className="text-sm text-red-500 mt-2" id="password-error">
                 {error}
@@ -126,9 +193,13 @@ export function LoginForm() {
             <Button
               type="submit"
               className="w-full rounded-lg bg-blue-600 py-2 text-white font-semibold hover:bg-blue-700 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow curson-pointer"
-              disabled={loading}
+              disabled={loading || redirecting}
             >
-              {loading ? "Signing In..." : "Sign In"}
+              {loading
+                ? "Signing In..."
+                : redirecting
+                ? "Redirecting..."
+                : "Sign In"}
             </Button>
           </form>
         </div>

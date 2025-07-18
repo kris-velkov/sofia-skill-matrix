@@ -23,7 +23,7 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
 
     if (error) {
       console.error("Supabase fetch error:", error.message);
-      throw new Error(`Failed to fetch employee with ID ${filter.id}`);
+      throw new Error(`Failed to fetch employee `);
     }
 
     if (data.employees_skill_levels?.length > 0) {

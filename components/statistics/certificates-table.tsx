@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { EmployeeAvatar } from "../employees/employee-avatar";
+import { formatDepartment } from "@/lib/utils/normalize";
 
 interface CertificatesTableProps {
   certificates: {
@@ -86,7 +87,9 @@ export function CertificatesTable({
                           })
                         : "—"}
                     </TableCell>
-                    <TableCell>{cert.employee.department || "—"}</TableCell>
+                    <TableCell>
+                      {formatDepartment(cert.employee.department) || ""}
+                    </TableCell>
                     <TableCell>{cert.employee.role || "—"}</TableCell>
                     <TableCell>
                       <Link
@@ -149,7 +152,7 @@ export function CertificatesTable({
                   </div>
                   <div className="space-y-2">
                     <strong>Department:</strong>{" "}
-                    {cert.employee.department || ""}
+                    {formatDepartment(cert.employee.department) || ""}
                   </div>
                   <p>
                     <strong>Role:</strong> {cert.employee.role || ""}

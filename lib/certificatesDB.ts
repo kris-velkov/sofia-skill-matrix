@@ -3,11 +3,7 @@
 import { supabaseClient } from "./supabase/supabaseClient";
 import snakecaseKeys from "snakecase-keys";
 import camelcaseKeys from "camelcase-keys";
-import {
-  Certificate,
-  Department,
-  EmployeeCertificate,
-} from "@/types/employees";
+import { Certificate, EmployeeCertificate } from "@/types/employees";
 import { EMPLOYEE_CERTIFICATE_QUERY } from "./supabase/queries";
 
 export async function getEmployeeCertificates(
@@ -97,37 +93,7 @@ export async function getAllEmployeeCertificates(): Promise<
     throw new Error("Failed to fetch employee certificates");
   }
 
-  const normalized = camelcaseKeys(data, {
+  return camelcaseKeys(data, {
     deep: true,
   }) as unknown as EmployeeCertificate[];
-
-  return normalized.map((cert: EmployeeCertificate) => {
-    const departmentValue = cert.employee?.department;
-    const validDepartment =
-      departmentValue && ["fe", "be", "qa", "pm"].includes(departmentValue)
-        ? (departmentValue as Department)
-        : "fe";
-
-    const employeeName =
-      cert.employee?.firstName && cert.employee?.lastName
-        ? `${cert.employee.firstName} ${cert.employee.lastName}`.trim()
-        : cert.employee?.firstName ||
-          cert.employee?.lastName ||
-          "Unknown Employee";
-
-    return {
-      id: cert.id,
-      name: cert.name ?? "Unknown Certificate",
-      issuer: cert.issuer ?? "Unknown",
-      date: cert.date ?? null,
-      url: cert.url ?? null,
-      employee: {
-        id: cert.employee?.id ?? "",
-        name: employeeName,
-        profileImage: cert.employee?.profileImage ?? null,
-        department: validDepartment,
-        role: cert.employee?.role ?? null,
-      },
-    };
-  }) as EmployeeCertificate[];
 }

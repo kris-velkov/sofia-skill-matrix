@@ -1,43 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
-import { timingSafeEqual } from "crypto";
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { Database } from "@/types/supabase";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const password = body?.password;
+    const { email, password } = body;
 
-    if (typeof password !== "string") {
+    if (typeof email !== "string" || typeof password !== "string") {
       return NextResponse.json(
-        { success: false, message: "Password must be a string." },
+        { success: false, message: "Email and password must be provided." },
         { status: 400 }
       );
     }
 
-    const adminPassword = process.env.ADMIN_PASSWORD ?? "";
-    const userPassword = process.env.USER_PASSWORD ?? "";
+    const supabase = createRouteHandlerClient<Database>({ cookies });
 
-    const isAdmin =
-      adminPassword &&
-      password.length === adminPassword.length &&
-      timingSafeEqual(Buffer.from(password), Buffer.from(adminPassword));
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-    if (isAdmin) {
-      return NextResponse.json({ success: true, role: "admin" });
+    if (error) {
+      return NextResponse.json(
+        { success: false, message: error.message },
+        { status: 401 }
+      );
     }
 
-    const isUser =
-      userPassword &&
-      password.length === userPassword.length &&
-      timingSafeEqual(Buffer.from(password), Buffer.from(userPassword));
+    const userRole = data.user?.user_metadata?.role as
+      | "admin"
+      | "user"
+      | undefined;
+    const role = userRole || "user";
 
-    if (isUser) {
-      return NextResponse.json({ success: true, role: "user" });
-    }
-
-    return NextResponse.json(
-      { success: false, message: "Invalid password." },
-      { status: 401 }
-    );
+    return NextResponse.json({
+      success: true,
+      user: data.user,
+      role,
+    });
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(
