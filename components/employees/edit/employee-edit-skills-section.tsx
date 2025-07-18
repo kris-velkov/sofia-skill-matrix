@@ -164,7 +164,6 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
     skillId: string
   ) => {
     try {
-      console.log(employeeId, skillId);
       const result = await deleteEmployeeSkill(employeeId, skillId);
 
       if (result.success) {
