@@ -48,7 +48,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Header />
-          <main className="flex flex-col min-h-screen bg-gray-50 w-full">
+          <main className="flex flex-col min-h-screen bg-gray-100 w-full">
             {children}
           </main>
           <Toaster />
