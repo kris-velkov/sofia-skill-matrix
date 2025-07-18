@@ -11,8 +11,8 @@ export async function addNewEmployee(
   department: Department
 ): Promise<string | Error | undefined> {
   const newEmployee: Partial<Employee> = {
-    firstName: "New",
-    lastName: "Employee",
+    firstName: "",
+    lastName: "",
     department: department,
     floatId: "",
     bio: "",
@@ -33,6 +33,7 @@ export async function addNewEmployee(
       await assignDefaultLevelsToEmployee(employee.id, normalizedDept);
 
       revalidatePath("/employees");
+      revalidatePath("/");
       return employee.id;
     }
     throw new Error("Failed to create employee");
@@ -45,6 +46,7 @@ export async function deleteEmployeeAction(userId: string) {
   try {
     await deleteEmployee(userId);
     revalidatePath("/employees");
+    revalidatePath("/");
     return { success: true, message: "Employee deleted successfully!" };
   } catch (error) {
     console.error("❌ Failed to delete employee:", error);
@@ -55,7 +57,6 @@ export async function deleteEmployeeAction(userId: string) {
 export async function getEmployee(employeeId: string) {
   try {
     const employee = await getEmployeeById(employeeId);
-
     return employee;
   } catch (error) {
     console.error("❌ Error fetching employee:", error);

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { EmployeeAvatar } from "../employees/employee-avatar";
 import { formatDepartment } from "@/lib/utils/normalize";
+import { getEmployeeFullName } from "@/lib/utils/employees";
 
 interface CertificatesTableProps {
   certificates: {
@@ -21,7 +22,8 @@ interface CertificatesTableProps {
     url: string | null;
     employee: {
       id: string;
-      name: string;
+      firstName?: string;
+      lastName?: string;
       profileImage: string | null;
       department: string | null;
       role: string | null;
@@ -33,7 +35,6 @@ export function CertificatesTable({
   certificates,
 }: Readonly<CertificatesTableProps>) {
   const hasData = certificates.length > 0;
-
   return (
     <Card className="shadow border border-gray-200 bg-white">
       <CardHeader>
@@ -98,9 +99,14 @@ export function CertificatesTable({
                       >
                         <EmployeeAvatar
                           src={cert.employee.profileImage}
-                          alt={`${cert.employee.name} profile`}
+                          alt={`${cert.employee.firstName} profile`}
                         />
-                        <span>{cert.employee.name}</span>
+                        <span>
+                          {getEmployeeFullName(
+                            cert.employee.firstName,
+                            cert.employee.lastName
+                          )}
+                        </span>
                       </Link>
                     </TableCell>
                   </TableRow>
@@ -160,13 +166,16 @@ export function CertificatesTable({
                   <div className="flex items-center gap-2 pt-2 hover:text-blue-500">
                     <EmployeeAvatar
                       src={cert.employee.profileImage}
-                      alt={`${cert.employee.name} profile`}
+                      alt={`${cert.employee.firstName} profile`}
                     />
                     <Link
                       href={`/employee/${cert.employee.id}`}
                       className="hover:underline font-medium text-foreground"
                     >
-                      {cert.employee.name}
+                      {getEmployeeFullName(
+                        cert.employee.firstName,
+                        cert.employee.lastName
+                      )}
                     </Link>
                   </div>
                 </div>

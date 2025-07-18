@@ -141,7 +141,6 @@ export type EmployeeCertificate = {
   url: string | null;
   employee: {
     id: string;
-    name: string;
     firstName?: string;
     lastName?: string;
     profileImage: string | null;

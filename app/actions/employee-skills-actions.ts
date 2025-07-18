@@ -5,6 +5,7 @@ import {
   deleteEmployeeSkillInDb,
   updateEmployeeCategoryNameInDb,
 } from "@/lib/skillsDB";
+import { revalidatePath } from "next/cache";
 
 type SkillCategory = {
   name: string;
@@ -17,8 +18,8 @@ export async function updateEmployeeSkills(
 ): Promise<{ success: boolean; message: string }> {
   try {
     const result = await updateEmployeeSkillsInDb(employeeId, category);
-
     if (!result.success) {
+      revalidatePath("/");
       return {
         success: false,
         message: result.error || "Failed to update employee skills",
@@ -47,8 +48,8 @@ export async function deleteEmployeeSkill(
 ): Promise<{ success: boolean; message: string }> {
   try {
     const result = await deleteEmployeeSkillInDb(employeeId, skillId);
-
     if (!result.success) {
+      revalidatePath("/");
       return {
         success: false,
         message: result.error?.message || "Failed to delete employee skill",
@@ -162,14 +163,14 @@ export async function createOrFindCategory(
     const result = await createOrFindCategoryInDb(categoryName, department);
 
     return {
-      id: result.id, // Add the missing id property
+      id: result.id,
       success: true,
       data: result,
     };
   } catch (error) {
     console.error(`❌ Failed to create/find category ${categoryName}:`, error);
     return {
-      id: "", // Provide a default empty string for the id in case of error
+      id: "",
       success: false,
       message:
         error instanceof Error

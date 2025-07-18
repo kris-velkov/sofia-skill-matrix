@@ -22,7 +22,8 @@ export function StatisticsSearch({ certificates }: StatisticsSearchProps) {
         cert.name,
         cert.date,
         cert.issuer,
-        cert.employee?.name,
+        cert.employee?.firstName,
+        cert.employee?.lastName,
         cert.employee?.department,
         cert.employee?.role,
       ]
