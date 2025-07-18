@@ -95,10 +95,10 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
   const handleAddCategory = () => {
     const newCategory: SkillCategory = {
       id: "",
-      name: "New Category",
+      name: "",
       skills: [],
       averageLevel: 0,
-      default: false, // Add the missing 'default' property
+      default: false,
     };
 
     setSkills((prev) => [...prev, newCategory]);
@@ -106,11 +106,6 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
 
   const handleDeleteCategory = (catIdx: number) => {
     const category = skills[catIdx];
-
-    if (!category.id) {
-      setSkills((prev) => prev.filter((_, idx) => idx !== catIdx));
-      return;
-    }
 
     setCategoryDeleteDialog({
       open: true,
@@ -169,20 +164,29 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
     skillId: string
   ) => {
     try {
-      await deleteEmployeeSkill(employeeId, skillId);
-      setSkills((prev) => {
-        const updated = [...prev];
-        updated[catIdx] = {
-          ...updated[catIdx],
-          skills: updated[catIdx].skills.filter((_, i) => i !== skillPosition),
-        };
-        return updated;
-      });
+      console.log(employeeId, skillId);
+      const result = await deleteEmployeeSkill(employeeId, skillId);
 
-      toast.success("Skill deleted!");
+      if (result.success) {
+        setSkills((prev) => {
+          const updated = [...prev];
+          updated[catIdx] = {
+            ...updated[catIdx],
+            skills: updated[catIdx].skills.filter(
+              (_, i) => i !== skillPosition
+            ),
+          };
+          return updated;
+        });
+
+        toast.success("Skill deleted successfully");
+      } else {
+        toast.error(result.message || "Failed to delete skill");
+      }
     } catch (e) {
-      toast.error("Failed to delete skill");
-      console.error(e);
+      const errorMessage =
+        e instanceof Error ? e.message : "Failed to delete skill";
+      toast.error(errorMessage);
     }
   };
 

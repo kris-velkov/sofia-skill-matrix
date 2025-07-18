@@ -16,7 +16,7 @@ export async function updateSkillName(
     .eq("id", skillId);
 
   if (error) {
-    console.error(`Failed to update skill name for ${skillId}:`, error.message);
+    throw error;
   }
 }
 

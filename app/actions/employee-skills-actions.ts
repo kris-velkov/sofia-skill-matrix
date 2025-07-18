@@ -109,8 +109,16 @@ export async function updateEmployeeCategoryName(
 export async function deleteCategory(
   categoryId: string
 ): Promise<{ success: boolean; message: string }> {
+  if (!categoryId) {
+    return {
+      success: false,
+      message: "Invalid category ID provided",
+    };
+  }
+
   try {
     const { deleteCategoryInDb } = await import("@/lib/skillsDB");
+
     const result = await deleteCategoryInDb(categoryId);
 
     if (result.success) {

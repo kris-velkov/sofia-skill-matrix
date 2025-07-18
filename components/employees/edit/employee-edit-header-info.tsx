@@ -48,10 +48,7 @@ export const EmployeeEditHeaderInfo: React.FC<EmployeeEditHeaderInfoProps> = ({
       <Card className="p-8 flex flex-col md:flex-row items-center md:items-start gap-8 shadow-xl border-0 bg-gradient-to-tr from-blue-100/60 to-white">
         <Avatar className="h-28 w-28 md:h-36 md:w-36 border-4 border-blue-400 shadow-lg">
           <AvatarImage
-            src={
-              employee.profileImage ||
-              "/placeholder.svg?height=128&width=128&query=user+avatar"
-            }
+            src={employee.profileImage || "/placeholder-user.png"}
             alt={`${employee.firstName} profile`}
           />
         </Avatar>

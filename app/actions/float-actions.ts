@@ -1,8 +1,5 @@
 "use server";
 
-/**
- * Interface for Float user information response
- */
 interface FloatUserResponse {
   isBooked: boolean | null;
   found: boolean;
@@ -17,15 +14,9 @@ interface FloatUserResponse {
   taskCount?: number;
 }
 
-/**
- * Fetches user information from Float API
- * @param floatId The Float user ID
- * @returns User information including booking status and user details
- */
 export async function fetchFloatUserInfo(
   floatId: string
 ): Promise<FloatUserResponse> {
-  // Return early if no floatId is provided
   if (!floatId) {
     return {
       found: false,
@@ -42,15 +33,11 @@ export async function fetchFloatUserInfo(
   try {
     const res = await fetch(url, {
       next: { revalidate: 60 },
-      // Add cache control to prevent stale data
       cache: "no-cache",
     });
 
-    // Parse the response data
     const data = await res.json();
 
-    // Even if the response is not OK, we still want to return the data
-    // as our API now returns meaningful error messages with status 200
     if (!res.ok) {
       console.error(
         `Float API request failed: ${res.status} ${res.statusText}`
@@ -63,7 +50,6 @@ export async function fetchFloatUserInfo(
       };
     }
 
-    // If user is not found in Float
     if (data.found === false) {
       return {
         isBooked: null,
@@ -74,7 +60,6 @@ export async function fetchFloatUserInfo(
       };
     }
 
-    // Return the successful response with all data
     return {
       isBooked: data.isBooked,
       found: data.found,
@@ -83,7 +68,6 @@ export async function fetchFloatUserInfo(
       message: data.message,
     };
   } catch (error) {
-    console.error("Float API error:", error);
     return {
       found: false,
       isBooked: null,

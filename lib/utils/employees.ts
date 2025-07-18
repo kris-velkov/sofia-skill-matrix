@@ -3,25 +3,25 @@ import {
   SupabaseSkillLevel,
   SupabaseEmployee,
   Employee,
-  NormalizedSkillCategory,
+  SkillCategory,
   SkillCategoryGroup,
   SkillLevel,
 } from "@/types/employees";
 
 export function normalizeSkills(
   rawSkills: SupabaseSkillLevel[]
-): NormalizedSkillCategory[] {
+): SkillCategory[] {
   if (!rawSkills?.length) return [];
 
   const grouped = new Map<string, SkillCategoryGroup>();
 
   for (const item of rawSkills) {
     const categoryName = item.skills?.categories?.name;
-    const categoryId = item.skills.categories?.id;
+    const categoryId = item.skills.categories.id;
     const categoryDefault = item.skills.categories.default;
     const skillName = item.skills?.name;
     const skillLevel = item.level;
-    const skillId = item.skills?.id;
+    const skillId = item.skills.id;
 
     if (
       !categoryName ||
@@ -47,16 +47,18 @@ export function normalizeSkills(
     categoryGroup.skills.push({
       id: skillId,
       name: skillName,
-      level: skillLevel,
+      level: skillLevel as SkillLevel,
     });
     categoryGroup.total += skillLevel;
     categoryGroup.count += 1;
   }
 
   return Array.from(grouped.values()).map((group) => ({
+    id: group.id,
+    default: group.default,
     name: group.name,
     skills: group.skills.map((skill) => ({
-      id: parseInt(skill.id, 10) || 0,
+      id: skill.id,
       name: skill.name,
       level: skill.level,
     })),
@@ -73,9 +75,9 @@ export function mapSupabaseEmployee(emp: SupabaseEmployee): Employee {
   const normalizedSkills = normalizeSkills(emp.employees_skill_levels || []);
 
   const skillCategories = normalizedSkills.map((cat) => ({
-    id: "",
+    id: cat.id,
     name: cat.name,
-    default: false,
+    default: cat.default,
     skills: cat.skills.map((skill) => ({
       id: String(skill.id),
       name: skill.name,
@@ -133,9 +135,7 @@ export function getEmployeeFullName(
   return "";
 }
 
-export function calculateOverallSkillAverage(
-  skills: NormalizedSkillCategory[]
-): number {
+export function calculateOverallSkillAverage(skills: SkillCategory[]): number {
   if (!skills?.length) return 0;
 
   const totalAverage = skills.reduce(

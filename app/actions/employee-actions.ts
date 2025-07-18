@@ -54,7 +54,9 @@ export async function deleteEmployeeAction(userId: string) {
 
 export async function getEmployee(employeeId: string) {
   try {
-    return await getEmployeeById(employeeId);
+    const employee = await getEmployeeById(employeeId);
+
+    return employee;
   } catch (error) {
     console.error("❌ Error fetching employee:", error);
     throw new Error("Failed to fetch employee.");

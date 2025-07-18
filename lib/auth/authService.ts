@@ -44,8 +44,6 @@ export async function signInWithEmail(
       | "user"
       | undefined;
 
-    console.log(userRole);
-
     const authUser = {
       id: data.user.id,
       email: data.user.email,
@@ -84,7 +82,6 @@ export async function signOut(): Promise<{
   error?: AuthError;
 }> {
   try {
-    console.log("Signing out user...");
     const { error } = await supabaseAuthClient.auth.signOut();
 
     if (error) {

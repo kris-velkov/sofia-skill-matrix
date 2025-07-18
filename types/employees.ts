@@ -25,7 +25,7 @@ export interface SkillCategoryGroup {
   id: string;
   name: string;
   default: boolean;
-  skills: { id: string; name: string; level: number }[];
+  skills: Skill[];
   total: number;
   count: number;
 }
@@ -83,18 +83,6 @@ export interface SkillCategory {
   name: string;
   default: boolean;
   skills: Skill[];
-  averageLevel: number;
-}
-
-export interface NormalizedSkill {
-  id: number;
-  name: string;
-  level: number;
-}
-
-export interface NormalizedSkillCategory {
-  name: string;
-  skills: NormalizedSkill[];
   averageLevel: number;
 }
 
