@@ -75,12 +75,17 @@ export function EmployeeTable({
     }
 
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return employees.filter(
-      (employee) =>
-        employee?.firstName.toLowerCase().includes(lowerCaseSearchTerm) ||
-        employee?.department.toLowerCase().includes(lowerCaseSearchTerm) ||
-        employee.role?.toLowerCase().includes(lowerCaseSearchTerm)
-    );
+    return employees.filter((employee) => {
+      if (employee.firstName && employee.lastName) {
+        return (
+          employee?.firstName.toLowerCase().includes(lowerCaseSearchTerm) ||
+          (employee?.department?.toLowerCase() || "").includes(
+            lowerCaseSearchTerm
+          ) ||
+          (employee.role?.toLowerCase() || "").includes(lowerCaseSearchTerm)
+        );
+      }
+    });
   }, [employees, searchTerm]);
 
   return (

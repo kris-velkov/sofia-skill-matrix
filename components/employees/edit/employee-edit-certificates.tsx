@@ -58,15 +58,21 @@ export const EmployeeEditCertificates: React.FC<
     }
   };
 
-  const handleRemoveCert = async (certId: string) => {
+  const handleRemoveCert = async (certId: string | undefined) => {
     const certToRemove = certificates.find((c) => c.id === certId);
     if (!certToRemove) return;
+
     setIsSubmitting(true);
     try {
+      if (!certToRemove.id) {
+        throw new Error("Certificate ID is missing");
+      }
+
       await deleteEmployeeCertificate(employeeId, certToRemove.id);
       setCertificates((prev) => prev.filter((c) => c.id !== certId));
       toast.success("Certificate removed!");
-    } catch {
+    } catch (error) {
+      console.error("Error removing certificate:", error);
       toast.error("Failed to remove certificate");
     } finally {
       setIsSubmitting(false);
@@ -74,7 +80,7 @@ export const EmployeeEditCertificates: React.FC<
   };
 
   const handleCertChange = (
-    certId: string,
+    certId: string | undefined,
     field: keyof Certificate,
     value: string
   ) => {
@@ -86,7 +92,11 @@ export const EmployeeEditCertificates: React.FC<
     });
   };
 
-  const handleUpdateSingleCertificate = async (certId: string) => {
+  const handleUpdateSingleCertificate = async (certId: string | undefined) => {
+    if (!certId) {
+      return;
+    }
+
     setUpdatingCertId(certId);
     try {
       const certToUpdate = certificates.find((c) => c.id === certId);

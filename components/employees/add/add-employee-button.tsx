@@ -13,12 +13,13 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { ROLES } from "@/constants/employeeDefaultsSkills";
+import { Department } from "@/types/employees";
 
 export const AddEmployeeButton: React.FC = () => {
   const router = useRouter();
   const [popoverOpen, setPopoverOpen] = useState(false);
 
-  const handleAddNewEmployee = async (departament: string) => {
+  const handleAddNewEmployee = async (departament: Department) => {
     try {
       setPopoverOpen(false);
       const employeeId = await addNewEmployee(departament);

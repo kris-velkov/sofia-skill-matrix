@@ -16,10 +16,12 @@ export function EmployeeSkillCard({
   employee,
 }: Readonly<EmployeeSkillCardProps>) {
   const topSkills = employee.skills
-    .filter((cat, idx) => idx !== 0)
-    .flatMap((cat) => cat.skills)
-    .sort((a, b) => b.level - a.level)
-    .slice(0, 8);
+    ? employee.skills
+        .filter((_cat, idx) => idx !== 0)
+        .flatMap((cat) => cat.skills)
+        .sort((a, b) => b.level - a.level)
+        .slice(0, 8)
+    : [];
 
   return (
     <section className="w-full max-w-lg bg-white shadow-2xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-3xl hover:-translate-y-1 border border-gray-200 cursor-pointer block group">
@@ -33,10 +35,10 @@ export function EmployeeSkillCard({
         <CardContent className="p-4 flex flex-col gap-5">
           <EmployeeCardHeader
             name={employee.firstName + " " + employee.lastName}
-            department={employee.department}
-            role={employee.role}
-            profileImage={employee.profileImage}
-            certificates={employee.certificates}
+            department={employee.department || ""}
+            role={employee.role || undefined}
+            profileImage={employee.profileImage || undefined}
+            certificates={employee.certificates || undefined}
           />
 
           <div className="flex items-center text-sm text-gray-500">

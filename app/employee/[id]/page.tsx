@@ -32,7 +32,7 @@ export default async function Page({
         {employee.certificates && (
           <EmployeeCertificatesInfo certificates={employee.certificates} />
         )}
-        <EmployeeSkillsInfo skills={employee.skills} />
+        {employee.skills && <EmployeeSkillsInfo skills={employee.skills} />}
       </div>
     </section>
   );

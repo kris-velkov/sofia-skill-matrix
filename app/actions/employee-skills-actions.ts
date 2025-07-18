@@ -144,6 +144,7 @@ export async function createOrFindCategory(
   categoryName: string,
   department: string
 ): Promise<{
+  id: string;
   success: boolean;
   data?: { id: string; name: string; departments: string[] };
   message?: string;
@@ -153,12 +154,14 @@ export async function createOrFindCategory(
     const result = await createOrFindCategoryInDb(categoryName, department);
 
     return {
+      id: result.id, // Add the missing id property
       success: true,
       data: result,
     };
   } catch (error) {
     console.error(`❌ Failed to create/find category ${categoryName}:`, error);
     return {
+      id: "", // Provide a default empty string for the id in case of error
       success: false,
       message:
         error instanceof Error

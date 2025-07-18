@@ -64,6 +64,7 @@ export async function checkIfColumnExists(
 
     return !(error && error.message.includes("column"));
   } catch (e) {
+    console.error(e);
     return false;
   }
 }

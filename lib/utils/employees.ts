@@ -5,6 +5,7 @@ import {
   Employee,
   NormalizedSkillCategory,
   SkillCategoryGroup,
+  SkillLevel,
 } from "@/types/employees";
 
 export function normalizeSkills(
@@ -53,10 +54,12 @@ export function normalizeSkills(
   }
 
   return Array.from(grouped.values()).map((group) => ({
-    id: group.id,
     name: group.name,
-    default: group.default,
-    skills: group.skills,
+    skills: group.skills.map((skill) => ({
+      id: parseInt(skill.id, 10) || 0,
+      name: skill.name,
+      level: skill.level,
+    })),
     averageLevel:
       group.count > 0 ? Math.round((group.total / group.count) * 100) / 100 : 0,
   }));
@@ -67,7 +70,29 @@ export function mapSupabaseEmployee(emp: SupabaseEmployee): Employee {
     throw new Error("Employee data is required");
   }
 
-  const skillCategories = normalizeSkills(emp.employees_skill_levels || []);
+  const normalizedSkills = normalizeSkills(emp.employees_skill_levels || []);
+
+  const skillCategories = normalizedSkills.map((cat) => ({
+    id: "",
+    name: cat.name,
+    default: false,
+    skills: cat.skills.map((skill) => ({
+      id: String(skill.id),
+      name: skill.name,
+      level: skill.level as SkillLevel,
+    })),
+    averageLevel: cat.averageLevel,
+  }));
+
+  const certificates =
+    emp.certificates?.map((cert) => ({
+      id: cert.id,
+      employeeId: emp.id,
+      name: cert.name,
+      issuer: cert.issuer || undefined,
+      date: cert.date,
+      url: cert.url || undefined,
+    })) || [];
 
   return {
     id: emp.id,
@@ -82,11 +107,11 @@ export function mapSupabaseEmployee(emp: SupabaseEmployee): Employee {
     linkedinUrl: emp.linkedin_url || undefined,
     careerExperience: emp.career_experience || "",
     startDate: emp.start_date,
-    department: emp.department || "",
+    department: emp.department || null,
     role: emp.role || "",
     floatId: emp.float_id || undefined,
     skills: skillCategories,
-    certificates: emp.certificates || [],
+    certificates: certificates,
   };
 }
 
@@ -139,17 +164,18 @@ export function getFilteredEmployees(
     const matchesSkillCategory =
       !filter.selectedSkillCategory ||
       filter.selectedSkillCategory === "all" ||
-      e.skills.some(
+      (e.skills?.some(
         (cat) =>
           cat.name === filter.selectedSkillCategory &&
           (filter.minimumSkillLevel === null ||
             cat.averageLevel >= filter.minimumSkillLevel)
-      );
+      ) ??
+        false);
 
     const matchesSkills =
       !filter.selectedSkills.length && filter.minimumSkillLevel === null
         ? true
-        : e.skills.some((cat) =>
+        : e.skills?.some((cat) =>
             cat.skills.some((skill) => {
               const matchSkill =
                 !filter.selectedSkills.length ||
@@ -159,7 +185,7 @@ export function getFilteredEmployees(
                 skill.level >= filter.minimumSkillLevel;
               return matchSkill && matchLevel;
             })
-          );
+          ) ?? false;
 
     return (
       matchesEmployee &&

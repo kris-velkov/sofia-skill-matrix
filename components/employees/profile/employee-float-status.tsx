@@ -4,14 +4,13 @@ import { fetchFloatUserInfo } from "@/app/actions/float-actions";
 import { Badge } from "@/components/ui/badge";
 import { Ban, CheckCircle } from "lucide-react";
 
-interface Props {
+interface FloatUserStatusProps {
   floatId: string;
 }
 
-export async function FloatUserStatusBadge({ floatId }: Props) {
-  const { isBooked, found, message } = await fetchFloatUserInfo(floatId);
+export async function FloatUserStatusBadge({ floatId }: FloatUserStatusProps) {
+  const { isBooked, found } = await fetchFloatUserInfo(floatId);
 
-  // If user is not found in Float, show appropriate message
   if (!found) {
     return (
       <Badge
@@ -24,7 +23,6 @@ export async function FloatUserStatusBadge({ floatId }: Props) {
     );
   }
 
-  // If user is found, show booking status
   return isBooked ? (
     <Badge
       variant="secondary"

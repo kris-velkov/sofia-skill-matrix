@@ -21,7 +21,14 @@ export function Dashboard({ employees }: Readonly<DashboardProps>) {
   const clearFilters = useSkillsStore((state) => state.clearFilters);
 
   const allDepartments = useMemo(
-    () => Array.from(new Set(safeEmployees.map((e) => e.department))).sort(),
+    () =>
+      Array.from(
+        new Set(
+          safeEmployees
+            .map((e) => e.department)
+            .filter((dept) => dept !== null && dept !== undefined)
+        )
+      ).sort(),
     [safeEmployees]
   );
 

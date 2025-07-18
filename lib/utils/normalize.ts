@@ -29,7 +29,10 @@ export function normalizeDepartment(department: string): Department {
   throw new Error(`Invalid department: ${department}, ${normalized}`);
 }
 
-export function formatDepartment(department: Department | string): string {
+export function formatDepartment(
+  department: Department | string | null
+): string {
+  if (!department) return "";
   const role = ROLES.find((role) => role.departament === department);
   return role ? role.name : department;
 }

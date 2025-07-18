@@ -93,11 +93,12 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
   };
 
   const handleAddCategory = () => {
-    const newCategory = {
+    const newCategory: SkillCategory = {
       id: "",
       name: "New Category",
       skills: [],
       averageLevel: 0,
+      default: false, // Add the missing 'default' property
     };
 
     setSkills((prev) => [...prev, newCategory]);
@@ -230,12 +231,7 @@ export const EmployeeEditSkills: React.FC<EmployeeEditSkillsProps> = ({
       const originalName = initialSkills[categoryIndex]?.name;
 
       if (originalName && category.id) {
-        await updateEmployeeCategoryName(
-          employeeId,
-          category.id,
-          originalName,
-          newName
-        );
+        await updateEmployeeCategoryName(category.id, originalName, newName);
       }
 
       setSkills((prev) => {

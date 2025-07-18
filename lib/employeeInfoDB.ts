@@ -3,7 +3,7 @@
 import { supabaseClient } from "./supabase/supabaseClient";
 import snakecaseKeys from "snakecase-keys";
 import camelcaseKeys from "camelcase-keys";
-import { Employee } from "@/types/employees";
+import { Employee, EmployeeReturnType } from "@/types/employees";
 
 export async function addEmployee(
   newEmployee: Partial<Employee>
@@ -12,7 +12,7 @@ export async function addEmployee(
     throw new Error(`No new employee to add`);
   }
 
-  const payload = snakecaseKeys(newEmployee, { deep: true });
+  const payload = snakecaseKeys(newEmployee, { deep: true }) as Employee;
 
   const { data, error } = await supabaseClient
     .from("employees")
@@ -60,7 +60,7 @@ export async function updateEmployeeFieldById<T extends keyof Employee>(
   id: string,
   field: T,
   value: Employee[T]
-): Promise<Employee | undefined> {
+): Promise<EmployeeReturnType | undefined> {
   const { data, error } = await supabaseClient
     .from("employees")
     .update({ [field]: value })
@@ -73,14 +73,16 @@ export async function updateEmployeeFieldById<T extends keyof Employee>(
     return undefined;
   }
 
-  return data;
+  return data as EmployeeReturnType;
 }
+
+type ReturnEmployee = Omit<Employee, "skills">;
 
 export async function updateEmployeePartial(
   id: string,
   data: Partial<Employee>
-): Promise<Employee | undefined> {
-  const payload = snakecaseKeys(data, { deep: true });
+): Promise<ReturnEmployee | undefined> {
+  const payload = snakecaseKeys(data, { deep: true }) as Employee;
   const { data: updated, error } = await supabaseClient
     .from("employees")
     .update(payload)
@@ -92,7 +94,7 @@ export async function updateEmployeePartial(
     console.error("Error patching employee:", error);
     throw new Error("Error patching employee:", error);
   }
-  return updated;
+  return updated as EmployeeReturnType;
 }
 
 export async function updateEmployeePersonalInfoInDb(

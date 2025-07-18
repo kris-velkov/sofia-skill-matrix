@@ -2,10 +2,6 @@ import { Dashboard } from "@/components/dashboard/dashboard";
 import ProtectedRoute from "@/components/auth/protected-route";
 import { Suspense } from "react";
 import { getEmployeesData } from "./actions/employees-action";
-// import {
-//   seedEmployeesFromJson,
-//   extractAndSeedSkillsFromJson,
-// } from "@/lib/loadData";
 
 export const metadata = {
   title: "Skills Matrix Dashboard",
@@ -24,9 +20,6 @@ export const metadata = {
 
 export default async function HomePage() {
   const employees = await getEmployeesData();
-
-  // await extractAndSeedSkillsFromJson();
-  // await seedEmployeesFromJson();
 
   return (
     <ProtectedRoute>

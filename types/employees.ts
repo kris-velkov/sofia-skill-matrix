@@ -76,7 +76,6 @@ export interface Skill {
   id: string;
   name: string;
   level: SkillLevel;
-  url?: string;
 }
 
 export interface SkillCategory {
@@ -87,7 +86,6 @@ export interface SkillCategory {
   averageLevel: number;
 }
 
-// Normalized skill types (for processing Supabase data)
 export interface NormalizedSkill {
   id: number;
   name: string;
@@ -102,7 +100,7 @@ export interface NormalizedSkillCategory {
 
 export interface Certificate {
   id?: string;
-  employeeId: string;
+  employeeId?: string;
   name: string;
   issuer?: string;
   date?: string | null;
@@ -128,8 +126,8 @@ export interface EmployeeCertificateData {
 export interface Employee {
   id: string;
   floatId?: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   program?: string | null;
   department?: Department | null;
   role?: string | null;
@@ -145,6 +143,8 @@ export interface Employee {
   skills: SkillCategory[] | null;
 }
 
+export type EmployeeReturnType = Omit<Employee, "skills" | "certificates">;
+
 export type EmployeeCertificate = {
   id: string;
   name: string;
@@ -154,6 +154,8 @@ export type EmployeeCertificate = {
   employee: {
     id: string;
     name: string;
+    firstName?: string;
+    lastName?: string;
     profileImage: string | null;
     department: Department;
     role: string | null;

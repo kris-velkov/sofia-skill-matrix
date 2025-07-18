@@ -39,7 +39,7 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
       data.department = formatDepartment(data.department);
     }
 
-    return data as FetchEmployeeResult<T>;
+    return data as unknown as FetchEmployeeResult<T>;
   }
 
   if (filter?.department) {
@@ -56,9 +56,11 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
   if (data && Array.isArray(data)) {
     for (let i = 0; i < data.length; i++) {
       if (data[i].department) {
-        data[i].department = formatDepartment(data[i].department);
+        if (data[i] || data[i].department) {
+          data[i].department = formatDepartment(data[i].department);
+        }
       }
     }
   }
-  return (data || []) as FetchEmployeeResult<T>;
+  return (data || []) as unknown as FetchEmployeeResult<T>;
 }
