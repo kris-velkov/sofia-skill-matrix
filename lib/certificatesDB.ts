@@ -5,7 +5,6 @@ import snakecaseKeys from "snakecase-keys";
 import camelcaseKeys from "camelcase-keys";
 import { Certificate, EmployeeCertificate } from "@/types/employees";
 import { EMPLOYEE_CERTIFICATE_QUERY } from "./supabase/queries";
-import { cache } from "react";
 
 export async function getEmployeeCertificates(
   employeeId: string
@@ -81,20 +80,20 @@ export async function updateEmployeeCertificatesInDb(
   return camelcaseKeys(data, { deep: true }) as Certificate[];
 }
 
-export const getAllEmployeeCertificates = cache(
-  async (): Promise<EmployeeCertificate[]> => {
-    const { data, error } = await supabaseClient
-      .from("certificates")
-      .select(EMPLOYEE_CERTIFICATE_QUERY)
-      .order("created_at", { ascending: false });
+export async function getAllEmployeeCertificates(): Promise<
+  EmployeeCertificate[]
+> {
+  const { data, error } = await supabaseClient
+    .from("certificates")
+    .select(EMPLOYEE_CERTIFICATE_QUERY)
+    .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error("Error fetching all employee certificates:", error);
-      throw new Error("Failed to fetch employee certificates");
-    }
-
-    return camelcaseKeys(data, {
-      deep: true,
-    }) as unknown as EmployeeCertificate[];
+  if (error) {
+    console.error("Error fetching all employee certificates:", error);
+    throw new Error("Failed to fetch employee certificates");
   }
-);
+
+  return camelcaseKeys(data, {
+    deep: true,
+  }) as unknown as EmployeeCertificate[];
+}
