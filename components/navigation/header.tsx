@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { LogOut, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CompetencyLegendTrigger } from "../dashboard/competency-legend";
 import { Logo } from "@/components/navigation/logo";
 import Navigation from "@/components/navigation/menu";
 import { useAuthStore } from "@/store/use-auth-store";
 import { signOut } from "@/lib/auth/authService";
+import CompetencyLegendTrigger from "../dashboard/competency-level-trigger";
 
 export function Header() {
   const isAdmin = useAuthStore((s) => s.role === "admin");
@@ -51,7 +51,8 @@ export function Header() {
           )}
 
           {isLoggedIn && (
-            <div className="flex md:hidden items-center">
+            <div className="flex md:hidden items-center gap-1">
+              <CompetencyLegendTrigger />
               <Button
                 variant="ghost"
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100"
@@ -77,12 +78,6 @@ export function Header() {
               isMobile={true}
               onItemClick={closeMobileMenu}
             />
-            <div className="px-3 py-2">
-              <CompetencyLegendTrigger
-                className="w-full justify-start"
-                onClick={closeMobileMenu}
-              />
-            </div>
             <div className="px-3 py-2">
               <Button
                 variant="ghost"
