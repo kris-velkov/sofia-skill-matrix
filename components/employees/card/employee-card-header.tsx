@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import { EmployeeAvatar } from "../employee-avatar";
 import React from "react";
 import { GraduationCap } from "lucide-react";
-// Import Certificate type with an alias to avoid conflicts
 import { Certificate as EmployeeCertificate } from "@/types/employees";
 
 interface EmployeeCardHeaderProps {

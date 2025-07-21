@@ -33,7 +33,6 @@ export function Navigation({
     return null;
   }
 
-  // Mobile navigation
   if (isMobile) {
     return (
       <>
@@ -59,7 +58,6 @@ export function Navigation({
     );
   }
 
-  // Desktop navigation
   return (
     <nav className="flex items-center space-x-2">
       {NAV_LINKS.map(({ href, label, icon }) => {
@@ -67,7 +65,7 @@ export function Navigation({
         return (
           <Button
             key={href}
-            variant={isActive ? "subtle" : "ghost"}
+            variant={isActive ? "default" : "ghost"}
             asChild
             className={
               isActive

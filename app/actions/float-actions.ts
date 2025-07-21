@@ -17,7 +17,7 @@ interface FloatUserResponse {
 export async function fetchFloatUserInfo(
   floatId: string
 ): Promise<FloatUserResponse> {
-  if (!floatId) {
+  if (!floatId?.trim()) {
     return {
       found: false,
       isBooked: null,
@@ -25,30 +25,33 @@ export async function fetchFloatUserInfo(
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
-  const url = `${baseUrl}/api/float-user?floatId=${encodeURIComponent(
-    floatId
-  )}`;
-
   try {
-    const res = await fetch(url, {
-      next: { revalidate: 60 },
-      cache: "no-cache",
-    });
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-    const data = await res.json();
+    const response = await fetch(
+      `${baseUrl}/float-user?floatId=${encodeURIComponent(floatId)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: {
+          revalidate: 120,
+        },
+      }
+    );
 
-    if (!res.ok) {
-      console.error(
-        `Float API request failed: ${res.status} ${res.statusText}`
-      );
+    if (!response.ok) {
+      const errorText = await response.text();
       return {
         isBooked: null,
         found: false,
-        error: data.error || `Request failed with status ${res.status}`,
-        message: data.message || "Failed to fetch user information from Float",
+        error: `API request failed with status ${response.status}`,
+        message: `Failed to fetch Float data: ${errorText}`,
       };
     }
+
+    const data = await response.json();
 
     if (data.found === false) {
       return {

@@ -1,33 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const FLOAT_API_URL = process.env.FLOAT_API_URL;
-const FLOAT_API_KEY = process.env.FLOAT_API_KEY;
-
 export async function GET(req: NextRequest) {
   const floatId = req.nextUrl.searchParams.get("floatId");
+  const FLOAT_API_URL = process.env.FLOAT_API_URL;
+  const FLOAT_API_KEY = process.env.FLOAT_API_KEY;
 
-  if (!floatId) {
+  if (!floatId?.trim()) {
     return NextResponse.json(
-      { error: "Missing floatId", isBooked: null, found: false },
+      {
+        error: "Missing floatId",
+        isBooked: null,
+        found: false,
+        message: "Float ID is required",
+      },
       { status: 400 }
     );
   }
 
   if (!FLOAT_API_URL || !FLOAT_API_KEY) {
     return NextResponse.json(
-      { error: "Float API not configured", isBooked: null, found: false },
+      {
+        error: "Float API not configured",
+        isBooked: null,
+        found: false,
+        message:
+          "The server is not properly configured to connect to Float API",
+      },
       { status: 500 }
     );
   }
 
   try {
-    const userUrl = `${FLOAT_API_URL}/people/${encodeURIComponent(floatId)}`;
-    const userResponse = await fetch(userUrl, {
-      headers: {
-        Authorization: `Bearer ${FLOAT_API_KEY}`,
-      },
-      next: { revalidate: 60 },
-    });
+    const userResponse = await fetch(
+      `${FLOAT_API_URL}/people/${encodeURIComponent(floatId)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${FLOAT_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (userResponse.status === 404) {
       return NextResponse.json(
@@ -47,8 +59,9 @@ export async function GET(req: NextRequest) {
           error: `Float API user request failed with status ${userResponse.status}`,
           isBooked: null,
           found: false,
+          message: "Failed to retrieve user data from Float API",
         },
-        { status: userResponse.status }
+        { status: 200 }
       );
     }
 
@@ -61,15 +74,17 @@ export async function GET(req: NextRequest) {
     const start = today.toISOString().split("T")[0];
     const end = twoMonthsLater.toISOString().split("T")[0];
 
-    const tasksUrl = `${FLOAT_API_URL}/tasks?people_id=${encodeURIComponent(
-      floatId
-    )}&start_date=${start}&end_date=${end}`;
-    const tasksResponse = await fetch(tasksUrl, {
-      headers: {
-        Authorization: `Bearer ${FLOAT_API_KEY}`,
-      },
-      next: { revalidate: 60 },
-    });
+    const tasksResponse = await fetch(
+      `${FLOAT_API_URL}/tasks?people_id=${encodeURIComponent(
+        floatId
+      )}&start_date=${start}&end_date=${end}`,
+      {
+        headers: {
+          Authorization: `Bearer ${FLOAT_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!tasksResponse.ok) {
       return NextResponse.json(
@@ -81,6 +96,7 @@ export async function GET(req: NextRequest) {
             name: userData.name || "Unknown",
             email: userData.email || "No email provided",
           },
+          message: "User found but unable to retrieve booking information",
         },
         { status: 200 }
       );
@@ -88,6 +104,7 @@ export async function GET(req: NextRequest) {
 
     const tasks = await tasksResponse.json();
     const isBooked = Array.isArray(tasks) && tasks.length > 0;
+    const taskCount = Array.isArray(tasks) ? tasks.length : 0;
 
     return NextResponse.json(
       {
@@ -96,15 +113,17 @@ export async function GET(req: NextRequest) {
         userData: {
           name: userData.name || "Unknown",
           email: userData.email || "No email provided",
-          jobTitle: userData.job_title || "No job title",
-          department: userData.department || "No department",
+          jobTitle: userData.job_title || undefined,
+          department: userData.department || undefined,
         },
-        taskCount: Array.isArray(tasks) ? tasks.length : 0,
+        taskCount,
+        message: isBooked
+          ? `User has ${taskCount} tasks in the next 2 months`
+          : "User has no tasks in the next 2 months",
       },
-      { status: 200, headers: { "Cache-Control": "s-maxage=60" } }
+      { status: 200 }
     );
   } catch (error) {
-    console.error("Float API error:", error);
     return NextResponse.json(
       {
         error:

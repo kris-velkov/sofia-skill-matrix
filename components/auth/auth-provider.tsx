@@ -14,14 +14,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        console.log("Initializing auth...");
         const {
           data: { session },
         } = await supabaseAuthClient.auth.getSession();
 
         if (session?.user) {
-          console.log("Session found during initialization:", session.user.id);
-
           const userRole = session.user.user_metadata?.role as
             | "admin"
             | "user"
@@ -45,8 +42,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           };
 
           login(authUser, employeeData);
-        } else {
-          console.log("No session found during initialization");
         }
       } catch (error) {
         console.error("Error initializing auth:", error);
@@ -63,14 +58,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const {
       data: { subscription },
     } = supabaseAuthClient.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state change:", event);
-
       if (
         (event === "SIGNED_IN" || event === "USER_UPDATED") &&
         session?.user
       ) {
-        console.log("User signed in:", session.user.id);
-
         const userRole = session.user.user_metadata?.role as
           | "admin"
           | "user"
@@ -95,7 +86,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         login(authUser, employeeData);
       } else if (event === "SIGNED_OUT") {
-        console.log("User signed out");
         logout();
       }
     });
@@ -105,7 +95,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [login, logout]);
 
-  // Show a loading spinner while initializing auth
   if (isInitializing) {
     return (
       <div className="flex items-center justify-center min-h-screen">
