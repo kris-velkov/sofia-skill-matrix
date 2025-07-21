@@ -130,7 +130,7 @@ export function EmployeeTable({
             {filteredEmployees.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={5}
+                  colSpan={7}
                   className="h-24 text-center text-gray-500 border-b border-gray-100"
                 >
                   No employees found.
@@ -152,6 +152,10 @@ export function EmployeeTable({
                         <div className="text-gray-900 text-sm md:text-base leading-tight break-words max-w-[100px] md:max-w-none">
                           {employee.firstName + " " + employee.lastName}
                         </div>
+                        <div className="md:hidden text-xs text-gray-600 mt-1">
+                          <div>{employee.department || "No Department"}</div>
+                          <div>{employee.role || "No Role"}</div>
+                        </div>
                       </div>
                     </div>
                   </TableCell>
@@ -171,7 +175,7 @@ export function EmployeeTable({
                   <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none line-clamp-">
                     {employee.role ?? "N/A"}
                   </TableCell>
-                  <TableCell className="text-right py-3 md:py-4 px-2 md:px-6 align-top min-w-[180px]">
+                  <TableCell className="text-right py-3 md:py-4 px-2 md:px-6 align-top lg:min-w-[180px] min-w-[100px]">
                     <div className="flex justify-end gap-1 md:gap-2 flex-wrap">
                       <Button
                         variant="ghost"

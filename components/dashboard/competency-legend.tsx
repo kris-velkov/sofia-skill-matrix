@@ -92,20 +92,37 @@ export function CompetencyLegendContent() {
   );
 }
 
-export function CompetencyLegendTrigger() {
+interface CompetencyLegendTriggerProps {
+  className?: string;
+  onClick?: () => void;
+}
+
+export function CompetencyLegendTrigger({
+  className,
+  onClick,
+}: CompetencyLegendTriggerProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
           size="icon"
-          className="text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+          className={cn(
+            "text-gray-700 hover:bg-gray-100 rounded-full transition-colors",
+            className
+          )}
           aria-label="Show Competency Legend"
+          onClick={onClick}
         >
           <Info className="h-5 w-5" />
+          <span className="md:hidden ml-2">Competency Legend</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[550px] p-0 rounded-lg shadow-lg border border-gray-200 bg-white">
+      <PopoverContent
+        className="w-[90vw] max-w-[550px] p-0 rounded-lg shadow-lg border border-gray-200 bg-white"
+        align="end"
+        sideOffset={5}
+      >
         <CompetencyLegendContent />
       </PopoverContent>
     </Popover>

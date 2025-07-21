@@ -26,7 +26,7 @@ export default async function HomePage() {
   return (
     <ClientProtectedWrapper>
       <section
-        className="max-w-7xl mx-auto grid gap-10 mt-10 w-full "
+        className="max-w-7xl mx-auto grid gap-10 mt-10 w-full px-2"
         aria-labelledby="skills-matrix-heading"
       >
         <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-5">

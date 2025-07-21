@@ -41,23 +41,27 @@ export default async function EmployeesPage() {
       className="flex flex-col min-h-screen"
       aria-labelledby="employees-page-title"
     >
-      <div className="flex-1 p-4 md:p-8">
-        <div className="max-w-7xl mx-auto grid gap-8">
+      <div className="flex-1 p-4 sm:p-6 md:p-8">
+        <div className="w-full max-w-7xl mx-auto grid gap-4 sm:gap-6 md:gap-8">
           <Breadcrumbs items={breadcrumbItems} />
           <Card className="border-0 bg-white/90">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <CardTitle className="text-3xl text-blue-900 mb-1">
+                <CardTitle className="text-xl sm:text-2xl md:text-3xl text-blue-900 mb-1">
                   Manage Employees
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-xs sm:text-sm md:text-base">
                   View, edit, add, and delete employee details and skills.
                 </CardDescription>
+              </div> 
+              <div className="w-full sm:w-auto mt-2 sm:mt-0">
+                <AddEmployeeButton />
               </div>
-              <AddEmployeeButton />
             </CardHeader>
-            <CardContent>
-              <EmployeeTable initialEmployees={employees} />
+            <CardContent className="overflow-x-auto px-2 sm:px-6">
+              <div className="min-w-full">
+                <EmployeeTable initialEmployees={employees} />
+              </div>
             </CardContent>
           </Card>
         </div>

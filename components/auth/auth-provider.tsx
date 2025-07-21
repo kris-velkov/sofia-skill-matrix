@@ -1,22 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/use-auth-store";
 import { supabaseAuthClient } from "@/lib/supabase/supabaseAuthClient";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const setHydrated = useAuthStore((state) => state.setHydrated);
   const login = useAuthStore((state) => state.login);
   const logout = useAuthStore((state) => state.logout);
+  const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
     const initializeAuth = async () => {
       try {
+        console.log("Initializing auth...");
         const {
           data: { session },
         } = await supabaseAuthClient.auth.getSession();
 
         if (session?.user) {
+          console.log("Session found during initialization:", session.user.id);
+
           const userRole = session.user.user_metadata?.role as
             | "admin"
             | "user"
@@ -41,11 +46,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           login(authUser, employeeData);
         } else {
+          console.log("No session found during initialization");
         }
       } catch (error) {
         console.error("Error initializing auth:", error);
       } finally {
         setHydrated(true);
+        setIsInitializing(false);
       }
     };
 
@@ -56,10 +63,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const {
       data: { subscription },
     } = supabaseAuthClient.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth state change:", event);
+
       if (
         (event === "SIGNED_IN" || event === "USER_UPDATED") &&
         session?.user
       ) {
+        console.log("User signed in:", session.user.id);
+
         const userRole = session.user.user_metadata?.role as
           | "admin"
           | "user"
@@ -84,6 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         login(authUser, employeeData);
       } else if (event === "SIGNED_OUT") {
+        console.log("User signed out");
         logout();
       }
     });
@@ -92,6 +104,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       subscription.unsubscribe();
     };
   }, [login, logout]);
+
+  // Show a loading spinner while initializing auth
+  if (isInitializing) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return <>{children}</>;
 }
