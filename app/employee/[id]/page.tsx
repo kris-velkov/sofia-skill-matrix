@@ -19,7 +19,6 @@ export default async function Page({
   }
 
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
     { label: `${employee.firstName} ${employee.lastName}` },
   ];
 

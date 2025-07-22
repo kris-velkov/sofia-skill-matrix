@@ -9,7 +9,6 @@ export default async function CertificateStatisticsPage() {
   const employeesCertificates = await getAllEmployeesCertificates();
 
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
     { label: "Certificate Statistics", href: "/statistics" },
   ];
 

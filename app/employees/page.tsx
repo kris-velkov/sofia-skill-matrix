@@ -22,10 +22,7 @@ export const metadata: Metadata = {
 export default async function EmployeesPage() {
   const employees = await getEmployees();
 
-  const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Manage Employees" },
-  ];
+  const breadcrumbItems = [{ label: "Manage Employees" }];
 
   return (
     <div className="bg-gray-50 min-h-screen">

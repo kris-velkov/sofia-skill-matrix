@@ -23,7 +23,6 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
     const { data, error } = await query.eq("id", filter.id).single();
 
     if (error) {
-      console.error("Supabase fetch error:", error.message);
       throw new Error(`Failed to fetch employee `);
     }
 

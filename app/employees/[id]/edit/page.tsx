@@ -20,7 +20,6 @@ export default async function EditEmployeeProfilePage({
   }
 
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
     { label: "Employees", href: "/employees" },
     {
       label: employee?.firstName + " " + employee?.lastName,
