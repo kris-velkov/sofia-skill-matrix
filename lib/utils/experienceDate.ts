@@ -11,16 +11,23 @@ export function getExperienceFromDate(
   const now = new Date();
   if (start > now) return "0y 0m 0d";
 
-  const years = now.getFullYear() - start.getFullYear();
-  const months = now.getMonth() - start.getMonth();
-  const days = now.getDate() - start.getDate();
+  let years = now.getFullYear() - start.getFullYear();
+  let months = now.getMonth() - start.getMonth();
+  let days = now.getDate() - start.getDate();
 
-  const rdYears = years - (months < 0 || (months === 0 && days < 0) ? 1 : 0);
-  const rdMonths = ((months + 12) % 12) - (days < 0 ? 1 : 0);
-  const rdDays = (days + (days < 0 ? 30 : 0)) % 31;
+  if (days < 0) {
+    months--;
+    const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
 
-  return `${rdYears}y ${rdMonths}m ${rdDays}d`;
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  return `${years}y ${months}m ${days}d`;
 }
+
 export function prepareEmployeeDatesForDB(
   employee: Partial<Employee>
 ): Partial<Employee> {

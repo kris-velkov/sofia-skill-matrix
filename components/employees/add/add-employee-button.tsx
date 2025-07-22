@@ -1,34 +1,56 @@
 "use client";
 
-import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
-import { addNewEmployee } from "@/app/actions/employee-actions";
+import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { ROLES } from "@/constants/employeeDefaultsSkills";
-import { Department } from "@/types/employees";
+import { addNewEmployee } from "@/app/actions/employee-actions";
+import { Department, EmployeeRole } from "@/types/employees";
 
-export const AddEmployeeButton: React.FC = () => {
+// Define available roles
+const ROLES: EmployeeRole[] = [
+  { id: "1", name: "Front-end", departament: "fe" },
+  { id: "2", name: "Back-end", departament: "be" },
+  { id: "3", name: "QA", departament: "qa" },
+  { id: "4", name: "Project Manager", departament: "pm" },
+];
+
+export default function AddEmployeeButton() {
   const router = useRouter();
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleAddNewEmployee = async (departament: Department) => {
+  const handleAddNewEmployee = async (department: Department) => {
     try {
+      setIsLoading(true);
       setPopoverOpen(false);
-      const employeeId = await addNewEmployee(departament);
-      if (!employeeId) throw new Error("Failed to add employee");
+
+      const employeeId = await addNewEmployee(department);
+
+      if (!employeeId || employeeId instanceof Error) {
+        throw new Error(
+          employeeId instanceof Error
+            ? employeeId.message
+            : "Failed to add employee"
+        );
+      }
+
       toast.success("Employee added successfully!");
       router.push(`/employees/${employeeId}/edit`);
     } catch (error) {
-      toast.error("Error adding employee.");
+      toast.error(
+        error instanceof Error ? error.message : "Error adding employee"
+      );
       console.error("Error adding employee:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -37,10 +59,11 @@ export const AddEmployeeButton: React.FC = () => {
       <PopoverTrigger asChild>
         <Button
           type="button"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow flex items-center gap-2"
+          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm py-2 px-4 h-auto"
+          disabled={isLoading}
         >
-          Add New Employee
-          <ChevronDown className="h-4 w-4 ml-1" />
+          {isLoading ? "Adding..." : "Add New Employee"}
+          <ChevronDown className="h-4 w-4 ml-2" />
         </Button>
       </PopoverTrigger>
 
@@ -53,26 +76,19 @@ export const AddEmployeeButton: React.FC = () => {
         </div>
 
         <div className="space-y-1">
-          {ROLES.length > 0 ? (
-            ROLES.map((role) => (
-              <Button
-                key={role.id}
-                variant="ghost"
-                className="w-full justify-start text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors rounded-md px-3 py-2"
-                onClick={() => handleAddNewEmployee(role.departament)}
-              >
-                {role.name}
-              </Button>
-            ))
-          ) : (
-            <p className="text-sm text-gray-500 px-2 py-1 italic">
-              No departments found.
-            </p>
-          )}
+          {ROLES.map((role) => (
+            <Button
+              key={role.id}
+              variant="ghost"
+              className="w-full justify-start text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors rounded-md px-3 py-2"
+              onClick={() => handleAddNewEmployee(role.departament)}
+              disabled={isLoading}
+            >
+              {role.name}
+            </Button>
+          ))}
         </div>
       </PopoverContent>
     </Popover>
   );
-};
-
-export default AddEmployeeButton;
+}

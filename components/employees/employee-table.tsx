@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2, Search } from "lucide-react";
 import toast from "react-hot-toast";
 import {
   Table,
@@ -79,49 +79,130 @@ export function EmployeeTable({
       if (employee.firstName && employee.lastName) {
         return (
           employee?.firstName.toLowerCase().includes(lowerCaseSearchTerm) ||
+          employee?.lastName.toLowerCase().includes(lowerCaseSearchTerm) ||
           (employee?.department?.toLowerCase() || "").includes(
             lowerCaseSearchTerm
           ) ||
-          (employee.role?.toLowerCase() || "").includes(lowerCaseSearchTerm)
+          (employee.role?.toLowerCase() || "").includes(lowerCaseSearchTerm) ||
+          (employee.program?.toLowerCase() || "").includes(lowerCaseSearchTerm)
         );
       }
+      return false;
     });
   }, [employees, searchTerm]);
 
   return (
-    <>
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 ">
-        <Input
-          type="text"
-          placeholder="Search employees by name, department, or role..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-md w-full md:w-auto border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm min-w-[250px] md:min-w-[450px] mb-4 md:mb-0 bg-white text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-offset-2 focus:ring-offset-white"
-        />
+    <div className="w-full">
+      {/* Search Bar */}
+      <div className="p-3 sm:p-4 border-b border-gray-100">
+        <div className="relative max-w-md w-full">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Input
+            type="text"
+            placeholder="Search employees by name, department, or role..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-9 pr-3 py-2 h-9 text-sm border-gray-200 rounded-md w-full"
+          />
+        </div>
       </div>
-      <div className="w-full overflow-x-auto rounded-xl shadow border border-gray-200 bg-white">
-        <Table className="min-w-[400px] md:min-w-[900px] w-full text-sm md:text-base">
-          <TableHeader className="sticky top-0 z-10 bg-white">
-            <TableRow>
-              <TableHead className="w-[120px] md:w-[200px] py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
+
+      {/* Mobile View - Card Layout */}
+      <div className="block sm:hidden">
+        {filteredEmployees.length === 0 ? (
+          <div className="p-6 text-center text-gray-500">
+            No employees found.
+          </div>
+        ) : (
+          <div className="divide-y divide-gray-100">
+            {filteredEmployees.map((employee) => (
+              <div key={employee.id} className="p-4 hover:bg-gray-50">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <EmployeeAvatar
+                      src={employee.profileImage}
+                      alt={`${employee.firstName} ${employee.lastName}`}
+                      className="w-10 h-10"
+                    />
+                    <div>
+                      <div className="font-medium text-gray-900">
+                        {employee.firstName} {employee.lastName}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        <div>{employee.department || ""}</div>
+                        <div>{employee.role || ""}</div>
+                        <div>{employee.program || "Back-end"}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 rounded-full text-green-600"
+                      asChild
+                    >
+                      <Link
+                        href={`/employee/${employee.id}`}
+                        aria-label={`View ${employee.firstName} ${employee.lastName}`}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 rounded-full text-gray-600"
+                      asChild
+                    >
+                      <Link
+                        href={`/employees/${employee.id}/edit`}
+                        aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 rounded-full text-red-600"
+                      onClick={() => confirmDelete(employee)}
+                      aria-label={`Delete ${employee.firstName} ${employee.lastName}`}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Tablet and Desktop View - Table Layout */}
+      <div className="hidden sm:block overflow-x-auto">
+        <Table className="w-full">
+          <TableHeader>
+            <TableRow className="border-b border-gray-200">
+              <TableHead className="py-3 px-4 text-sm font-medium text-gray-900">
                 Employee
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-gray-900">
                 Program
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-gray-900">
                 Department
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
+              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-medium text-gray-900">
                 Hired On
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
+              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-medium text-gray-900">
                 Career Experience
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 border-r border-gray-100">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-gray-900">
                 Role
               </TableHead>
-              <TableHead className="py-3 md:py-4 px-2 md:px-6 text-xs md:text-base font-semibold text-gray-900 text-right">
+              <TableHead className="py-3 px-4 text-sm font-medium text-gray-900 text-right">
                 Actions
               </TableHead>
             </TableRow>
@@ -131,7 +212,7 @@ export function EmployeeTable({
               <TableRow>
                 <TableCell
                   colSpan={7}
-                  className="h-24 text-center text-gray-500 border-b border-gray-100"
+                  className="h-24 text-center text-gray-500"
                 >
                   No employees found.
                 </TableCell>
@@ -142,75 +223,71 @@ export function EmployeeTable({
                   key={employee.id}
                   className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                 >
-                  <TableCell className="w-[120px] md:w-[300px] font-medium py-4 md:py-5 px-2 md:px-5 border-r border-gray-100 align-top">
-                    <div className="flex items-center gap-2 md:gap-3">
+                  <TableCell className="py-3 px-4">
+                    <div className="flex items-center gap-3">
                       <EmployeeAvatar
                         src={employee.profileImage}
-                        alt={employee.firstName + " profile picture"}
+                        alt={`${employee.firstName} ${employee.lastName}`}
+                        className="w-10 h-10"
                       />
-                      <div>
-                        <div className="text-gray-900 text-sm md:text-base leading-tight break-words max-w-[100px] md:max-w-none">
-                          {employee.firstName + " " + employee.lastName}
-                        </div>
-                        <div className="md:hidden text-xs text-gray-600 mt-1">
-                          <div>{employee.department || "No Department"}</div>
-                          <div>{employee.role || "No Role"}</div>
+                      <div className="min-w-0">
+                        <div className="font-medium text-gray-900 truncate">
+                          {employee.firstName} {employee.lastName}
                         </div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none min-w-[70px]">
-                    {employee.program}
+                  <TableCell className="hidden md:table-cell py-3 px-4 text-gray-700 text-sm">
+                    {employee.program || "N/A"}
                   </TableCell>
-                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none min-w-[150px]">
-                    {employee.department}
+                  <TableCell className="hidden md:table-cell py-3 px-4 text-gray-700 text-sm">
+                    {employee.department || "N/A"}
                   </TableCell>
-                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none truncate">
+                  <TableCell className="hidden lg:table-cell py-3 px-4 text-gray-700 text-sm">
                     {getExperienceFromDate(employee.startDate)}
                   </TableCell>
-                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none truncate">
+                  <TableCell className="hidden lg:table-cell py-3 px-4 text-gray-700 text-sm">
                     {getExperienceFromDate(employee.careerExperience)}
                   </TableCell>
-
-                  <TableCell className="hidden md:table-cell py-3 md:py-4 px-2 md:px-6 border-r border-gray-100 text-gray-800 align-top text-xs md:text-base break-words max-w-[80px] md:max-w-none line-clamp-">
-                    {employee.role ?? "N/A"}
+                  <TableCell className="hidden md:table-cell py-3 px-4 text-gray-700 text-sm">
+                    {employee.role || "N/A"}
                   </TableCell>
-                  <TableCell className="text-right py-3 md:py-4 px-2 md:px-6 align-top lg:min-w-[180px] min-w-[100px]">
-                    <div className="flex justify-end gap-1 md:gap-2 flex-wrap">
+                  <TableCell className="py-3 px-4 text-right whitespace-nowrap">
+                    <div className="flex justify-end gap-1 sm:gap-2">
                       <Button
                         variant="ghost"
-                        size="icon"
+                        size="sm"
+                        className="h-8 w-8 p-0 rounded-full text-green-600 hover:bg-green-50"
                         asChild
-                        className="h-8 w-8 md:h-9 md:w-9 rounded-full text-green-500 hover:bg-green-100 hover:text-green-700 focus:ring-2 focus:ring-green-300 focus:outline-none"
                       >
                         <Link
-                          href={`/employees/${employee.id}`}
+                          href={`/employee/${employee.id}`}
                           aria-label={`View ${employee.firstName} ${employee.lastName}`}
                         >
-                          <Eye className="h-5 w-5" />
+                          <Eye className="h-4 w-4" />
                         </Link>
                       </Button>
                       <Button
                         variant="ghost"
-                        size="icon"
+                        size="sm"
+                        className="h-8 w-8 p-0 rounded-full text-gray-600 hover:bg-gray-50"
                         asChild
-                        className="h-8 w-8 md:h-9 md:w-9 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:ring-2 focus:ring-gray-300 focus:outline-none"
                       >
                         <Link
                           href={`/employees/${employee.id}/edit`}
                           aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
                         >
-                          <Pencil className="h-5 w-5" />
+                          <Pencil className="h-4 w-4" />
                         </Link>
                       </Button>
                       <Button
                         variant="ghost"
-                        size="icon"
+                        size="sm"
+                        className="h-8 w-8 p-0 rounded-full text-red-600 hover:bg-red-50"
                         onClick={() => confirmDelete(employee)}
                         aria-label={`Delete ${employee.firstName} ${employee.lastName}`}
-                        className="h-8 w-8 md:h-9 md:w-9 rounded-full text-red-500 hover:bg-red-100 hover:text-red-700 focus:ring-2 focus:ring-red-200 focus:outline-none"
                       >
-                        <Trash2 className="h-5 w-5" />
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>
@@ -220,6 +297,7 @@ export function EmployeeTable({
           </TableBody>
         </Table>
       </div>
+
       <ConfirmDialog
         open={isDeleteDialogOpen}
         title="Confirm Deletion"
@@ -232,6 +310,6 @@ export function EmployeeTable({
           setEmployeeToDelete(null);
         }}
       />
-    </>
+    </div>
   );
 }

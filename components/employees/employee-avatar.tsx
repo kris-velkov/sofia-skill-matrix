@@ -1,22 +1,34 @@
+"use client";
+
 import Image from "next/image";
+import { User } from "lucide-react";
+import { cn } from "@/lib/utils/cn";
 
 interface EmployeeAvatarProps {
-  src: string | null | undefined;
+  src: string | null;
   alt: string;
+  className?: string;
 }
 
-export function EmployeeAvatar({ src, alt }: Readonly<EmployeeAvatarProps>) {
+export function EmployeeAvatar({ src, alt, className }: EmployeeAvatarProps) {
   return (
-    <div className="h-12 w-12 min-w-[48px] min-h-[48px] relative flex-shrink-0 rounded-full border-2 border-gray-200 shadow-md overflow-hidden bg-gray-100">
-      <Image
-        src={src || "/placeholder-user.png"}
-        alt={alt ?? "Employee profile image"}
-        fill
-        className="rounded-full object-cover"
-        sizes="48px"
-        loading="lazy"
-        priority={false}
-      />
+    <div
+      className={cn(
+        "relative rounded-full overflow-hidden bg-gray-200 flex items-center justify-center",
+        className || "h-10 w-10"
+      )}
+    >
+      {src ? (
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 40px, 40px"
+          className="object-cover"
+        />
+      ) : (
+        <User className="h-5 w-5 text-gray-500" />
+      )}
     </div>
   );
 }

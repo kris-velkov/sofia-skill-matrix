@@ -16,7 +16,8 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
 ): Promise<FetchEmployeeResult<T>> {
   const query = supabaseClient
     .from("employees")
-    .select(EMPLOYEE_FULL_SELECT_QUERY);
+    .select(EMPLOYEE_FULL_SELECT_QUERY)
+    .order("first_name");
 
   if (filter?.id) {
     const { data, error } = await query.eq("id", filter.id).single();
