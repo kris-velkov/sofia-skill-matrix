@@ -29,7 +29,7 @@ export async function updateEmployeeSkills(
       message: "Skills updated successfully",
     };
   } catch (error) {
-    console.error(`❌ Failed to update skills for ${employeeId}:`, error);
+    console.error(`Failed to update skills for ${employeeId}:`, error);
     return {
       success: false,
       message:
@@ -58,7 +58,7 @@ export async function deleteEmployeeSkill(
       message: "Skill deleted successfully",
     };
   } catch (error) {
-    console.error(`❌ Failed to delete skill for ${employeeId}:`, error);
+    console.error(`Failed to delete skill for ${employeeId}:`, error);
     return {
       success: false,
       message:
@@ -93,7 +93,7 @@ export async function updateEmployeeCategoryName(
       message: `Category name updated from "${oldName}" to "${newName}"`,
     };
   } catch (error) {
-    console.error(`❌ Failed to rename category.`, error);
+    console.error(`Failed to rename category.`, error);
     return {
       success: false,
       message:
@@ -137,7 +137,7 @@ export async function deleteCategory(
       };
     }
   } catch (error) {
-    console.error(`❌ Failed to delete category ${categoryId}:`, error);
+    console.error(`Failed to delete category ${categoryId}:`, error);
     return {
       success: false,
       message:
@@ -165,7 +165,7 @@ export async function createOrFindCategory(
       data: result,
     };
   } catch (error) {
-    console.error(`❌ Failed to create/find category ${categoryName}:`, error);
+    console.error(`Failed to create/find category ${categoryName}:`, error);
     return {
       id: "",
       success: false,

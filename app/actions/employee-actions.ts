@@ -44,7 +44,7 @@ export async function deleteEmployeeAction(userId: string) {
     await deleteEmployee(userId);
     return { success: true, message: "Employee deleted successfully!" };
   } catch (error) {
-    console.error("❌ Failed to delete employee:", error);
+    console.error("Failed to delete employee:", error);
     return { success: false, message: "Failed to delete employee." };
   }
 }
@@ -54,7 +54,7 @@ export async function getEmployee(employeeId: string) {
     const employee = await getEmployeeById(employeeId);
     return employee;
   } catch (error) {
-    console.error("❌ Error fetching employee:", error);
+    console.error("Error fetching employee:", error);
     throw new Error("Failed to fetch employee.");
   }
 }

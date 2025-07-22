@@ -131,7 +131,6 @@ export async function createNewCategory(
     .single();
 
   if (error || !data) {
-    console.error("❌ Failed to create category:", error?.message);
     throw new Error(`Failed to create category: ${error?.message}`);
   }
 
@@ -152,7 +151,6 @@ export async function checkIfOriginalCategory(
     .single();
 
   if (error) {
-    console.error(`Failed to fetch category ${categoryId}:`, error.message);
     throw error;
   }
 
@@ -181,7 +179,6 @@ export async function deleteSkillLevels(skillIds: string[]): Promise<void> {
     .in("skill_id", skillIds);
 
   if (error) {
-    console.error(`Failed to delete skill levels:`, error.message);
     throw error;
   }
 }
@@ -193,10 +190,6 @@ export async function deleteSkills(categoryId: string): Promise<void> {
     .eq("category_id", categoryId);
 
   if (error) {
-    console.error(
-      `Failed to delete skills for category ${categoryId}:`,
-      error.message
-    );
     throw error;
   }
 }
@@ -208,7 +201,6 @@ export async function deleteCategory(categoryId: string): Promise<void> {
     .eq("id", categoryId);
 
   if (error) {
-    console.error(`Failed to delete category ${categoryId}:`, error.message);
     throw error;
   }
 }
@@ -224,9 +216,6 @@ export async function getCategoryId(
     .maybeSingle();
 
   if (categoryError || !categoryData) {
-    console.error(
-      `Category '${normalizedCategoryName}' not found in DB, cannot add skills`
-    );
     return null;
   }
 

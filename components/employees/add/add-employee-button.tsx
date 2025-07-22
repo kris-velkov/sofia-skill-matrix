@@ -14,7 +14,6 @@ import { Separator } from "@/components/ui/separator";
 import { addNewEmployee } from "@/app/actions/employee-actions";
 import { Department, EmployeeRole } from "@/types/employees";
 
-// Define available roles
 const ROLES: EmployeeRole[] = [
   { id: "1", name: "Front-end", departament: "fe" },
   { id: "2", name: "Back-end", departament: "be" },
@@ -48,7 +47,6 @@ export default function AddEmployeeButton() {
       toast.error(
         error instanceof Error ? error.message : "Error adding employee"
       );
-      console.error("Error adding employee:", error);
     } finally {
       setIsLoading(false);
     }

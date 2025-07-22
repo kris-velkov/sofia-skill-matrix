@@ -21,7 +21,7 @@ export function EmployeeCardHeader({
   return (
     <div className="mb-3">
       <div className="flex gap-2 flex flex-row">
-        <EmployeeAvatar src={profileImage} alt={`${name} profile`} />
+        <EmployeeAvatar src={profileImage ?? ""} alt={`${name} profile`} />
         <div className="flex flex-row items-center justify-between w-full">
           <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
           <div className="flex items-center gap-1 shadow rounded p-1">

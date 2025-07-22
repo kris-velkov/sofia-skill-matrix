@@ -92,8 +92,7 @@ export function EmployeeTable({
   }, [employees, searchTerm]);
 
   return (
-    <div className="w-full">
-      {/* Search Bar */}
+    <div className="w-full shadow-2xl">
       <div className="p-3 sm:p-4 border-b border-gray-100">
         <div className="relative max-w-md w-full">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -107,7 +106,6 @@ export function EmployeeTable({
         </div>
       </div>
 
-      {/* Mobile View - Card Layout */}
       <div className="block sm:hidden">
         {filteredEmployees.length === 0 ? (
           <div className="p-6 text-center text-gray-500">
@@ -120,7 +118,7 @@ export function EmployeeTable({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <EmployeeAvatar
-                      src={employee.profileImage}
+                      src={employee.profileImage || ""}
                       alt={`${employee.firstName} ${employee.lastName}`}
                       className="w-10 h-10"
                     />
@@ -129,9 +127,12 @@ export function EmployeeTable({
                         {employee.firstName} {employee.lastName}
                       </div>
                       <div className="text-xs text-gray-500 mt-1">
+                        <div>
+                          {getExperienceFromDate(employee.startDate) || ""}
+                        </div>
                         <div>{employee.department || ""}</div>
                         <div>{employee.role || ""}</div>
-                        <div>{employee.program || "Back-end"}</div>
+                        <div>{employee.program || ""}</div>
                       </div>
                     </div>
                   </div>
@@ -179,7 +180,6 @@ export function EmployeeTable({
         )}
       </div>
 
-      {/* Tablet and Desktop View - Table Layout */}
       <div className="hidden sm:block overflow-x-auto">
         <Table className="w-full">
           <TableHeader>
@@ -226,7 +226,7 @@ export function EmployeeTable({
                   <TableCell className="py-3 px-4">
                     <div className="flex items-center gap-3">
                       <EmployeeAvatar
-                        src={employee.profileImage}
+                        src={employee.profileImage || ""}
                         alt={`${employee.firstName} ${employee.lastName}`}
                         className="w-10 h-10"
                       />

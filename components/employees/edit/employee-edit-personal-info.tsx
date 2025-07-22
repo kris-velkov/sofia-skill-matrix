@@ -41,7 +41,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
       formData: FormData
     ): Promise<FormActionState> => {
       let imageUrl = formData.get("profileImage") as string;
-      if (!imageUrl.includes("ca.slack-edge.com")) {
+      if (imageUrl && !imageUrl.includes("ca.slack-edge.com")) {
         imageUrl = "";
         toast.error("Not valid image url! Please use Slack image url.");
       }
