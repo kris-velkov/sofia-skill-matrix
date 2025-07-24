@@ -2,6 +2,7 @@
 
 import { updateEmployeePersonalInfoInDb } from "@/lib/employeeInfoDB";
 import { Employee } from "@/types/employees";
+import { revalidatePath } from "next/cache";
 
 export async function updateEmployeePersonalInfo(
   employeeId: string,
@@ -9,6 +10,10 @@ export async function updateEmployeePersonalInfo(
 ) {
   try {
     const res = await updateEmployeePersonalInfoInDb(employeeId, data);
+
+    revalidatePath("/employees");
+    revalidatePath("/");
+    revalidatePath(`employees/${employeeId}`);
 
     return res;
   } catch (error) {

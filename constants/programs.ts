@@ -1,14 +1,11 @@
 export const PROGRAMS = [
   { value: "sirius", label: "Sirius" },
-  { value: "vega", label: "Vega" },
-  { value: "orion", label: "Orion" },
-  { value: "apollo", label: "Apollo" },
-  { value: "phoenix", label: "Phoenix" },
-  { value: "atlas", label: "Atlas" },
-  { value: "nova", label: "Nova" },
+  { value: "mars", label: "Mars" },
+  { value: "polaris", label: "Polaris" },
   { value: "titan", label: "Titan" },
-  { value: "cosmos", label: "Cosmos" },
-  { value: "stellar", label: "Stellar" },
+  { value: "venus", label: "Venus" },
+  { value: "voyager", label: "Voyager" },
+  { value: "zenith", label: "Zenith" },
 ] as const;
 
 export type ProgramValue = (typeof PROGRAMS)[number]["value"];
