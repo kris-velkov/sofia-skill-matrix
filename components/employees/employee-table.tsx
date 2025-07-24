@@ -96,7 +96,7 @@ export function EmployeeTable({
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 " />
           <Input
             type="text"
-            placeholder="Search employees by name, department, or role..."
+            placeholder="Search employees by name, department or role ..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-9 pr-3 py-2 h-9 text-sm border-gray-400 rounded-md w-full"

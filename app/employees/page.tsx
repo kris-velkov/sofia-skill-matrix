@@ -36,7 +36,7 @@ export default async function EmployeesPage() {
                 Manage Employees
               </h1>
               <p className="text-xs sm:text-sm text-gray-600 mt-1">
-                View, edit, add, and delete employee details and skills.
+                View, edit, add and delete employee details and skills.
               </p>
             </div>
             <div className="w-full sm:w-auto mt-3 sm:mt-0">
