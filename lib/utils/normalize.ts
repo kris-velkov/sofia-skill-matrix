@@ -9,6 +9,11 @@ export function normalizeName(str: string): string {
     .replace(/\s+/g, " ");
 }
 
+export function capitalizeFirstLetter(str: string | null): string {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export function normalizeDepartment(department: string): Department {
   const normalized = department
     .toLowerCase()

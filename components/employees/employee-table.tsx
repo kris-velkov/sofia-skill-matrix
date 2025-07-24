@@ -19,6 +19,7 @@ import type { Employee } from "@/types/employees";
 import { EmployeeAvatar } from "./employee-avatar";
 import { deleteEmployeeAction } from "@/app/actions/employee-actions";
 import { getExperienceFromDate } from "@/lib/utils/experienceDate";
+import { capitalizeFirstLetter } from "@/lib/utils/normalize";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];
@@ -129,7 +130,10 @@ export function EmployeeTable({
                         </div>
                         <div>{employee.department || ""}</div>
                         <div>{employee.role || ""}</div>
-                        <div>{employee.program || ""}</div>
+                        <div>
+                          {employee.program &&
+                            capitalizeFirstLetter(employee.program)}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -235,7 +239,8 @@ export function EmployeeTable({
                     </div>
                   </TableCell>
                   <TableCell className="hidden md:table-cell py-3 px-4 text-gray-700 text-sm">
-                    {employee.program || "N/A"}
+                    {employee.program &&
+                      capitalizeFirstLetter(employee.program)}
                   </TableCell>
                   <TableCell className="hidden md:table-cell py-3 px-4 text-gray-700 text-sm">
                     {employee.department || "N/A"}

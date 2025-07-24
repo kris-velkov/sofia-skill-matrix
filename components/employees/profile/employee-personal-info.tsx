@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import InfoRow from "@/components/ui/info-row";
 import { Employee } from "@/types/employees";
 import { getExperienceFromDate } from "@/lib/utils/experienceDate";
+import { capitalizeFirstLetter } from "@/lib/utils/normalize";
 
 interface EmployeePersonalInfoProps {
   employee: Partial<Employee>;
@@ -34,7 +35,7 @@ export const EmployeePersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
         />
         <InfoRow
           label="Program"
-          value={employee.program}
+          value={employee.program && capitalizeFirstLetter(employee.program)}
           icon={<Briefcase className="h-5 w-5 text-blue-500" />}
         />
         <InfoRow
@@ -68,7 +69,7 @@ export const EmployeePersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
           <div className="col-span-1 md:col-span-2 text-gray-900  rounded-lg p-4 border border-blue-100 shadow-sm">
             <Label className="text-xs text-gray-500 flex items-center gap-2">
               <User className="h-4 w-4 text-blue-400" />
-              Bio
+              Biography
             </Label>
             <div className="mt-2 text-base font-medium">{employee.bio}</div>
           </div>
