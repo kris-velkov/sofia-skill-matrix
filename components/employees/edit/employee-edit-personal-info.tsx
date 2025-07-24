@@ -148,6 +148,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
               type="date"
               name="startDate"
               defaultValue={(localEmployee.startDate as string) || ""}
+              max={new Date().toISOString().split("T")[0]}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="Start Date"
             />
@@ -158,6 +159,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
               type="date"
               name="careerExperience"
               defaultValue={(localEmployee.careerExperience as string) || ""}
+              max={new Date().toISOString().split("T")[0]}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="Start Date"
             />

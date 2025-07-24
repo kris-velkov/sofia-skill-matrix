@@ -36,12 +36,6 @@ export function EmployeeTable({
 
   useMemo(() => {
     if (initialEmployees) {
-      initialEmployees.sort((a, b) => {
-        if (a.department && b.department) {
-          return a.department.localeCompare(b.department);
-        }
-        return 0;
-      });
       setEmployees(initialEmployees);
     }
   }, [initialEmployees]);
