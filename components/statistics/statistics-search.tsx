@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { CertificatesTable } from "@/components/statistics/certificates-table";
 import type { EmployeeCertificate } from "@/types/employees";
+import { formatDepartment } from "@/lib/utils/normalize";
 
 interface StatisticsSearchProps {
   certificates: EmployeeCertificate[];
@@ -24,7 +25,7 @@ export function StatisticsSearch({ certificates }: StatisticsSearchProps) {
         cert.issuer,
         cert.employee?.firstName,
         cert.employee?.lastName,
-        cert.employee?.department,
+        formatDepartment(cert.employee?.department),
         cert.employee?.role,
       ]
         .filter(Boolean)
