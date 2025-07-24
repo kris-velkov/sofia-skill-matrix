@@ -5,9 +5,17 @@ import { useFormStatus } from "react-dom";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { updateEmployeePersonalInfo } from "@/app/actions/employee-personal-info";
 import { toast } from "react-hot-toast";
 import { Employee } from "@/types/employees";
+import { PROGRAMS } from "@/constants/programs";
 
 interface EmployeePersonalInfoProps {
   employee: Omit<Employee, "skills">;
@@ -33,6 +41,9 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
   employee,
 }) => {
   const [localEmployee, setLocalEmployee] = useState(employee);
+  const [selectedProgram, setSelectedProgram] = useState(
+    employee.program || ""
+  );
   const formRef = useRef<HTMLFormElement>(null);
 
   const [, formAction] = useActionState(
@@ -107,12 +118,31 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
           </div>
           <div>
             <Label>Program</Label>
-            <input
+            <Select
               name="program"
-              defaultValue={localEmployee.program || ""}
-              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Program name"
-            />
+              value={selectedProgram}
+              onValueChange={(value) => {
+                setSelectedProgram(value);
+                const hiddenInput = document.querySelector(
+                  'input[name="program"]'
+                ) as HTMLInputElement;
+                if (hiddenInput) {
+                  hiddenInput.value = value;
+                }
+              }}
+            >
+              <SelectTrigger className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base border-0 border-b-2 rounded-none">
+                <SelectValue placeholder="Select a program" />
+              </SelectTrigger>
+              <SelectContent>
+                {PROGRAMS.map((program) => (
+                  <SelectItem key={program.value} value={program.value}>
+                    {program.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <input type="hidden" name="program" value={selectedProgram} />
           </div>
           <div className="text-gray-400 cursor-not-allowed">
             <Label>Department</Label>

@@ -78,6 +78,9 @@ export function EmployeeTable({
             lowerCaseSearchTerm
           ) ||
           (employee.role?.toLowerCase() || "").includes(lowerCaseSearchTerm) ||
+          (employee.department?.toLowerCase() || "").includes(
+            lowerCaseSearchTerm
+          ) ||
           (employee.program?.toLowerCase() || "").includes(lowerCaseSearchTerm)
         );
       }
@@ -86,16 +89,16 @@ export function EmployeeTable({
   }, [employees, searchTerm]);
 
   return (
-    <div className="w-full shadow-2xl">
-      <div className="p-3 sm:p-4 border-b border-gray-100">
+    <div className="w-full shadow-3xl border-gray-200">
+      <div className="p-5 sm:p-4 border-b border-gray-300">
         <div className="relative max-w-md w-full">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 " />
           <Input
             type="text"
             placeholder="Search employees by name, department, or role..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-9 pr-3 py-2 h-9 text-sm border-gray-200 rounded-md w-full"
+            className="pl-9 pr-3 py-2 h-9 text-sm border-gray-400 rounded-md w-full"
           />
         </div>
       </div>
@@ -106,10 +109,10 @@ export function EmployeeTable({
             No employees found.
           </div>
         ) : (
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-gray-200">
             {filteredEmployees.map((employee) => (
-              <div key={employee.id} className="p-4 hover:bg-gray-50">
-                <div className="flex items-center justify-between">
+              <div key={employee.id} className="p-4 hover:bg-gray-300 ">
+                <div className="flex items-center justify-between ">
                   <div className="flex items-center gap-3">
                     <EmployeeAvatar
                       src={employee.profileImage || ""}
@@ -177,26 +180,26 @@ export function EmployeeTable({
       <div className="hidden sm:block overflow-x-auto">
         <Table className="w-full">
           <TableHeader>
-            <TableRow className="border-b border-gray-200">
-              <TableHead className="py-3 px-4 text-sm font-medium text-gray-900">
+            <TableRow className="border-b border-gray-300 bg-gray-700">
+              <TableHead className="py-3 px-4 text-sm font-medium text-white">
                 Employee
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-gray-900">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-white">
                 Program
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-gray-900">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-white">
                 Department
               </TableHead>
-              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-medium text-gray-900">
+              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-medium text-white">
                 Hired On
               </TableHead>
-              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-medium text-gray-900">
+              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-medium text-white">
                 Career Experience
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-gray-900">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-white">
                 Role
               </TableHead>
-              <TableHead className="py-3 px-4 text-sm font-medium text-gray-900 text-right">
+              <TableHead className="py-3 px-4 text-sm font-medium text-white text-right">
                 Actions
               </TableHead>
             </TableRow>
@@ -215,7 +218,7 @@ export function EmployeeTable({
               filteredEmployees.map((employee) => (
                 <TableRow
                   key={employee.id}
-                  className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                  className="border-b border-gray-200 hover:bg-gray-200 transition-colors"
                 >
                   <TableCell className="py-3 px-4">
                     <div className="flex items-center gap-3">

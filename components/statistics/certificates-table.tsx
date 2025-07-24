@@ -60,7 +60,7 @@ export function CertificatesTable({
                 certificates.map((cert) => (
                   <TableRow
                     key={cert.id}
-                    className="text-gray-600 border-b border-gray-200"
+                    className="text-gray-600 border-b border-gray-200 hover:bg-gray-200"
                   >
                     <TableCell>
                       {cert.url ? (

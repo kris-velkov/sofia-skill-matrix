@@ -25,7 +25,7 @@ export default async function EmployeesPage() {
   const breadcrumbItems = [{ label: "Manage Employees" }];
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-150 min-h-screen">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-4 sm:py-6">
         <Breadcrumbs items={breadcrumbItems} className="mb-4" />
 
@@ -44,7 +44,7 @@ export default async function EmployeesPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+          <div className="bg-white rounded-lg shadow-xl overflow-hidden">
             <EmployeeTable initialEmployees={employees} />
           </div>
         </div>
