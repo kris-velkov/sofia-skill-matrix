@@ -6,6 +6,7 @@ import EmployeeEditPersonalInfo from "@/components/employees/edit/employee-edit-
 import EmployeeEditCertificates from "@/components/employees/edit/employee-edit-certificates";
 import EmployeeEditSkills from "@/components/employees/edit/employee-edit-skills-section";
 import { getEmployeeById } from "@/lib/employees";
+import { getEmployeeFullName } from "@/lib/utils/employees";
 
 export default async function EditEmployeeProfilePage({
   params,
@@ -22,7 +23,9 @@ export default async function EditEmployeeProfilePage({
   const breadcrumbItems = [
     { label: "Employees", href: "/employees" },
     {
-      label: employee?.firstName + " " + employee?.lastName,
+      label:
+        getEmployeeFullName(employee.firstName, employee.lastName) ||
+        "New employee",
       href: `/employees/${id}`,
     },
     { label: "Edit" },
