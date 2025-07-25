@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Linkedin, Slack } from "lucide-react";
 import { Employee } from "@/types/employees";
 import { FloatUserStatusBadge } from "./employee-float-status";
+import { capitalizeFirstLetter } from "@/lib/utils/normalize";
 
 interface EmployeeHeaderInfoProps {
   employee: Partial<Employee>;
@@ -28,7 +29,7 @@ export const EmployeeHeaderInfo: React.FC<EmployeeHeaderInfoProps> = ({
           {employee.firstName} {employee.lastName}
         </h1>
         <p className="text-lg text-gray-600">
-          {employee.department}
+          {capitalizeFirstLetter(employee.department ?? "")}
           {employee.city && ` • ${employee.city}`}
           {employee.country && `, ${employee.country}`}
         </p>

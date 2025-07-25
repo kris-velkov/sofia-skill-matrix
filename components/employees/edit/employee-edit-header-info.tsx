@@ -12,6 +12,7 @@ import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Employee } from "@/types/employees";
 import { deleteEmployeeAction } from "@/app/actions/employee-actions";
+import { capitalizeFirstLetter } from "@/lib/utils/normalize";
 
 interface EmployeeEditHeaderInfoProps {
   employee: Employee;
@@ -57,10 +58,10 @@ export const EmployeeEditHeaderInfo: React.FC<EmployeeEditHeaderInfoProps> = ({
             {employee.firstName} {employee.lastName}
           </h1>
           <p className="text-lg text-gray-600">
-            {employee.department}
+            {capitalizeFirstLetter(employee.department ?? "")}
             {employee.city && ` • ${employee.city}`}
             {employee.country && `• ${employee.country}`}
-            {employee.program && `• ${employee.program}`}
+            {employee.program && `• ${capitalizeFirstLetter(employee.program)}`}
           </p>
           {employee.role && (
             <Badge className="mt-2 px-4 py-1 text-base bg-blue-200 text-blue-800 font-semibold shadow">
