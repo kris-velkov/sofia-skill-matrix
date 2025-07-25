@@ -50,12 +50,13 @@ export interface SupabaseEmployee {
   employees_skill_levels: SupabaseSkillLevel[];
 }
 
-export type Department = "fe" | "be" | "qa" | "pm";
+export type Department = "fe" | "be" | "qa" | "pm" | "co";
 export type DepartmentFullName =
   | "Front-end"
   | "Back-end"
   | "QA"
-  | "Project Manager";
+  | "Project Manager"
+  | "CloudOps";
 
 export interface EmployeeRole {
   id: string;
@@ -68,6 +69,7 @@ export const DepartmentLabels: Record<Department, string> = {
   be: "Back-end",
   qa: "QA",
   pm: "Project Manager",
+  co: "CloudOps",
 };
 
 export type SkillLevel = 0 | 1 | 2 | 3 | 4;

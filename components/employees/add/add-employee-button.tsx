@@ -19,6 +19,7 @@ const ROLES: EmployeeRole[] = [
   { id: "2", name: "Back-end", departament: "be" },
   { id: "3", name: "QA", departament: "qa" },
   { id: "4", name: "Project Manager", departament: "pm" },
+  { id: "5", name: "CloudOps", departament: "co" },
 ];
 
 export default function AddEmployeeButton() {

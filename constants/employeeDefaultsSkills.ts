@@ -10,4 +10,5 @@ export const ROLES: EmployeeRole[] = [
   { id: "backend", name: "Back-end", departament: "be" },
   { id: "qa", name: "QA", departament: "qa" },
   { id: "pm", name: "Project Manager", departament: "pm" },
+  { id: "co", name: "CloudOps", departament: "co" },
 ];

@@ -27,7 +27,8 @@ export function normalizeDepartment(department: string): Department {
       (role.departament === "fe" && normalized === "frontend") ||
       (role.departament === "be" && normalized === "backend") ||
       (role.departament === "qa" && normalized === "quality assurance") ||
-      (role.departament === "pm" && normalized === "projectmanager")
+      (role.departament === "pm" && normalized === "projectmanager") ||
+      (role.departament === "co" && normalized === "cloudops")
   );
 
   if (role) return role.departament;
