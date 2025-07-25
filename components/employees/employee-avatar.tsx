@@ -14,8 +14,8 @@ export function EmployeeAvatar({ src, alt, className }: EmployeeAvatarProps) {
   return (
     <div
       className={cn(
-        "relative rounded-full overflow-hidden bg-gray-200 flex items-center justify-center",
-        className || "h-10 w-10"
+        "relative rounded-full overflow-hidden bg-gray-300 border border-gray-200 flex items-center justify-center shadow-xl",
+        className || "h-11 w-11"
       )}
     >
       {src ? (

@@ -24,7 +24,7 @@ export function EmployeeCardHeader({
         <EmployeeAvatar src={profileImage ?? ""} alt={`${name} profile`} />
         <div className="flex flex-row items-center justify-between w-full">
           <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
-          <div className="flex items-center gap-1 shadow rounded p-1">
+          <div className="flex items-center gap-1 shadow rounded p-1 border border-gray-100">
             <GraduationCap className="h-4 w-4 text-indigo-700" />
             <span className="font-normal text-sm text-indigo-600 ">
               {certificates ? certificates?.length : 0}

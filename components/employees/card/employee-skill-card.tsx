@@ -47,7 +47,7 @@ export function EmployeeSkillCard({
               {getExperienceFromDate(employee.careerExperience)}
             </span>
           </div>
-          <div className="mb-1 h-45 max-h-45 overflow-hidden">
+          <div className="mb-1 h-38 max-h-38 overflow-hidden">
             <EmployeeCardTopSkills skills={topSkills} />
           </div>
         </CardContent>
