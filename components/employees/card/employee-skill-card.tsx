@@ -28,7 +28,7 @@ export function EmployeeSkillCard({
       <Link
         href={`/employee/${employee.id}`}
         aria-label={`View details for ${employee.firstName} ${employee.lastName}`}
-        prefetch={false}
+        prefetch={true}
         tabIndex={0}
         className="block focus:outline-none focus:ring-2 focus:ring-indigo-500"
       >
