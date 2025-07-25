@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import {} from "@/components/employees/card/employee-skill-card";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import EmployeePersonalInfo from "@/components/employees/profile/employee-personal-info";
 import EmployeeSkillsInfo from "@/components/employees/profile/employee-skills-info";

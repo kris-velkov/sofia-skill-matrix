@@ -45,6 +45,13 @@ export async function deleteEmployeeSkill(
   skillId: string
 ): Promise<{ success: boolean; message: string }> {
   try {
+    if (!skillId || skillId.trim() === "") {
+      return {
+        success: true,
+        message: "Please, save the category to be able to removed successfully",
+      };
+    }
+
     const result = await deleteEmployeeSkillInDb(employeeId, skillId);
     if (!result.success) {
       return {
@@ -52,13 +59,12 @@ export async function deleteEmployeeSkill(
         message: result.error?.message || "Failed to delete employee skill",
       };
     }
-
     return {
       success: true,
       message: "Skill deleted successfully",
     };
   } catch (error) {
-    console.error(`Failed to delete skill for ${employeeId}:`, error);
+    console.error(`Failed to delete skill:`, error);
     return {
       success: false,
       message:
