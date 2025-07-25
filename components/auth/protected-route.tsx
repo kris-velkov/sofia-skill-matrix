@@ -25,7 +25,7 @@ export default function ProtectedRoute({
     if (!hydrated) return;
 
     if (!isLoggedIn && pathname !== "/login") {
-      router.replace(`/login?redirectedFrom=${encodeURIComponent(pathname)}`);
+      router.replace("/login");
       return;
     }
 
@@ -38,7 +38,7 @@ export default function ProtectedRoute({
       if (requiredRole === "admin") {
         router.replace("/");
       } else {
-        router.replace(`/login?redirectedFrom=${encodeURIComponent(pathname)}`);
+        router.replace("/login");
       }
     }
   }, [isLoggedIn, pathname, router, hydrated, role, requiredRole]);
