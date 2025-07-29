@@ -1,4 +1,5 @@
 import { Employee } from "@/types/employees";
+import { ProgramValue } from "@/constants/programs";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -11,6 +12,7 @@ export interface AuthUser {
     role?: UserRole;
     first_name?: string;
     last_name?: string;
+    program?: ProgramValue | "all";
     [key: string]: unknown;
   };
   app_metadata?: Record<string, unknown>;
@@ -20,6 +22,7 @@ export interface AuthUser {
 interface AuthState {
   isLoggedIn: boolean;
   role: UserRole;
+  program: ProgramValue | "all" | null;
   hydrated: boolean;
   user: AuthUser | null;
   employeeData: Employee | null;
@@ -31,11 +34,14 @@ interface AuthActions {
   setHydrated: (hydrated: boolean) => void;
   updateUser: (user: Partial<AuthUser>) => void;
   updateEmployeeData: (employeeData: Employee | null) => void;
+  updateProgram: (program: ProgramValue | "all") => void;
 }
 
 interface AuthSelectors {
   isAdmin: () => boolean;
   hasRole: (requiredRole: UserRole) => boolean;
+  canViewAllPrograms: () => boolean;
+  getUserProgram: () => ProgramValue | "all" | null;
 }
 
 type AuthStore = AuthState & AuthActions & AuthSelectors;
@@ -45,15 +51,21 @@ export const useAuthStore = create<AuthStore>()(
     (set, get) => ({
       isLoggedIn: false,
       role: null,
+      program: null,
       user: null,
       employeeData: null,
       hydrated: false,
 
       login: (user: AuthUser, employeeData?: Employee | null) => {
         const role = user?.user_metadata?.role || "user";
+        const program = (user?.user_metadata?.program ||
+          employeeData?.program ||
+          "all") as ProgramValue | "all";
+
         set({
           isLoggedIn: true,
           role,
+          program,
           user,
           employeeData: employeeData || null,
         });
@@ -63,6 +75,7 @@ export const useAuthStore = create<AuthStore>()(
         set({
           isLoggedIn: false,
           role: null,
+          program: null,
           user: null,
           employeeData: null,
         }),
@@ -73,9 +86,17 @@ export const useAuthStore = create<AuthStore>()(
         set((state) => ({
           user: state.user ? { ...state.user, ...userData } : null,
           role: userData.user_metadata?.role || state.role,
+          program: userData.user_metadata?.program || state.program,
         })),
 
-      updateEmployeeData: (employeeData) => set({ employeeData }),
+      updateEmployeeData: (employeeData) =>
+        set((state) => ({
+          employeeData,
+          program:
+            (employeeData?.program as ProgramValue | "all") || state.program,
+        })),
+
+      updateProgram: (program) => set({ program }),
 
       isAdmin: () => get().isLoggedIn && get().role === "admin",
 
@@ -83,6 +104,16 @@ export const useAuthStore = create<AuthStore>()(
         if (requiredRole === null) return true;
         return get().isLoggedIn && get().role === requiredRole;
       },
+
+      canViewAllPrograms: () => {
+        const state = get();
+        return (
+          state.isLoggedIn &&
+          (state.role === "admin" || state.program === "all")
+        );
+      },
+
+      getUserProgram: () => get().program,
     }),
     {
       name: "auth-store",

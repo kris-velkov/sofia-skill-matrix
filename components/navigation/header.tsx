@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { LogOut, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/navigation/logo";
 import Navigation from "@/components/navigation/menu";
+import { UserAvatar } from "@/components/navigation/user-avatar";
 import { useAuthStore } from "@/store/use-auth-store";
-import { signOut } from "@/lib/auth/authService";
 import CompetencyLegendTrigger from "../dashboard/competency-level-trigger";
 
 export function Header() {
@@ -22,11 +22,6 @@ export function Header() {
     setMobileMenuOpen(false);
   };
 
-  const handleSignOut = async () => {
-    closeMobileMenu();
-    await signOut();
-  };
-
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,20 +34,14 @@ export function Header() {
             <div className="hidden md:flex items-center space-x-4">
               <Navigation isAdmin={isAdmin} />
               <CompetencyLegendTrigger />
-              <Button
-                variant="ghost"
-                className="text-gray-700 hover:bg-gray-100"
-                onClick={handleSignOut}
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
+              <UserAvatar />
             </div>
           )}
 
           {isLoggedIn && (
             <div className="flex md:hidden items-center gap-1">
               <CompetencyLegendTrigger />
+              <UserAvatar />
               <Button
                 variant="ghost"
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100"
@@ -78,16 +67,6 @@ export function Header() {
               isMobile={true}
               onItemClick={closeMobileMenu}
             />
-            <div className="px-3 py-2">
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-gray-700 hover:bg-gray-100"
-                onClick={handleSignOut}
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
-            </div>
           </div>
         </div>
       )}
