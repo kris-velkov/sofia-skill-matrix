@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/use-auth-store";
-import { supabaseAuthClient } from "@/lib/supabase/supabaseAuthClient";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { createClient } from "@/lib/supabase/client";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const setHydrated = useAuthStore((state) => state.setHydrated);
@@ -13,10 +13,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const initializeAuth = async () => {
+      const supabase = await createClient();
       try {
         const {
           data: { session },
-        } = await supabaseAuthClient.auth.getSession();
+        } = await supabase.auth.getSession();
 
         if (session?.user) {
           const userRole = session.user.user_metadata?.role as
@@ -55,9 +56,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [login, setHydrated]);
 
   useEffect(() => {
+    const supabase = createClient();
     const {
       data: { subscription },
-    } = supabaseAuthClient.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (
         (event === "SIGNED_IN" || event === "USER_UPDATED") &&
         session?.user

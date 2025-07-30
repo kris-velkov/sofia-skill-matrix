@@ -1,5 +1,3 @@
-"use client";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Building2, Award, LucideIcon } from "lucide-react";
 import type { EmployeeCertificate } from "@/types/employees";
@@ -11,19 +9,27 @@ interface CompactStatsGridProps {
 export function CompactStatsGrid({
   employeesCertificates,
 }: Readonly<CompactStatsGridProps>) {
+  if (!employeesCertificates || employeesCertificates.length === 0) {
+    return null;
+  }
+
   const totalEmployees = new Set(
-    employeesCertificates.map((cert) => cert.employee.id)
+    employeesCertificates
+      .filter((cert) => cert?.employee?.id)
+      .map((cert) => cert.employee.id)
   ).size;
 
-  const departmentCounts = employeesCertificates.reduce((acc, emp) => {
-    const dept = emp.employee.department ?? "Unknown";
-    acc[dept] = (acc[dept] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+  const departmentCounts = employeesCertificates
+    .filter((emp) => emp?.employee?.department)
+    .reduce((acc, emp) => {
+      const dept = emp.employee.department ?? "Unknown";
+      acc[dept] = (acc[dept] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
 
   const totalDepartments = Object.keys(departmentCounts).length;
 
-  const totalCertificates = employeesCertificates?.length;
+  const totalCertificates = employeesCertificates.length;
 
   const stats: {
     title: string;

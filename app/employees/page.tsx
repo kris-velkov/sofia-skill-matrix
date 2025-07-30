@@ -1,8 +1,9 @@
 import { EmployeeTable } from "@/components/employees/employee-table";
 import AddEmployeeButton from "@/components/employees/add/add-employee-button";
 import { Metadata } from "next";
-import { getEmployees } from "@/lib/employees";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { getEmployeesByProgramName } from "../actions/employees-action";
+import { Employee } from "@/types/employees";
 
 export const metadata: Metadata = {
   title: "Manage Employees – Jakala Skill Matrix",
@@ -20,7 +21,14 @@ export const metadata: Metadata = {
 };
 
 export default async function EmployeesPage() {
-  const employees = await getEmployees();
+  let employees: Employee[] = [];
+
+  try {
+    employees = await getEmployeesByProgramName();
+  } catch (error) {
+    console.error("Failed to load employees:", error);
+    employees = [];
+  }
 
   const breadcrumbItems = [{ label: "Manage Employees" }];
 

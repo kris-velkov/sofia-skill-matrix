@@ -60,7 +60,7 @@ export const useAuthStore = create<AuthStore>()(
         const role = user?.user_metadata?.role || "user";
         const program = (user?.user_metadata?.program ||
           employeeData?.program ||
-          "all") as ProgramValue | "all";
+          null) as ProgramValue | "all";
 
         set({
           isLoggedIn: true,

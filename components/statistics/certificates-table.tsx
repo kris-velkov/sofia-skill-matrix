@@ -12,6 +12,7 @@ import {
 import { EmployeeAvatar } from "../employees/employee-avatar";
 import { formatDepartment } from "@/lib/utils/normalize";
 import { getEmployeeFullName } from "@/lib/utils/employees";
+import EmptyState from "../ui/empty-state";
 
 interface CertificatesTableProps {
   certificates: {
@@ -27,7 +28,7 @@ interface CertificatesTableProps {
       profileImage: string | null;
       department: string | null;
       role: string | null;
-    };
+    } | null;
   }[];
 }
 
@@ -35,6 +36,7 @@ export function CertificatesTable({
   certificates,
 }: Readonly<CertificatesTableProps>) {
   const hasData = certificates.length > 0;
+
   return (
     <Card className="shadow border border-gray-200 bg-white">
       <CardHeader>
@@ -89,25 +91,31 @@ export function CertificatesTable({
                         : "—"}
                     </TableCell>
                     <TableCell>
-                      {formatDepartment(cert.employee.department) || ""}
+                      {(cert.employee?.department &&
+                        formatDepartment(cert.employee.department)) ||
+                        ""}
                     </TableCell>
-                    <TableCell>{cert.employee.role || "—"}</TableCell>
+                    <TableCell>{cert.employee?.role || "—"}</TableCell>
                     <TableCell>
-                      <Link
-                        href={`/employee/${cert.employee.id}`}
-                        className="flex items-center gap-2 hover:text-blue-600 hover:underline"
-                      >
-                        <EmployeeAvatar
-                          src={cert.employee.profileImage}
-                          alt={`${cert.employee.firstName} profile`}
-                        />
-                        <span>
-                          {getEmployeeFullName(
-                            cert.employee.firstName,
-                            cert.employee.lastName
-                          )}
-                        </span>
-                      </Link>
+                      {cert.employee ? (
+                        <Link
+                          href={`/employee/${cert.employee.id}`}
+                          className="flex items-center gap-2 hover:text-blue-600 hover:underline"
+                        >
+                          <EmployeeAvatar
+                            src={cert.employee.profileImage}
+                            alt={`${cert.employee.firstName} profile`}
+                          />
+                          <span>
+                            {getEmployeeFullName(
+                              cert.employee.firstName,
+                              cert.employee.lastName
+                            )}
+                          </span>
+                        </Link>
+                      ) : (
+                        <span className="text-gray-400">—</span>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))
@@ -158,33 +166,39 @@ export function CertificatesTable({
                   </div>
                   <div className="space-y-2">
                     <strong>Department:</strong>{" "}
-                    {formatDepartment(cert.employee.department) || ""}
+                    {(cert.employee?.department &&
+                      formatDepartment(cert.employee.department)) ||
+                      ""}
                   </div>
                   <p>
-                    <strong>Role:</strong> {cert.employee.role || ""}
+                    <strong>Role:</strong> {cert.employee?.role || ""}
                   </p>
-                  <div className="flex items-center gap-2 pt-2 hover:text-blue-500">
-                    <EmployeeAvatar
-                      src={cert.employee.profileImage}
-                      alt={`${cert.employee.firstName} profile`}
-                    />
-                    <Link
-                      href={`/employee/${cert.employee.id}`}
-                      className="hover:underline font-medium text-foreground"
-                    >
-                      {getEmployeeFullName(
-                        cert.employee.firstName,
-                        cert.employee.lastName
-                      )}
-                    </Link>
-                  </div>
+                  {cert.employee ? (
+                    <div className="flex items-center gap-2 pt-2 hover:text-blue-500">
+                      <EmployeeAvatar
+                        src={cert.employee.profileImage}
+                        alt={`${cert.employee.firstName} profile`}
+                      />
+                      <Link
+                        href={`/employee/${cert.employee.id}`}
+                        className="hover:underline font-medium text-foreground"
+                      >
+                        {getEmployeeFullName(
+                          cert.employee.firstName,
+                          cert.employee.lastName
+                        )}
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="pt-2">
+                      <span className="text-gray-400">No employee data</span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-center text-muted-foreground">
-              No certificate data available.
-            </p>
+            <EmptyState message=" No certificate data available." />
           )}
         </div>
       </CardContent>

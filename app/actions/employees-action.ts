@@ -1,13 +1,27 @@
 "use server";
 
-import { getEmployees } from "@/lib/employees";
+import { getEmployees, getEmployeesByProgram } from "@/lib/employees";
+import { requireAuth } from "./auth-action";
 
-export async function getEmployeesData() {
+export async function getAllEmployees() {
   try {
-    const data = await getEmployees();
-    return data;
+    const employees = await getEmployees();
+
+    return employees;
   } catch (error) {
-    console.error("Error fetching employees:", error);
-    throw new Error("Failed to fetch employees.");
+    console.error("Error fetching all employees:", error);
+    throw new Error("Failed to fetch all employees.");
+  }
+}
+export async function getEmployeesByProgramName() {
+  try {
+    const user = await requireAuth();
+
+    const employees = await getEmployeesByProgram(user.program);
+
+    return employees;
+  } catch (error) {
+    console.error("Error fetching employees by program:", error);
+    throw new Error("Failed to fetch employees by program.");
   }
 }

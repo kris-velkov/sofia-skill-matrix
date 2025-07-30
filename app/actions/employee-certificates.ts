@@ -4,6 +4,7 @@ import {
   addEmployeeCertificateInDb,
   deleteEmployeeCertificateInDb,
   updateEmployeeCertificatesInDb,
+  getEmployeeCertificates as getEmployeeCertificatesFromDb,
 } from "@/lib/certificatesDB";
 import { Certificate } from "@/types/employees";
 
@@ -43,5 +44,18 @@ export async function updateEmployeeCertificate(certificates: Certificate) {
   } catch (error) {
     console.error(`Failed to update certificates`, error);
     throw new Error("Unable to update certificates.");
+  }
+}
+
+export async function getEmployeeCertificates(employeeId: string) {
+  try {
+   
+    return await getEmployeeCertificatesFromDb(employeeId);
+  } catch (error) {
+    console.error(
+      `Failed to get certificates for employee ${employeeId}:`,
+      error
+    );
+    throw new Error("Unable to get certificates.");
   }
 }

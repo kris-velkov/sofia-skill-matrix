@@ -9,4 +9,4 @@ export const PROGRAMS = [
   { value: "cloudops", label: "CloudOps" },
 ] as const;
 
-export type ProgramValue = (typeof PROGRAMS)[number]["value"];
+export type ProgramValue = (typeof PROGRAMS)[number]["value"] | "all" | null;

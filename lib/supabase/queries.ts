@@ -1,5 +1,5 @@
 export const EMPLOYEE_FULL_SELECT_QUERY = `
-id,
+  id,
   first_name,
   last_name,
   bio,
@@ -44,11 +44,12 @@ export const EMPLOYEE_CERTIFICATE_QUERY = `
         issuer,
         date,
         url,
-        employee:employees (
+        employee:employees!inner (
           id,
           first_name,
           last_name,
           profile_image,
+          program,
           department,
           role
         )

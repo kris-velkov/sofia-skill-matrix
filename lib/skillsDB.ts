@@ -1,7 +1,6 @@
 "use server";
 
 import { PostgrestError } from "@supabase/supabase-js";
-import { supabaseClient } from "./supabase/supabaseClient";
 import {
   groupSkillsByCategoryWithAverage,
   checkIfColumnExists,
@@ -25,13 +24,15 @@ import {
   RawSkillData,
   GroupedCategory,
 } from "@/types/skills";
+import { createSupabaseServerClient } from "./supabase/server";
 
 export async function deleteEmployeeSkillInDb(
   employeeId: string,
   skillId: string
 ): Promise<SkillOperationResult> {
   try {
-    const { error } = await supabaseClient
+    const supabase = await createSupabaseServerClient();
+    const { error } = await supabase
       .from("employees_skill_levels")
       .delete()
       .eq("employee_id", employeeId)
@@ -60,7 +61,8 @@ export async function updateEmployeeCategoryNameInDb(
   newName: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const { error } = await supabaseClient
+    const supabase = await createSupabaseServerClient();
+    const { error } = await supabase
       .from("categories")
       .update({ name: newName })
       .eq("id", categoryId);
@@ -110,7 +112,8 @@ export async function getEmployeeSkillsGrouped(
   employeeId: string
 ): Promise<{ success: boolean; data?: GroupedCategory[]; error?: string }> {
   try {
-    const { data, error } = await supabaseClient
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
       .from("employees_skill_levels")
       .select(
         `
@@ -165,7 +168,8 @@ export async function assignDefaultLevelsToEmployee(
       level: 0,
     }));
 
-    const { error } = await supabaseClient
+    const supabase = await createSupabaseServerClient();
+    const { error } = await supabase
       .from("employees_skill_levels")
       .insert(payload);
 
@@ -205,7 +209,7 @@ export async function deleteCategoryInDb(
     const hasDefaultColumn = await checkIfColumnExists(
       "categories",
       "default",
-      supabaseClient
+      supabase
     );
 
     if (hasDefaultColumn) {

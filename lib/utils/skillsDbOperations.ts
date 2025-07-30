@@ -1,6 +1,6 @@
 "use server";
 
-import { supabaseClient } from "../supabase/supabaseClient";
+import { createSupabaseServerClient } from "../supabase/server";
 import { normalizeDepartment, normalizeName } from "./normalize";
 import { checkIfColumnExists } from "./skillsUtils";
 import { CategoryResult, SkillData } from "@/types/skills";
@@ -10,7 +10,9 @@ export async function updateSkillName(
   skillId: string,
   skillName: string
 ): Promise<void> {
-  const { error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+
+  const { error } = await supabase
     .from("skills")
     .update({ name: normalizeName(skillName) })
     .eq("id", skillId);
@@ -24,7 +26,8 @@ export async function findOrCreateSkill(
   skillName: string,
   categoryId: string
 ): Promise<string | null> {
-  const { data: existingSkill } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data: existingSkill } = await supabase
     .from("skills")
     .select("id")
     .ilike("name", normalizeName(skillName))
@@ -42,7 +45,8 @@ export async function createNewSkill(
   skillName: string,
   categoryId: string
 ): Promise<string | null> {
-  const { data: newSkill, error: createError } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data: newSkill, error: createError } = await supabase
     .from("skills")
     .insert({
       name: normalizeName(skillName),
@@ -67,7 +71,8 @@ export async function updateEmployeeSkillLevel(
   skillId: string,
   level: number
 ): Promise<void> {
-  const { error } = await supabaseClient.from("employees_skill_levels").upsert({
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("employees_skill_levels").upsert({
     employee_id: employeeId,
     skill_id: skillId,
     level,
@@ -82,7 +87,8 @@ export async function updateEmployeeSkillLevel(
 }
 
 export async function findExistingCategory(categoryName: string) {
-  const { data } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
     .from("categories")
     .select("id, name, departments, default")
     .ilike("name", normalizeName(categoryName))
@@ -95,7 +101,8 @@ export async function updateCategoryDepartments(
   categoryId: string,
   departments: string[]
 ): Promise<void> {
-  const { error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
     .from("categories")
     .update({ departments })
     .eq("id", categoryId);
@@ -109,10 +116,11 @@ export async function createNewCategory(
   categoryName: string,
   department: string
 ): Promise<CategoryResult> {
+  const supabase = await createSupabaseServerClient();
   const hasDefaultColumn = await checkIfColumnExists(
     "categories",
     "default",
-    supabaseClient
+    supabase
   );
 
   const insertData: Database["public"]["Tables"]["categories"]["Insert"] = {
@@ -124,7 +132,7 @@ export async function createNewCategory(
     insertData.default = false;
   }
 
-  const { data, error } = await supabaseClient
+  const { data, error } = await supabase
     .from("categories")
     .insert(insertData)
     .select("id, name, departments")
@@ -144,7 +152,8 @@ export async function createNewCategory(
 export async function checkIfOriginalCategory(
   categoryId: string
 ): Promise<boolean> {
-  const { data, error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
     .from("categories")
     .select("default")
     .eq("id", categoryId)
@@ -164,7 +173,8 @@ export async function checkIfOriginalCategory(
 export async function getSkillIdsForCategory(
   categoryId: string
 ): Promise<string[]> {
-  const { data } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
     .from("skills")
     .select("id")
     .eq("category_id", categoryId);
@@ -173,7 +183,8 @@ export async function getSkillIdsForCategory(
 }
 
 export async function deleteSkillLevels(skillIds: string[]): Promise<void> {
-  const { error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
     .from("employees_skill_levels")
     .delete()
     .in("skill_id", skillIds);
@@ -184,7 +195,8 @@ export async function deleteSkillLevels(skillIds: string[]): Promise<void> {
 }
 
 export async function deleteSkills(categoryId: string): Promise<void> {
-  const { error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
     .from("skills")
     .delete()
     .eq("category_id", categoryId);
@@ -195,7 +207,8 @@ export async function deleteSkills(categoryId: string): Promise<void> {
 }
 
 export async function deleteCategory(categoryId: string): Promise<void> {
-  const { error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
     .from("categories")
     .delete()
     .eq("id", categoryId);
@@ -209,7 +222,8 @@ export async function getCategoryId(
   categoryName: string
 ): Promise<string | null> {
   const normalizedCategoryName = normalizeName(categoryName);
-  const { data: categoryData, error: categoryError } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data: categoryData, error: categoryError } = await supabase
     .from("categories")
     .select("id")
     .ilike("name", normalizeName(normalizedCategoryName).trim())
@@ -285,7 +299,8 @@ export async function handleExistingCategory(
 export async function getSkillsForDepartment(
   department: string
 ): Promise<Array<{ id: string; name: string }>> {
-  const { data, error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
     .from("categories")
     .select(
       `

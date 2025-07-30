@@ -7,7 +7,9 @@ import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/store/use-auth-store";
 import { BarChart, Eye, EyeOff, Mail } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { signInWithEmail } from "@/lib/auth/authService";
+import { useRouter } from "next/navigation";
+import { signInWithEmail } from "@/app/actions/auth-action";
+import { ProgramValue } from "@/constants/programs";
 
 export function LoginFormSupabase() {
   const [email, setEmail] = useState("");
@@ -29,6 +31,9 @@ export function LoginFormSupabase() {
     }
   }, [isLoggedIn, redirecting]);
 
+  const router = useRouter();
+  const login = useAuthStore((s) => s.login);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading || redirecting) return;
@@ -36,16 +41,41 @@ export function LoginFormSupabase() {
     setLoading(true);
 
     try {
-      const result = await signInWithEmail(email, password);
+      const { success, user, error } = await signInWithEmail(email, password);
 
-      if (result.success) {
-        setRedirecting(true);
-        window.location.href = "/";
-      } else {
-        setError(
-          result.error?.message ?? "Invalid credentials. Please try again."
-        );
+      if (error) {
+        setError(error.message);
+        return;
       }
+
+      if (!success || !user) {
+        setError("User data not found");
+        return;
+      }
+
+      const authUser = {
+        id: user.id,
+        email: user.email,
+        user_metadata: {
+          role: (user.role as "admin" | "user") || "user",
+          firstName: user.firstName || "",
+          lastName: user.lastName || "",
+          program: (user.program as ProgramValue) || "null",
+        },
+      };
+
+      const employeeData = {
+        id: user.id,
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        program: (user.program as ProgramValue) || "null",
+        skills: [],
+      };
+
+      login(authUser, employeeData);
+
+      setRedirecting(true);
+      router.push("/");
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again.");

@@ -1,12 +1,14 @@
 "use server";
 
-import { getAllEmployeeCertificates } from "@/lib/certificatesDB";
+import { getEmployeeCertificatesInDb } from "@/lib/certificatesDB";
+import { requireAuth } from "./auth-action";
 
 export async function getAllEmployeesCertificates() {
   try {
-    return await getAllEmployeeCertificates();
+    const user = await requireAuth();
+    return await getEmployeeCertificatesInDb(user.program);
   } catch (error) {
-    console.error("Failed to fetch employees:", error);
-    throw new Error("Unable to load employees at this time.");
+    console.error("Failed to fetch employee certificates:", error);
+    throw new Error("Unable to load employee certificates at this time.");
   }
 }

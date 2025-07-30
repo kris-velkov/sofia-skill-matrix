@@ -1,11 +1,13 @@
-import { supabaseClient } from "@/lib/supabase/supabaseClient";
 import { EMPLOYEE_FULL_SELECT_QUERY } from "./supabase/queries";
 import { SupabaseEmployee } from "../types/employees";
 import { formatDepartment } from "./utils/normalize";
+import { createSupabaseServerClient } from "./supabase/server";
+import { ProgramValue } from "@/constants/programs";
 
 type FetchEmployeeFilter = {
   id?: string;
   department?: string;
+  program?: ProgramValue;
 };
 
 type FetchEmployeeResult<T extends FetchEmployeeFilter | undefined> =
@@ -14,7 +16,8 @@ type FetchEmployeeResult<T extends FetchEmployeeFilter | undefined> =
 export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
   filter?: T
 ): Promise<FetchEmployeeResult<T>> {
-  const query = supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const query = supabase
     .from("employees")
     .select(EMPLOYEE_FULL_SELECT_QUERY)
     .order("first_name");
@@ -44,6 +47,10 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
 
   if (filter?.department) {
     query.eq("department", filter.department);
+  }
+
+  if (filter?.program) {
+    query.eq("program", filter.program);
   }
 
   const { data, error } = await query;

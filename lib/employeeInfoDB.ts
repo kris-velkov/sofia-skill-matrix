@@ -1,9 +1,9 @@
 "use server";
 
-import { supabaseClient } from "./supabase/supabaseClient";
 import snakecaseKeys from "snakecase-keys";
 import camelcaseKeys from "camelcase-keys";
 import { Employee, EmployeeReturnType } from "@/types/employees";
+import { createSupabaseServerClient } from "./supabase/server";
 
 export async function addEmployee(
   newEmployee: Partial<Employee>
@@ -13,8 +13,9 @@ export async function addEmployee(
   }
 
   const payload = snakecaseKeys(newEmployee, { deep: true }) as Employee;
+  const supabase = await createSupabaseServerClient();
 
-  const { data, error } = await supabaseClient
+  const { data, error } = await supabase
     .from("employees")
     .insert([payload])
     .select()
@@ -29,7 +30,8 @@ export async function addEmployee(
 export async function updateEmployee(
   updatedEmployee: Employee
 ): Promise<Employee | undefined> {
-  const { error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
     .from("employees")
     .update(updatedEmployee)
     .eq("id", updatedEmployee.id);
@@ -43,10 +45,8 @@ export async function updateEmployee(
 }
 
 export async function deleteEmployee(id: string): Promise<boolean> {
-  const { error } = await supabaseClient
-    .from("employees")
-    .delete()
-    .eq("id", id);
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("employees").delete().eq("id", id);
 
   if (error) {
     console.error("Error deleting employee:", error);
@@ -61,7 +61,8 @@ export async function updateEmployeeFieldById<T extends keyof Employee>(
   field: T,
   value: Employee[T]
 ): Promise<EmployeeReturnType | undefined> {
-  const { data, error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
     .from("employees")
     .update({ [field]: value })
     .eq("id", id)
@@ -83,7 +84,9 @@ export async function updateEmployeePartial(
   data: Partial<Employee>
 ): Promise<ReturnEmployee | undefined> {
   const payload = snakecaseKeys(data, { deep: true }) as Employee;
-  const { data: updated, error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+
+  const { data: updated, error } = await supabase
     .from("employees")
     .update(payload)
     .eq("id", id)

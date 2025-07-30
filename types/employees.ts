@@ -1,3 +1,5 @@
+import { ProgramValue } from "@/constants/programs";
+
 export interface SupabaseCertificate {
   id: string;
   name: string;
@@ -145,6 +147,7 @@ export type EmployeeCertificate = {
     id: string;
     firstName?: string;
     lastName?: string;
+    program: ProgramValue | null;
     profileImage: string | null;
     department: Department;
     role: string | null;

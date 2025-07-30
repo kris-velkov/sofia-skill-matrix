@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Eye, Pencil, Trash2, Search } from "lucide-react";
+import { Eye, Pencil, Trash2, Search, User, UserX } from "lucide-react";
 import toast from "react-hot-toast";
 import {
   Table,
@@ -20,6 +20,8 @@ import { EmployeeAvatar } from "./employee-avatar";
 import { deleteEmployeeAction } from "@/app/actions/employee-actions";
 import { getExperienceFromDate } from "@/lib/utils/experienceDate";
 import { capitalizeFirstLetter } from "@/lib/utils/normalize";
+import EmptyState from "../ui/empty-state";
+import { CardHeader, CardTitle } from "../ui/card";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];
@@ -106,9 +108,10 @@ export function EmployeeTable({
 
       <div className="block sm:hidden">
         {filteredEmployees.length === 0 ? (
-          <div className="p-6 text-center text-gray-500">
-            No employees found.
-          </div>
+          <EmptyState
+            message="No employees found."
+            icon={<UserX className="m-2 text-gray-800" />}
+          />
         ) : (
           <div className="divide-y divide-gray-200">
             {filteredEmployees.map((employee) => (
@@ -186,7 +189,8 @@ export function EmployeeTable({
           <TableHeader>
             <TableRow className="border-b border-gray-300 bg-gray-700">
               <TableHead className="py-3 px-4 text-sm font-medium text-white">
-                Employee
+                Employees{" "}
+                {filteredEmployees.length > 0 && filteredEmployees.length}
               </TableHead>
               <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-white">
                 Program
@@ -215,7 +219,10 @@ export function EmployeeTable({
                   colSpan={7}
                   className="h-24 text-center text-gray-500"
                 >
-                  No employees found.
+                  <EmptyState
+                    message="No employees found."
+                    icon={<UserX className="m-2 text-gray-800" />}
+                  />
                 </TableCell>
               </TableRow>
             ) : (

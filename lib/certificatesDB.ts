@@ -1,15 +1,17 @@
 "use server";
 
-import { supabaseClient } from "./supabase/supabaseClient";
 import snakecaseKeys from "snakecase-keys";
 import camelcaseKeys from "camelcase-keys";
 import { Certificate, EmployeeCertificate } from "@/types/employees";
 import { EMPLOYEE_CERTIFICATE_QUERY } from "./supabase/queries";
+import { createSupabaseServerClient } from "./supabase/server";
+import { ProgramValue } from "@/constants/programs";
 
 export async function getEmployeeCertificates(
   employeeId: string
 ): Promise<Certificate[] | undefined> {
-  const { data, error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
     .from("certificates")
     .select("*")
     .eq("employee_id", employeeId)
@@ -26,8 +28,8 @@ export async function addEmployeeCertificateInDb(
   certificate: Omit<Certificate, "id">
 ): Promise<Certificate[] | undefined> {
   const payload = snakecaseKeys(certificate);
-
-  const { data, error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
     .from("certificates")
     .insert(payload)
     .select();
@@ -43,7 +45,8 @@ export async function deleteEmployeeCertificateInDb(
   employeeId: string,
   certificateId: string
 ): Promise<Certificate[] | undefined> {
-  const { data, error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
     .from("certificates")
     .delete()
     .match({ employee_id: employeeId, id: certificateId })
@@ -65,8 +68,8 @@ export async function updateEmployeeCertificatesInDb(
   }
 
   const payload = snakecaseKeys(certificate, { deep: true });
-
-  const { data, error } = await supabaseClient
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
     .from("certificates")
     .update(payload)
     .match({ id: certificate?.id, employee_id: certificate.employeeId })
@@ -80,16 +83,24 @@ export async function updateEmployeeCertificatesInDb(
   return camelcaseKeys(data, { deep: true }) as Certificate[];
 }
 
-export async function getAllEmployeeCertificates(): Promise<
-  EmployeeCertificate[]
-> {
-  const { data, error } = await supabaseClient
+export async function getEmployeeCertificatesInDb(
+  program: ProgramValue
+): Promise<EmployeeCertificate[]> {
+  const supabase = await createSupabaseServerClient();
+
+  let query = supabase
     .from("certificates")
     .select(EMPLOYEE_CERTIFICATE_QUERY)
     .order("created_at", { ascending: false });
 
+  if (program && program !== "all") {
+    query = query.eq("employee.program", program);
+  }
+
+  const { data, error } = await query;
+
   if (error) {
-    console.error("Error fetching all employee certificates:", error);
+    console.error("Error fetching employee certificates:", error);
     throw new Error("Failed to fetch employee certificates");
   }
 
