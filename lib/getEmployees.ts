@@ -49,7 +49,7 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
     query.eq("department", filter.department);
   }
 
-  if (filter?.program) {
+  if (filter?.program && filter?.program !== "all") {
     query.eq("program", filter.program);
   }
 

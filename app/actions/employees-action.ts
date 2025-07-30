@@ -17,6 +17,12 @@ export async function getEmployeesByProgramName() {
   try {
     const user = await requireAuth();
 
+    if (user.role !== "admin" && !user.program) {
+      throw new Error(
+        "Access denied: Admin role required or valid program not found."
+      );
+    }
+
     const employees = await getEmployeesByProgram(user.program);
 
     return employees;
