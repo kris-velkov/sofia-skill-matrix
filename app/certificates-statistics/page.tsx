@@ -1,6 +1,6 @@
-import { CompactStatsGrid } from "@/components/statistics/compact-stats-grid";
+import { CompactStatsGrid } from "@/components/certificates-statistics/compact-stats-grid";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { StatisticsSearch } from "@/components/statistics/statistics-search";
+import { StatisticsSearch } from "@/components/certificates-statistics/statistics-search";
 import { getAllEmployeesCertificates } from "../actions/certificate-statistics-action";
 
 export const revalidate = 0;

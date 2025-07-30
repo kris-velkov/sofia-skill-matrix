@@ -35,6 +35,19 @@ export const EMPLOYEE_FULL_SELECT_QUERY = `
         order_index
       )
     )
+  ),
+  employees_ai_tools (
+    employee_id,
+    tool_id,
+    level,
+    frequency,
+    created_at,
+    updated_at,
+    ai_tools (
+      id,
+      name,
+      order_number
+    )
   )
 `;
 

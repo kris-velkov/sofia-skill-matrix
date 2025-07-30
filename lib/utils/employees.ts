@@ -96,6 +96,23 @@ export function mapSupabaseEmployee(emp: SupabaseEmployee): Employee {
       url: cert.url || undefined,
     })) || [];
 
+  const aiTools =
+    emp.employees_ai_tools?.map((aiTool) => ({
+      employeeId: emp.id,
+      toolId: aiTool.tool_id,
+      level: aiTool.level as SkillLevel,
+      frequency: aiTool.frequency as "daily" | "weekly" | "monthly" | "rarely",
+      createdAt: aiTool.created_at,
+      updatedAt: aiTool.updated_at,
+      tool: aiTool.ai_tools
+        ? {
+            id: aiTool.ai_tools.id,
+            name: aiTool.ai_tools.name,
+            orderNumber: aiTool.ai_tools.order_number,
+          }
+        : undefined,
+    })) || [];
+
   return {
     id: emp.id,
     firstName: emp.first_name || "",
@@ -114,6 +131,7 @@ export function mapSupabaseEmployee(emp: SupabaseEmployee): Employee {
     floatId: emp.float_id || undefined,
     skills: skillCategories,
     certificates: certificates,
+    aiTools: aiTools,
   };
 }
 

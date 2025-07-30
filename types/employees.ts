@@ -50,6 +50,7 @@ export interface SupabaseEmployee {
   float_id: string | null;
   certificates: SupabaseCertificate[];
   employees_skill_levels: SupabaseSkillLevel[];
+  employees_ai_tools: SupabaseEmployeeAiTool[];
 }
 
 export type Department = "fe" | "be" | "qa" | "pm" | "co";
@@ -133,6 +134,7 @@ export interface Employee {
   linkedinUrl?: string;
   certificates?: Certificate[] | null;
   skills: SkillCategory[] | null;
+  aiTools?: EmployeeAiTool[] | null;
 }
 
 export type EmployeeReturnType = Omit<Employee, "skills" | "certificates">;
@@ -153,3 +155,61 @@ export type EmployeeCertificate = {
     role: string | null;
   };
 };
+
+// AI Tools Types
+export type AiToolFrequency = "daily" | "weekly" | "monthly" | "rarely";
+
+export interface AiTool {
+  id: string;
+  name: string;
+  orderNumber: number;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+}
+
+export interface SupabaseAiTool {
+  id: string;
+  name: string;
+  order_number: number;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+export interface EmployeeAiTool {
+  id?: string;
+  employeeId: string;
+  toolId: string;
+  level: SkillLevel; // 0-4 proficiency scale, reusing existing SkillLevel type
+  frequency: AiToolFrequency;
+  createdAt?: string;
+  updatedAt?: string;
+  tool?: AiTool; // Populated via join
+}
+
+export interface SupabaseEmployeeAiTool {
+  employee_id: string;
+  tool_id: string;
+  level: number;
+  frequency: string;
+  created_at: string;
+  updated_at: string;
+  ai_tools?: SupabaseAiTool;
+}
+
+export interface EmployeeAiToolData {
+  id: string;
+  level: SkillLevel;
+  frequency: AiToolFrequency;
+  createdAt: string;
+  updatedAt: string;
+  aiTools: AiTool;
+  employees: {
+    id: string;
+    firstName: string | null;
+    lastName: string | null;
+    profileImage: string | null;
+    department: Department;
+    role: string | null;
+    program: ProgramValue | null;
+  };
+}

@@ -3,6 +3,7 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import EmployeePersonalInfo from "@/components/employees/profile/employee-personal-info";
 import EmployeeSkillsInfo from "@/components/employees/profile/employee-skills-info";
 import EmployeeCertificatesInfo from "@/components/employees/profile/employee-certificates-info";
+import EmployeeAiToolsInfo from "@/components/employees/profile/employee-ai-tools-info";
 import EmployeeHeaderInfo from "@/components/employees/profile/employee-header-info";
 import { getEmployee } from "@/app/actions/employee-actions";
 
@@ -31,6 +32,7 @@ export default async function Page({
         {employee.certificates && (
           <EmployeeCertificatesInfo certificates={employee.certificates} />
         )}
+        {employee.aiTools && <EmployeeAiToolsInfo aiTools={employee.aiTools} />}
         {employee.skills && <EmployeeSkillsInfo skills={employee.skills} />}
       </div>
     </section>

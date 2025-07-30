@@ -60,7 +60,7 @@ export function LoginFormSupabase() {
           role: (user.role as "admin" | "user") || "user",
           firstName: user.firstName || "",
           lastName: user.lastName || "",
-          program: (user.program as ProgramValue) || "null",
+          program: (user.program as ProgramValue) || null,
         },
       };
 
@@ -68,7 +68,7 @@ export function LoginFormSupabase() {
         id: user.id,
         firstName: user.firstName || "",
         lastName: user.lastName || "",
-        program: (user.program as ProgramValue) || "null",
+        program: (user.program as ProgramValue) || null,
         skills: [],
       };
 

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { CertificatesTable } from "@/components/statistics/certificates-table";
+import { CertificatesTable } from "@/components/certificates-statistics/certificates-table";
 import type { EmployeeCertificate } from "@/types/employees";
 import { formatDepartment } from "@/lib/utils/normalize";
 

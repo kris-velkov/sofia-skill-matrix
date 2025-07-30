@@ -1,4 +1,4 @@
-import { Users2, BarChart2 } from "lucide-react";
+import { Users2, BarChart2, Bot } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
@@ -10,9 +10,14 @@ const NAV_LINKS = [
     icon: <Users2 className="h-4 w-4" />,
   },
   {
-    href: "/statistics",
+    href: "/certificates-statistics",
     label: "Certificates Statistics",
     icon: <BarChart2 className="h-4 w-4" />,
+  },
+  {
+    href: "/ai-statistics",
+    label: "AI Tools Statistics",
+    icon: <Bot className="h-4 w-4" />,
   },
 ];
 

@@ -38,6 +38,15 @@ export async function fetchEmployees<T extends FetchEmployeeFilter | undefined>(
         return aOrderIndex - bOrderIndex;
       });
     }
+
+    if (data.employees_ai_tools.length > 0) {
+      data.employees_ai_tools.sort((a, b) => {
+        const aLevel = a.level ?? Number.MAX_SAFE_INTEGER;
+        const bLevel = b.level ?? Number.MAX_SAFE_INTEGER;
+        return bLevel - aLevel;
+      });
+    }
+
     if (data.department) {
       data.department = formatDepartment(data.department);
     }
