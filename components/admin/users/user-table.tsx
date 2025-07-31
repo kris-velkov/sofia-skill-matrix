@@ -52,6 +52,7 @@ export function UserTable({
           </Badge>
         );
       },
+      className: "hidden lg:table-cell",
     },
     {
       key: "program",

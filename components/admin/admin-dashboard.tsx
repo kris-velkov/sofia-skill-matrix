@@ -35,7 +35,7 @@ export function AdminDashboard() {
             <div className="p-1.5 bg-purple-100 rounded-md">
               <Users className="h-4 w-4 text-purple-600" />
             </div>
-            User Management
+            Users
           </TabsTrigger>
           <TabsTrigger
             value="categories"
