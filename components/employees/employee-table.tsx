@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Eye, Pencil, Trash2, Search, User, UserX } from "lucide-react";
+import { Eye, Pencil, Trash2, Search, UserX } from "lucide-react";
 import toast from "react-hot-toast";
 import {
   Table,
@@ -21,7 +21,6 @@ import { deleteEmployeeAction } from "@/app/actions/employee-actions";
 import { getExperienceFromDate } from "@/lib/utils/experienceDate";
 import { capitalizeFirstLetter } from "@/lib/utils/normalize";
 import EmptyState from "../ui/empty-state";
-import { CardHeader, CardTitle } from "../ui/card";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];

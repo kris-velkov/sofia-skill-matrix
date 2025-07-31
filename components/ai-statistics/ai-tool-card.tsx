@@ -9,14 +9,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import {
-  ChevronDown,
-  ChevronRight,
-  Users,
-  BarChart3,
-  Sparkles,
-  Bot,
-} from "lucide-react";
+import { ChevronDown, ChevronRight, Users, BarChart3, Bot } from "lucide-react";
 import { AiToolUsageData } from "@/lib/utils/aiStatisticsUtils";
 import { AiToolLevelDistribution } from "./ai-tool-level-distribution";
 import { AiToolUsersList } from "./ai-tool-users-list";

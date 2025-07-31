@@ -179,11 +179,11 @@ export interface EmployeeAiTool {
   id?: string;
   employeeId: string;
   toolId: string;
-  level: SkillLevel; // 0-4 proficiency scale, reusing existing SkillLevel type
+  level: SkillLevel;
   frequency: AiToolFrequency;
   createdAt?: string;
   updatedAt?: string;
-  tool?: AiTool; // Populated via join
+  tool?: AiTool;
 }
 
 export interface SupabaseEmployeeAiTool {

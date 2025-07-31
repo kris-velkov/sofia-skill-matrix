@@ -6,6 +6,7 @@ import {
   updateEmployeeAiToolInDb,
   getEmployeeAiTools as getEmployeeAiToolsFromDb,
   getAllAiTools,
+  findOrCreateAiTool,
 } from "@/lib/aiToolsDB";
 import { EmployeeAiTool } from "@/types/employees";
 
@@ -60,5 +61,14 @@ export async function getAllAvailableAiTools() {
   } catch (error) {
     console.error("Failed to get available AI tools:", error);
     throw new Error("Unable to get available AI tools.");
+  }
+}
+
+export async function createNewAiTool(toolName: string) {
+  try {
+    return await findOrCreateAiTool(toolName);
+  } catch (error) {
+    console.error("Failed to create AI tool:", error);
+    throw new Error("Unable to create AI tool.");
   }
 }

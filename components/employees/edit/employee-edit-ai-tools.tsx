@@ -9,7 +9,12 @@ import {
   deleteEmployeeAiTool,
   updateEmployeeAiTool,
 } from "@/app/actions/employee-ai-tools";
-import { EmployeeAiTool, AiTool, AiToolFrequency } from "@/types/employees";
+import {
+  EmployeeAiTool,
+  AiTool,
+  AiToolFrequency,
+  SkillLevel,
+} from "@/types/employees";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -20,26 +25,13 @@ import {
 } from "@/components/ui/select";
 import EmptyState from "@/components/ui/empty-state";
 import { getAllAvailableAiTools } from "@/app/actions/employee-ai-tools";
+import { CreateNewAiTool } from "./create-new-ai-tool";
+import { FREQUENCY_OPTIONS, PROFICIENCY_LEVELS } from "@/constants/ai-levels";
 
 interface EmployeeEditAiToolsProps {
   employeeId: string;
   aiTools: EmployeeAiTool[];
 }
-
-const PROFICIENCY_LEVELS = [
-  { value: 0, label: "Beginner" },
-  { value: 1, label: "Basic" },
-  { value: 2, label: "Intermediate" },
-  { value: 3, label: "Advanced" },
-  { value: 4, label: "Expert" },
-];
-
-const FREQUENCY_OPTIONS: { value: AiToolFrequency; label: string }[] = [
-  { value: "daily", label: "Daily" },
-  { value: "weekly", label: "Weekly" },
-  { value: "monthly", label: "Monthly" },
-  { value: "rarely", label: "Rarely" },
-];
 
 export const EmployeeEditAiTools: React.FC<EmployeeEditAiToolsProps> = ({
   employeeId,
@@ -81,7 +73,6 @@ export const EmployeeEditAiTools: React.FC<EmployeeEditAiToolsProps> = ({
 
         await addEmployeeAiTool(employeeId, toolToAdd);
 
-        // Find the tool details to add to local state
         const selectedTool = availableTools.find(
           (t) => t.id === newTool.toolId
         );
@@ -140,10 +131,17 @@ export const EmployeeEditAiTools: React.FC<EmployeeEditAiToolsProps> = ({
     setUpdatingToolId(toolId);
     try {
       const toolToUpdate = aiTools.find((t) => t.toolId === toolId);
-      if (!toolToUpdate) return;
-      await updateEmployeeAiTool(toolToUpdate);
+      if (!toolToUpdate) {
+        toast.error("Tool not found");
+        return;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { tool, ...toolData } = toolToUpdate;
+
+      await updateEmployeeAiTool(toolData);
       toast.success("AI tool updated!");
-    } catch {
+    } catch (error) {
+      console.error("Error updating AI tool:", error);
       toast.error("Failed to update AI tool");
     } finally {
       setUpdatingToolId(null);
@@ -155,12 +153,18 @@ export const EmployeeEditAiTools: React.FC<EmployeeEditAiToolsProps> = ({
     return availableTools.filter((tool) => !usedToolIds.includes(tool.id));
   };
 
+  const handleToolCreated = (createdTool: AiTool) => {
+    setAvailableTools((prev) => [...prev, createdTool]);
+
+    setNewTool((prev) => ({ ...prev, toolId: createdTool.id }));
+  };
+
   return (
-    <Card className="p-4 md:p-10 shadow-2xl border-0 bg-gradient-to-br from-purple-50/50 via-white to-purple-100/60 rounded-3xl">
+    <Card className="p-4 md:p-10 shadow-2xl border-0 bg-gradient-to-br from-orange-50/50 via-white to-orange-100/60 rounded-3xl">
       <form>
         <CardHeader className="p-0 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <CardTitle className="text-xl md:text-2xl font-extrabold text-purple-900 flex items-center gap-3 md:gap-4 tracking-tight">
-            <Bot className="h-7 w-7 md:h-8 md:w-8 text-purple-500 drop-shadow" />
+          <CardTitle className="text-xl md:text-2xl font-extrabold text-gray-900 flex items-center gap-3 md:gap-4 tracking-tight">
+            <Bot className="h-7 w-7 md:h-8 md:w-8 text-gray-500 drop-shadow" />
             <span>Edit AI Tools</span>
           </CardTitle>
         </CardHeader>
@@ -171,10 +175,10 @@ export const EmployeeEditAiTools: React.FC<EmployeeEditAiToolsProps> = ({
                 aiTools.map((tool, index) => (
                   <div
                     key={tool.toolId}
-                    className="bg-white/90 px-2 md:px-4 py-3 rounded-2xl border border-purple-100 shadow group transition hover:shadow-lg"
+                    className="bg-white/90 px-2 md:px-4 py-3 rounded-2xl border border-gray-200 shadow group transition hover:shadow-lg"
                   >
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-3">
-                      <span className="text-purple-400 font-bold mr-2 text-base md:text-lg">
+                      <span className="text-gray-500 font-bold mr-2 text-base md:text-lg">
                         {index + 1}.
                       </span>
                       <span className="flex-1 text-base md:text-lg font-semibold">
@@ -188,7 +192,7 @@ export const EmployeeEditAiTools: React.FC<EmployeeEditAiToolsProps> = ({
                           handleToolChange(
                             tool.toolId,
                             "level",
-                            parseInt(value)
+                            parseInt(value) as SkillLevel
                           )
                         }
                       >
@@ -250,9 +254,9 @@ export const EmployeeEditAiTools: React.FC<EmployeeEditAiToolsProps> = ({
                           }
                         >
                           {updatingToolId === tool.toolId ? (
-                            <LucideClockFading className="w-5 h-5 animate-spin text-purple-600" />
+                            <LucideClockFading className="w-5 h-5 animate-spin text-green-600" />
                           ) : (
-                            <Save className="w-5 h-5 text-purple-500" />
+                            <Save className="w-5 h-5 text-blue-500" />
                           )}
                         </Button>
                       </div>
@@ -297,7 +301,7 @@ export const EmployeeEditAiTools: React.FC<EmployeeEditAiToolsProps> = ({
                     onValueChange={(value) =>
                       setNewTool((prev) => ({
                         ...prev,
-                        level: parseInt(value),
+                        level: parseInt(value) as SkillLevel,
                       }))
                     }
                   >
@@ -358,6 +362,8 @@ export const EmployeeEditAiTools: React.FC<EmployeeEditAiToolsProps> = ({
               </div>
             </div>
           </div>
+
+          <CreateNewAiTool onToolCreated={handleToolCreated} />
         </div>
       </form>
     </Card>

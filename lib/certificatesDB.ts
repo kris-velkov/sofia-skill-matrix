@@ -35,6 +35,7 @@ export async function addEmployeeCertificateInDb(
     .select();
 
   if (error) {
+    console.error("Error adding certificate:", error);
     throw new Error("Failed to add certificate");
   }
 

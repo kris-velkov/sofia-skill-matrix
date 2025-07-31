@@ -262,6 +262,7 @@ export const EmployeeEditCertificates: React.FC<
                     }
                     placeholder="Date"
                     style={{ maxWidth: 140 }}
+                    max={new Date().toISOString().split("T")[0]}
                   />
                   <Button
                     className={`p-2 rounded-full flex items-center justify-center transition shadow-none  cursor-pointer ${

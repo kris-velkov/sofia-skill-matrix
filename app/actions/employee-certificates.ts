@@ -49,7 +49,6 @@ export async function updateEmployeeCertificate(certificates: Certificate) {
 
 export async function getEmployeeCertificates(employeeId: string) {
   try {
-   
     return await getEmployeeCertificatesFromDb(employeeId);
   } catch (error) {
     console.error(

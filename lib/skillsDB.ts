@@ -206,6 +206,7 @@ export async function deleteCategoryInDb(
   categoryId: string
 ): Promise<CategoryOperationResult> {
   try {
+    const supabase = await createSupabaseServerClient();
     const hasDefaultColumn = await checkIfColumnExists(
       "categories",
       "default",

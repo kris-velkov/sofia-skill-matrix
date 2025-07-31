@@ -107,7 +107,8 @@ export async function updateEmployeeAiToolInDb(
     throw new Error("AI tool data is missing.");
   }
 
-  const payload = snakecaseKeys(aiTool, { deep: true });
+  const payload = snakecaseKeys(aiTool);
+
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("employees_ai_tools")
@@ -168,4 +169,56 @@ export async function getAllAiTools(): Promise<AiTool[]> {
   }
 
   return camelcaseKeys(data) as unknown as AiTool[];
+}
+
+export async function createAiToolInDb(toolName: string): Promise<AiTool> {
+  const supabase = await createSupabaseServerClient();
+
+  const { data: existingTools } = await supabase
+    .from("ai_tools")
+    .select("order_number")
+    .order("order_number", { ascending: false })
+    .limit(1);
+
+  const nextOrderNumber =
+    existingTools && existingTools.length > 0
+      ? existingTools[0].order_number + 1
+      : 1;
+
+  const { data, error } = await supabase
+    .from("ai_tools")
+    .insert({
+      name: toolName.trim(),
+      order_number: nextOrderNumber,
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating AI tool:", error);
+    throw new Error("Failed to create AI tool");
+  }
+
+  return camelcaseKeys(data) as unknown as AiTool;
+}
+
+export async function findOrCreateAiTool(toolName: string): Promise<AiTool> {
+  const supabase = await createSupabaseServerClient();
+
+  const { data: existingTool, error: findError } = await supabase
+    .from("ai_tools")
+    .select("*")
+    .ilike("name", toolName.trim())
+    .single();
+
+  if (findError && findError.code !== "PGRST116") {
+    console.error("Error searching for AI tool:", findError);
+    throw new Error("Failed to search for AI tool");
+  }
+
+  if (existingTool) {
+    return camelcaseKeys(existingTool) as unknown as AiTool;
+  }
+
+  return await createAiToolInDb(toolName);
 }
