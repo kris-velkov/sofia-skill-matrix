@@ -167,7 +167,7 @@ export interface AiTool {
   updatedAt?: string | null;
 }
 
-export interface SupabaseAiTool {
+export interface SupabaseAiTool extends Record<string, unknown> {
   id: string;
   name: string;
   order_number: number;

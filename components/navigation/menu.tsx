@@ -1,10 +1,16 @@
-import { Users2, BarChart2, Bot } from "lucide-react";
+import { Users2, BarChart2, Bot, Settings } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/use-auth-store";
 
 const NAV_LINKS = [
+  {
+    href: "/admin",
+    label: "Admin Panel",
+    icon: <Settings className="h-4 w-4" />,
+    permission: "isAdmin" as const,
+  },
   {
     href: "/employees",
     label: "Manage Employees",
@@ -34,6 +40,7 @@ export function Navigation({ isMobile = false, onItemClick }: NavigationProps) {
   const pathname = usePathname();
   const canManageEmployees = useAuthStore((s) => s.canManageEmployees());
   const canViewStatistics = useAuthStore((s) => s.canViewStatistics());
+  const isAdmin = useAuthStore((s) => s.isAdmin());
 
   const getPermissionCheck = (permission: string) => {
     switch (permission) {
@@ -41,6 +48,8 @@ export function Navigation({ isMobile = false, onItemClick }: NavigationProps) {
         return canManageEmployees;
       case "canViewStatistics":
         return canViewStatistics;
+      case "isAdmin":
+        return isAdmin;
       default:
         return false;
     }
