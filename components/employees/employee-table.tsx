@@ -1,9 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Eye, Pencil, Trash2, Search, UserX } from "lucide-react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import {
   Table,
@@ -14,42 +11,63 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import { Input } from "@/components/ui/input";
+import { UserX } from "lucide-react";
 import type { Employee } from "@/types/employees";
 import { EmployeeAvatar } from "./employee-avatar";
+import { EmployeeSearch } from "./employee-search";
+import { EmployeeTableActions } from "./employee-table-actions";
 import { deleteEmployeeAction } from "@/app/actions/employee-actions";
 import { getExperienceFromDate } from "@/lib/utils/experienceDate";
 import { capitalizeFirstLetter } from "@/lib/utils/normalize";
+import { filterEmployees, debounce } from "@/lib/utils/employeeSearch";
 import EmptyState from "../ui/empty-state";
+import { Badge } from "../ui/badge";
 
 interface EmployeeTableProps {
   initialEmployees: Employee[];
 }
 
-export function EmployeeTable({
-  initialEmployees,
-}: Readonly<EmployeeTableProps>) {
+export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
   const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState<Employee | null>(
     null
   );
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
-  useMemo(() => {
-    if (initialEmployees) {
-      setEmployees(initialEmployees);
-    }
+  const debouncedSetSearch = useMemo(
+    () => debounce((term: string) => setDebouncedSearchTerm(term), 300),
+    []
+  );
+
+  useEffect(() => {
+    debouncedSetSearch(searchTerm);
+  }, [searchTerm, debouncedSetSearch]);
+
+  useEffect(() => {
+    setEmployees(initialEmployees);
   }, [initialEmployees]);
 
-  const confirmDelete = (employee: Employee) => {
+  const filteredEmployees = useMemo(() => {
+    return filterEmployees(employees, debouncedSearchTerm);
+  }, [employees, debouncedSearchTerm]);
+
+  const handleSearchChange = useCallback((term: string) => {
+    setSearchTerm(term);
+  }, []);
+
+  const confirmDelete = useCallback((employee: Employee) => {
     setEmployeeToDelete(employee);
     setIsDeleteDialogOpen(true);
-  };
+  }, []);
 
-  const handleDeleteConfirmed = async () => {
-    if (employeeToDelete) {
+  const handleDeleteConfirmed = useCallback(async () => {
+    if (!employeeToDelete) return;
+
+    try {
       const result = await deleteEmployeeAction(employeeToDelete.id);
+
       if (result?.success === false) {
         toast.error(result.message);
       } else {
@@ -60,121 +78,99 @@ export function EmployeeTable({
           `${employeeToDelete.firstName} ${employeeToDelete.lastName} ${result.message}`
         );
       }
+    } catch (error) {
+      toast.error("Failed to delete employee");
+      console.error("Delete error:", error);
+    } finally {
       setEmployeeToDelete(null);
       setIsDeleteDialogOpen(false);
     }
-  };
+  }, [employeeToDelete]);
 
-  const filteredEmployees = useMemo(() => {
-    if (!searchTerm) {
-      return employees;
-    }
-
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return employees.filter((employee) => {
-      if (employee.firstName && employee.lastName) {
-        return (
-          employee?.firstName.toLowerCase().includes(lowerCaseSearchTerm) ||
-          employee?.lastName.toLowerCase().includes(lowerCaseSearchTerm) ||
-          (employee?.department?.toLowerCase() || "").includes(
-            lowerCaseSearchTerm
-          ) ||
-          (employee.role?.toLowerCase() || "").includes(lowerCaseSearchTerm) ||
-          (employee.department?.toLowerCase() || "").includes(
-            lowerCaseSearchTerm
-          ) ||
-          (employee.program?.toLowerCase() || "").includes(lowerCaseSearchTerm)
-        );
-      }
-      return false;
-    });
-  }, [employees, searchTerm]);
+  const handleDeleteCancel = useCallback(() => {
+    setIsDeleteDialogOpen(false);
+    setEmployeeToDelete(null);
+  }, []);
 
   return (
-    <div className="w-full shadow-3xl border-gray-200">
-      <div className="p-5 sm:p-4 border-b border-gray-300">
-        <div className="relative max-w-md w-full">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 " />
-          <Input
-            type="text"
-            placeholder="Search employees by name, department or role ..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-9 pr-3 py-2 h-9 text-sm border-gray-400 rounded-md w-full"
+    <div className="w-full shadow-sm border border-gray-200 rounded-lg overflow-hidden">
+      <div className="p-6 border-b border-gray-200 bg-white">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent">
+                Employees
+              </h2>
+              <Badge className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 shadow transition-all duration-300 px-4 py-1.5 text-sm font-semibold">
+                <span className="relative z-10">
+                  {filteredEmployees.length}{" "}
+                  {filteredEmployees.length === 1 ? "employee" : "employees"}
+                </span>
+              </Badge>
+            </div>
+          </div>
+        </div>
+        <div className="mt-6">
+          <EmployeeSearch
+            searchTerm={searchTerm}
+            onSearchChange={handleSearchChange}
+            className="w-full sm:w-auto sm:min-w-[320px]"
           />
         </div>
       </div>
 
       <div className="block sm:hidden">
         {filteredEmployees.length === 0 ? (
-          <EmptyState
-            message="No employees found."
-            icon={<UserX className="m-2 text-gray-800" />}
-          />
+          <div className="p-8">
+            <EmptyState
+              message={
+                searchTerm
+                  ? "No employees found matching your search."
+                  : "No employees found."
+              }
+              icon={<UserX className="w-8 h-8 text-gray-400 mb-2" />}
+            />
+          </div>
         ) : (
           <div className="divide-y divide-gray-200">
             {filteredEmployees.map((employee) => (
-              <div key={employee.id} className="p-4 hover:bg-gray-300 ">
-                <div className="flex items-center justify-between ">
-                  <div className="flex items-center gap-3">
+              <div
+                key={employee.id}
+                className="p-4 hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
                     <EmployeeAvatar
                       src={employee.profileImage || ""}
                       alt={`${employee.firstName} ${employee.lastName}`}
-                      className="w-10 h-10"
+                      className="w-10 h-10 flex-shrink-0"
                     />
-                    <div>
-                      <div className="font-medium text-gray-900">
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-gray-900 truncate">
                         {employee.firstName} {employee.lastName}
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        <div>
-                          {getExperienceFromDate(employee.startDate) || ""}
+                      <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                        <div className="truncate">
+                          {getExperienceFromDate(employee.startDate) ||
+                            "No start date"}
                         </div>
-                        <div>{employee.department || ""}</div>
-                        <div>{employee.role || ""}</div>
-                        <div>
-                          {employee.program &&
-                            capitalizeFirstLetter(employee.program)}
+                        <div className="truncate">
+                          {employee.department || "No department"} •{" "}
+                          {employee.role || "No role"}
+                        </div>
+                        <div className="truncate">
+                          {employee.program
+                            ? capitalizeFirstLetter(employee.program)
+                            : "No program"}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="flex gap-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 rounded-full text-green-600"
-                      asChild
-                    >
-                      <Link
-                        href={`/employee/${employee.id}`}
-                        aria-label={`View ${employee.firstName} ${employee.lastName}`}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 rounded-full text-gray-600"
-                      asChild
-                    >
-                      <Link
-                        href={`/employees/${employee.id}/edit`}
-                        aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
-                      >
-                        <Pencil className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 rounded-full text-red-600"
-                      onClick={() => confirmDelete(employee)}
-                      aria-label={`Delete ${employee.firstName} ${employee.lastName}`}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                  <div className="flex gap-1 ml-3">
+                    <EmployeeTableActions
+                      employee={employee}
+                      onDelete={confirmDelete}
+                    />
                   </div>
                 </div>
               </div>
@@ -184,29 +180,28 @@ export function EmployeeTable({
       </div>
 
       <div className="hidden sm:block overflow-x-auto">
-        <Table className="w-full">
+        <Table>
           <TableHeader>
-            <TableRow className="border-b border-gray-300 bg-gray-700">
-              <TableHead className="py-3 px-4 text-sm font-medium text-white">
-                Employees{" "}
-                {filteredEmployees.length > 0 && filteredEmployees.length}
+            <TableRow className="border-b border-gray-200 bg-gray-50">
+              <TableHead className="py-3 px-4 text-sm font-semibold text-gray-900">
+                Employee
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-white">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
                 Program
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-white">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
                 Department
               </TableHead>
-              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-medium text-white">
-                Hired On
+              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
+                Start Date
               </TableHead>
-              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-medium text-white">
-                Career Experience
+              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
+                Experience
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-medium text-white">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
                 Role
               </TableHead>
-              <TableHead className="py-3 px-4 text-sm font-medium text-white text-right">
+              <TableHead className="py-3 px-4 text-sm font-semibold text-gray-900 text-right">
                 Actions
               </TableHead>
             </TableRow>
@@ -214,13 +209,14 @@ export function EmployeeTable({
           <TableBody>
             {filteredEmployees.length === 0 ? (
               <TableRow>
-                <TableCell
-                  colSpan={7}
-                  className="h-24 text-center text-gray-500"
-                >
+                <TableCell colSpan={7} className="h-32 text-center">
                   <EmptyState
-                    message="No employees found."
-                    icon={<UserX className="m-2 text-gray-800" />}
+                    message={
+                      searchTerm
+                        ? "No employees found matching your search."
+                        : "No employees found."
+                    }
+                    icon={<UserX className="w-8 h-8 text-gray-400 mb-5" />}
                   />
                 </TableCell>
               </TableRow>
@@ -228,14 +224,14 @@ export function EmployeeTable({
               filteredEmployees.map((employee) => (
                 <TableRow
                   key={employee.id}
-                  className="border-b border-gray-200 hover:bg-gray-200 transition-colors"
+                  className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                 >
                   <TableCell className="py-3 px-4">
                     <div className="flex items-center gap-3">
                       <EmployeeAvatar
                         src={employee.profileImage || ""}
                         alt={`${employee.firstName} ${employee.lastName}`}
-                        className="w-10 h-10"
+                        className="w-10 h-10 flex-shrink-0"
                       />
                       <div className="min-w-0">
                         <div className="font-medium text-gray-900 truncate">
@@ -244,60 +240,28 @@ export function EmployeeTable({
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell py-3 px-4 text-gray-700 text-sm">
-                    {employee.program &&
-                      capitalizeFirstLetter(employee.program)}
+                  <TableCell className="hidden md:table-cell py-3 px-4 text-gray-600 text-sm">
+                    {employee.program
+                      ? capitalizeFirstLetter(employee.program)
+                      : "—"}
                   </TableCell>
-                  <TableCell className="hidden md:table-cell py-3 px-4 text-gray-700 text-sm">
-                    {employee.department || "N/A"}
+                  <TableCell className="hidden md:table-cell py-3 px-4 text-gray-600 text-sm">
+                    {employee.department || "—"}
                   </TableCell>
-                  <TableCell className="hidden lg:table-cell py-3 px-4 text-gray-700 text-sm">
-                    {getExperienceFromDate(employee.startDate)}
+                  <TableCell className="hidden lg:table-cell py-3 px-4 text-gray-600 text-sm">
+                    {getExperienceFromDate(employee.startDate) || "—"}
                   </TableCell>
-                  <TableCell className="hidden lg:table-cell py-3 px-4 text-gray-700 text-sm">
-                    {getExperienceFromDate(employee.careerExperience)}
+                  <TableCell className="hidden lg:table-cell py-3 px-4 text-gray-600 text-sm">
+                    {getExperienceFromDate(employee.careerExperience) || "—"}
                   </TableCell>
-                  <TableCell className="hidden md:table-cell py-3 px-4 text-gray-700 text-sm">
-                    {employee.role || "N/A"}
+                  <TableCell className="hidden md:table-cell py-3 px-4 text-gray-600 text-sm">
+                    {employee.role || "—"}
                   </TableCell>
-                  <TableCell className="py-3 px-4 text-right whitespace-nowrap">
-                    <div className="flex justify-end gap-1 sm:gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 rounded-full text-green-600 hover:bg-green-50"
-                        asChild
-                      >
-                        <Link
-                          href={`/employee/${employee.id}`}
-                          aria-label={`View ${employee.firstName} ${employee.lastName}`}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 rounded-full text-gray-600 hover:bg-gray-50"
-                        asChild
-                      >
-                        <Link
-                          href={`/employees/${employee.id}/edit`}
-                          aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 rounded-full text-red-600 hover:bg-red-50"
-                        onClick={() => confirmDelete(employee)}
-                        aria-label={`Delete ${employee.firstName} ${employee.lastName}`}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
+                  <TableCell className="py-3 px-4 text-right">
+                    <EmployeeTableActions
+                      employee={employee}
+                      onDelete={confirmDelete}
+                    />
                   </TableCell>
                 </TableRow>
               ))
@@ -306,6 +270,7 @@ export function EmployeeTable({
         </Table>
       </div>
 
+      {/* Delete Confirmation Dialog */}
       <ConfirmDialog
         open={isDeleteDialogOpen}
         title="Confirm Deletion"
@@ -313,10 +278,7 @@ export function EmployeeTable({
         confirmText="Delete"
         cancelText="Cancel"
         onConfirm={handleDeleteConfirmed}
-        onCancel={() => {
-          setIsDeleteDialogOpen(false);
-          setEmployeeToDelete(null);
-        }}
+        onCancel={handleDeleteCancel}
       />
     </div>
   );
