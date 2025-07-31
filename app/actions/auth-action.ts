@@ -273,7 +273,7 @@ export async function canViewEmployees(): Promise<boolean> {
   try {
     const user = await getCurrentUser();
     if (!user) return false;
-    return user.role === "admin" || user.role === "editor";
+    return true;
   } catch (error) {
     console.error("Error checking employee viewing permission:", error);
     return false;
