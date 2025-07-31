@@ -16,40 +16,29 @@ export default async function AiToolsStatisticsPage() {
     { label: "AI Tools Statistics", href: "/ai-statistics" },
   ];
 
-  // Process all statistics using the utility function
-  const {
-    totalTools,
-    uniqueTools,
-    uniqueEmployees,
-    mostUsedAiTool,
-    aiToolsUsage,
-  } = processAiToolsStatistics(employeesAiTools);
+  const { uniqueTools, uniqueEmployees, mostUsedAiTool, aiToolsUsage } =
+    processAiToolsStatistics(employeesAiTools);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="flex-1 p-3 sm:p-4 md:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
-          {/* Breadcrumbs */}
           <div className="px-1">
             <Breadcrumbs items={breadcrumbItems} />
           </div>
 
-          {/* Page Header */}
           <PageHeader
             title="AI Tools Analytics"
             description="Comprehensive insights into AI tool adoption, proficiency levels, and usage patterns across your organization"
             icon={<Bot className="h-6 w-6 sm:h-8 sm:w-8" />}
           />
 
-          {/* Statistics Grid */}
           <AiToolsStatsGrid
-            totalTools={totalTools}
             uniqueTools={uniqueTools}
             uniqueEmployees={uniqueEmployees}
             mostUsedAiTool={mostUsedAiTool}
           />
 
-          {/* Usage Breakdown */}
           <AiToolsUsageBreakdown aiToolsUsage={aiToolsUsage} />
 
           {/* Search and Table Section */}

@@ -34,7 +34,7 @@ export default async function EmployeesPage() {
 
   return (
     <div className="bg-gray-150 min-h-screen">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-4 sm:py-6">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 sm:py-6">
         <Breadcrumbs items={breadcrumbItems} className="mb-4" />
 
         <div className="flex flex-col gap-4 sm:gap-6">

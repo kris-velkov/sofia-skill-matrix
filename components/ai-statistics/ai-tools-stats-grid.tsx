@@ -1,21 +1,19 @@
-import { Bot, Users, Target, TrendingUp } from "lucide-react";
+import { Bot, Users, TrendingUp } from "lucide-react";
 import { StatisticsCard } from "../certificates-statistics/statistics-card";
 
 interface AiToolsStatsGridProps {
-  totalTools: number;
   uniqueTools: number;
   uniqueEmployees: number;
   mostUsedAiTool: string;
 }
 
 export function AiToolsStatsGrid({
-  totalTools,
   uniqueTools,
   uniqueEmployees,
   mostUsedAiTool,
 }: AiToolsStatsGridProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
       <StatisticsCard
         title="People Using AI"
         value={uniqueEmployees}
@@ -36,13 +34,6 @@ export function AiToolsStatsGrid({
         icon={<Bot className="h-6 w-6 sm:h-8 sm:w-8" />}
         iconColor="text-blue-500"
       />
-
-      <StatisticsCard
-        title="Total Table Rows"
-        value={totalTools}
-        icon={<Target className="h-6 w-6 sm:h-8 sm:w-8" />}
-        iconColor="text-green-500"
-      />
-    </div>
+    </section>
   );
 }

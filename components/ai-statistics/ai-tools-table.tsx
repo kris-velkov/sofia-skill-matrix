@@ -15,7 +15,10 @@ import { getEmployeeFullName } from "@/lib/utils/employees";
 import EmptyState from "../ui/empty-state";
 import { Bot, Cpu, Zap } from "lucide-react";
 import { EmployeeAiToolData } from "@/types/employees";
-import { formatFrequency } from "@/lib/utils/aiToolsUtils";
+import {
+  formatFrequency,
+  formatProficiencyLevel,
+} from "@/lib/utils/aiToolsUtils";
 
 interface AiToolsTableProps {
   aiTools: EmployeeAiToolData[];
@@ -63,7 +66,7 @@ export function AiToolsTable({ aiTools }: Readonly<AiToolsTableProps>) {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <span>{tool.level}</span>
+                        {tool.level && formatProficiencyLevel(tool.level)}
                       </div>
                     </TableCell>
                     <TableCell>
@@ -141,7 +144,7 @@ export function AiToolsTable({ aiTools }: Readonly<AiToolsTableProps>) {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span>{tool.level}</span>
+                      {tool.level && formatProficiencyLevel(tool.level)}
                     </TableCell>
                     <TableCell>{formatFrequency(tool.frequency)}</TableCell>
                     <TableCell>
@@ -183,7 +186,7 @@ export function AiToolsTable({ aiTools }: Readonly<AiToolsTableProps>) {
                 key={`${tool.employees?.id}-${tool.aiTools?.id}`}
                 className="rounded-xl border border-gray-200 shadow-sm p-4 space-y-2 bg-white"
               >
-                <div className="flex items-center gap-2 font-semibold text-purple-600">
+                <div className="flex items-center gap-2 font-semibold text-blue-600">
                   <Bot className="h-4 w-4" />
                   {tool.aiTools.name}
                 </div>
@@ -192,7 +195,7 @@ export function AiToolsTable({ aiTools }: Readonly<AiToolsTableProps>) {
                   <div className="flex items-center gap-2">
                     <Cpu className="h-4 w-4 text-blue-500" />
                     <strong>Level:</strong>
-                    <span>{tool.level}</span>
+                    {tool.level && formatProficiencyLevel(tool.level)}
                   </div>
                   <div className="flex items-center gap-2">
                     <Zap className="h-4 w-4 text-yellow-500" />
