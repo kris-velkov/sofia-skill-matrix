@@ -27,6 +27,8 @@ interface AiToolsTableProps {
 export function AiToolsTable({ aiTools }: Readonly<AiToolsTableProps>) {
   const hasData = aiTools?.length > 0;
 
+  aiTools = aiTools.sort((a, b) => b.level - a.level);
+
   return (
     <Card className="shadow-sm border border-gray-200 bg-white">
       <CardHeader className="pb-3">
@@ -66,7 +68,7 @@ export function AiToolsTable({ aiTools }: Readonly<AiToolsTableProps>) {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        {tool.level && formatProficiencyLevel(tool.level)}
+                        {formatProficiencyLevel(tool.level)}
                       </div>
                     </TableCell>
                     <TableCell>
@@ -143,9 +145,7 @@ export function AiToolsTable({ aiTools }: Readonly<AiToolsTableProps>) {
                         </strong>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      {tool.level && formatProficiencyLevel(tool.level)}
-                    </TableCell>
+                    <TableCell>{formatProficiencyLevel(tool.level)}</TableCell>
                     <TableCell>{formatFrequency(tool.frequency)}</TableCell>
                     <TableCell>
                       <Link
@@ -195,7 +195,7 @@ export function AiToolsTable({ aiTools }: Readonly<AiToolsTableProps>) {
                   <div className="flex items-center gap-2">
                     <Cpu className="h-4 w-4 text-blue-500" />
                     <strong>Level:</strong>
-                    {tool.level && formatProficiencyLevel(tool.level)}
+                    {formatProficiencyLevel(tool.level)}
                   </div>
                   <div className="flex items-center gap-2">
                     <Zap className="h-4 w-4 text-yellow-500" />
