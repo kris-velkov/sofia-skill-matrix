@@ -11,7 +11,7 @@ export interface AuthUser {
   firstName: string;
   lastName: string;
   email?: string;
-  role: "admin" | "user";
+  role: "admin" | "editor" | "analyst" | "member";
   program: ProgramValue | "all";
 }
 
@@ -37,7 +37,9 @@ function createAuthUser(user: User): AuthUser {
     firstName: user.user_metadata?.first_name || "",
     lastName: user.user_metadata?.last_name || "",
     email: user.email,
-    role: (user.user_metadata?.role as "admin" | "user") || "user",
+    role:
+      (user.user_metadata?.role as "admin" | "editor" | "analyst" | "member") ||
+      "member",
     program: (user.user_metadata?.program as ProgramValue | "all") || "all",
   };
 }
@@ -124,7 +126,7 @@ export async function signOut(): Promise<SignOutResult> {
 }
 
 export async function checkUserRole(
-  requiredRole: "admin" | "user"
+  requiredRole: "admin" | "editor" | "analyst" | "member"
 ): Promise<boolean> {
   try {
     const user = await getCurrentUser();
@@ -164,7 +166,7 @@ export async function checkUserProgram(
 }
 
 export async function requireRole(
-  requiredRole: "admin" | "user"
+  requiredRole: "admin" | "editor" | "analyst" | "member"
 ): Promise<AuthUser> {
   const user = await getCurrentUser();
 
@@ -227,6 +229,80 @@ export async function requireAuth(): Promise<AuthUser> {
 
   if (!user) {
     throw new Error("Authentication required");
+  }
+
+  return user;
+}
+
+export async function canManageEmployees(): Promise<boolean> {
+  try {
+    const user = await getCurrentUser();
+    if (!user) return false;
+    return user.role === "admin" || user.role === "editor";
+  } catch (error) {
+    console.error("Error checking employee management permission:", error);
+    return false;
+  }
+}
+
+export async function canViewStatistics(): Promise<boolean> {
+  try {
+    const user = await getCurrentUser();
+    if (!user) return false;
+    return (
+      user.role === "admin" || user.role === "editor" || user.role === "analyst"
+    );
+  } catch (error) {
+    console.error("Error checking statistics viewing permission:", error);
+    return false;
+  }
+}
+
+export async function canEditEmployees(): Promise<boolean> {
+  try {
+    const user = await getCurrentUser();
+    if (!user) return false;
+    return user.role === "admin" || user.role === "editor";
+  } catch (error) {
+    console.error("Error checking employee editing permission:", error);
+    return false;
+  }
+}
+
+export async function canViewEmployees(): Promise<boolean> {
+  try {
+    const user = await getCurrentUser();
+    if (!user) return false;
+    return user.role === "admin" || user.role === "editor";
+  } catch (error) {
+    console.error("Error checking employee viewing permission:", error);
+    return false;
+  }
+}
+
+export async function requireEmployeeManagement(): Promise<AuthUser> {
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error("Authentication required");
+  }
+
+  const hasPermission = await canManageEmployees();
+  if (!hasPermission) {
+    throw new Error("Access denied. Employee management permission required");
+  }
+
+  return user;
+}
+
+export async function requireStatisticsViewing(): Promise<AuthUser> {
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error("Authentication required");
+  }
+
+  const hasPermission = await canViewStatistics();
+  if (!hasPermission) {
+    throw new Error("Access denied. Statistics viewing permission required");
   }
 
   return user;

@@ -6,24 +6,32 @@ import { assignDefaultLevelsToEmployee } from "@/lib/skillsDB";
 import { Department, Employee } from "@/types/employees";
 import { normalizeDepartment } from "@/lib/utils/normalize";
 import { getEmployeeById } from "@/lib/employees";
+import {
+  requireEmployeeManagement,
+  canViewEmployees,
+  requireAuth,
+} from "./auth-action";
 
 export async function addNewEmployee(
   department: Department
 ): Promise<string | Error | undefined> {
-  const newEmployee: Partial<Employee> = {
-    firstName: "",
-    lastName: "",
-    department: department,
-    floatId: "",
-    bio: "",
-    country: "Bulgaria",
-    city: "Sofia",
-    profileImage: "",
-    slackUrl: "",
-    linkedinUrl: "",
-    role: "",
-  };
   try {
+    await requireEmployeeManagement();
+
+    const newEmployee: Partial<Employee> = {
+      firstName: "",
+      lastName: "",
+      department: department,
+      floatId: "",
+      bio: "",
+      country: "Bulgaria",
+      city: "Sofia",
+      profileImage: "",
+      slackUrl: "",
+      linkedinUrl: "",
+      role: "",
+    };
+
     const employee = await addEmployee(newEmployee);
 
     if (employee) {
@@ -45,6 +53,8 @@ export async function addNewEmployee(
 
 export async function deleteEmployeeAction(userId: string) {
   try {
+    await requireEmployeeManagement();
+
     await deleteEmployee(userId);
 
     revalidatePath("/employees");
@@ -59,6 +69,13 @@ export async function deleteEmployeeAction(userId: string) {
 
 export async function getEmployee(employeeId: string) {
   try {
+    const user = await requireAuth();
+    const hasViewPermission = await canViewEmployees();
+
+    if (!hasViewPermission) {
+      throw new Error("Access denied. Employee viewing permission required");
+    }
+
     const employee = await getEmployeeById(employeeId);
     return employee;
   } catch (error) {

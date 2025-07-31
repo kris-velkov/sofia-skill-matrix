@@ -41,7 +41,6 @@ export default function EmployeesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {/* Header Section */}
         <div className="mb-6">
           <Breadcrumbs items={breadcrumbItems} className="mb-4" />
 
@@ -60,12 +59,11 @@ export default function EmployeesPage() {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <Suspense
             fallback={
               <div className="flex items-center justify-center py-12">
-                <LoadingSpinner size="lg" />
+                <LoadingSpinner />
               </div>
             }
           >

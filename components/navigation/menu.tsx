@@ -2,46 +2,62 @@ import { Users2, BarChart2, Bot } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { useAuthStore } from "@/store/use-auth-store";
 
 const NAV_LINKS = [
   {
     href: "/employees",
     label: "Manage Employees",
     icon: <Users2 className="h-4 w-4" />,
+    permission: "canManageEmployees" as const,
   },
   {
     href: "/certificates-statistics",
     label: "Certificates Statistics",
     icon: <BarChart2 className="h-4 w-4" />,
+    permission: "canViewStatistics" as const,
   },
   {
     href: "/ai-statistics",
     label: "AI Tools Statistics",
     icon: <Bot className="h-4 w-4" />,
+    permission: "canViewStatistics" as const,
   },
 ];
 
 type NavigationProps = {
-  isAdmin: boolean;
   isMobile?: boolean;
   onItemClick?: () => void;
 };
 
-export function Navigation({
-  isAdmin,
-  isMobile = false,
-  onItemClick,
-}: NavigationProps) {
+export function Navigation({ isMobile = false, onItemClick }: NavigationProps) {
   const pathname = usePathname();
+  const canManageEmployees = useAuthStore((s) => s.canManageEmployees());
+  const canViewStatistics = useAuthStore((s) => s.canViewStatistics());
 
-  if (!isAdmin) {
+  const getPermissionCheck = (permission: string) => {
+    switch (permission) {
+      case "canManageEmployees":
+        return canManageEmployees;
+      case "canViewStatistics":
+        return canViewStatistics;
+      default:
+        return false;
+    }
+  };
+
+  const visibleLinks = NAV_LINKS.filter(({ permission }) =>
+    getPermissionCheck(permission)
+  );
+
+  if (visibleLinks.length === 0) {
     return null;
   }
 
   if (isMobile) {
     return (
       <>
-        {NAV_LINKS.map(({ href, label, icon }) => {
+        {visibleLinks.map(({ href, label, icon }) => {
           const isActive = pathname === href;
           return (
             <Link
@@ -65,7 +81,7 @@ export function Navigation({
 
   return (
     <nav className="flex items-center space-x-2">
-      {NAV_LINKS.map(({ href, label, icon }) => {
+      {visibleLinks.map(({ href, label, icon }) => {
         const isActive = pathname === href;
         return (
           <Button

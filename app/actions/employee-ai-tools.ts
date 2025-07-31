@@ -9,12 +9,19 @@ import {
   findOrCreateAiTool,
 } from "@/lib/aiToolsDB";
 import { EmployeeAiTool } from "@/types/employees";
+import { canEditEmployees, canViewEmployees, requireAuth } from "./auth-action";
 
 export async function addEmployeeAiTool(
   employeeId: string,
   aiTool: EmployeeAiTool
 ) {
   try {
+    const hasEditPermission = await canEditEmployees();
+
+    if (!hasEditPermission) {
+      throw new Error("Access denied. Employee editing permission required");
+    }
+
     return await addEmployeeAiToolInDb(aiTool);
   } catch (error) {
     console.error(
@@ -27,6 +34,12 @@ export async function addEmployeeAiTool(
 
 export async function deleteEmployeeAiTool(employeeId: string, toolId: string) {
   try {
+    const hasEditPermission = await canEditEmployees();
+
+    if (!hasEditPermission) {
+      throw new Error("Access denied. Employee editing permission required");
+    }
+
     return await deleteEmployeeAiToolInDb(employeeId, toolId);
   } catch (error) {
     console.error(
@@ -39,6 +52,12 @@ export async function deleteEmployeeAiTool(employeeId: string, toolId: string) {
 
 export async function updateEmployeeAiTool(aiTool: EmployeeAiTool) {
   try {
+    const hasEditPermission = await canEditEmployees();
+
+    if (!hasEditPermission) {
+      throw new Error("Access denied. Employee editing permission required");
+    }
+
     return await updateEmployeeAiToolInDb(aiTool);
   } catch (error) {
     console.error(`Failed to update AI tool`, error);
@@ -48,6 +67,12 @@ export async function updateEmployeeAiTool(aiTool: EmployeeAiTool) {
 
 export async function getEmployeeAiTools(employeeId: string) {
   try {
+    const hasViewPermission = await canViewEmployees();
+
+    if (!hasViewPermission) {
+      throw new Error("Access denied. Employee viewing permission required");
+    }
+
     return await getEmployeeAiToolsFromDb(employeeId);
   } catch (error) {
     console.error(`Failed to get AI tools for employee ${employeeId}:`, error);
@@ -57,6 +82,12 @@ export async function getEmployeeAiTools(employeeId: string) {
 
 export async function getAllAvailableAiTools() {
   try {
+    const hasViewPermission = await canViewEmployees();
+
+    if (!hasViewPermission) {
+      throw new Error("Access denied. Employee viewing permission required");
+    }
+
     return await getAllAiTools();
   } catch (error) {
     console.error("Failed to get available AI tools:", error);
@@ -66,6 +97,12 @@ export async function getAllAvailableAiTools() {
 
 export async function createNewAiTool(toolName: string) {
   try {
+    const hasEditPermission = await canEditEmployees();
+
+    if (!hasEditPermission) {
+      throw new Error("Access denied. Employee editing permission required");
+    }
+
     return await findOrCreateAiTool(toolName);
   } catch (error) {
     console.error("Failed to create AI tool:", error);

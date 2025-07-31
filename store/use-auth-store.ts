@@ -3,7 +3,7 @@ import { ProgramValue } from "@/constants/programs";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type UserRole = "admin" | "user" | null;
+export type UserRole = "admin" | "editor" | "analyst" | "member" | null;
 
 export interface AuthUser {
   id: string;
@@ -42,6 +42,10 @@ interface AuthSelectors {
   hasRole: (requiredRole: UserRole) => boolean;
   canViewAllPrograms: () => boolean;
   getUserProgram: () => ProgramValue | "all" | null;
+  canManageEmployees: () => boolean;
+  canViewStatistics: () => boolean;
+  canEditEmployees: () => boolean;
+  canViewEmployees: () => boolean;
 }
 
 type AuthStore = AuthState & AuthActions & AuthSelectors;
@@ -57,7 +61,7 @@ export const useAuthStore = create<AuthStore>()(
       hydrated: false,
 
       login: (user: AuthUser, employeeData?: Employee | null) => {
-        const role = user?.user_metadata?.role || "user";
+        const role = user?.user_metadata?.role || "member";
         const program = (user?.user_metadata?.program ||
           employeeData?.program ||
           null) as ProgramValue | "all";
@@ -114,6 +118,40 @@ export const useAuthStore = create<AuthStore>()(
       },
 
       getUserProgram: () => get().program,
+
+      canManageEmployees: () => {
+        const state = get();
+        return (
+          state.isLoggedIn &&
+          (state.role === "admin" || state.role === "editor")
+        );
+      },
+
+      canViewStatistics: () => {
+        const state = get();
+        return (
+          state.isLoggedIn &&
+          (state.role === "admin" ||
+            state.role === "editor" ||
+            state.role === "analyst")
+        );
+      },
+
+      canEditEmployees: () => {
+        const state = get();
+        return (
+          state.isLoggedIn &&
+          (state.role === "admin" || state.role === "editor")
+        );
+      },
+
+      canViewEmployees: () => {
+        const state = get();
+        return (
+          state.isLoggedIn &&
+          (state.role === "admin" || state.role === "editor")
+        );
+      },
     }),
     {
       name: "auth-store",

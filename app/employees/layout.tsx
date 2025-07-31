@@ -1,4 +1,4 @@
-import ClientProtectedAdminWrapper from "@/components/auth/client-protected-admin-wrapper";
+import EmployeeManagementWrapper from "@/components/auth/employee-management-wrapper";
 import { Metadata } from "next";
 import React from "react";
 
@@ -22,5 +22,5 @@ export default function EmployeesLayout({
 }: {
   readonly children: React.ReactNode;
 }) {
-  return <ClientProtectedAdminWrapper>{children}</ClientProtectedAdminWrapper>;
+  return <EmployeeManagementWrapper>{children}</EmployeeManagementWrapper>;
 }

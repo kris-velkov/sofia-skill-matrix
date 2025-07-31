@@ -5,6 +5,7 @@ import {
   deleteEmployeeSkillInDb,
   updateEmployeeCategoryNameInDb,
 } from "@/lib/skillsDB";
+import { canEditEmployees, requireAuth } from "./auth-action";
 
 type SkillCategory = {
   name: string;
@@ -16,6 +17,15 @@ export async function updateEmployeeSkills(
   category: SkillCategory
 ): Promise<{ success: boolean; message: string }> {
   try {
+    const hasEditPermission = await canEditEmployees();
+
+    if (!hasEditPermission) {
+      return {
+        success: false,
+        message: "Access denied. Employee editing permission required",
+      };
+    }
+
     const result = await updateEmployeeSkillsInDb(employeeId, category);
     if (!result.success) {
       return {
@@ -45,6 +55,15 @@ export async function deleteEmployeeSkill(
   skillId: string
 ): Promise<{ success: boolean; message: string }> {
   try {
+    const hasEditPermission = await canEditEmployees();
+
+    if (!hasEditPermission) {
+      return {
+        success: false,
+        message: "Access denied. Employee editing permission required",
+      };
+    }
+
     if (!skillId || skillId.trim() === "") {
       return {
         success: true,
@@ -81,6 +100,15 @@ export async function updateEmployeeCategoryName(
   newName: string
 ): Promise<{ success: boolean; message: string }> {
   try {
+    const hasEditPermission = await canEditEmployees();
+
+    if (!hasEditPermission) {
+      return {
+        success: false,
+        message: "Access denied. Employee editing permission required",
+      };
+    }
+
     const result = await updateEmployeeCategoryNameInDb(
       categoryId,
       oldName,
@@ -121,6 +149,15 @@ export async function deleteCategory(
   }
 
   try {
+    const hasEditPermission = await canEditEmployees();
+
+    if (!hasEditPermission) {
+      return {
+        success: false,
+        message: "Access denied. Employee editing permission required",
+      };
+    }
+
     const { deleteCategoryInDb } = await import("@/lib/skillsDB");
 
     const result = await deleteCategoryInDb(categoryId);
@@ -162,6 +199,16 @@ export async function createOrFindCategory(
   message?: string;
 }> {
   try {
+    const hasEditPermission = await canEditEmployees();
+
+    if (!hasEditPermission) {
+      return {
+        id: "",
+        success: false,
+        message: "Access denied. Employee editing permission required",
+      };
+    }
+
     const { createOrFindCategoryInDb } = await import("@/lib/skillsDB");
     const result = await createOrFindCategoryInDb(categoryName, department);
 

@@ -1,7 +1,7 @@
 "use server";
 
 import { getEmployees, getEmployeesByProgram } from "@/lib/employees";
-import { requireAuth } from "./auth-action";
+import { requireEmployeeManagement } from "./auth-action";
 
 export async function getAllEmployees() {
   try {
@@ -10,24 +10,18 @@ export async function getAllEmployees() {
     return employees;
   } catch (error) {
     console.error("Error fetching all employees:", error);
-    throw new Error("Failed to fetch all employees.");
+    throw error;
   }
 }
 export async function getEmployeesByProgramName() {
   try {
-    const user = await requireAuth();
-
-    if (user.role !== "admin" && !user.program) {
-      throw new Error(
-        "Access denied: Admin role required or valid program not found."
-      );
-    }
+    const user = await requireEmployeeManagement();
 
     const employees = await getEmployeesByProgram(user.program);
 
     return employees;
   } catch (error) {
     console.error("Error fetching employees by program:", error);
-    throw new Error("Failed to fetch employees by program.");
+    throw error;
   }
 }

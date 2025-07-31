@@ -10,7 +10,6 @@ import { useAuthStore } from "@/store/use-auth-store";
 import CompetencyLegendTrigger from "../dashboard/competency-level-trigger";
 
 export function Header() {
-  const isAdmin = useAuthStore((s) => s.role === "admin");
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -32,7 +31,7 @@ export function Header() {
 
           {isLoggedIn && (
             <div className="hidden md:flex items-center space-x-4">
-              <Navigation isAdmin={isAdmin} />
+              <Navigation />
               <CompetencyLegendTrigger />
               <UserAvatar />
             </div>
@@ -62,11 +61,7 @@ export function Header() {
       {isLoggedIn && mobileMenuOpen && (
         <div className="md:hidden bg-white shadow-lg border-t border-gray-200">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Navigation
-              isAdmin={isAdmin}
-              isMobile={true}
-              onItemClick={closeMobileMenu}
-            />
+            <Navigation isMobile={true} onItemClick={closeMobileMenu} />
           </div>
         </div>
       )}

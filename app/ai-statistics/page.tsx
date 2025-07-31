@@ -29,7 +29,7 @@ export default async function AiToolsStatisticsPage() {
 
           <PageHeader
             title="AI Tools Analytics"
-            description="Comprehensive insights into AI tool adoption, proficiency levels, and usage patterns across your organization"
+            description="Comprehensive insights into AI tool adoption, proficiency levels, and usage patterns across organization"
             icon={<Bot className="h-6 w-6 sm:h-8 sm:w-8" />}
           />
 
@@ -41,7 +41,6 @@ export default async function AiToolsStatisticsPage() {
 
           <AiToolsUsageBreakdown aiToolsUsage={aiToolsUsage} />
 
-          {/* Search and Table Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
             <div className="p-4 sm:p-6 border-b border-gray-100">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">

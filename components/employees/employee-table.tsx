@@ -182,26 +182,26 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
       <div className="hidden sm:block overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="border-b border-gray-200 bg-gray-50">
-              <TableHead className="py-3 px-4 text-sm font-semibold text-gray-900">
+            <TableRow className="border-b border-gray-200 bg-gray-600">
+              <TableHead className="py-3 px-4 text-sm font-semibold text-white">
                 Employee
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-semibold text-white">
                 Program
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-semibold text-white">
                 Department
               </TableHead>
-              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
+              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-semibold text-white">
                 Start Date
               </TableHead>
-              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
+              <TableHead className="hidden lg:table-cell py-3 px-4 text-sm font-semibold text-white">
                 Experience
               </TableHead>
-              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-semibold text-gray-900">
+              <TableHead className="hidden md:table-cell py-3 px-4 text-sm font-semibold text-white">
                 Role
               </TableHead>
-              <TableHead className="py-3 px-4 text-sm font-semibold text-gray-900 text-right">
+              <TableHead className="py-3 px-4 text-sm font-semibold text-white text-right">
                 Actions
               </TableHead>
             </TableRow>

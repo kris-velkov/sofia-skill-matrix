@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuthStore } from "@/store/use-auth-store";
+import { useAuthStore, UserRole } from "@/store/use-auth-store";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { createClient } from "@/lib/supabase/client";
 
@@ -20,17 +20,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } = await supabase.auth.getSession();
 
         if (session?.user) {
-          const userRole = session.user.user_metadata?.role as
-            | "admin"
-            | "user"
-            | undefined;
+          const userRole = session.user.user_metadata?.role as UserRole;
 
           const authUser = {
             id: session.user.id,
             email: session.user.email,
             user_metadata: {
               ...session.user.user_metadata,
-              role: userRole || "user",
+              role: userRole || "member",
             },
             app_metadata: session.user.app_metadata,
           };
@@ -64,17 +61,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         (event === "SIGNED_IN" || event === "USER_UPDATED") &&
         session?.user
       ) {
-        const userRole = session.user.user_metadata?.role as
-          | "admin"
-          | "user"
-          | undefined;
+        const userRole = session.user.user_metadata?.role as UserRole;
 
         const authUser = {
           id: session.user.id,
           email: session.user.email,
           user_metadata: {
             ...session.user.user_metadata,
-            role: userRole || "user",
+            role: userRole || "member",
           },
           app_metadata: session.user.app_metadata,
         };

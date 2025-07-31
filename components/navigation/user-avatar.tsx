@@ -21,9 +21,9 @@ export function UserAvatar() {
   const handleSignOut = async () => {
     try {
       logout();
-      await signOut();
     } catch (error) {
       console.error("Sign out error:", error);
+      logout();
     }
   };
 

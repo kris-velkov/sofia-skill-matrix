@@ -3,13 +3,13 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Jakala Skill Matrix Statistics ",
+  title: "AI Tools Statistics – Jakala Skill Matrix",
   description:
-    "Statistics dashboard for managing and visualizing skills within Jakala.",
-  generator: "Jakala Skill Matrix - Statistics",
+    "AI tools usage statistics dashboard for managing and visualizing AI tool adoption within Jakala.",
+  generator: "Jakala Skill Matrix - AI Statistics",
 };
 
-export default function StatisticsLayout({
+export default function AIStatisticsLayout({
   children,
 }: {
   readonly children: React.ReactNode;

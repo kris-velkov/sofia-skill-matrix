@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuthStore } from "@/store/use-auth-store";
+import { useAuthStore, UserRole } from "@/store/use-auth-store";
 import { BarChart, Eye, EyeOff, Mail } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useRouter } from "next/navigation";
@@ -57,7 +57,7 @@ export function LoginFormSupabase() {
         id: user.id,
         email: user.email,
         user_metadata: {
-          role: (user.role as "admin" | "user") || "user",
+          role: user.role as UserRole,
           firstName: user.firstName || "",
           lastName: user.lastName || "",
           program: (user.program as ProgramValue) || null,
