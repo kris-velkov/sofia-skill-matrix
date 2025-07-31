@@ -5,7 +5,7 @@ import {
   deleteEmployeeSkillInDb,
   updateEmployeeCategoryNameInDb,
 } from "@/lib/skillsDB";
-import { canEditEmployees, requireAuth } from "./auth-action";
+import { canEditEmployees } from "./auth-action";
 
 type SkillCategory = {
   name: string;

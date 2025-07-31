@@ -6,11 +6,7 @@ import { assignDefaultLevelsToEmployee } from "@/lib/skillsDB";
 import { Department, Employee } from "@/types/employees";
 import { normalizeDepartment } from "@/lib/utils/normalize";
 import { getEmployeeById } from "@/lib/employees";
-import {
-  requireEmployeeManagement,
-  canViewEmployees,
-  requireAuth,
-} from "./auth-action";
+import { requireEmployeeManagement, canViewEmployees } from "./auth-action";
 
 export async function addNewEmployee(
   department: Department
@@ -69,7 +65,6 @@ export async function deleteEmployeeAction(userId: string) {
 
 export async function getEmployee(employeeId: string) {
   try {
-    const user = await requireAuth();
     const hasViewPermission = await canViewEmployees();
 
     if (!hasViewPermission) {

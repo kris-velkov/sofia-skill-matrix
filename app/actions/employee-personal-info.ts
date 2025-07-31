@@ -25,7 +25,7 @@ export async function updateEmployeePersonalInfo(
     return res;
   } catch (error) {
     console.error(
-      `❌ Failed to update personal info for employee ${employeeId}:`,
+      `Failed to update personal info for employee ${employeeId}:`,
       error
     );
     throw new Error("Unable to update employee information.");

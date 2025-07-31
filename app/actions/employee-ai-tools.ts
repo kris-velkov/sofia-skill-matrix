@@ -9,7 +9,7 @@ import {
   findOrCreateAiTool,
 } from "@/lib/aiToolsDB";
 import { EmployeeAiTool } from "@/types/employees";
-import { canEditEmployees, canViewEmployees, requireAuth } from "./auth-action";
+import { canEditEmployees, canViewEmployees } from "./auth-action";
 
 export async function addEmployeeAiTool(
   employeeId: string,

@@ -36,8 +36,10 @@ export function EmployeeTable({ initialEmployees }: EmployeeTableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
-  const debouncedSetSearch = useMemo(
-    () => debounce((term: string) => setDebouncedSearchTerm(term), 300),
+  const debouncedSetSearch = useCallback(
+    debounce((term: string) => setDebouncedSearchTerm(term), 300) as (
+      term: string
+    ) => void,
     []
   );
 

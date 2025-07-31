@@ -7,7 +7,7 @@ import {
   getEmployeeCertificates as getEmployeeCertificatesFromDb,
 } from "@/lib/certificatesDB";
 import { Certificate } from "@/types/employees";
-import { canEditEmployees, canViewEmployees, requireAuth } from "./auth-action";
+import { canEditEmployees, canViewEmployees } from "./auth-action";
 
 export async function addEmployeeCertificate(
   employeeId: string,
@@ -23,7 +23,7 @@ export async function addEmployeeCertificate(
     return await addEmployeeCertificateInDb(certificate);
   } catch (error) {
     console.error(
-      `❌ Failed to add certificate for employee ${employeeId}:`,
+      `Failed to add certificate for employee ${employeeId}:`,
       error
     );
     throw new Error("Unable to add certificate.");

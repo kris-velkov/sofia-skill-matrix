@@ -2,7 +2,6 @@
 
 import { User, LogOut, Mail } from "lucide-react";
 import { useAuthStore } from "@/store/use-auth-store";
-import { signOut } from "@/app/actions/auth-action";
 import {
   DropdownMenu,
   DropdownMenuContent,
