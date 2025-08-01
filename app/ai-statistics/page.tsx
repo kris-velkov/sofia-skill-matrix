@@ -2,10 +2,9 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { AiToolsSearch } from "@/components/ai-statistics/ai-tools-search";
 import { AiToolsStatsGrid } from "@/components/ai-statistics/ai-tools-stats-grid";
 import { AiToolsUsageBreakdown } from "@/components/ai-statistics/ai-tools-usage-breakdown";
-import { PageHeader } from "@/components/ai-statistics/page-header";
 import { getAllEmployeesAiTools } from "../actions/ai-tools-statistics-action";
 import { processAiToolsStatistics } from "@/lib/utils/aiStatisticsUtils";
-import { Bot, Zap } from "lucide-react";
+import { Bot } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 
 export const revalidate = 0;

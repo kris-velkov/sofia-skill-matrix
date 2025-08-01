@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import { Program } from "@/types/programs";
 import { getAllPrograms } from "@/app/actions/programs-actions";
 
 interface ProgramSelectProps {
-  value?: string;
+  value: string;
   onValueChange: (value: string) => void;
   placeholder?: string;
   disabled?: boolean;
@@ -22,69 +22,52 @@ interface ProgramSelectProps {
 export function ProgramSelect({
   value,
   onValueChange,
-  placeholder = "Select program",
+  placeholder = "Select a program",
   disabled = false,
   required = false,
 }: ProgramSelectProps) {
   const [programs, setPrograms] = useState<Program[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchPrograms = useCallback(async () => {
+    try {
+      const data = await getAllPrograms();
+      setPrograms(data);
+    } catch (error) {
+      console.error("Failed to fetch programs:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetchPrograms = async () => {
-      try {
-        const data = await getAllPrograms();
-        setPrograms(data);
-        console.log("Programs loaded:", data);
-        console.log("Current value:", value);
-
-        // Check if the current value exists in the programs
-        const matchingProgram = data.find((p) => p.value === value);
-        console.log("Matching program:", matchingProgram);
-      } catch (error) {
-        console.error("Failed to fetch programs:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchPrograms();
-  }, [value]);
+  }, [fetchPrograms]);
 
-  if (isLoading) {
-    return (
-      <Select disabled>
-        <SelectTrigger>
-          <SelectValue placeholder="Loading programs..." />
-        </SelectTrigger>
-      </Select>
-    );
-  }
-
-  // Find the selected program to show its label
-  const selectedProgram = programs.find((p) => p.value === value);
-
-  // Only pass value if it exists in the programs list and is not empty
-  const selectValue =
-    value && programs.some((p) => p.value === value) ? value : undefined;
+  const selectValue = value || "";
 
   return (
     <Select
       value={selectValue}
       onValueChange={onValueChange}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       required={required}
     >
       <SelectTrigger>
-        <SelectValue
-          placeholder={selectedProgram ? selectedProgram.label : placeholder}
-        />
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
-        {programs.map((program) => (
-          <SelectItem key={program.id} value={program.value}>
-            {program.label}
+        {programs.length === 0 ? (
+          <SelectItem value="__loading" disabled>
+            Loading...
           </SelectItem>
-        ))}
+        ) : (
+          programs.map((program) => (
+            <SelectItem key={program.id} value={program.value}>
+              {program.label}
+            </SelectItem>
+          ))
+        )}
       </SelectContent>
     </Select>
   );

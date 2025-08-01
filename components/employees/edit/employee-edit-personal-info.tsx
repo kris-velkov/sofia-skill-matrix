@@ -39,17 +39,9 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
     (employee.program as string) || ""
   );
 
-  const selectedProgramRef = useRef(selectedProgram);
-
   useEffect(() => {
-    if (employee.program !== selectedProgram) {
-      setSelectedProgram((employee.program as string) || "");
-    }
-  }, [employee.program, selectedProgram]);
-
-  useEffect(() => {
-    selectedProgramRef.current = selectedProgram;
-  }, [selectedProgram]);
+    setSelectedProgram((employee.program as string) || "");
+  }, [employee.program]);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -64,16 +56,13 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
         toast.error("Not valid image url! Please use Slack image url.");
       }
 
-      const programValue =
-        (formData.get("program") as string) || selectedProgramRef.current;
-
       const data: FormValues = {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
         floatId: formData.get("floatId") as string,
         careerExperience: formData.get("careerExperience") as string,
         startDate: formData.get("startDate") as string,
-        program: programValue,
+        program: formData.get("program") as string,
         role: formData.get("careerBadge") as string,
         bio: formData.get("bio") as string,
         country: formData.get("country") as string,
