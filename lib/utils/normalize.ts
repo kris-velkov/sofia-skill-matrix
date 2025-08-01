@@ -1,5 +1,4 @@
-import { ROLES } from "@/constants/employeeDefaultsSkills";
-import { Department } from "@/types/employees";
+import { Department, DepartmentLabels } from "@/types/employees";
 
 export function normalizeName(str: string): string {
   return str
@@ -21,17 +20,26 @@ export function normalizeDepartment(department: string): Department {
     .replace(/\-/g, "")
     .replace(/\s+/g, "");
 
-  const role = ROLES.find(
-    (role) =>
-      role.departament === normalized ||
-      (role.departament === "fe" && normalized === "frontend") ||
-      (role.departament === "be" && normalized === "backend") ||
-      (role.departament === "qa" && normalized === "quality assurance") ||
-      (role.departament === "pm" && normalized === "projectmanager") ||
-      (role.departament === "co" && normalized === "cloudops")
-  );
+  // Map normalized department names to Department keys
+  const departmentMap: Record<string, Department> = {
+    fe: "fe",
+    frontend: "fe",
+    "front-end": "fe",
+    be: "be",
+    backend: "be",
+    "back-end": "be",
+    qa: "qa",
+    "quality assurance": "qa",
+    pm: "pm",
+    projectmanager: "pm",
+    "project manager": "pm",
+    co: "co",
+    cloudops: "co",
+  };
 
-  if (role) return role.departament;
+  const mappedDepartment = departmentMap[normalized];
+  if (mappedDepartment) return mappedDepartment;
+
   throw new Error(`Invalid department: ${department}, ${normalized}`);
 }
 
@@ -39,6 +47,5 @@ export function formatDepartment(
   department: Department | string | null
 ): string {
   if (!department) return "";
-  const role = ROLES.find((role) => role.departament === department);
-  return role ? role.name : department;
+  return DepartmentLabels[department as Department] || department;
 }

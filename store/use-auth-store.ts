@@ -1,5 +1,5 @@
 import { Employee } from "@/types/employees";
-import { ProgramValue } from "@/constants/programs";
+import { ProgramValue } from "@/types/programs";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

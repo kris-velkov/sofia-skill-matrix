@@ -5,7 +5,7 @@ import camelcaseKeys from "camelcase-keys";
 import { Certificate, EmployeeCertificate } from "@/types/employees";
 import { EMPLOYEE_CERTIFICATE_QUERY } from "./supabase/queries";
 import { createSupabaseServerClient } from "./supabase/server";
-import { ProgramValue } from "@/constants/programs";
+import { ProgramValue } from "@/types/programs";
 
 export async function getEmployeeCertificates(
   employeeId: string

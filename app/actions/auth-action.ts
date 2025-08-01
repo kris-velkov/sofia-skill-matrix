@@ -1,6 +1,6 @@
 "use server";
 
-import { ProgramValue } from "@/constants/programs";
+import { ProgramValue } from "@/types/programs";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -99,6 +99,7 @@ export async function signInWithEmail(
 export async function signOut(): Promise<SignOutResult> {
   try {
     const supabase = await createSupabaseServerClient();
+
     const { error } = await supabase.auth.signOut();
 
     if (error) {
@@ -111,6 +112,9 @@ export async function signOut(): Promise<SignOutResult> {
         },
       };
     }
+
+    // Revalidate auth-related paths to clear any cached data
+    revalidatePath("/", "layout");
 
     redirect("/login");
   } catch (error) {

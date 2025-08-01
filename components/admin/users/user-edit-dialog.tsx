@@ -13,9 +13,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Edit } from "lucide-react";
-import { PROGRAMS } from "@/constants/programs";
 import { ROLE_CONFIGS } from "@/constants/role-configs";
 import { AppUser } from "@/lib/utils/admin/user-helpers";
+import { ProgramSelect } from "@/components/ui/program-select";
 
 interface UserEditDialogProps {
   user: AppUser | null;
@@ -118,24 +118,13 @@ export function UserEditDialog({
           >
             Program Access
           </Label>
-          <Select
+          <ProgramSelect
             value={editingUser.program}
             onValueChange={(value) =>
               setEditingUser({ ...editingUser, program: value })
             }
-          >
-            <SelectTrigger className="bg-white">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-white">
-              <SelectItem value="all">All Programs</SelectItem>
-              {PROGRAMS.map((program) => (
-                <SelectItem key={program.value} value={program.value}>
-                  {program.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            placeholder="Select program access"
+          />
         </div>
       </div>
     </FormDialog>

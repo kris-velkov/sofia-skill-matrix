@@ -1,4 +1,10 @@
-import { ProgramValue } from "@/constants/programs";
+import { Database } from "./supabase";
+
+export type EmployeeRow = Database["public"]["Tables"]["employees"]["Row"];
+export type EmployeeInsert =
+  Database["public"]["Tables"]["employees"]["Insert"];
+export type EmployeeUpdate =
+  Database["public"]["Tables"]["employees"]["Update"];
 
 export interface SupabaseCertificate {
   id: string;
@@ -116,7 +122,7 @@ export interface EmployeeCertificateData {
   } | null;
 }
 
-export interface Employee {
+export interface Employee extends Record<string, unknown> {
   id: string;
   floatId?: string;
   firstName?: string;
@@ -135,6 +141,25 @@ export interface Employee {
   certificates?: Certificate[] | null;
   skills: SkillCategory[] | null;
   aiTools?: EmployeeAiTool[] | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+}
+
+export interface EmployeeFormData {
+  firstName?: string;
+  lastName?: string;
+  program?: string;
+  department?: Department;
+  role?: string;
+  careerExperience?: string;
+  startDate?: string;
+  country?: string;
+  city?: string;
+  bio?: string;
+  profileImage?: string;
+  slackUrl?: string;
+  linkedinUrl?: string;
+  floatId?: string;
 }
 
 export type EmployeeReturnType = Omit<Employee, "skills" | "certificates">;
@@ -149,14 +174,13 @@ export type EmployeeCertificate = {
     id: string;
     firstName?: string;
     lastName?: string;
-    program: ProgramValue | null;
+    program: string | null;
     profileImage: string | null;
     department: Department;
     role: string | null;
   };
 };
 
-// AI Tools Types
 export type AiToolFrequency = "daily" | "weekly" | "monthly" | "rarely";
 
 export interface AiTool {
@@ -210,6 +234,6 @@ export interface EmployeeAiToolData {
     profileImage: string | null;
     department: Department;
     role: string | null;
-    program: ProgramValue | null;
+    program: string | null;
   };
 }

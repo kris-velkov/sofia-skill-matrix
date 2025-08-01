@@ -1,5 +1,4 @@
 import { PostgrestError } from "@supabase/supabase-js";
-import { Department, SkillLevel } from "./employees";
 import { Database } from "./supabase";
 
 export type CategoryRow = Database["public"]["Tables"]["categories"]["Row"];

@@ -4,7 +4,7 @@ import snakecaseKeys from "snakecase-keys";
 import camelcaseKeys from "camelcase-keys";
 import { AiTool, EmployeeAiTool, EmployeeAiToolData } from "@/types/employees";
 import { createSupabaseServerClient } from "./supabase/server";
-import { ProgramValue } from "@/constants/programs";
+import { ProgramValue } from "@/types/programs";
 
 const EMPLOYEE_AI_TOOL_QUERY = `
   *,

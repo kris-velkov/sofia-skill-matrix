@@ -9,7 +9,7 @@ import { BarChart, Eye, EyeOff, Mail } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useRouter } from "next/navigation";
 import { signInWithEmail } from "@/app/actions/auth-action";
-import { ProgramValue } from "@/constants/programs";
+import { ProgramValue } from "@/types/programs";
 
 export function LoginFormSupabase() {
   const [email, setEmail] = useState("");

@@ -238,6 +238,63 @@ export type Database = {
           },
         ]
       }
+      programs: {
+        Row: {
+          created_at: string | null
+          id: number
+          label: string
+          order_index: number | null
+          updated_at: string | null
+          value: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          label: string
+          order_index?: number | null
+          updated_at?: string | null
+          value: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          label?: string
+          order_index?: number | null
+          updated_at?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
+      roles: {
+        Row: {
+          created_at: string | null
+          departament: string
+          id: number
+          name: string
+          order_index: number | null
+          role_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          departament: string
+          id?: number
+          name: string
+          order_index?: number | null
+          role_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          departament?: string
+          id?: number
+          name?: string
+          order_index?: number | null
+          role_id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       skills: {
         Row: {
           category_id: string

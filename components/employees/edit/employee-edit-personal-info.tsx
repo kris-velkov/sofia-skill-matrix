@@ -5,17 +5,12 @@ import { useFormStatus } from "react-dom";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { updateEmployeePersonalInfo } from "@/app/actions/employee-personal-info";
 import { toast } from "react-hot-toast";
 import { Employee } from "@/types/employees";
-import { PROGRAMS } from "@/constants/programs";
+import { ProgramSelect } from "@/components/ui/program-select";
+import { RoleSelect } from "@/components/ui/role-select";
 
 interface EmployeePersonalInfoProps {
   employee: Omit<Employee, "skills">;
@@ -42,7 +37,10 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
 }) => {
   const [localEmployee, setLocalEmployee] = useState(employee);
   const [selectedProgram, setSelectedProgram] = useState(
-    employee.program || ""
+    (employee.program as string) || ""
+  );
+  const [selectedRole, setSelectedRole] = useState(
+    (employee.role as string) || ""
   );
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -73,7 +71,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
         linkedinUrl: formData.get("linkedinUrl") as string,
       };
       try {
-        await updateEmployeePersonalInfo(employee.id, data);
+        await updateEmployeePersonalInfo(employee.id as string, data);
         toast.success("Personal info saved!");
         setLocalEmployee({ ...employee, ...data });
         setTimeout(() => {
@@ -102,7 +100,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             <Label>First Name</Label>
             <input
               name="firstName"
-              defaultValue={localEmployee.firstName || ""}
+              defaultValue={(localEmployee.firstName as string) || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-lg font-semibold"
               placeholder="First Name"
             />
@@ -111,44 +109,35 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             <Label>Last Name</Label>
             <input
               name="lastName"
-              defaultValue={localEmployee.lastName || ""}
+              defaultValue={(localEmployee.lastName as string) || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-lg font-semibold"
               placeholder="Last Name"
             />
           </div>
           <div>
             <Label>Program</Label>
-            <Select
-              name="program"
-              value={selectedProgram}
-              onValueChange={(value) => {
-                setSelectedProgram(value);
-                const hiddenInput = document.querySelector(
-                  'input[name="program"]'
-                ) as HTMLInputElement;
-                if (hiddenInput) {
-                  hiddenInput.value = value;
-                }
-              }}
-            >
-              <SelectTrigger className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base border-0 border-b-2 rounded-none">
-                <SelectValue placeholder="Select a program" />
-              </SelectTrigger>
-              <SelectContent>
-                {PROGRAMS.map((program) => (
-                  <SelectItem key={program.value} value={program.value}>
-                    {program.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="w-full border-b border-blue-100 focus-within:border-blue-400">
+              <ProgramSelect
+                value={selectedProgram}
+                onValueChange={(value) => {
+                  setSelectedProgram(value);
+                  const hiddenInput = document.querySelector(
+                    'input[name="program"]'
+                  ) as HTMLInputElement;
+                  if (hiddenInput) {
+                    hiddenInput.value = value;
+                  }
+                }}
+                placeholder="Select a program"
+              />
+            </div>
             <input type="hidden" name="program" value={selectedProgram} />
           </div>
           <div className="text-gray-400 cursor-not-allowed">
             <Label>Department</Label>
             <input
               name="department"
-              defaultValue={localEmployee.department ?? ""}
+              defaultValue={(localEmployee.department as string) ?? ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base cursor-not-allowed"
               placeholder="Department"
               disabled
@@ -156,18 +145,29 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
           </div>
           <div>
             <Label>Role</Label>
-            <input
-              name="careerBadge"
-              defaultValue={localEmployee.role || ""}
-              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
-              placeholder="Career role"
-            />
+            <div className="w-full border-b border-blue-100 focus-within:border-blue-400">
+              <RoleSelect
+                value={selectedRole}
+                onValueChange={(value) => {
+                  setSelectedRole(value);
+                  const hiddenInput = document.querySelector(
+                    'input[name="careerBadge"]'
+                  ) as HTMLInputElement;
+                  if (hiddenInput) {
+                    hiddenInput.value = value;
+                  }
+                }}
+                department={(localEmployee.department as string) || undefined}
+                placeholder="Select a role"
+              />
+            </div>
+            <input type="hidden" name="careerBadge" value={selectedRole} />
           </div>
           <div>
             <Label>Float Id</Label>
             <input
               name="floatId"
-              defaultValue={localEmployee.floatId || ""}
+              defaultValue={(localEmployee.floatId as string) || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="Float id"
             />
@@ -199,7 +199,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             <Label>Country</Label>
             <input
               name="country"
-              defaultValue={localEmployee.country || ""}
+              defaultValue={(localEmployee.country as string) || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="Country"
             />
@@ -208,7 +208,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             <Label>City</Label>
             <input
               name="city"
-              defaultValue={localEmployee.city || ""}
+              defaultValue={(localEmployee.city as string) || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="City"
             />
@@ -217,7 +217,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             <Label> Slack Image URL</Label>
             <input
               name="profileImage"
-              defaultValue={localEmployee.profileImage || ""}
+              defaultValue={(localEmployee.profileImage as string) || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="https://ca.slack-edge.com/"
             />
@@ -226,7 +226,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             <Label>Slack URL</Label>
             <input
               name="slackUrl"
-              defaultValue={localEmployee.slackUrl || ""}
+              defaultValue={(localEmployee.slackUrl as string) || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="Slack URL"
             />
@@ -235,7 +235,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             <Label>LinkedIn URL</Label>
             <input
               name="linkedinUrl"
-              defaultValue={localEmployee.linkedinUrl || ""}
+              defaultValue={(localEmployee.linkedinUrl as string) || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
               placeholder="LinkedIn URL"
             />
@@ -244,7 +244,7 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
             <Label>Bio</Label>
             <textarea
               name="bio"
-              defaultValue={localEmployee.bio || ""}
+              defaultValue={(localEmployee.bio as string) || ""}
               className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base min-h-[60px]"
               placeholder="Bio"
             />

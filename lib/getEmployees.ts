@@ -2,7 +2,7 @@ import { EMPLOYEE_FULL_SELECT_QUERY } from "./supabase/queries";
 import { SupabaseEmployee } from "../types/employees";
 import { formatDepartment } from "./utils/normalize";
 import { createSupabaseServerClient } from "./supabase/server";
-import { ProgramValue } from "@/constants/programs";
+import { ProgramValue } from "@/types/programs";
 
 type FetchEmployeeFilter = {
   id?: string;

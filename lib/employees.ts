@@ -1,7 +1,7 @@
 import { mapSupabaseEmployee } from "./utils/employees";
 import { fetchEmployees } from "./getEmployees";
 import { Employee, SupabaseEmployee } from "@/types/employees";
-import { ProgramValue } from "@/constants/programs";
+import { ProgramValue } from "@/types/programs";
 
 export interface GetEmployeesOptions {
   program?: ProgramValue | "all";

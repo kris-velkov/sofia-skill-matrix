@@ -1,4 +1,3 @@
-import { ROLES } from "@/constants/employeeDefaultsSkills";
 import { DepartmentLabels, Department } from "@/types/employees";
 
 export const getDepartmentLabel = (value: string): string => {
@@ -6,9 +5,9 @@ export const getDepartmentLabel = (value: string): string => {
 };
 
 export const getDepartmentOptions = () => {
-  return ROLES.map((role) => ({
-    value: role.departament,
-    label: role.name,
+  return Object.entries(DepartmentLabels).map(([value, label]) => ({
+    value,
+    label,
   }));
 };
 

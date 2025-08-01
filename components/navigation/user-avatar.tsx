@@ -2,6 +2,8 @@
 
 import { User, LogOut, Mail } from "lucide-react";
 import { useAuthStore } from "@/store/use-auth-store";
+import { signOut } from "@/app/actions/auth-action";
+import { createClient } from "@/lib/supabase/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,10 +21,16 @@ export function UserAvatar() {
 
   const handleSignOut = async () => {
     try {
+      const supabase = createClient();
+      await supabase.auth.signOut();
+
       logout();
+
+      await signOut();
     } catch (error) {
       console.error("Sign out error:", error);
       logout();
+      window.location.href = "/login";
     }
   };
 

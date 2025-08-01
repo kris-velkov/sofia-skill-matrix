@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -12,20 +12,31 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { addNewEmployee } from "@/app/actions/employee-actions";
-import { Department, EmployeeRole } from "@/types/employees";
-
-const ROLES: EmployeeRole[] = [
-  { id: "1", name: "Front-end", departament: "fe" },
-  { id: "2", name: "Back-end", departament: "be" },
-  { id: "3", name: "QA", departament: "qa" },
-  { id: "4", name: "Project Manager", departament: "pm" },
-  { id: "5", name: "CloudOps", departament: "co" },
-];
+import { Department, DepartmentLabels } from "@/types/employees";
+import { getAllRoles } from "@/app/actions/roles-actions";
 
 export default function AddEmployeeButton() {
   const router = useRouter();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [departments, setDepartments] = useState<Department[]>([]);
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const roles = await getAllRoles();
+        const uniqueDepartments = Array.from(
+          new Set(roles.map((role) => role.departament))
+        ) as Department[];
+        setDepartments(uniqueDepartments);
+      } catch (error) {
+        console.error("Failed to fetch departments:", error);
+        setDepartments(["fe", "be", "qa", "pm", "co"]);
+      }
+    };
+
+    fetchDepartments();
+  }, []);
 
   const handleAddNewEmployee = async (department: Department) => {
     try {
@@ -75,15 +86,15 @@ export default function AddEmployeeButton() {
         </div>
 
         <div className="space-y-1">
-          {ROLES.map((role) => (
+          {departments.map((department) => (
             <Button
-              key={role.id}
+              key={department}
               variant="ghost"
               className="w-full justify-start text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors rounded-md px-3 py-2"
-              onClick={() => handleAddNewEmployee(role.departament)}
+              onClick={() => handleAddNewEmployee(department)}
               disabled={isLoading}
             >
-              {role.name}
+              {DepartmentLabels[department]}
             </Button>
           ))}
         </div>

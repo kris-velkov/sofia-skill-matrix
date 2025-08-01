@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, Edit, Star } from "lucide-react";
-import { ROLES } from "@/constants/employeeDefaultsSkills";
+import { DepartmentLabels } from "@/types/employees";
 
 interface Category {
   id: string;
@@ -169,23 +169,20 @@ export function CategoryFormDialog({
             Departments
           </Label>
           <div className="grid grid-cols-2 gap-3 mt-2 max-h-48 overflow-y-auto p-4 border rounded-lg bg-gray-50">
-            {ROLES.map((role) => (
-              <div
-                key={role.departament}
-                className="flex items-center space-x-2"
-              >
+            {Object.entries(DepartmentLabels).map(([key, label]) => (
+              <div key={key} className="flex items-center space-x-2">
                 <Checkbox
-                  id={role.departament}
-                  checked={formData.departments.includes(role.departament)}
+                  id={key}
+                  checked={formData.departments.includes(key)}
                   onCheckedChange={(checked) =>
-                    handleDepartmentChange(role.departament, checked as boolean)
+                    handleDepartmentChange(key, checked as boolean)
                   }
                 />
                 <Label
-                  htmlFor={role.departament}
+                  htmlFor={key}
                   className="text-sm font-normal cursor-pointer"
                 >
-                  {role.name}
+                  {label}
                 </Label>
               </div>
             ))}
