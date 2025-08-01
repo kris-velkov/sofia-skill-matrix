@@ -5,7 +5,8 @@ import { AiToolsUsageBreakdown } from "@/components/ai-statistics/ai-tools-usage
 import { PageHeader } from "@/components/ai-statistics/page-header";
 import { getAllEmployeesAiTools } from "../actions/ai-tools-statistics-action";
 import { processAiToolsStatistics } from "@/lib/utils/aiStatisticsUtils";
-import { Bot } from "lucide-react";
+import { Bot, Zap } from "lucide-react";
+import { SectionHeader } from "@/components/ui/section-header";
 
 export const revalidate = 0;
 
@@ -27,10 +28,11 @@ export default async function AiToolsStatisticsPage() {
             <Breadcrumbs items={breadcrumbItems} />
           </div>
 
-          <PageHeader
-            title="AI Tools Analytics"
-            description="Comprehensive insights into AI tool adoption, proficiency levels, and usage patterns across organization"
-            icon={<Bot className="h-6 w-6 sm:h-8 sm:w-8" />}
+          <SectionHeader
+            title="AI Tools Statistics"
+            description="Comprehensive analytics and insights into AI tool usage across your organization"
+            icon={<Bot className="h-6 w-6 text-blue-600" />}
+            gradient="from-blue-200 to-cyan-100"
           />
 
           <AiToolsStatsGrid

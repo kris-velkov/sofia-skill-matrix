@@ -9,12 +9,14 @@ import {
   Shield,
   Briefcase,
   UserCheck,
+  Zap,
 } from "lucide-react";
 import { UserManagement } from "./users/user-management";
 import { CategoryManagement } from "./categories/category-management";
 import { AiToolsManagement } from "./ai-tools/ai-tools-management";
 import { RolesManagement } from "./roles/roles-management";
 import { ProgramsManagement } from "./programs/programs-management";
+import { SkillsManagement } from "./skills/skills-management";
 
 export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("users");
@@ -36,7 +38,7 @@ export function AdminDashboard() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mb-6 lg:mb-8 h-auto sm:h-14 bg-gray-100 rounded-xl p-1 gap-1 sm:gap-0">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 mb-6 lg:mb-8 h-auto sm:h-14 bg-gray-100 rounded-xl p-1 gap-1 sm:gap-0">
           <TabsTrigger
             value="users"
             className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg transition-all p-2 sm:p-3"
@@ -74,6 +76,15 @@ export function AdminDashboard() {
             <span className="hidden xs:inline sm:inline">Categories</span>
           </TabsTrigger>
           <TabsTrigger
+            value="skills"
+            className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg transition-all p-2 sm:p-3"
+          >
+            <div className="p-1 sm:p-1.5 bg-purple-100 rounded-md">
+              <Zap className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600" />
+            </div>
+            <span className="hidden xs:inline sm:inline">Skills</span>
+          </TabsTrigger>
+          <TabsTrigger
             value="ai-tools"
             className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg transition-all p-2 sm:p-3"
           >
@@ -98,6 +109,10 @@ export function AdminDashboard() {
 
         <TabsContent value="categories" className="space-y-4 sm:space-y-6 mt-0">
           <CategoryManagement />
+        </TabsContent>
+
+        <TabsContent value="skills" className="space-y-4 sm:space-y-6 mt-0">
+          <SkillsManagement />
         </TabsContent>
 
         <TabsContent value="ai-tools" className="space-y-4 sm:space-y-6 mt-0">

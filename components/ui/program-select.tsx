@@ -34,6 +34,12 @@ export function ProgramSelect({
       try {
         const data = await getAllPrograms();
         setPrograms(data);
+        console.log("Programs loaded:", data);
+        console.log("Current value:", value);
+
+        // Check if the current value exists in the programs
+        const matchingProgram = data.find((p) => p.value === value);
+        console.log("Matching program:", matchingProgram);
       } catch (error) {
         console.error("Failed to fetch programs:", error);
       } finally {
@@ -42,7 +48,7 @@ export function ProgramSelect({
     };
 
     fetchPrograms();
-  }, []);
+  }, [value]);
 
   if (isLoading) {
     return (
@@ -54,15 +60,24 @@ export function ProgramSelect({
     );
   }
 
+  // Find the selected program to show its label
+  const selectedProgram = programs.find((p) => p.value === value);
+
+  // Only pass value if it exists in the programs list and is not empty
+  const selectValue =
+    value && programs.some((p) => p.value === value) ? value : undefined;
+
   return (
     <Select
-      value={value}
+      value={selectValue}
       onValueChange={onValueChange}
       disabled={disabled}
       required={required}
     >
       <SelectTrigger>
-        <SelectValue placeholder={placeholder} />
+        <SelectValue
+          placeholder={selectedProgram ? selectedProgram.label : placeholder}
+        />
       </SelectTrigger>
       <SelectContent>
         {programs.map((program) => (

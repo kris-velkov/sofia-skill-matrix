@@ -57,3 +57,21 @@ export interface CategoryResult {
   name: string;
   departments: string[];
 }
+
+export interface Skill extends Record<string, unknown> {
+  id: string;
+  name: string;
+  category_id: string;
+  order_index: number;
+  created_at: string | null;
+  category?: {
+    id: string;
+    name: string;
+  };
+}
+
+export interface SkillFormData {
+  name: string;
+  category_id: string;
+  order_index?: number;
+}

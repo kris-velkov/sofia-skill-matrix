@@ -122,3 +122,29 @@ export function validateEmployeeUpdate(
 
   return { isValid: errors.length === 0, errors };
 }
+export function validateSkill(data: {
+  name: string;
+  category_id: string;
+  order_index?: number;
+}): ValidationResult {
+  const errors: string[] = [];
+
+  if (!data.name || data.name.trim().length === 0) {
+    errors.push("Skill name is required");
+  } else if (data.name.length > 100) {
+    errors.push("Skill name too long (max 100 characters)");
+  }
+
+  if (!data.category_id || data.category_id.trim().length === 0) {
+    errors.push("Category is required");
+  }
+
+  if (
+    data.order_index !== undefined &&
+    (data.order_index < 0 || data.order_index > 9999)
+  ) {
+    errors.push("Order index must be between 0 and 9999");
+  }
+
+  return { isValid: errors.length === 0, errors };
+}

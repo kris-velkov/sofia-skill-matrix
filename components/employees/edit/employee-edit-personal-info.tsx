@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useActionState } from "react";
+import React, { useRef, useState, useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,6 @@ import { updateEmployeePersonalInfo } from "@/app/actions/employee-personal-info
 import { toast } from "react-hot-toast";
 import { Employee } from "@/types/employees";
 import { ProgramSelect } from "@/components/ui/program-select";
-import { RoleSelect } from "@/components/ui/role-select";
 
 interface EmployeePersonalInfoProps {
   employee: Omit<Employee, "skills">;
@@ -39,9 +38,19 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
   const [selectedProgram, setSelectedProgram] = useState(
     (employee.program as string) || ""
   );
-  const [selectedRole, setSelectedRole] = useState(
-    (employee.role as string) || ""
-  );
+
+  const selectedProgramRef = useRef(selectedProgram);
+
+  useEffect(() => {
+    if (employee.program !== selectedProgram) {
+      setSelectedProgram((employee.program as string) || "");
+    }
+  }, [employee.program, selectedProgram]);
+
+  useEffect(() => {
+    selectedProgramRef.current = selectedProgram;
+  }, [selectedProgram]);
+
   const formRef = useRef<HTMLFormElement>(null);
 
   const [, formAction] = useActionState(
@@ -55,13 +64,16 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
         toast.error("Not valid image url! Please use Slack image url.");
       }
 
+      const programValue =
+        (formData.get("program") as string) || selectedProgramRef.current;
+
       const data: FormValues = {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
         floatId: formData.get("floatId") as string,
         careerExperience: formData.get("careerExperience") as string,
         startDate: formData.get("startDate") as string,
-        program: formData.get("program") as string,
+        program: programValue,
         role: formData.get("careerBadge") as string,
         bio: formData.get("bio") as string,
         country: formData.get("country") as string,
@@ -121,12 +133,6 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
                 value={selectedProgram}
                 onValueChange={(value) => {
                   setSelectedProgram(value);
-                  const hiddenInput = document.querySelector(
-                    'input[name="program"]'
-                  ) as HTMLInputElement;
-                  if (hiddenInput) {
-                    hiddenInput.value = value;
-                  }
                 }}
                 placeholder="Select a program"
               />
@@ -145,23 +151,12 @@ export const EmployeeEditPersonalInfo: React.FC<EmployeePersonalInfoProps> = ({
           </div>
           <div>
             <Label>Role</Label>
-            <div className="w-full border-b border-blue-100 focus-within:border-blue-400">
-              <RoleSelect
-                value={selectedRole}
-                onValueChange={(value) => {
-                  setSelectedRole(value);
-                  const hiddenInput = document.querySelector(
-                    'input[name="careerBadge"]'
-                  ) as HTMLInputElement;
-                  if (hiddenInput) {
-                    hiddenInput.value = value;
-                  }
-                }}
-                department={(localEmployee.department as string) || undefined}
-                placeholder="Select a role"
-              />
-            </div>
-            <input type="hidden" name="careerBadge" value={selectedRole} />
+            <input
+              name="careerBadge"
+              defaultValue={(localEmployee.role as string) || ""}
+              className="w-full border-b border-blue-100 focus:border-blue-400 outline-none px-2 py-1 bg-transparent text-base"
+              placeholder="Career role"
+            />
           </div>
           <div>
             <Label>Float Id</Label>
